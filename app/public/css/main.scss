@@ -1,0 +1,895 @@
+// ========================================
+// VARIABLES & COULEURS
+// ========================================
+$color-beige: #fae6cb;
+$color-titres: #45494c;
+$color-rose: #ee4f8e;
+$color-bgcard: #ead0a8;
+$color-bgcardart: #fff8e2;
+$color-gray-400: #9ca3af;
+$color-gray-500: #6b7280;
+$color-amber-50: #fffbeb;
+
+// ========================================
+// MIXINS
+// ========================================
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin transition($duration: 0.3s) {
+  transition: all $duration ease;
+}
+
+// ========================================
+// ANIMATIONS
+// ========================================
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s, transform 0.6s;
+  &.in-view {
+    animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+}
+
+// ========================================
+// RESET & BASE
+// ========================================
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: "PT Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  background-color: $color-beige;
+  color: #000;
+  letter-spacing: 0.05em;
+}
+
+// ========================================
+// HEADER & NAVIGATION
+// ========================================
+#navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 50;
+
+  .site-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 2.5rem;
+  }
+
+  .site-tagline {
+    text-align: center;
+    padding: 0.25rem;
+    margin: 0.5rem;
+    font-size: 1.2rem;
+    color: $color-titres;
+    letter-spacing: 0.04em;
+  }
+}
+
+#main-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+
+  @media (min-width: 640px) {
+    height: 5rem;
+  }
+
+  .nav-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 80vh;
+    width: 100%;
+    backdrop-filter: blur(4px);
+    @include flex-center;
+    transition: all 0.3s ease;
+  }
+
+  .nav-list {
+    @include flex-col;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-link {
+    font-size: 1.4rem;
+    font-weight: 700;
+    @include transition;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-rose;
+    }
+  }
+
+  .menu-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+}
+
+// ========================================
+// MAIN CONTENT
+// ========================================
+#main-content {
+  margin-top: 4rem;
+  min-height: calc(100vh - 6rem);
+}
+
+// ========================================
+// HERO SLIDER
+// ========================================
+#hero-slider {
+  position: relative;
+  .swiper {
+    width: 100vw;
+    min-height: 60vh;
+    max-height: 80vh;
+    border-radius: 0 0 2rem 2rem;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+  .swiper-slide {
+    position: relative;
+    img {
+      width: 100vw;
+      height: 60vh;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.85);
+    }
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(
+        120deg,
+        rgba(69, 73, 76, 0.45) 0%,
+        rgba(238, 79, 142, 0.18) 100%
+      );
+      color: #fff;
+      text-align: center;
+      padding: 2rem 1rem;
+      animation: fadeIn 1.2s;
+      h1 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+        font-family: "Playfair Display", serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+      }
+      p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      }
+      .cta-btn {
+        background: $color-rose;
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 2rem;
+        padding: 0.8rem 2.2rem;
+        box-shadow: 0 2px 8px rgba(238, 79, 142, 0.12);
+        text-decoration: none;
+        transition: background 0.2s, transform 0.2s;
+        &:hover {
+          background: adjust-color($color-rose, $lightness: -10%);
+          transform: scale(1.06);
+        }
+      }
+    }
+  }
+  .swiper-pagination-bullet-active {
+    background: $color-rose !important;
+  }
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: $color-rose;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 12%;
+    width: 2.5rem;
+    height: 2.9rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: background 0.2s;
+    &:hover {
+      background: $color-rose;
+      color: #fff;
+    }
+  }
+  .swiper-button-next.custom-arrow,
+  .swiper-button-prev.custom-arrow {
+    background: rgba(255, 255, 255, 0.7);
+    width: 2.5rem;
+    height: 2.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: background 0.2s, color 0.2s;
+    color: $color-rose;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+
+    &::after {
+      display: none;
+    }
+
+    i {
+      font-size: 1.7rem; // Modifie ici la taille du chevron
+      pointer-events: none;
+    }
+
+    &:hover,
+    &:focus {
+      background: $color-rose;
+      color: #fff;
+      outline: 2px solid $color-rose;
+      outline-offset: 2px;
+    }
+  }
+
+  .swiper-button-prev.custom-arrow {
+    left: 1rem;
+  }
+  .swiper-button-next.custom-arrow {
+    right: 1rem;
+  }
+  @media (max-width: 900px) {
+    .swiper,
+    .swiper-slide img {
+      height: 40vh;
+      min-height: 320px;
+    }
+    .hero-overlay h1 {
+      font-size: 1.5rem;
+    }
+    .hero-overlay p {
+      font-size: 1rem;
+    }
+  }
+  @media (max-width: 600px) {
+    .swiper,
+    .swiper-slide img {
+      height: 32vh;
+      min-height: 180px;
+    }
+    .hero-overlay {
+      padding: 1rem 0.5rem;
+    }
+    .hero-overlay h1 {
+      font-size: 1.1rem;
+    }
+    .hero-overlay p {
+      font-size: 0.95rem;
+    }
+    .hero-overlay .cta-btn {
+      font-size: 1rem;
+      padding: 0.6rem 1.5rem;
+    }
+  }
+}
+
+// ========================================
+// MENU DU JOUR
+// ========================================
+#daily-menu {
+  background: $color-bgcardart;
+  padding: 3rem 1rem 2rem 1rem;
+  .menu-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    h2 {
+      font-size: 2rem;
+      color: $color-titres;
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      animation: fadeInUp 1s;
+    }
+    p:first-of-type {
+      font-size: 1.1rem;
+      margin-bottom: 2.2rem;
+      color: $color-titres;
+      animation: fadeInUp 1.2s;
+    }
+    .menu-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      align-items: center;
+      animation: fadeInUp 1.3s;
+      .menu-item {
+        background: #fff;
+        border-radius: 1.2rem;
+        box-shadow: 0 4px 16px rgba(69, 73, 76, 0.07);
+        padding: 2rem 1.2rem 1.2rem 1.2rem;
+        max-width: 340px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+        cursor: pointer;
+        img {
+          width: 8rem;
+          height: 8rem;
+          object-fit: cover;
+          border-radius: 1rem;
+          margin-bottom: 1rem;
+          box-shadow: 0 2px 8px rgba(238, 79, 142, 0.08);
+        }
+        h3 {
+          font-size: 1.2rem;
+          color: $color-rose;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+        }
+        p {
+          color: $color-titres;
+          font-size: 1rem;
+          margin-bottom: 0.2rem;
+        }
+        p:last-of-type {
+          color: $color-gray-500;
+          font-size: 0.95rem;
+          font-style: italic;
+        }
+        &:hover {
+          transform: scale(1.04) translateY(-6px);
+          box-shadow: 0 8px 24px rgba(238, 79, 142, 0.13);
+        }
+      }
+      @media (min-width: 800px) {
+        flex-direction: row;
+        justify-content: center;
+        .menu-item {
+          margin: 0 1.5rem;
+        }
+      }
+    }
+  }
+}
+
+// ========================================
+// À PROPOS
+// ========================================
+#about {
+  background: #fff;
+  padding: 3rem 1rem 2rem 1rem;
+  .about-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    animation: fadeInUp 1.2s;
+    .about-img {
+      flex: 1;
+      img {
+        width: 220px;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 50%;
+        box-shadow: 0 4px 16px rgba(69, 73, 76, 0.1);
+      }
+    }
+    .about-text {
+      flex: 2;
+      text-align: center;
+      h2 {
+        font-size: 1.7rem;
+        color: $color-rose;
+        margin-bottom: 1rem;
+        font-weight: 700;
+      }
+      p {
+        color: $color-titres;
+        font-size: 1.1rem;
+        margin-bottom: 1.2rem;
+      }
+      .cta-btn {
+        background: $color-rose;
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.05rem;
+        border: none;
+        border-radius: 2rem;
+        padding: 0.7rem 2rem;
+        text-decoration: none;
+        transition: background 0.2s, transform 0.2s;
+        &:hover {
+          background: adjust-color($color-rose, $lightness: -10%);
+          transform: scale(1.05);
+        }
+      }
+    }
+    @media (min-width: 900px) {
+      flex-direction: row;
+      align-items: center;
+      text-align: left;
+      .about-img {
+        margin-right: 2.5rem;
+      }
+      .about-text {
+        text-align: left;
+      }
+    }
+  }
+}
+
+// ========================================
+// SERVICES
+// ========================================
+#services {
+  background: $color-bgcardart;
+  padding: 3rem 1rem 2rem 1rem;
+  .services-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    h2 {
+      font-size: 1.7rem;
+      color: $color-titres;
+      margin-bottom: 2rem;
+      font-weight: 700;
+    }
+    .services-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      align-items: center;
+      animation: fadeInUp 1.2s;
+      .service {
+        background: #fff;
+        border-radius: 1.2rem;
+        box-shadow: 0 4px 16px rgba(69, 73, 76, 0.07);
+        padding: 2rem 1.2rem 1.2rem 1.2rem;
+        max-width: 340px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+        .service-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 4rem;
+          height: 4rem;
+          background: $color-beige;
+          border-radius: 50%;
+          margin-bottom: 1rem;
+          font-size: 2rem;
+          color: $color-rose;
+          box-shadow: 0 2px 8px rgba(238, 79, 142, 0.1);
+        }
+        h3 {
+          font-size: 1.15rem;
+          color: $color-rose;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+        }
+        p {
+          color: $color-titres;
+          font-size: 1rem;
+        }
+        &:hover {
+          transform: scale(1.04) translateY(-6px);
+          box-shadow: 0 8px 24px rgba(238, 79, 142, 0.13);
+        }
+      }
+      @media (min-width: 800px) {
+        flex-direction: row;
+        justify-content: center;
+        .service {
+          margin: 0 1.5rem;
+        }
+      }
+    }
+  }
+}
+
+// ========================================
+// FOOTER
+// ========================================
+#site-footer {
+  background-color: $color-amber-50;
+  color: $color-titres;
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    text-align: center;
+  }
+
+  .footer-section {
+    margin-top: 1.5rem;
+    &:first-child {
+      margin-top: 0;
+    }
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .contact-info {
+      p {
+        font-size: 0.875rem;
+        margin-bottom: 0.25rem;
+        &:first-child {
+          font-weight: 600;
+        }
+      }
+    }
+    .footer-links {
+      list-style: none;
+      li {
+        margin-bottom: 0.5rem;
+      }
+      a {
+        font-size: 0.875rem;
+        color: $color-titres;
+        @include transition;
+        &:hover {
+          color: $color-gray-400;
+        }
+      }
+    }
+    .social-links {
+      @include flex-center;
+      gap: 1rem;
+      a {
+        color: $color-titres;
+        font-size: 1.25rem;
+        @include transition;
+        &:hover {
+          color: $color-gray-400;
+        }
+      }
+    }
+    p {
+      &.copyright {
+        color: $color-rose;
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}
+
+// ========================================
+// RESPONSIVE UTILITIES
+// ========================================
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+// ========================================
+// HEADER RESPONSIVE & MENU BURGER
+// ========================================
+#navbar {
+  background: $color-beige;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  position: relative;
+  top: 0;
+  z-index: 100;
+  margin-top: 2rem;
+
+  .logo {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: $color-rose;
+    letter-spacing: 0.05em;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  .header-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
+    position: absolute;
+    right: 6%;
+
+    .burger-btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      background: $color-bgcardart;
+      border: none;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      z-index: 120;
+      span {
+        display: block;
+        width: 1.5rem;
+        height: 0.22rem;
+        background: $color-titres;
+        margin: 0.18rem 0;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+    }
+    .main-nav {
+      display: none;
+    }
+  }
+  .site-tagline {
+    text-align: center;
+    font-size: 1.2rem;
+    color: $color-titres;
+    margin-bottom: 0.5rem;
+    margin-top: 2.2rem;
+    letter-spacing: 0.04em;
+  }
+  // Menu burger slide-in
+  .burger-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(69, 73, 76, 0.7); // $color-titres + opacité
+    backdrop-filter: blur(2px);
+    z-index: 110;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.77, 0, 0.18, 1);
+    &.open {
+      transform: translateX(0);
+    }
+    .close-burger {
+      font-size: 2.5rem;
+      background: none;
+      border: none;
+      color: $color-rose;
+      margin: 1.5rem 2rem 0 0;
+      cursor: pointer;
+      align-self: flex-end;
+      transition: color 0.2s;
+      &:hover {
+        background: darken($color-rose, 10%);
+      }
+    }
+    ul {
+      background: $color-bgcardart;
+      width: 80vw;
+      max-width: 320px;
+      min-height: 100vh;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+      border-radius: 1.5rem 0 0 1.5rem;
+      padding: 3rem 2rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      li {
+        a {
+          font-size: 1.3rem;
+          color: $color-titres;
+          font-weight: 600;
+          text-decoration: none;
+          transition: color 0.2s;
+          &.active,
+          &:hover {
+            color: $color-rose;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ========================================
+// MENU Tablette  DESKTOP
+// ========================================
+@media (min-width: 768px) {
+  #navbar {
+    .logo {
+      font-size: 2.5rem;
+    }
+    .site-tagline {
+      font-size: 1.5rem;
+    }
+    .header-container {
+      justify-content: center;
+      position: relative;
+
+      .burger-btn {
+        position: absolute;
+        right: 6%;
+      }
+    }
+  }
+}
+
+// ========================================
+// MENU HORIZONTAL DESKTOP
+// ========================================
+@media (min-width: 1025px) {
+  #navbar {
+    .logo {
+      font-size: 2.5rem;
+    }
+    .site-tagline {
+      padding: 1rem;
+      font-size: 1.8rem;
+    }
+    .header-container {
+      .burger-btn {
+        display: none;
+      }
+      .main-nav {
+        display: block;
+        ul {
+          display: flex;
+          gap: 2.5rem;
+          list-style: none;
+          margin: 1.5rem;
+          padding: 0;
+          li {
+            a {
+              font-size: 1.2rem;
+              color: $color-titres;
+              font-weight: 600;
+              text-decoration: none;
+              padding: 0.5rem 0.2rem;
+              border-bottom: 2px solid transparent;
+              transition: color 0.2s, border-color 0.2s;
+              &.active,
+              &:hover {
+                color: $color-rose;
+                border-bottom: 2px solid $color-rose;
+              }
+            }
+          }
+        }
+      }
+    }
+    .burger-menu {
+      display: none !important;
+    }
+  }
+}
+
+// ========================================
+// OUVERTURE DU MENU BURGER (JS)
+// ========================================
+// Ajoute la classe .open à .burger-menu pour l'afficher
+// (voir JS à ajouter dans script.js)
+
+// ===============================
+// Animation mot à mot pour le slogan
+// ===============================
+.site-tagline.animate-words span {
+  // On cache chaque mot au départ et on le décale vers le bas
+  opacity: 0;
+  display: inline-block;
+  transform: translateY(20px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+
+.site-tagline.animate-words.in-view span {
+  // Quand la classe .in-view est présente, chaque mot apparaît et remonte
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.site-tagline.animate-words.in-view span {
+  // On applique un délai progressif à chaque mot pour l'effet "mot à mot"
+  // (ici jusqu'à 10 mots, tu peux augmenter si besoin)
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      transition-delay: #{0.1 * $i}s;
+    }
+  }
+}
+
+// ========================================
+// Test code claude pour l'naimation
+// ========================================

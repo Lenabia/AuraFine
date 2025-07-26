@@ -1,61 +1,102 @@
-<aside class ="swiper mySwiper">
-  <!-- Additional required wrapper -->
-  <div class="swiper-wrapper">
-    <!-- Slides -->
-    <div class="swiper-slide "><img src="/app/public/images/wireframes/saladepates.webp" alt="salade du jour " class="imag "
-"></div>
-    <div class="swiper-slide" ><img src="/app/public/images/wireframes/smoothiefraise.webp" alt="salade du jour " class="imag "
-"></div>
-    <div class="swiper-slide "><img src="/app/public/images/wireframes/choco.webp" alt="salade du jour " class="imag "
-"></div>
-    
-  </div>
-  <!-- If we need pagination -->
-  <div class="swiper-pagination"></div>
-
-  <!-- If we need navigation buttons -->
-  <div class="swiper-button-prev "></div>
-  <div class="swiper-button-next "></div>
-
-  <!-- If we need scrollbar -->
-  <div class="swiper-scrollbar"></div>
-  
-</aside>
-
-<section class="card ml-2 mr-2">
-  <div class="container mx-auto px-4 text-center">
-    <h2 class="text-3xl font-semibold text-[--color-titres] mb-6">Menu du Jour</h2>
-    <p class=" mb-8">Découvrez nos spécialités fraîches du jour</p>
-
-    <article class="card bg-bgcardart">
-      <!-- Plat -->
-      <div class="mb-6 md:mb-0">
-        <h3 class="text-2xl font-medium text-[--color-rose] mb-2">Salade de Pates</h3>
-        <img src="/app/public/images/wireframes/saladepates.webp" alt="salade du jour " class="imag w-full h-full object-contain" />
-        <p class="text-titres">Salade d'avocat et tomates cerises</p>
-        <p class="text-sm text-gray-500">Avec une vinaigrette au basilic frais</p>
+<section id="hero-slider" ">
+  <aside class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img src="/app/public/images/wireframes/saladepates.webp" alt="Hero AuraFine" />
+        <div class="hero-overlay">
+          <h1>Fraîcheur & Raffinement</h1>
+          <p>Des saveurs saines, locales et créatives chaque jour</p>
+          <a href="#daily-menu" class="cta-btn">Découvrir le menu</a>
+        </div>
       </div>
-
-      <!-- Boisson -->
-      <div class="mb-6 md:mb-0">
-        <h3 class="text-2xl font-medium text-[--color-rose] mb-2">Boisson</h3>
-        <img src="/app/public/images/wireframes/smoothiefraise.webp" alt="salade du jour " class="imag w-full h-full object-contain" />
-        <p class="text-[--color-titres]">Jus de citron maison</p>
-        <p class="text-sm text-gray-500">Pressé du jour, servi frais</p>
+      <div class="swiper-slide">
+        <img src="/app/public/images/wireframes/choco.webp" alt="Salade du jour" />
+        <div class="hero-overlay">
+          <h1>Menu du Jour</h1>
+          <p>Découvrez nos spécialités fraîches</p>
+          <a href="#daily-menu" class="cta-btn">Voir les plats</a>
+        </div>
       </div>
+      <div class="swiper-slide">
+        <img src="/app/public/images/wireframes/smoothiefraise.webp" alt="Smoothie" />
+        <div class="hero-overlay">
+          <h1>Jus & Smoothies</h1>
+          <p>Des boissons vitaminées et gourmandes</p>
+          <a href="#services" class="cta-btn">Nos boissons</a>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev custom-arrow" aria-label="Précédent">
+      <i class="fas fa-chevron-left"></i>
+    </div>
+    <div class="swiper-button-next custom-arrow" aria-label="Suivant">
+      <i class="fas fa-chevron-right"></i>
+    </div>
+    <div class="swiper-scrollbar"></div>
+  </aside>
+</section>
 
-      <!-- Dessert -->
-      <div>
-        <h3 class="text-2xl font-medium text-[--color-rose] mb-2">Dessert</h3>
-        <img src="/app/public/images/wireframes/choco.webp" alt="salade du jour " class="imag w-full h-full object-contain" />
-        <p class="text-[--color-titres]">Mousse au chocolat</p>
-        <p class="text-sm text-gray-500">Légère et onctueuse</p>
+<section id="daily-menu" class="animate-on-scroll">
+  <div class="menu-container">
+    <h2>Menu du Jour</h2>
+    <p>Découvrez nos spécialités fraîches du jour</p>
+    <article class="menu-content">
+      <div class="menu-item">
+        <img src="/app/public/images/wireframes/saladepates.webp" alt="Salade de pâtes" />
+        <h3>Salade de Pâtes</h3>
+        <p>Salade d'avocat et tomates cerises</p>
+        <p>Avec une vinaigrette au basilic frais</p>
+      </div>
+      <div class="menu-item">
+        <img src="/app/public/images/wireframes/smoothiefraise.webp" alt="Smoothie fraise" />
+        <h3>Boisson</h3>
+        <p>Jus de citron maison</p>
+        <p>Pressé du jour, servi frais</p>
+      </div>
+      <div class="menu-item">
+        <img src="/app/public/images/wireframes/choco.webp" alt="Mousse au chocolat" />
+        <h3>Dessert</h3>
+        <p>Mousse au chocolat</p>
+        <p>Légère et onctueuse</p>
       </div>
     </article>
   </div>
 </section>
 
-<section>
+<section id="about" class="animate-on-scroll">
+  <div class="about-container">
+    <div class="about-img">
+      <img src="/app/public/images/wireframes/home-mobil.webp" alt="Notre équipe" />
+    </div>
+    <div class="about-text">
+      <h2>À propos d'AuraFine</h2>
+      <p>Chez AuraFine, nous croyons en une cuisine saine, locale et créative. Notre équipe passionnée sélectionne chaque ingrédient avec soin pour vous offrir le meilleur du goût et du bien-être.</p>
+      <a href="#" class="cta-btn">En savoir plus</a>
+    </div>
+  </div>
+</section>
 
+<section id="services" class="animate-on-scroll">
+  <div class="services-container">
+    <h2>Nos Services</h2>
+    <div class="services-list">
+      <div class="service">
+        <span class="service-icon"><i class="ri-restaurant-2-line"></i></span>
+        <h3>Plats frais</h3>
+        <p>Des recettes renouvelées chaque jour avec des produits locaux.</p>
+      </div>
+      <div class="service">
+        <span class="service-icon"><i class="ri-cup-line"></i></span>
+        <h3>Boissons maison</h3>
+        <p>Jus pressés, smoothies et boissons détox faits minute.</p>
+      </div>
+      <div class="service">
+        <span class="service-icon"><i class="ri-leaf-line"></i></span>
+        <h3>Options végétariennes</h3>
+        <p>Un large choix de plats végétariens et vegan pour tous les goûts.</p>
+      </div>
+    </div>
+  </div>
 </section>
 

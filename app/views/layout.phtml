@@ -5,63 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aura-Fine</title>
 
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-/>
-
-    <link href="app/public/css/style.css" rel="stylesheet">
+    <!-- RemixIcon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Google font  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- Custom CSS -->
+    <link href="app/public/css/main.css" rel="stylesheet" />
     <link rel="stylesheet" href="app/public/css/theme.css" />
 </head>
-<body class= "bg-beige" >
+<body>
 
-<header
-  >
-  <h1>AuraFine</h1>
-  <p class="text-center p-1 m-2">Le rafinnement qui vous ressemble </p>
-  <!-- <image class="src="/app/public/images/wireframes/logo-mode-sombre.webp"></image> -->
+<header id="navbar">
+ <h1 class="logo">AuraFine</h1>
+  <div class="header-container">
+   
+    <!-- Menu burger pour mobile/tablette -->
+    <button id="burger-btn" class="burger-btn" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+    <!-- Menu horizontal desktop -->
+    <nav id="main-nav" class="main-nav">
+      <ul>
+        <li><a href="#" class="nav-link active">Accueil</a></li>
+        <li><a href="#" class="nav-link">Salades</a></li>
+        <li><a href="#" class="nav-link">Nos smoothies</a></li>
+        <li><a href="#" classs="nav-link">Fruits et légumes</a></li>
+        <li><a href="#" class="nav-link">Recettes et conseils</a></li>
+      </ul>
+    </nav>
+  </div>
+  <!-- Menu burger slide-in -->
+  <div id="burger-menu" class="burger-menu">
+    <button id="close-burger" class="close-burger" aria-label="Fermer le menu">&times;</button>
+    <ul>
+      <li><a href="#" class="nav-link active">Accueil</a></li>
+      <li><a href="#" class="nav-link">Salades</a></li>
+      <li><a href="#" class="nav-link">Nos smoothies</a></li>
+      <li><a href="#" class="nav-link">Fruits et légumes</a></li>
+      <li><a href="#" class="nav-link">Recettes et conseils</a></li>
+    </ul>
+  </div>
+  <p class="site-tagline animate-words">
+    <span>Le</span> <span>raffinement</span> <span>qui</span> <span>vous</span> <span>ressemble</span>
+  </p>
 </header>
 
-    <main>
-        <?php include $template ?>
-    </main>
+<main id="main-content">
+    <?php include $template ?>
+</main>
 
-    <footer class="bg-amber-50 text-titres py-6">
-        <section class="container mx-auto px-4 text-center">
-            <article class= "">
-                <h3 class="mb-2">Contacts</h3>
-                <p class="text-sm font-semibold">AuraFine</p>
-                <p class="text-sm">Le raffinement qui vous ressemble</p>
-                <p class="text-sm">Dakar, Sénégal</p>
-                <p class="text-sm">Email: info@aurafine.com</p>
-                <p class="text-sm">Tel: +221-77-473-13-87</p>
+<footer id="site-footer"class="animate-on-scroll">
+    <div class="footer-container">
+        <article class="footer-section">
+            <h3>Contacts</h3>
+            <div class="contact-info">
+                <p>AuraFine</p>
+                <p>Le raffinement qui vous ressemble</p>
+                <p>Dakar, Sénégal</p>
+                <p>Email: info@aurafine.com</p>
+                <p>Tel: +221-77-473-13-87</p>
+            </div>
+        </article>
+        <article class="footer-section">
+            <h3>Liens Utiles</h3>
+            <ul class="footer-links">
+                <li><a href="#">Menu</a></li>
+                <li><a href="#">À Propos</a></li>
+                <li><a href="#">Articles et conseils</a></li>
+            </ul>
+        </article>
+        <article class="footer-section">
+            <p>&copy; 2025 AuraFine. Tous droits réservés.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </article>
+    </div>
+</footer>
 
-            </article>
-
-            <article class="mt-6">
-                <h3 class="text-lg font-semibold mb-2">Liens Utiles</h3>
-                <ul class="text-sm">
-                <li><a href="#" class="hover:text-gray-400">Menu</a></li>
-                <li><a href="#" class="hover:text-gray-400">À Propos</a></li>
-                <li><a href="#" class="hover:text-gray-400">Articles et conseils</a></li>
-                </ul>
-            </article>
-
-            <article class="mt-6">
-                <p class="text-rose text-sm">&copy; 2025 AuraFine. Tous droits réservés.</p>
-                <div class="flex space-x-4 mt-2 md:mt-0 justify-center">
-                    <a href="#" class="hover:text-gray-400"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="hover:text-gray-400"><i class="fab fa-tiktok"></i></a>
-                    <a href="#" class="hover:text-gray-400"><i class="fab fa-instagram"></i></a>
-                </div>
-            </article>
-        
-        </section>
-    </footer>
-<!-- swiper -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
-    <script src="/app/public/js/slider.js" defer></script>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+<script src="/app/public/js/slider.js" defer></script>
+<script src="/app/public/js/script.js" defer></script>
 </body>
 </html>
