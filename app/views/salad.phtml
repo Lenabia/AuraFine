@@ -1,0 +1,243 @@
+<!-- ========================================
+PAGE DES SALADES
+======================================== -->
+
+<!-- Hero Section -->
+<section id="salad-hero" class="animate-on-scroll">
+  <div class="hero-content">
+    <h1>Nos Salades Fraîches</h1>
+    <p>Découvrez notre sélection de salades préparées avec des ingrédients locaux et de saison</p>
+  </div>
+</section>
+
+<!-- Filtres et recherche -->
+<section id="salad-filters" class="animate-on-scroll">
+  <div class="filters-container">
+    <div class="search-box">
+      <input type="text" placeholder="Rechercher une salade..." class="search-input">
+      <i class="fas fa-search search-icon"></i>
+    </div>
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-filter="all">Toutes</button>
+      <button class="filter-btn" data-filter="vegetarian">Végétariennes</button>
+      <button class="filter-btn" data-filter="protein">Avec protéines</button>
+      <button class="filter-btn" data-filter="seasonal">De saison</button>
+    </div>
+  </div>
+</section>
+
+<!-- Grille des salades -->
+<section id="salad-grid" class="animate-on-scroll">
+  <div class="salad-container">
+    
+    <!-- Salade 1 -->
+    <article class="salad-card" data-category="vegetarian seasonal">
+      <div class="card-image">
+        <img src="/app/public/images/salade1.webp" alt="Salade César Végétarienne" />
+        <div class="card-badge vegetarian">Végétarien</div>
+        <div class="card-badge seasonal">De saison</div>
+      </div>
+      <div class="card-content">
+        <h3>Salade César Végétarienne</h3>
+        <p class="description">Laitue romaine, parmesan, croûtons maison, vinaigrette césar crémeuse</p>
+        <div class="card-details">
+          <div class="ingredients">
+            <span class="ingredient-tag">Laitue</span>
+            <span class="ingredient-tag">Parmesan</span>
+            <span class="ingredient-tag">Croûtons</span>
+          </div>
+          <div class="nutrition">
+            <span class="calories">320 kcal</span>
+            <span class="protein">12g protéines</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-quantity">
+            <span class="price">€8.50</span>
+            <div class="quantity-controls">
+              <button class="qty-btn minus" data-action="decrease">-</button>
+              <span class="quantity">1</span>
+              <button class="qty-btn plus" data-action="increase">+</button>
+            </div>
+          </div>
+          <button class="add-to-cart-btn" data-salad-id="1">
+            <i class="fas fa-shopping-cart"></i>
+            Ajouter
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Salade 2 -->
+    <article class="salad-card" data-category="protein">
+      <div class="card-image">
+        <img src="/app/public/images/salade2.webp" alt="Salade Quinoa Poulet" />
+        <div class="card-badge protein">Protéines</div>
+      </div>
+      <div class="card-content">
+        <h3>Salade Quinoa & Poulet</h3>
+        <p class="description">Quinoa bio, poulet grillé, avocat, tomates cerises, vinaigrette citron</p>
+        <div class="card-details">
+          <div class="ingredients">
+            <span class="ingredient-tag">Quinoa</span>
+            <span class="ingredient-tag">Poulet</span>
+            <span class="ingredient-tag">Avocat</span>
+          </div>
+          <div class="nutrition">
+            <span class="calories">450 kcal</span>
+            <span class="protein">28g protéines</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-quantity">
+            <span class="price">€12.90</span>
+            <div class="quantity-controls">
+              <button class="qty-btn minus" data-action="decrease">-</button>
+              <span class="quantity">1</span>
+              <button class="qty-btn plus" data-action="increase">+</button>
+            </div>
+          </div>
+          <button class="add-to-cart-btn" data-salad-id="2">
+            <i class="fas fa-shopping-cart"></i>
+            Ajouter
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Salade 3 -->
+    <article class="salad-card" data-category="vegetarian seasonal">
+      <div class="card-image">
+        <img src="/app/public/images/salade3.webp" alt="Salade Méditerranéenne" />
+        <div class="card-badge vegetarian">Végétarien</div>
+        <div class="card-badge seasonal">De saison</div>
+      </div>
+      <div class="card-content">
+        <h3>Salade Méditerranéenne</h3>
+        <p class="description">Tomates, concombre, olives, feta, oignon rouge, huile d'olive extra vierge</p>
+        <div class="card-details">
+          <div class="ingredients">
+            <span class="ingredient-tag">Tomates</span>
+            <span class="ingredient-tag">Feta</span>
+            <span class="ingredient-tag">Olives</span>
+          </div>
+          <div class="nutrition">
+            <span class="calories">280 kcal</span>
+            <span class="protein">8g protéines</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-quantity">
+            <span class="price">€9.20</span>
+            <div class="quantity-controls">
+              <button class="qty-btn minus" data-action="decrease">-</button>
+              <span class="quantity">1</span>
+              <button class="qty-btn plus" data-action="increase">+</button>
+            </div>
+          </div>
+          <button class="add-to-cart-btn" data-salad-id="3">
+            <i class="fas fa-shopping-cart"></i>
+            Ajouter
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Salade 4 -->
+    <article class="salad-card" data-category="protein seasonal">
+      <div class="card-image">
+        <img src="/app/public/images/salade4.webp" alt="Salade Saumon Avocat" />
+        <div class="card-badge protein">Protéines</div>
+        <div class="card-badge seasonal">De saison</div>
+      </div>
+      <div class="card-content">
+        <h3>Salade Saumon & Avocat</h3>
+        <p class="description">Saumon fumé, avocat, mesclun, radis, vinaigrette moutarde douce</p>
+        <div class="card-details">
+          <div class="ingredients">
+            <span class="ingredient-tag">Saumon</span>
+            <span class="ingredient-tag">Avocat</span>
+            <span class="ingredient-tag">Mesclun</span>
+          </div>
+          <div class="nutrition">
+            <span class="calories">380 kcal</span>
+            <span class="protein">22g protéines</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-quantity">
+            <span class="price">€14.50</span>
+            <div class="quantity-controls">
+              <button class="qty-btn minus" data-action="decrease">-</button>
+              <span class="quantity">1</span>
+              <button class="qty-btn plus" data-action="increase">+</button>
+            </div>
+          </div>
+          <button class="add-to-cart-btn" data-salad-id="4">
+            <i class="fas fa-shopping-cart"></i>
+            Ajouter
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Salade 5 -->
+    <article class="salad-card" data-category="vegetarian">
+      <div class="card-image">
+        <img src="/app/public/images/salade5.webp" alt="Salade Buddha Bowl" />
+        <div class="card-badge vegetarian">Végétarien</div>
+      </div>
+      <div class="card-content">
+        <h3>Buddha Bowl Végétarien</h3>
+        <p class="description">Riz complet, légumes rôtis, pois chiches, tahini, graines de sésame</p>
+        <div class="card-details">
+          <div class="ingredients">
+            <span class="ingredient-tag">Riz complet</span>
+            <span class="ingredient-tag">Légumes</span>
+            <span class="ingredient-tag">Pois chiches</span>
+          </div>
+          <div class="nutrition">
+            <span class="calories">420 kcal</span>
+            <span class="protein">15g protéines</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-quantity">
+            <span class="price">€11.80</span>
+            <div class="quantity-controls">
+              <button class="qty-btn minus" data-action="decrease">-</button>
+              <span class="quantity">1</span>
+              <button class="qty-btn plus" data-action="increase">+</button>
+            </div>
+          </div>
+          <button class="add-to-cart-btn" data-salad-id="5">
+            <i class="fas fa-shopping-cart"></i>
+            Ajouter
+          </button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- Section informations -->
+<section id="salad-info" class="animate-on-scroll">
+  <div class="info-container">
+    <div class="info-card">
+      <i class="fas fa-leaf"></i>
+      <h3>Ingrédients Frais</h3>
+      <p>Tous nos ingrédients sont sélectionnés localement et préparés le jour même</p>
+    </div>
+    <div class="info-card">
+      <i class="fas fa-clock"></i>
+      <h3>Préparation Rapide</h3>
+      <p>Vos salades sont préparées en moins de 10 minutes après votre commande</p>
+    </div>
+    <div class="info-card">
+      <i class="fas fa-heart"></i>
+      <h3>Options Personnalisées</h3>
+      <p>Personnalisez vos salades selon vos préférences et restrictions alimentaires</p>
+    </div>
+  </div>
+</section>

@@ -27,21 +27,24 @@ document.addEventListener("DOMContentLoaded", function () {
 // et la retire quand il sort, pour permettre l'animation dans les deux sens (haut/bas)
 
 document.addEventListener("DOMContentLoaded", function () {
-  const elements = document.querySelectorAll(".animate-on-scroll");
-  const observer = new window.IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in-view");
-        } else {
-          entry.target.classList.remove("in-view");
-        }
-      });
-    },
-    { threshold: 0.25 }
-  ); // 0.2 = 20% du bloc visible
+  // Éviter les doublons d'observers
+  if (!window.mainObserver) {
+    const elements = document.querySelectorAll(".animate-on-scroll");
+    window.mainObserver = new window.IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          } else {
+            entry.target.classList.remove("in-view");
+          }
+        });
+      },
+      { threshold: 0.25 }
+    ); // 0.25 = 25% du bloc visible
 
-  elements.forEach((el) => observer.observe(el));
+    elements.forEach((el) => window.mainObserver.observe(el));
+  }
 });
 
 // Animation mot à mot pour le slogan (site-tagline.animate-words)

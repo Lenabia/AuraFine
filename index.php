@@ -26,6 +26,12 @@ if(array_key_exists('action', $_GET)):
     $controller->displayHome();
     break;
 
+    //page des salades
+    case 'salad-page':
+    $controller = new \app\controllers\UsersController();
+    $controller->displaySaladPage();
+    break;
+
 
 
 //si pas de route on redirige vers l'accueil

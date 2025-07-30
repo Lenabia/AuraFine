@@ -19,10 +19,18 @@
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 0.6s, transform 0.6s;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
 }
 .animate-on-scroll.in-view {
-  animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.salad-card {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 * {
@@ -796,6 +804,337 @@ body {
 }
 .site-tagline.animate-words.in-view span:nth-child(10) {
   transition-delay: 1s;
+}
+
+#salad-hero {
+  background: linear-gradient(135deg, #ee4f8e 0%, rgb(219.3160621762, 21.1839378238, 99.689119171) 100%);
+  color: #fff;
+  padding: 4rem 1rem 3rem 1rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+#salad-hero .hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+#salad-hero .hero-content h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+#salad-hero .hero-content p {
+  font-size: 1.2rem;
+  opacity: 0.95;
+  line-height: 1.6;
+}
+@media (max-width: 768px) {
+  #salad-hero {
+    padding: 3rem 1rem 2rem 1rem;
+  }
+  #salad-hero .hero-content h1 {
+    font-size: 2rem;
+  }
+  #salad-hero .hero-content p {
+    font-size: 1.1rem;
+  }
+}
+
+#salad-filters {
+  background: #fff;
+  padding: 2rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+#salad-filters .filters-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+#salad-filters .search-box {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+#salad-filters .search-box .search-input {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 3rem;
+  border: 2px solid #9ca3af;
+  border-radius: 2rem;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+#salad-filters .search-box .search-input:focus {
+  outline: none;
+  border-color: #ee4f8e;
+  box-shadow: 0 0 0 3px rgba(238, 79, 142, 0.1);
+}
+#salad-filters .search-box .search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+#salad-filters .filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+#salad-filters .filter-buttons .filter-btn {
+  padding: 0.6rem 1.2rem;
+  border: 2px solid #ee4f8e;
+  background: transparent;
+  color: #ee4f8e;
+  border-radius: 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+#salad-filters .filter-buttons .filter-btn:hover, #salad-filters .filter-buttons .filter-btn.active {
+  background: #ee4f8e;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(238, 79, 142, 0.3);
+}
+@media (min-width: 768px) {
+  #salad-filters .filters-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #salad-filters .search-box {
+    max-width: 300px;
+  }
+}
+
+#salad-grid {
+  background: #fae6cb;
+  padding: 3rem 1rem;
+}
+#salad-grid .salad-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+#salad-grid .salad-card {
+  background: #fff;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+}
+#salad-grid .salad-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(238, 79, 142, 0.15);
+}
+#salad-grid .salad-card .card-image {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+}
+#salad-grid .salad-card .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+#salad-grid .salad-card .card-image .card-badge {
+  position: absolute;
+  top: 1rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+}
+#salad-grid .salad-card .card-image .card-badge.vegetarian {
+  background: #4caf50;
+  left: 1rem;
+}
+#salad-grid .salad-card .card-image .card-badge.protein {
+  background: #2196f3;
+  left: 1rem;
+}
+#salad-grid .salad-card .card-image .card-badge.seasonal {
+  background: #ff9800;
+  right: 1rem;
+}
+#salad-grid .salad-card .card-content {
+  padding: 1.5rem;
+}
+#salad-grid .salad-card .card-content h3 {
+  font-size: 1.3rem;
+  color: #45494c;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+#salad-grid .salad-card .card-content .description {
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+#salad-grid .salad-card .card-content .card-details {
+  margin-bottom: 1.5rem;
+}
+#salad-grid .salad-card .card-content .card-details .ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+#salad-grid .salad-card .card-content .card-details .ingredients .ingredient-tag {
+  background: #fff8e2;
+  color: #45494c;
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+#salad-grid .salad-card .card-content .card-details .nutrition {
+  display: flex;
+  gap: 1rem;
+}
+#salad-grid .salad-card .card-content .card-details .nutrition .calories,
+#salad-grid .salad-card .card-content .card-details .nutrition .protein {
+  background: #fae6cb;
+  color: #45494c;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+#salad-grid .salad-card .card-content .card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+#salad-grid .salad-card .card-content .card-footer .price-quantity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+#salad-grid .salad-card .card-content .card-footer .price-quantity .price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ee4f8e;
+}
+#salad-grid .salad-card .card-content .card-footer .price-quantity .quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff8e2;
+  border-radius: 2rem;
+  padding: 0.3rem;
+}
+#salad-grid .salad-card .card-content .card-footer .price-quantity .quantity-controls .qty-btn {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: #ee4f8e;
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+#salad-grid .salad-card .card-content .card-footer .price-quantity .quantity-controls .qty-btn:hover {
+  background: rgb(233.5077720207, 32.4922279793, 112.1398963731);
+  transform: scale(1.1);
+}
+#salad-grid .salad-card .card-content .card-footer .price-quantity .quantity-controls .quantity {
+  min-width: 2rem;
+  text-align: center;
+  font-weight: 600;
+  color: #45494c;
+}
+#salad-grid .salad-card .card-content .card-footer .add-to-cart-btn {
+  background: #ee4f8e;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+#salad-grid .salad-card .card-content .card-footer .add-to-cart-btn:hover {
+  background: rgb(233.5077720207, 32.4922279793, 112.1398963731);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(238, 79, 142, 0.3);
+}
+#salad-grid .salad-card .card-content .card-footer .add-to-cart-btn i {
+  font-size: 1rem;
+}
+@media (min-width: 640px) {
+  #salad-grid .salad-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  #salad-grid .salad-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1280px) {
+  #salad-grid .salad-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+#salad-info {
+  background: #fff;
+  padding: 3rem 1rem;
+}
+#salad-info .info-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+#salad-info .info-card {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: #fff8e2;
+  border-radius: 1.5rem;
+  transition: transform 0.3s;
+}
+#salad-info .info-card:hover {
+  transform: translateY(-5px);
+}
+#salad-info .info-card i {
+  font-size: 2.5rem;
+  color: #ee4f8e;
+  margin-bottom: 1rem;
+}
+#salad-info .info-card h3 {
+  font-size: 1.2rem;
+  color: #45494c;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+#salad-info .info-card p {
+  color: #6b7280;
+  line-height: 1.6;
+}
+@media (min-width: 768px) {
+  #salad-info .info-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 /*# sourceMappingURL=main.css.map */
