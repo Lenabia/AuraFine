@@ -32,9 +32,17 @@ if(array_key_exists('action', $_GET)):
     $controller->displaySaladPage();
     break;
 
+    //page des boissons
+    case 'boissons':
+    $controller = new \app\controllers\UsersController();
+    $controller->displayBoissonsPage();
+    break;
 
-
-
+    //page des fruits et légumes
+    case 'fruits-legumes':
+    $controller = new \app\controllers\UsersController();
+    $controller->displayFruitsLegumesPage();
+    break;
 
 //si pas de route on redirige vers l'accueil
     default:

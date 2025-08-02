@@ -1,13 +1,13 @@
 <!-- ========================================
-PAGE DES SALADES - PRÉPARÉE POUR INTÉGRATION PHP
+PAGE DES BOISSONS - PRÉPARÉE POUR INTÉGRATION PHP
 ======================================== -->
 
 <!-- Hero Section -->
 <section id="produit-hero" class="animate-on-scroll">
   <article class="hero-content">
     <header>
-      <h1>Nos Salades Fraîches</h1>
-      <p>Découvrez notre sélection de salades préparées avec des ingrédients locaux et de saison</p>
+      <h1>Nos Boissons Fraîches</h1>
+      <p>Découvrez notre sélection de boissons naturelles et rafraîchissantes</p>
     </header>
   </article>
 </section>
@@ -18,7 +18,7 @@ PAGE DES SALADES - PRÉPARÉE POUR INTÉGRATION PHP
     <form class="search-box" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET">
       <input 
         type="text" 
-        placeholder="Rechercher une salade..." 
+        placeholder="Rechercher une boisson..." 
         class="search-input"
         name="search"
         value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
@@ -37,23 +37,23 @@ PAGE DES SALADES - PRÉPARÉE POUR INTÉGRATION PHP
   </article>
 </section>
 
-<!-- Grille des salades -->
+<!-- Grille des boissons -->
 <section id="produit-grid" class="animate-on-scroll">
   <div class="produit-container">
-    <?php if (isset($salades) && is_array($salades)): ?>
-    <?php foreach ($salades as $salad): ?>
+    <?php if (isset($boissons) && is_array($boissons)): ?>
+    <?php foreach ($boissons as $boisson): ?>
     
-    <div class="produit-card" data-category="<?php echo isset($salad['categorie']) ? htmlspecialchars($salad['categorie']) : ''; ?>">
+    <div class="produit-card" data-category="<?php echo isset($boisson['categorie']) ? htmlspecialchars($boisson['categorie']) : ''; ?>">
       <figure class="card-image">
         <img 
-          src="<?php echo isset($salad['image']) ? htmlspecialchars($salad['image']) : '/app/public/images/salade1.webp'; ?>"
-          alt="<?php echo isset($salad['nom']) ? htmlspecialchars($salad['nom']) : 'Salade'; ?>"
+          src="<?php echo isset($boisson['image']) ? htmlspecialchars($boisson['image']) : '/app/public/images/wireframes/smoothiefraise.webp'; ?>"
+          alt="<?php echo isset($boisson['nom']) ? htmlspecialchars($boisson['nom']) : 'Boisson'; ?>"
           loading="lazy"
           decoding="async"
         />
         <figcaption>
-          <?php if (isset($salad['badges']) && is_array($salad['badges'])): ?>
-            <?php foreach ($salad['badges'] as $badge): ?>
+          <?php if (isset($boisson['badges']) && is_array($boisson['badges'])): ?>
+            <?php foreach ($boisson['badges'] as $badge): ?>
               <span class="card-badge <?php echo htmlspecialchars($badge['type']); ?>"><?php echo htmlspecialchars($badge['nom']); ?></span>
             <?php endforeach; ?>
           <?php endif; ?>
@@ -61,32 +61,32 @@ PAGE DES SALADES - PRÉPARÉE POUR INTÉGRATION PHP
       </figure>
       <article class="card-content">
         <header>
-          <h3><?php echo isset($salad['nom']) ? htmlspecialchars($salad['nom']) : 'Salade César Végétarienne'; ?></h3>
+          <h3><?php echo isset($boisson['nom']) ? htmlspecialchars($boisson['nom']) : 'Smoothie Fraise'; ?></h3>
         </header>
-        <p class="description"><?php echo isset($salad['description']) ? htmlspecialchars($salad['description']) : 'Laitue romaine, parmesan, croûtons maison, vinaigrette césar crémeuse'; ?></p>
+        <p class="description"><?php echo isset($boisson['description']) ? htmlspecialchars($boisson['description']) : 'Smoothie fraise et banane, frais et naturel'; ?></p>
         <section class="card-details">
           <nav class="ingredients">
-            <?php if (isset($salad['ingredients']) && is_array($salad['ingredients'])): ?>
-              <?php foreach ($salad['ingredients'] as $ingredient): ?>
+            <?php if (isset($boisson['ingredients']) && is_array($boisson['ingredients'])): ?>
+              <?php foreach ($boisson['ingredients'] as $ingredient): ?>
                 <span class="ingredient-tag"><?php echo htmlspecialchars($ingredient); ?></span>
               <?php endforeach; ?>
             <?php endif; ?>
           </nav>
           <section class="nutrition">
-            <span class="calories"><?php echo isset($salad['calories']) ? $salad['calories'] : '320'; ?> kcal</span>
-            <span class="protein"><?php echo isset($salad['proteines']) ? $salad['proteines'] : '12'; ?>g protéines</span>
+            <span class="calories"><?php echo isset($boisson['calories']) ? $boisson['calories'] : '180'; ?> kcal</span>
+            <span class="protein"><?php echo isset($boisson['proteines']) ? $boisson['proteines'] : '3'; ?>g protéines</span>
           </section>
         </section>
         <footer class="card-footer">
           <section class="price-quantity">
-            <span class="price">€<?php echo isset($salad['prix']) ? number_format($salad['prix'], 2) : '8.50'; ?></span>
+            <span class="price">€<?php echo isset($boisson['prix']) ? number_format($boisson['prix'], 2) : '4.50'; ?></span>
             <nav class="quantity-controls">
               <button class="qty-btn minus" data-action="decrease">-</button>
               <span class="quantity">1</span>
               <button class="qty-btn plus" data-action="increase">+</button>
             </nav>
           </section>
-          <button class="add-to-cart-btn" data-salad-id="<?php echo isset($salad['id']) ? $salad['id'] : '1'; ?>">
+          <button class="add-to-cart-btn" data-boisson-id="<?php echo isset($boisson['id']) ? $boisson['id'] : '1'; ?>">
             <i class="fas fa-shopping-cart"></i>
             Ajouter
           </button>
@@ -106,23 +106,23 @@ PAGE DES SALADES - PRÉPARÉE POUR INTÉGRATION PHP
     <article class="info-card">
       <header>
         <i class="fas fa-leaf"></i>
-        <h3>Ingrédients Frais</h3>
+        <h3>Ingrédients Naturels</h3>
       </header>
-      <p>Tous nos ingrédients sont sélectionnés localement et préparés le jour même</p>
+      <p>Toutes nos boissons sont préparées avec des fruits et légumes frais de saison</p>
     </article>
     <article class="info-card">
       <header>
         <i class="fas fa-clock"></i>
-        <h3>Préparation Rapide</h3>
+        <h3>Préparation Minute</h3>
       </header>
-      <p>Vos salades sont préparées en moins de 10 minutes après votre commande</p>
+      <p>Vos boissons sont préparées en moins de 5 minutes après votre commande</p>
     </article>
     <article class="info-card">
       <header>
         <i class="fas fa-heart"></i>
-        <h3>Options Personnalisées</h3>
+        <h3>Sans Conservateurs</h3>
       </header>
-      <p>Personnalisez vos salades selon vos préférences et restrictions alimentaires</p>
+      <p>Aucun conservateur ajouté, uniquement des ingrédients naturels et frais</p>
     </article>
   </article>
-</section>
+</section> 

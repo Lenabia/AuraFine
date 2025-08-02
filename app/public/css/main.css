@@ -926,24 +926,24 @@ body {
   transform: translateY(-3px);
 }
 
-#salad-hero {
+#produit-hero {
   background: linear-gradient(144deg, #131212 0%, rgb(220, 85, 132) 100%);
   color: #ffffff;
   padding: 2rem 0;
   text-align: center;
 }
-#salad-hero .hero-content {
+#produit-hero .hero-content {
   max-width: 100%;
   margin: 0 auto;
   padding: 0 1rem;
 }
-#salad-hero .hero-content header h1 {
+#produit-hero .hero-content header h1 {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1rem;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
-#salad-hero .hero-content header p {
+#produit-hero .hero-content header p {
   font-size: 1rem;
   opacity: 0.95;
   line-height: 1.6;
@@ -951,42 +951,42 @@ body {
   margin: 0 auto;
 }
 @media (min-width: 768px) {
-  #salad-hero {
+  #produit-hero {
     padding: 3rem 0;
   }
-  #salad-hero .hero-content {
+  #produit-hero .hero-content {
     max-width: 90%;
   }
-  #salad-hero .hero-content header h1 {
+  #produit-hero .hero-content header h1 {
     font-size: 2.5rem;
   }
-  #salad-hero .hero-content header p {
+  #produit-hero .hero-content header p {
     font-size: 1.1rem;
     max-width: 80%;
   }
 }
 @media (min-width: 1024px) {
-  #salad-hero {
+  #produit-hero {
     padding: 4rem 0;
   }
-  #salad-hero .hero-content {
+  #produit-hero .hero-content {
     max-width: 1200px;
   }
-  #salad-hero .hero-content header h1 {
+  #produit-hero .hero-content header h1 {
     font-size: 3rem;
   }
-  #salad-hero .hero-content header p {
+  #produit-hero .hero-content header p {
     font-size: 1.2rem;
     max-width: 70%;
   }
 }
 
-#salad-filters {
+#produit-filters {
   background: #ffffff;
   padding: 1.5rem 0;
   border-bottom: 1px solid #f8f9fa;
 }
-#salad-filters .filters-container {
+#produit-filters .filters-container {
   max-width: 100%;
   margin: 0 auto;
   padding: 0 1rem;
@@ -994,12 +994,12 @@ body {
   flex-direction: column;
   gap: 1rem;
 }
-#salad-filters .filters-container .search-box {
+#produit-filters .filters-container .search-box {
   position: relative;
   max-width: 100%;
   margin: 0 auto;
 }
-#salad-filters .filters-container .search-box .search-input {
+#produit-filters .filters-container .search-box .search-input {
   width: 100%;
   padding: 1rem 3rem 1rem 1rem;
   border: 2px solid #f8f9fa;
@@ -1007,12 +1007,12 @@ body {
   font-size: 1rem;
   transition: all 0.3s ease;
 }
-#salad-filters .filters-container .search-box .search-input:focus {
+#produit-filters .filters-container .search-box .search-input:focus {
   outline: none;
   border-color: #e91e63;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
-#salad-filters .filters-container .search-box .search-icon {
+#produit-filters .filters-container .search-box .search-icon {
   position: absolute;
   right: 1rem;
   top: 50%;
@@ -1020,13 +1020,13 @@ body {
   color: #6c757d;
   font-size: 1.1rem;
 }
-#salad-filters .filters-container .filter-buttons {
+#produit-filters .filters-container .filter-buttons {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
   flex-wrap: wrap;
 }
-#salad-filters .filters-container .filter-buttons .filter-btn {
+#produit-filters .filters-container .filter-buttons .filter-btn {
   background: #f8f9fa;
   color: #495057;
   border: none;
@@ -1036,66 +1036,66 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-#salad-filters .filters-container .filter-buttons .filter-btn.active, #salad-filters .filters-container .filter-buttons .filter-btn:hover {
+#produit-filters .filters-container .filter-buttons .filter-btn.active, #produit-filters .filters-container .filter-buttons .filter-btn:hover {
   background: #e91e63;
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 @media (min-width: 768px) {
-  #salad-filters {
+  #produit-filters {
     padding: 2rem 0;
   }
-  #salad-filters .filters-container {
+  #produit-filters .filters-container {
     max-width: 90%;
     gap: 1.5rem;
   }
-  #salad-filters .filters-container .search-box {
+  #produit-filters .filters-container .search-box {
     max-width: 80%;
   }
-  #salad-filters .filters-container .filter-buttons {
+  #produit-filters .filters-container .filter-buttons {
     gap: 0.8rem;
   }
-  #salad-filters .filters-container .filter-buttons .filter-btn {
+  #produit-filters .filters-container .filter-buttons .filter-btn {
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
   }
 }
 @media (min-width: 1024px) {
-  #salad-filters {
+  #produit-filters {
     padding: 2.5rem 0;
   }
-  #salad-filters .filters-container {
+  #produit-filters .filters-container {
     max-width: 1200px;
     gap: 2rem;
   }
-  #salad-filters .filters-container .search-box {
+  #produit-filters .filters-container .search-box {
     max-width: 60%;
   }
-  #salad-filters .filters-container .filter-buttons {
+  #produit-filters .filters-container .filter-buttons {
     gap: 1rem;
   }
-  #salad-filters .filters-container .filter-buttons .filter-btn {
+  #produit-filters .filters-container .filter-buttons .filter-btn {
     padding: 1rem 2rem;
     font-size: 1.1rem;
   }
 }
 
-#salad-grid {
+#produit-grid {
   background: #f8f9fa;
   padding: 2rem 0;
 }
 @media (min-width: 768px) {
-  #salad-grid {
+  #produit-grid {
     padding: 3rem 0;
   }
 }
 @media (min-width: 1024px) {
-  #salad-grid {
+  #produit-grid {
     padding: 4rem 0;
   }
 }
-#salad-grid .salad-container {
+#produit-grid .produit-container {
   max-width: 100%;
   margin: 0 auto;
   padding: 0 1rem;
@@ -1104,57 +1104,57 @@ body {
   gap: 1rem;
 }
 @media (min-width: 768px) {
-  #salad-grid .salad-container {
+  #produit-grid .produit-container {
     max-width: 90%;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 }
 @media (min-width: 1024px) {
-  #salad-grid .salad-container {
+  #produit-grid .produit-container {
     max-width: 1200px;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
   }
 }
 @media (min-width: 1280px) {
-  #salad-grid .salad-container {
+  #produit-grid .produit-container {
     gap: 2.5rem;
   }
 }
-#salad-grid .salad-card {
+#produit-grid .produit-card {
   background: #ffffff;
   border-radius: 1.5rem;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
 }
-#salad-grid .salad-card:hover {
+#produit-grid .produit-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
-#salad-grid .salad-card .card-image {
+#produit-grid .produit-card .card-image {
   position: relative;
   height: 180px;
   overflow: hidden;
 }
-#salad-grid .salad-card .card-image img {
+#produit-grid .produit-card .card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: all 0.3s ease;
 }
 @media (min-width: 768px) {
-  #salad-grid .salad-card .card-image {
+  #produit-grid .produit-card .card-image {
     height: 200px;
   }
 }
 @media (min-width: 1024px) {
-  #salad-grid .salad-card .card-image {
+  #produit-grid .produit-card .card-image {
     height: 220px;
   }
 }
-#salad-grid .salad-card .card-image figcaption {
+#produit-grid .produit-card .card-image figcaption {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -1162,49 +1162,49 @@ body {
   flex-direction: column;
   gap: 0.5rem;
 }
-#salad-grid .salad-card .card-image figcaption .card-badge {
+#produit-grid .produit-card .card-image figcaption .card-badge {
   padding: 0.3rem 0.8rem;
   border-radius: 1rem;
   font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
 }
-#salad-grid .salad-card .card-image figcaption .card-badge.poulet {
+#produit-grid .produit-card .card-image figcaption .card-badge.poulet {
   background: #e91e63;
   color: #ffffff;
 }
-#salad-grid .salad-card .card-image figcaption .card-badge.crevettes {
+#produit-grid .produit-card .card-image figcaption .card-badge.crevettes {
   background: #ff6b35;
   color: #ffffff;
 }
-#salad-grid .salad-card .card-image figcaption .card-badge.oeufs {
+#produit-grid .produit-card .card-image figcaption .card-badge.oeufs {
   background: #4caf50;
   color: #ffffff;
 }
-#salad-grid .salad-card .card-content {
+#produit-grid .produit-card .card-content {
   padding: 1rem;
 }
-#salad-grid .salad-card .card-content header h3 {
+#produit-grid .produit-card .card-content header h3 {
   font-size: 1.1rem;
   color: #1a1a1a;
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
-#salad-grid .salad-card .card-content .description {
+#produit-grid .produit-card .card-content .description {
   color: #495057;
   margin-bottom: 0.7rem;
   line-height: 1.6;
 }
-#salad-grid .salad-card .card-content .card-details {
+#produit-grid .produit-card .card-content .card-details {
   margin-bottom: 1rem;
 }
-#salad-grid .salad-card .card-content .card-details .ingredients {
+#produit-grid .produit-card .card-content .card-details .ingredients {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
 }
-#salad-grid .salad-card .card-content .card-details .ingredients .ingredient-tag {
+#produit-grid .produit-card .card-content .card-details .ingredients .ingredient-tag {
   background: #f8f9fa;
   color: #495057;
   padding: 0.3rem 0.8rem;
@@ -1212,37 +1212,37 @@ body {
   font-size: 0.8rem;
   font-weight: 500;
 }
-#salad-grid .salad-card .card-content .card-details .nutrition {
+#produit-grid .produit-card .card-content .card-details .nutrition {
   display: flex;
   gap: 0.7rem;
   font-size: 0.9rem;
   color: #6c757d;
 }
-#salad-grid .salad-card .card-content .card-details .nutrition .calories,
-#salad-grid .salad-card .card-content .card-details .nutrition .protein {
+#produit-grid .produit-card .card-content .card-details .nutrition .calories,
+#produit-grid .produit-card .card-content .card-details .nutrition .protein {
   font-weight: 600;
 }
-#salad-grid .salad-card .card-content .card-footer {
+#produit-grid .produit-card .card-content .card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-#salad-grid .salad-card .card-content .card-footer .price-quantity {
+#produit-grid .produit-card .card-content .card-footer .price-quantity {
   display: flex;
   align-items: center;
   gap: 0.7rem;
 }
-#salad-grid .salad-card .card-content .card-footer .price-quantity .price {
+#produit-grid .produit-card .card-content .card-footer .price-quantity .price {
   font-size: 1.1rem;
   font-weight: 700;
   color: #e91e63;
 }
-#salad-grid .salad-card .card-content .card-footer .price-quantity .quantity-controls {
+#produit-grid .produit-card .card-content .card-footer .price-quantity .quantity-controls {
   display: flex;
   align-items: center;
   gap: 0.3rem;
 }
-#salad-grid .salad-card .card-content .card-footer .price-quantity .quantity-controls .qty-btn {
+#produit-grid .produit-card .card-content .card-footer .price-quantity .quantity-controls .qty-btn {
   background: #f8f9fa;
   border: none;
   width: 1.7rem;
@@ -1251,16 +1251,16 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-#salad-grid .salad-card .card-content .card-footer .price-quantity .quantity-controls .qty-btn:hover {
+#produit-grid .produit-card .card-content .card-footer .price-quantity .quantity-controls .qty-btn:hover {
   background: #e91e63;
   color: #ffffff;
 }
-#salad-grid .salad-card .card-content .card-footer .price-quantity .quantity-controls .quantity {
+#produit-grid .produit-card .card-content .card-footer .price-quantity .quantity-controls .quantity {
   font-weight: 600;
   min-width: 1.2rem;
   text-align: center;
 }
-#salad-grid .salad-card .card-content .card-footer .add-to-cart-btn {
+#produit-grid .produit-card .card-content .card-footer .add-to-cart-btn {
   background: #4caf50;
   color: #ffffff;
   border: none;
@@ -1273,27 +1273,27 @@ body {
   align-items: center;
   gap: 0.5rem;
 }
-#salad-grid .salad-card .card-content .card-footer .add-to-cart-btn:hover {
+#produit-grid .produit-card .card-content .card-footer .add-to-cart-btn:hover {
   background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
   transform: translateY(-2px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-#salad-info {
+#produit-info {
   background: #ffffff;
   padding: 2rem 0;
 }
 @media (min-width: 768px) {
-  #salad-info {
+  #produit-info {
     padding: 3rem 0;
   }
 }
 @media (min-width: 1024px) {
-  #salad-info {
+  #produit-info {
     padding: 4rem 0;
   }
 }
-#salad-info .info-container {
+#produit-info .info-container {
   max-width: 100%;
   margin: 0 auto;
   padding: 0 1rem;
@@ -1302,43 +1302,43 @@ body {
   gap: 1rem;
 }
 @media (min-width: 768px) {
-  #salad-info .info-container {
+  #produit-info .info-container {
     max-width: 90%;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 }
 @media (min-width: 1024px) {
-  #salad-info .info-container {
+  #produit-info .info-container {
     max-width: 1200px;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
   }
 }
 @media (min-width: 1280px) {
-  #salad-info .info-container {
+  #produit-info .info-container {
     gap: 2.5rem;
   }
 }
-#salad-info .info-card {
+#produit-info .info-card {
   text-align: center;
   padding: 1.2rem;
 }
-#salad-info .info-card header {
+#produit-info .info-card header {
   margin-bottom: 0.7rem;
 }
-#salad-info .info-card header i {
+#produit-info .info-card header i {
   font-size: 2rem;
   color: #e91e63;
   margin-bottom: 0.7rem;
   display: block;
 }
-#salad-info .info-card header h3 {
+#produit-info .info-card header h3 {
   font-size: 1.1rem;
   color: #1a1a1a;
   font-weight: 600;
 }
-#salad-info .info-card p {
+#produit-info .info-card p {
   color: #495057;
   line-height: 1.6;
 }

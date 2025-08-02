@@ -1131,9 +1131,9 @@ body {
 }
 
 // ========================================
-// SECTIONS SALAD (CORRIGÉES)
+// SECTIONS PRODUIT (UNIFORMISÉES)
 // ========================================
-#salad-hero {
+#produit-hero {
   background: linear-gradient(144deg, #131212 0%, rgb(220 85 132) 100%);
   color: $color-white;
   padding: 2rem 0;
@@ -1203,7 +1203,7 @@ body {
   }
 }
 
-#salad-filters {
+#produit-filters {
   background: $color-white;
   padding: 1.5rem 0;
   border-bottom: 1px solid $color-gray-light;
@@ -1321,9 +1321,9 @@ body {
 }
 
 // ========================================
-// SECTION SALAD GRID (CORRIGÉE)
+// SECTION PRODUIT GRID (UNIFORMISÉE)
 // ========================================
-#salad-grid {
+#produit-grid {
   background: $color-gray-light;
   padding: 2rem 0;
 
@@ -1337,7 +1337,7 @@ body {
     padding: 4rem 0;
   }
 
-  .salad-container {
+  .produit-container {
     max-width: 100%;
     margin: 0 auto;
     padding: 0 1rem;
@@ -1348,7 +1348,7 @@ body {
 
   // Responsive - Tablette (2 colonnes)
   @media (min-width: 768px) {
-    .salad-container {
+    .produit-container {
       max-width: 90%;
       grid-template-columns: repeat(2, 1fr);
       gap: 1.5rem;
@@ -1357,7 +1357,7 @@ body {
 
   // Responsive - Desktop (3 colonnes)
   @media (min-width: 1024px) {
-    .salad-container {
+    .produit-container {
       max-width: 1200px;
       grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
@@ -1366,12 +1366,12 @@ body {
 
   // Responsive - Large Desktop (3 colonnes avec plus d'espace)
   @media (min-width: 1280px) {
-    .salad-container {
+    .produit-container {
       gap: 2.5rem;
     }
   }
 
-  .salad-card {
+  .produit-card {
     background: $color-white;
     border-radius: 1.5rem;
     overflow: hidden;
@@ -1556,9 +1556,9 @@ body {
 }
 
 // ========================================
-// SECTION SALAD INFO (CORRIGÉE)
+// SECTION PRODUIT INFO (UNIFORMISÉE)
 // ========================================
-#salad-info {
+#produit-info {
   background: $color-white;
   padding: 2rem 0;
 
