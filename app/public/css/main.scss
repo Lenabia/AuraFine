@@ -92,6 +92,29 @@ $color-bg-section: #7f0d33;
   padding: 0;
   box-sizing: border-box;
 }
+
+// Optimisations de performance globales
+html {
+  scroll-behavior: smooth; // Défilement fluide natif
+}
+
+body {
+  text-rendering: optimizeSpeed; // Optimisation du rendu du texte
+  -webkit-font-smoothing: antialiased; // Lissage des polices
+  -moz-osx-font-smoothing: grayscale; // Lissage des polices
+}
+
+// Optimisation des images
+img {
+  max-width: 100%;
+  height: auto;
+  display: block; // Évite les espaces blancs
+}
+
+// Optimisation des sections principales
+section {
+  contain: layout style paint; // Optimisation GPU par défaut
+}
 html,
 body {
   height: 100%;
@@ -160,6 +183,7 @@ h6 {
         justify-content: center;
         flex-wrap: wrap;
         gap: 0.8rem;
+        padding: 1rem;
 
         .cart-icon {
           position: relative;
@@ -348,7 +372,7 @@ h6 {
 .hero-section {
   color: $color-white;
   position: relative;
-  background: linear-gradient(144deg, #131212 0%, rgb(135 10 53) 100%);
+  background: llinear-gradient(144deg, #131212 0%, rgb(220 85 132) 100%);
   padding: 2rem 0;
   overflow: hidden;
   .hero-content {
@@ -430,24 +454,33 @@ h6 {
 }
 
 // ========================================
-// SLIDER HORIZONTAL - MOBILE FIRST
+// SLIDER HORIZONTAL - MOBILE FIRST (OPTIMISÉ)
 // ========================================
 #horizontal-slider {
   background: $color-gray-light;
   padding: 2rem 0;
   overflow: hidden;
-  will-change: transform;
+  contain: layout style paint; // Optimisation GPU
+
   .slider-container {
     max-width: 100%;
     margin: 0 auto;
     padding: 0 1rem;
     position: relative;
+
     .slider-track {
       display: flex;
       gap: 1rem;
       width: max-content;
-      will-change: transform;
-      transform: translateZ(0);
+      animation: slideInfinite 30s linear infinite; // Animation CSS pure
+      will-change: transform; // Optimisation GPU temporaire
+      transform: translate3d(0, 0, 0); // Force l'accélération matérielle
+
+      // Pause au hover
+      &:hover {
+        animation-play-state: paused;
+      }
+
       .slider-item {
         flex-shrink: 0;
         width: 220px;
@@ -457,24 +490,38 @@ h6 {
         @include shadow-soft;
         @include transition(0.2s);
         position: relative;
-        will-change: transform;
-        &:hover {
-          transform: translateY(-10px) translateZ(0);
+        contain: layout style paint; // Optimisation GPU
+        backface-visibility: hidden; // Évite les problèmes de rendu
+
+        &:hover,
+        &.hover {
+          transform: translate3d(0, -10px, 0); // GPU acceleration
           @include shadow-hover;
           .item-overlay {
             opacity: 1;
           }
           img {
-            transform: scale(1.05) translateZ(0);
+            transform: scale3d(1.05, 1.05, 1);
+          } // GPU acceleration
+        }
+
+        // Support tactile pour mobile
+        @media (hover: none) and (pointer: coarse) {
+          &:active {
+            transform: translate3d(0, -5px, 0) scale3d(1.02, 1.02, 1);
+            @include shadow-hover;
           }
         }
+
         img {
           width: 100%;
           height: 140px;
           object-fit: cover;
           @include transition(0.2s);
-          will-change: transform;
+          will-change: transform; // Temporaire pendant hover
+          backface-visibility: hidden; // Optimisation rendu
         }
+
         .item-overlay {
           position: absolute;
           bottom: 0;
@@ -485,6 +532,8 @@ h6 {
           padding: 1rem 0.5rem 0.5rem 0.5rem;
           opacity: 0;
           @include transition(0.2s);
+          will-change: opacity; // Temporaire pendant hover
+
           h3 {
             font-size: 1rem;
             margin-bottom: 0.5rem;
@@ -497,6 +546,54 @@ h6 {
         }
       }
     }
+  }
+}
+
+// Animation CSS pure pour le défilement infini
+@keyframes slideInfinite {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0); // Défile de la moitié (car duplication)
+  }
+}
+
+// Animation pulse pour le panier
+.cart-count.pulse {
+  animation: pulse 0.5s ease-in-out;
+}
+
+// Respect des préférences utilisateur pour l'accessibilité
+@media (prefers-reduced-motion: reduce) {
+  // Désactiver toutes les animations
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  // Désactiver spécifiquement le slider
+  #horizontal-slider .slider-track {
+    animation: none !important;
+  }
+
+  // Désactiver les effets hover
+  .slider-item:hover,
+  .slider-item.hover,
+  .menu-item:hover,
+  .service:hover,
+  .salad-card:hover {
+    transform: none !important;
+  }
+
+  // Désactiver les animations au scroll
+  .animate-on-scroll,
+  .site-tagline.animate-words span {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
@@ -540,6 +637,9 @@ h6 {
         figure {
           text-align: center;
           margin-bottom: 1rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           img {
             width: 80px;
             height: 80px;
@@ -588,7 +688,7 @@ h6 {
         width: 180px;
         height: 180px;
         object-fit: cover;
-        border-radius: 50%;
+        border-radius: 8%;
         @include shadow-hover;
       }
     }
@@ -758,11 +858,7 @@ h6 {
 // PAGE DES SALADES - MOBILE FIRST
 // ========================================
 #salad-hero {
-  background: linear-gradient(
-    144deg,
-    $color-rose 0%,
-    color.adjust($color-rose, $lightness: -15%) 100%
-  );
+  background: linear-gradient(144deg, #131212 0%, rgb(220 85 132) 100%);
   color: $color-white;
   padding: 2rem 0;
   text-align: center;
@@ -1055,23 +1151,59 @@ h6 {
 }
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(40px) translateZ(0);
+  transform: translate3d(0, 40px, 0); // GPU acceleration
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  will-change: opacity, transform;
+  will-change: opacity, transform; // Temporaire pendant l'animation
+  contain: layout style paint; // Optimisation GPU
+  backface-visibility: hidden; // Évite les problèmes de rendu
+
   &.in-view {
     opacity: 1;
-    transform: translateY(0) translateZ(0);
+    transform: translate3d(0, 0, 0); // GPU acceleration
   }
 }
-// Animation mot à mot pour le slogan
-.site-tagline.animate-words span {
-  opacity: 0;
-  display: inline-block;
-  transform: translateY(20px);
-  transition: opacity 0.4s, transform 0.4s;
+
+// Animation mot à mot pour le slogan (CSS pur)
+.site-tagline.animate-words {
+  span {
+    opacity: 0;
+    display: inline-block;
+    transform: translate3d(0, 20px, 0); // GPU acceleration
+    transition: opacity 0.4s, transform 0.4s;
+    will-change: opacity, transform; // Temporaire pendant l'animation
+  }
+
   &.in-view {
-    opacity: 1;
-    transform: translateY(0);
+    span {
+      opacity: 1;
+      transform: translate3d(0, 0, 0); // GPU acceleration
+
+      // Animation progressive avec délai CSS
+      &:nth-child(1) {
+        transition-delay: 0ms;
+      }
+      &:nth-child(2) {
+        transition-delay: 150ms;
+      }
+      &:nth-child(3) {
+        transition-delay: 300ms;
+      }
+      &:nth-child(4) {
+        transition-delay: 450ms;
+      }
+      &:nth-child(5) {
+        transition-delay: 600ms;
+      }
+    }
+  }
+}
+
+// Respect des préférences utilisateur pour les animations
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll,
+  .site-tagline.animate-words span {
+    transition: none;
+    animation: none;
   }
 }
 
@@ -1091,6 +1223,7 @@ h6 {
     flex-direction: row;
     gap: 1.5rem;
     text-align: left;
+
     .contact-info {
       flex-direction: row;
       gap: 1.5rem;

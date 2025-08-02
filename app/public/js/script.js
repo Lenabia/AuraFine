@@ -1,6 +1,11 @@
-"use script";
+"use strict";
 
-console.log("burger");
+// Variable globale pour éviter les doublons d'observers
+let mainObserver = null;
+
+// ========================================
+// BURGER MENU (OPTIMISÉ)
+// ========================================
 document.addEventListener("DOMContentLoaded", function () {
   const burgerBtn = document.getElementById("burger-btn");
   const burgerMenu = document.getElementById("burger-menu");
@@ -22,47 +27,62 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// Animation au scroll pour les blocs .animate-on-scroll
-// Utilise Intersection Observer pour ajouter la classe .in-view quand le bloc entre dans la fenêtre
-// et la retire quand il sort, pour permettre l'animation dans les deux sens (haut/bas)
-
+// ========================================
+// ANIMATIONS AU SCROLL OPTIMISÉES
+// ========================================
 document.addEventListener("DOMContentLoaded", function () {
-  // Éviter les doublons d'observers
-  if (!window.mainObserver) {
+  // Un seul observer pour toutes les animations au scroll
+  if (!mainObserver) {
     const elements = document.querySelectorAll(".animate-on-scroll");
-    window.mainObserver = new window.IntersectionObserver(
+    mainObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("in-view");
-          } else {
-            entry.target.classList.remove("in-view");
+            // Une fois animé, on peut arrêter d'observer pour économiser les ressources
+            mainObserver.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.25 }
-    ); // 0.25 = 25% du bloc visible
+      {
+        threshold: 0.1, // Réduit pour déclencher plus tôt
+        rootMargin: "0px 0px -50px 0px", // Déclenche 50px avant l'entrée
+      }
+    );
 
-    elements.forEach((el) => window.mainObserver.observe(el));
+    elements.forEach((el) => mainObserver.observe(el));
   }
 });
 
-// Animation mot à mot pour le slogan (site-tagline.animate-words)
+// ========================================
+// ANIMATION MOT À MOT POUR LE SLOGAN (CSS PUR)
+// ========================================
 document.addEventListener("DOMContentLoaded", function () {
   const tagline = document.querySelector(".site-tagline.animate-words");
   if (tagline) {
-    const observer = new window.IntersectionObserver(
+    let animationTimeout = null;
+
+    const taglineObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            // Ajouter la classe pour déclencher l'animation CSS
             tagline.classList.add("in-view");
+            // Arrêter d'observer une fois animé
+            taglineObserver.unobserve(tagline);
           } else {
+            // Si l'élément sort de l'écran, annuler l'animation
             tagline.classList.remove("in-view");
+            if (animationTimeout) {
+              clearTimeout(animationTimeout);
+              animationTimeout = null;
+            }
           }
         });
       },
-      { threshold: 0.2 }
-    ); // 0.3 = 30% du bloc visible
-    observer.observe(tagline);
+      { threshold: 0.5 }
+    );
+
+    taglineObserver.observe(tagline);
   }
 });
