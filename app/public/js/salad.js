@@ -1,8 +1,19 @@
 // ========================================
-// JAVASCRIPT POUR LA PAGE DES SALADES (OPTIMISÉ)
+// JAVASCRIPT POUR LA PAGE DES SALADES (PRÉPARÉ POUR PHP)
 // ========================================
 
 document.addEventListener("DOMContentLoaded", function () {
+  // ========================================
+  // CONFIGURATION POUR INTÉGRATION PHP FUTURE
+  // ========================================
+
+  // PHP FUTURE: Ces données seront récupérées depuis la base de données
+  // const saladsData = <?php echo json_encode($salads); ?>;
+  // const categoriesData = <?php echo json_encode($categories); ?>;
+
+  // Configuration pour les filtres côté serveur
+  const serverSideFiltering = false; // PHP FUTURE: true pour filtrage côté serveur
+  const serverSideSearch = false; // PHP FUTURE: true pour recherche côté serveur
   // ========================================
   // FILTRES ET RECHERCHE
   // ========================================
@@ -81,6 +92,15 @@ document.addEventListener("DOMContentLoaded", function () {
   if (searchInput) {
     const debouncedFilter = debounce(filterSalads, 300);
     searchInput.addEventListener("input", debouncedFilter);
+
+    // PHP FUTURE: Gestion de la soumission du formulaire pour recherche côté serveur
+    const searchForm = searchInput.closest("form");
+    if (searchForm && serverSideSearch) {
+      searchForm.addEventListener("submit", function (e) {
+        // PHP FUTURE: Soumission vers le serveur pour filtrage côté serveur
+        // this.submit();
+      });
+    }
   }
 
   // ========================================
@@ -305,5 +325,77 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // ========================================
+  // FONCTIONS POUR INTÉGRATION PHP FUTURE
+  // ========================================
+
+  // PHP FUTURE: Fonction pour charger les salades depuis le serveur
+  function loadSaladsFromServer(filters = {}) {
+    // PHP FUTURE: Appel AJAX vers le serveur
+    /*
+    fetch('/api/salads?' + new URLSearchParams(filters))
+      .then(response => response.json())
+      .then(data => {
+        updateSaladsGrid(data.salads);
+        updateResultsCount(data.total);
+      })
+      .catch(error => console.error('Erreur:', error));
+    */
+  }
+
+  // PHP FUTURE: Fonction pour mettre à jour la grille des salades
+  function updateSaladsGrid(salads) {
+    const container = document.querySelector(".salad-container");
+    if (!container) return;
+
+    // PHP FUTURE: Vider et reconstruire la grille avec les nouvelles données
+    // container.innerHTML = '';
+    // salads.forEach(salad => {
+    //   container.appendChild(createSaladCard(salad));
+    // });
+  }
+
+  // PHP FUTURE: Fonction pour créer une carte de salade dynamiquement
+  function createSaladCard(salad) {
+    // PHP FUTURE: Créer l'élément HTML pour une salade
+    const card = document.createElement("article");
+    card.className = "salad-card";
+    card.setAttribute("data-category", salad.categorie);
+    card.setAttribute("data-salad-id", salad.id);
+
+    // PHP FUTURE: Remplir le contenu de la carte
+    // card.innerHTML = `...`;
+
+    return card;
+  }
+
+  // PHP FUTURE: Fonction pour ajouter au panier via serveur
+  function addToCartServer(saladId, quantity) {
+    // PHP FUTURE: Appel AJAX vers le serveur
+    /*
+    fetch('/api/cart/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        salad_id: saladId,
+        quantity: quantity
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showNotification('Salade ajoutée au panier');
+        updateCartCount(data.cart_count);
+      }
+    })
+    .catch(error => console.error('Erreur:', error));
+    */
+  }
+
   console.log("Page des salades initialisée avec succès !");
+
+  // PHP FUTURE: Initialiser avec les données du serveur
+  // loadSaladsFromServer();
 });

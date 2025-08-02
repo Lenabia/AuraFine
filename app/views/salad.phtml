@@ -1,5 +1,5 @@
 <!-- ========================================
-PAGE DES SALADES
+PAGE DES SALADES - PRÉPARÉE POUR INTÉGRATION PHP
 ======================================== -->
 
 <!-- Hero Section -->
@@ -15,232 +15,89 @@ PAGE DES SALADES
 <!-- Filtres et recherche -->
 <section id="salad-filters" class="animate-on-scroll">
   <article class="filters-container">
-    <form class="search-box">
-      <input type="text" placeholder="Rechercher une salade..." class="search-input">
+    <form class="search-box" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET">
+      <input 
+        type="text" 
+        placeholder="Rechercher une salade..." 
+        class="search-input"
+        name="search"
+        value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
+      >
       <i class="fas fa-search search-icon"></i>
     </form>
     <nav class="filter-buttons">
-      <button class="filter-btn active" data-filter="all">Toutes</button>
-      <button class="filter-btn" data-filter="vegetarian">Végétariennes</button>
-      <button class="filter-btn" data-filter="protein">Avec protéines</button>
-      <button class="filter-btn" data-filter="seasonal">De saison</button>
+      <?php if (isset($categories) && is_array($categories)): ?>
+        <?php foreach ($categories as $category): ?>
+          <button class="filter-btn <?php echo $category['id'] === 'all' ? 'active' : ''; ?>" data-filter="<?php echo htmlspecialchars($category['id']); ?>">
+            <?php echo htmlspecialchars($category['nom']); ?>
+          </button>
+        <?php endforeach; ?>
+      <?php endif; ?>
     </nav>
   </article>
 </section>
 
 <!-- Grille des salades -->
 <section id="salad-grid" class="animate-on-scroll">
-  <article class="salad-container">
+  <div class="salad-container">
+    <?php if (isset($salades) && is_array($salades)): ?>
+    <?php foreach ($salades as $salad): ?>
     
-    <!-- Salade 1 -->
-    <article class="salad-card" data-category="vegetarian seasonal">
+    <div  id class="salad-card" data-category="<?php echo isset($salad['categorie']) ? htmlspecialchars($salad['categorie']) : ''; ?>">
       <figure class="card-image">
-        <img src="/app/public/images/salade1.webp" alt="Salade César Végétarienne" />
+        <img 
+          src="<?php echo isset($salad['image']) ? htmlspecialchars($salad['image']) : '/app/public/images/salade1.webp'; ?>"
+          alt="<?php echo isset($salad['nom']) ? htmlspecialchars($salad['nom']) : 'Salade'; ?>"
+          loading="lazy"
+          decoding="async"
+        />
         <figcaption>
-          <span class="card-badge vegetarian">Végétarien</span>
-          <span class="card-badge seasonal">De saison</span>
+          <?php if (isset($salad['badges']) && is_array($salad['badges'])): ?>
+            <?php foreach ($salad['badges'] as $badge): ?>
+              <span class="card-badge <?php echo htmlspecialchars($badge['type']); ?>"><?php echo htmlspecialchars($badge['nom']); ?></span>
+            <?php endforeach; ?>
+          <?php endif; ?>
         </figcaption>
       </figure>
       <article class="card-content">
         <header>
-          <h3>Salade César Végétarienne</h3>
+          <h3><?php echo isset($salad['nom']) ? htmlspecialchars($salad['nom']) : 'Salade César Végétarienne'; ?></h3>
         </header>
-        <p class="description">Laitue romaine, parmesan, croûtons maison, vinaigrette césar crémeuse</p>
+        <p class="description"><?php echo isset($salad['description']) ? htmlspecialchars($salad['description']) : 'Laitue romaine, parmesan, croûtons maison, vinaigrette césar crémeuse'; ?></p>
         <section class="card-details">
           <nav class="ingredients">
-            <span class="ingredient-tag">Laitue</span>
-            <span class="ingredient-tag">Parmesan</span>
-            <span class="ingredient-tag">Croûtons</span>
+            <?php if (isset($salad['ingredients']) && is_array($salad['ingredients'])): ?>
+              <?php foreach ($salad['ingredients'] as $ingredient): ?>
+                <span class="ingredient-tag"><?php echo htmlspecialchars($ingredient); ?></span>
+              <?php endforeach; ?>
+            <?php endif; ?>
           </nav>
           <section class="nutrition">
-            <span class="calories">320 kcal</span>
-            <span class="protein">12g protéines</span>
+            <span class="calories"><?php echo isset($salad['calories']) ? $salad['calories'] : '320'; ?> kcal</span>
+            <span class="protein"><?php echo isset($salad['proteines']) ? $salad['proteines'] : '12'; ?>g protéines</span>
           </section>
         </section>
         <footer class="card-footer">
           <section class="price-quantity">
-            <span class="price">€8.50</span>
+            <span class="price">€<?php echo isset($salad['prix']) ? number_format($salad['prix'], 2) : '8.50'; ?></span>
             <nav class="quantity-controls">
               <button class="qty-btn minus" data-action="decrease">-</button>
               <span class="quantity">1</span>
               <button class="qty-btn plus" data-action="increase">+</button>
             </nav>
           </section>
-          <button class="add-to-cart-btn" data-salad-id="1">
+          <button class="add-to-cart-btn" data-salad-id="<?php echo isset($salad['id']) ? $salad['id'] : '1'; ?>">
             <i class="fas fa-shopping-cart"></i>
             Ajouter
           </button>
         </footer>
       </article>
-    </article>
 
-    <!-- Salade 2 -->
-    <article class="salad-card" data-category="protein">
-      <figure class="card-image">
-        <img src="/app/public/images/salade2.webp" alt="Salade Quinoa Poulet" />
-        <figcaption>
-          <span class="card-badge protein">Protéines</span>
-        </figcaption>
-      </figure>
-      <article class="card-content">
-        <header>
-          <h3>Salade Quinoa & Poulet</h3>
-        </header>
-        <p class="description">Quinoa bio, poulet grillé, avocat, tomates cerises, vinaigrette citron</p>
-        <section class="card-details">
-          <nav class="ingredients">
-            <span class="ingredient-tag">Quinoa</span>
-            <span class="ingredient-tag">Poulet</span>
-            <span class="ingredient-tag">Avocat</span>
-          </nav>
-          <section class="nutrition">
-            <span class="calories">450 kcal</span>
-            <span class="protein">28g protéines</span>
-          </section>
-        </section>
-        <footer class="card-footer">
-          <section class="price-quantity">
-            <span class="price">€12.90</span>
-            <nav class="quantity-controls">
-              <button class="qty-btn minus" data-action="decrease">-</button>
-              <span class="quantity">1</span>
-              <button class="qty-btn plus" data-action="increase">+</button>
-            </nav>
-          </section>
-          <button class="add-to-cart-btn" data-salad-id="2">
-            <i class="fas fa-shopping-cart"></i>
-            Ajouter
-          </button>
-        </footer>
-      </article>
-    </article>
+    </div>
+    <?php endforeach; ?>
+    <?php endif; ?>
 
-    <!-- Salade 3 -->
-    <article class="salad-card" data-category="vegetarian seasonal">
-      <figure class="card-image">
-        <img src="/app/public/images/salade3.webp" alt="Salade Méditerranéenne" />
-        <figcaption>
-          <span class="card-badge vegetarian">Végétarien</span>
-          <span class="card-badge seasonal">De saison</span>
-        </figcaption>
-      </figure>
-      <article class="card-content">
-        <header>
-          <h3>Salade Méditerranéenne</h3>
-        </header>
-        <p class="description">Tomates, concombre, olives, feta, oignon rouge, huile d'olive extra vierge</p>
-        <section class="card-details">
-          <nav class="ingredients">
-            <span class="ingredient-tag">Tomates</span>
-            <span class="ingredient-tag">Feta</span>
-            <span class="ingredient-tag">Olives</span>
-          </nav>
-          <section class="nutrition">
-            <span class="calories">280 kcal</span>
-            <span class="protein">8g protéines</span>
-          </section>
-        </section>
-        <footer class="card-footer">
-          <section class="price-quantity">
-            <span class="price">€9.20</span>
-            <nav class="quantity-controls">
-              <button class="qty-btn minus" data-action="decrease">-</button>
-              <span class="quantity">1</span>
-              <button class="qty-btn plus" data-action="increase">+</button>
-            </nav>
-          </section>
-          <button class="add-to-cart-btn" data-salad-id="3">
-            <i class="fas fa-shopping-cart"></i>
-            Ajouter
-          </button>
-        </footer>
-      </article>
-    </article>
-
-    <!-- Salade 4 -->
-    <article class="salad-card" data-category="protein seasonal">
-      <figure class="card-image">
-        <img src="/app/public/images/salade4.webp" alt="Salade Saumon Avocat" />
-        <figcaption>
-          <span class="card-badge protein">Protéines</span>
-          <span class="card-badge seasonal">De saison</span>
-        </figcaption>
-      </figure>
-      <article class="card-content">
-        <header>
-          <h3>Salade Saumon & Avocat</h3>
-        </header>
-        <p class="description">Saumon fumé, avocat, mesclun, radis, vinaigrette moutarde douce</p>
-        <section class="card-details">
-          <nav class="ingredients">
-            <span class="ingredient-tag">Saumon</span>
-            <span class="ingredient-tag">Avocat</span>
-            <span class="ingredient-tag">Mesclun</span>
-          </nav>
-          <section class="nutrition">
-            <span class="calories">380 kcal</span>
-            <span class="protein">22g protéines</span>
-          </section>
-        </section>
-        <footer class="card-footer">
-          <section class="price-quantity">
-            <span class="price">€14.50</span>
-            <nav class="quantity-controls">
-              <button class="qty-btn minus" data-action="decrease">-</button>
-              <span class="quantity">1</span>
-              <button class="qty-btn plus" data-action="increase">+</button>
-            </nav>
-          </section>
-          <button class="add-to-cart-btn" data-salad-id="4">
-            <i class="fas fa-shopping-cart"></i>
-            Ajouter
-          </button>
-        </footer>
-      </article>
-    </article>
-
-    <!-- Salade 5 -->
-    <article class="salad-card" data-category="vegetarian">
-      <figure class="card-image">
-        <img src="/app/public/images/salade5.webp" alt="Salade Buddha Bowl" />
-        <figcaption>
-          <span class="card-badge vegetarian">Végétarien</span>
-        </figcaption>
-      </figure>
-      <article class="card-content">
-        <header>
-          <h3>Buddha Bowl Végétarien</h3>
-        </header>
-        <p class="description">Riz complet, légumes rôtis, pois chiches, tahini, graines de sésame</p>
-        <section class="card-details">
-          <nav class="ingredients">
-            <span class="ingredient-tag">Riz complet</span>
-            <span class="ingredient-tag">Légumes</span>
-            <span class="ingredient-tag">Pois chiches</span>
-          </nav>
-          <section class="nutrition">
-            <span class="calories">420 kcal</span>
-            <span class="protein">15g protéines</span>
-          </section>
-        </section>
-        <footer class="card-footer">
-          <section class="price-quantity">
-            <span class="price">€11.80</span>
-            <nav class="quantity-controls">
-              <button class="qty-btn minus" data-action="decrease">-</button>
-              <span class="quantity">1</span>
-              <button class="qty-btn plus" data-action="increase">+</button>
-            </nav>
-          </section>
-          <button class="add-to-cart-btn" data-salad-id="5">
-            <i class="fas fa-shopping-cart"></i>
-            Ajouter
-          </button>
-        </footer>
-      </article>
-    </article>
-
-  </article>
+  </div>
 </section>
 
 <!-- Section informations -->

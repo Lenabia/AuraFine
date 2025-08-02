@@ -34,6 +34,8 @@ if(array_key_exists('action', $_GET)):
 
 
 
+
+
 //si pas de route on redirige vers l'accueil
     default:
     header('Location: index.php?action=home');

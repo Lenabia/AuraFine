@@ -13,6 +13,10 @@ class Middleware {
     //Methode render pour afficher le header et footer 
 
     public function render($template, $layout, $data = []) {
+        // Extraire les données pour les rendre disponibles dans la vue
+        if (!empty($data)) {
+            extract($data);
+        }
         include_once "app/views/$layout";
     }
        
