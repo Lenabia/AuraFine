@@ -14,37 +14,62 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <!-- Custom CSS -->
     <link href="app/public/css/main.css" rel="stylesheet" />
-    <link rel="stylesheet" href="app/public/css/theme.css" />
 </head>
 <body>
 
 <header id="navbar">
- <h1 class="logo">AuraFine</h1>
-  <div class="header-container">
-   
+  <!-- Top bar avec informations de contact et actions -->
+  <aside class="top-bar">
+    <section class="top-bar-content">
+      <address class="contact-info">
+        <span><i class="fas fa-clock"></i> Ouvert du lundi au samedi de 11h à 21h30</span>
+        <span><i class="fas fa-map-marker-alt"></i> Dakar, Sénégal</span>
+      </address>
+      <section class="top-actions">
+        <button class="cart-icon" aria-label="Panier">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </button>
+        <button class="order-btn">Commander</button>
+        <button class="phone-btn">
+          <i class="fas fa-phone"></i>
+          +221-77-473-13-87
+        </button>
+        <nav class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </nav>
+      </section>
+    </section>
+  </aside>
+
+  <!-- Navigation principale -->
+  <section class="header-container">
+    <h1 class="logo">AuraFine</h1>
+    
     <!-- Menu burger pour mobile/tablette -->
     <button id="burger-btn" class="burger-btn" aria-label="Ouvrir le menu">
       <span></span><span></span><span></span>
     </button>
+    
     <!-- Menu horizontal desktop -->
     <nav id="main-nav" class="main-nav">
       <ul>
         <li><a href="#" class="nav-link active">Accueil</a></li>
         <li><a href="#" class="nav-link">Menu</a></li>
         <li><a href="index.php?action=salad-page" class="nav-link">Salades</a></li>
-        <li><a href="#" class="nav-link">Nos smoothies</a></li>
-        <li><a href="#" classs="nav-link">Fruits et légumes</a></li>
-        <li><a href="#" class="nav-link">Traiteur et décoration</a></li>
-        <li><a href="#" class="nav-link">Recettes et conseils</a></li>
+        <li><a href="#" class="nav-link">Boissons</a></li>
+        <li><a href="#" class="nav-link">Fruits et légumes</a></li>
+        <li><a href="#" class="nav-link">Décoration et traiteur</a></li>
+        <li><a href="#" class="nav-link">Conseils</a></li>
       </ul>
     </nav>
-  </div>
+  </section>
+
   <!-- Menu burger slide-in -->
-  <div id="burger-menu" class="burger-menu">
+  <nav id="burger-menu" class="burger-menu">
     <button id="close-burger" class="close-burger" aria-label="Fermer le menu">&times;</button>
     <ul>
       <li><a href="#" class="nav-link active">Accueil</a></li>
@@ -54,49 +79,48 @@
       <li><a href="#" class="nav-link">Traiteur et décoration</a></li>
       <li><a href="#" class="nav-link">Recettes et conseils</a></li>
     </ul>
-  </div>
-  <p class="site-tagline animate-words">
-    <span>Le</span> <span>raffinement</span> <span>qui</span> <span>vous</span> <span>ressemble</span>
-  </p>
+  </nav>
+
 </header>
 
 <main id="main-content">
     <?php include $template ?>
 </main>
 
-<footer id="site-footer"class="animate-on-scroll">
-    <div class="footer-container">
+<footer id="site-footer" class="animate-on-scroll">
+    <section class="footer-container">
         <article class="footer-section">
             <h3>Contacts</h3>
-            <div class="contact-info">
+            <address class="contact-info">
                 <p>AuraFine</p>
                 <p>Le raffinement qui vous ressemble</p>
                 <p>Dakar, Sénégal</p>
                 <p>Email: info@aurafine.com</p>
                 <p>Tel: +221-77-473-13-87</p>
-            </div>
+            </address>
         </article>
         <article class="footer-section">
             <h3>Liens Utiles</h3>
-            <ul class="footer-links">
-                <li><a href="#">Menu</a></li>
-                <li><a href="#">À Propos</a></li>
-                <li><a href="#">Articles et conseils</a></li>
-            </ul>
+            <nav class="footer-links">
+                <ul>
+                    <li><a href="#">Menu</a></li>
+                    <li><a href="#">À Propos</a></li>
+                    <li><a href="#">Articles et conseils</a></li>
+                </ul>
+            </nav>
         </article>
         <article class="footer-section">
             <p>&copy; 2025 AuraFine. Tous droits réservés.</p>
-            <div class="social-links">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-tiktok"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
+            <nav class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </nav>
         </article>
-    </div>
+    </section>
 </footer>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 <script src="/app/public/js/slider.js" defer></script>
 <script src="/app/public/js/script.js" defer></script>
 <script src="/app/public/js/salad.js" defer></script>
