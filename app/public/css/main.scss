@@ -1,8 +1,9 @@
 @use "sass:color";
+@use "sass:map";
 
-// ========================================
-// VARIABLES & COULEURS (NOUVEAU DESIGN)
-// ========================================
+/* ========================================
+   VARIABLES & COULEURS (NOUVEAU DESIGN)
+   ======================================== */
 $color-white: #ffffff;
 $color-black: #1a1a1a;
 $color-dark: #1a1a1a;
@@ -16,42 +17,58 @@ $color-green-light: #a5d6a7;
 $color-accent: #ff6b35;
 $color-bg-section: #7f0d33;
 
-// ========================================
-// MIXINS
-// ========================================
+/* ========================================
+   MIXINS
+   ======================================== */
 @mixin flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 @mixin flex-between {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
 @mixin flex-col {
   display: flex;
   flex-direction: column;
 }
-
 @mixin transition($duration: 0.3s) {
   transition: all $duration ease;
 }
-
 @mixin shadow-soft {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
-
 @mixin shadow-hover {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
-// ========================================
-// ÉLÉMENTS DÉCORATIFS PAGE-WIDE
-// ========================================
+/* --- Breakpoints mobile-first (min-width) --- */
+$bp: (
+  sm: 480px,
+  // petits smartphones +
+  md: 600px,
+  // grands smartphones/phablets
+  lg: 768px,
+  // tablettes portrait
+  xl: 1024px,
+  // tablettes paysage / petits laptops
+  xxl: 1280px,
+  // desktop large
+  xxxl: 1440px,
+  // desktop XL
+  uhd: 1600px // très grands écrans,,,,,,,
+);
+@mixin up($key) {
+  @media (min-width: map.get($bp, $key)) {
+    @content;
+  }
+}
 
+/* ========================================
+   ÉLÉMENTS DÉCORATIFS PAGE-WIDE
+   ======================================== */
 .page-decorative-elements {
   position: fixed;
   top: 0;
@@ -73,10 +90,11 @@ $color-bg-section: #7f0d33;
     opacity: 0.6;
 
     i {
-      font-size: 2.5rem;
+      /* Icônes décoratives : taille fluide pour petits écrans */
+      font-size: clamp(1.2rem, 4vw + 0.6rem, 2.5rem); /* was 2.5rem fixe */
     }
 
-    // Carotte - Orange
+    /* Carotte - Orange */
     &:nth-child(1) {
       top: 15%;
       left: 5%;
@@ -85,8 +103,7 @@ $color-bg-section: #7f0d33;
         color: $color-rose;
       }
     }
-
-    // Pomme - Rouge
+    /* Pomme - Rouge */
     &:nth-child(2) {
       top: 25%;
       right: 8%;
@@ -95,8 +112,7 @@ $color-bg-section: #7f0d33;
         color: $color-accent;
       }
     }
-
-    // Feuille - Vert
+    /* Feuille - Vert */
     &:nth-child(3) {
       top: 45%;
       left: 12%;
@@ -105,8 +121,7 @@ $color-bg-section: #7f0d33;
         color: #27ae60;
       }
     }
-
-    // Germination - Vert clair
+    /* Germination - Vert clair */
     &:nth-child(4) {
       top: 88%;
       right: 21%;
@@ -115,8 +130,7 @@ $color-bg-section: #7f0d33;
         color: #2ecc71;
       }
     }
-
-    // Poivron - Rouge foncé
+    /* Poivron - Rouge foncé */
     &:nth-child(5) {
       top: 80%;
       left: 8%;
@@ -126,85 +140,72 @@ $color-bg-section: #7f0d33;
       }
     }
 
-    // Aubergine - Violet
+    /* --- Mobile-first: positions "centrées" par défaut pour 6→10 --- */
     &:nth-child(6) {
-      top: 6%;
-      left: 63%;
+      left: 70%;
+      top: 35%;
       animation-delay: 1.5s;
       i {
         color: #8e44ad;
       }
-    }
-
-    // Oignon - Blanc/Beige
+    } /* Aubergine */
     &:nth-child(7) {
-      top: 19%;
-      left: 24%;
+      left: 75%;
+      top: 55%;
       animation-delay: 1s;
       i {
         color: #f39c12;
       }
-    }
-
-    // Tomate - Rouge vif
+    } /* Oignon */
     &:nth-child(8) {
-      top: 70%;
-      right: 38%;
+      right: 20%;
+      top: 65%;
       animation-delay: 1.5s;
       i {
         color: #e74c3c;
       }
-    }
-
-    // Brocoli - Vert foncé
+    } /* Tomate */
     &:nth-child(9) {
-      top: 5%;
-      right: 35%;
+      right: 30%;
+      top: 75%;
       animation-delay: 1s;
       i {
         color: #16a085;
       }
-    }
-
-    // Maïs - Jaune
+    } /* Brocoli */
     &:nth-child(10) {
-      top: 68%;
-      left: 58%;
+      left: 30%;
+      top: 80%;
       animation-delay: 1s;
       i {
         color: #f1c40f;
       }
-    }
+    } /* Maïs */
   }
 
-  // Responsive pour mobile - Ajuster les positions
-  @media (max-width: 767px) {
+  /* ≥768px : on remet les positions "desktop" d’origine pour 6→10 */
+  @include up(lg) {
     .page-deco-item {
-      // Éléments 6-10 plus centrés sur mobile
       &:nth-child(6) {
-        left: 70%;
-        top: 35%;
-      }
-
+        top: 6%;
+        left: 63%;
+      } /* Aubergine */
       &:nth-child(7) {
-        left: 75%;
-        top: 55%;
-      }
-
+        top: 19%;
+        left: 24%;
+      } /* Oignon */
       &:nth-child(8) {
-        right: 20%;
-        top: 65%;
-      }
-
+        top: 70%;
+        right: 38%;
+      } /* Tomate */
       &:nth-child(9) {
-        right: 30%;
-        top: 75%;
-      }
-
+        top: 5%;
+        right: 35%;
+      } /* Brocoli */
       &:nth-child(10) {
-        left: 30%;
-        top: 80%;
-      }
+        top: 68%;
+        left: 58%;
+      } /* Maïs */
     }
   }
 }
@@ -212,7 +213,7 @@ $color-bg-section: #7f0d33;
 @keyframes floatPage {
   0%,
   100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0) rotate(0);
   }
   25% {
     transform: translateY(-10px) rotate(5deg);
@@ -225,9 +226,9 @@ $color-bg-section: #7f0d33;
   }
 }
 
-// ========================================
-// ANIMATIONS
-// ========================================
+/* ========================================
+   ANIMATIONS
+   ======================================== */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -238,7 +239,6 @@ $color-bg-section: #7f0d33;
     transform: translateY(0);
   }
 }
-
 @keyframes slideInLeft {
   from {
     opacity: 0;
@@ -249,7 +249,6 @@ $color-bg-section: #7f0d33;
     transform: translateX(0);
   }
 }
-
 @keyframes slideInRight {
   from {
     opacity: 0;
@@ -260,52 +259,44 @@ $color-bg-section: #7f0d33;
     transform: translateX(0);
   }
 }
-
 @keyframes float {
   0%,
   100% {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
   50% {
     transform: translateY(-10px);
   }
 }
 
-// ========================================
-// RESET & BASE
-// ========================================
+/* ========================================
+   RESET & BASE
+   ======================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
-// Optimisations de performance globales
 html {
-  scroll-behavior: smooth; // Défilement fluide natif
+  scroll-behavior: smooth;
 }
-
 body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     sans-serif;
   line-height: 1.6;
   color: $color-black;
   background: $color-white;
-  overflow-x: hidden; // Évite le scroll horizontal
+  overflow-x: hidden;
 }
-
-// ========================================
-// LAYOUT PRINCIPAL
-// ========================================
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-// ========================================
-// HEADER & NAVIGATION
-// ========================================
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
 #navbar {
   background: $color-white;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -316,10 +307,11 @@ body {
   -webkit-backdrop-filter: blur(10px);
 
   .top-bar {
+    /* Taille fluide pour lisibilité mobile */
+    font-size: clamp(0.8rem, 0.6vw + 0.65rem, 0.95rem);
     background: $color-rose;
     color: $color-white;
     padding: 0.5rem 0;
-    font-size: 0.9rem;
 
     .top-bar-content {
       max-width: 1200px;
@@ -332,7 +324,6 @@ body {
       .contact-info {
         @include flex-center;
         gap: 1rem;
-
         span {
           @include flex-center;
           gap: 0.3rem;
@@ -350,7 +341,7 @@ body {
           background: none;
           border: none;
           color: $color-white;
-          font-size: 1.1rem;
+          font-size: clamp(1rem, 0.6vw + 0.85rem, 1.1rem);
 
           &:hover {
             transform: scale(1.1);
@@ -365,13 +356,13 @@ body {
             border-radius: 50%;
             width: 18px;
             height: 18px;
-            font-size: 0.7rem;
+            font-size: clamp(0.65rem, 0.4vw + 0.5rem, 0.75rem);
             @include flex-center;
             font-weight: 600;
           }
         }
 
-        .order-btn {
+        .btn-login {
           background: $color-green;
           color: $color-white;
           border: none;
@@ -380,12 +371,15 @@ body {
           font-weight: 600;
           cursor: pointer;
           @include transition;
-
+          font-size: clamp(0.95rem, 0.8vw + 0.6rem, 1rem);
           &:hover {
             background: color.adjust($color-green, $lightness: -10%);
             transform: translateY(-2px);
           }
         }
+        .btn-login i {
+          font-size: 1em;
+        } /* icône suit la taille du texte */
 
         .phone-btn {
           background: transparent;
@@ -398,7 +392,7 @@ body {
           @include transition;
           @include flex-center;
           gap: 0.5rem;
-
+          font-size: clamp(0.95rem, 0.8vw + 0.6rem, 1rem);
           &:hover {
             background: $color-white;
             color: $color-rose;
@@ -408,12 +402,10 @@ body {
         .social-links {
           @include flex-center;
           gap: 0.5rem;
-
           a {
             color: $color-white;
             text-decoration: none;
             @include transition;
-
             &:hover {
               transform: scale(1.2);
             }
@@ -431,12 +423,11 @@ body {
     @include flex-between;
 
     .logo {
-      font-size: 1.8rem;
+      font-size: clamp(1.3rem, 2vw + 1rem, 1.8rem);
       font-weight: 700;
       color: $color-rose;
       text-decoration: none;
       @include transition;
-
       &:hover {
         transform: scale(1.05);
       }
@@ -448,7 +439,6 @@ body {
         @include flex-center;
         gap: 2rem;
         list-style: none;
-
         li {
           .nav-link {
             color: $color-black;
@@ -456,16 +446,13 @@ body {
             font-weight: 500;
             @include transition;
             position: relative;
-
             &:hover,
             &.active {
               color: $color-rose;
-
               &::after {
                 width: 100%;
               }
             }
-
             &::after {
               content: "";
               position: absolute;
@@ -488,14 +475,12 @@ body {
       gap: 4px;
       background: none;
       border: none;
-
       span {
         width: 25px;
         height: 3px;
         background: $color-black;
         @include transition;
       }
-
       &.active {
         span:nth-child(1) {
           transform: rotate(45deg) translate(5px, 5px);
@@ -514,7 +499,8 @@ body {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 300px;
+    /* Mobile-first: largeur relative confortable */
+    width: 85vw;
     height: 100vh;
     background: $color-white;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
@@ -539,17 +525,14 @@ body {
     ul {
       padding: 4rem 2rem 2rem;
       list-style: none;
-
       li {
         margin-bottom: 1rem;
-
         .nav-link {
           color: $color-black;
           text-decoration: none;
           font-weight: 500;
-          font-size: 1.1rem;
+          font-size: clamp(1rem, 0.8vw + 0.8rem, 1.1rem);
           @include transition;
-
           &:hover,
           &.active {
             color: $color-rose;
@@ -560,9 +543,33 @@ body {
   }
 }
 
-// ========================================
-// HERO SECTION
-// ========================================
+/* ≥400px : largeur fixe 300px pour le burger */
+@media (min-width: 400px) {
+  #navbar .burger-menu {
+    width: 300px;
+  }
+}
+
+/* Nav responsive: alignements à partir de 768+ */
+@include up(lg) {
+  #navbar .top-bar .top-bar-content {
+    flex-direction: row;
+  }
+}
+@include up(xl) {
+  #navbar .header-container {
+    .main-nav {
+      display: flex;
+    }
+    .burger-btn {
+      display: none;
+    }
+  }
+}
+
+/* ========================================
+   HERO SECTION
+   ======================================== */
 .hero-section {
   background: linear-gradient(144deg, #131212 0%, rgb(220 85 132) 100%);
   color: $color-white;
@@ -573,10 +580,7 @@ body {
   &::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: url("/app/public/images/wireframes/home-mobil.webp")
       center/cover;
     opacity: 0.1;
@@ -590,24 +594,26 @@ body {
     margin: 0 auto;
     padding: 0 1rem;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    /* Mobile-first: 1 colonne pour respirer */
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
     align-items: center;
+    text-align: left;
 
     .hero-text {
       h2 {
-        font-size: 3rem;
+        /* Titre fluide + retours équilibrés */
+        font-size: clamp(1.6rem, 6vw + 0.4rem, 3rem);
         font-weight: 700;
         margin-bottom: 1rem;
-        line-height: 1.2;
+        line-height: 1.25;
+        text-wrap: balance;
       }
-
       p {
-        font-size: 1.2rem;
+        font-size: clamp(0.95rem, 1.2vw + 0.5rem, 1.2rem);
         margin-bottom: 2rem;
         opacity: 0.9;
       }
-
       .cta-btn {
         background: $color-white;
         color: $color-rose;
@@ -615,11 +621,10 @@ body {
         padding: 1rem 2rem;
         border-radius: 2rem;
         font-weight: 600;
-        font-size: 1.1rem;
+        font-size: clamp(0.95rem, 0.8vw + 0.5rem, 1.1rem);
         cursor: pointer;
         @include transition;
         @include shadow-soft;
-
         &:hover {
           transform: translateY(-3px);
           @include shadow-hover;
@@ -629,10 +634,9 @@ body {
 
     .hero-image {
       position: relative;
-
       img {
         width: 100%;
-        height: 350px;
+        height: clamp(180px, 52vw, 350px);
         object-fit: cover;
         border-radius: 1rem;
         @include shadow-soft;
@@ -640,33 +644,26 @@ body {
 
       .decorative-elements {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
         pointer-events: none;
-
         .deco-item {
           position: absolute;
           width: 20px;
           height: 20px;
           border-radius: 50%;
           animation: float 3s ease-in-out infinite;
-
           &.tomatoes {
             background: $color-rose;
             top: 10%;
             left: 10%;
             animation-delay: 0s;
           }
-
           &.mushrooms {
             background: $color-accent;
             top: 20%;
             right: 15%;
             animation-delay: 1s;
           }
-
           &.herbs {
             background: $color-green;
             bottom: 15%;
@@ -677,11 +674,19 @@ body {
       }
     }
   }
+
+  /* ≥600px : 2 colonnes + plus d’espace */
+  @include up(md) {
+    .hero-content {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+  }
 }
 
-// ========================================
-// SLIDER HORIZONTAL
-// ========================================
+/* ========================================
+   SLIDER HORIZONTAL
+   ======================================== */
 #horizontal-slider {
   background: $color-white;
   padding: 3rem 0;
@@ -710,7 +715,6 @@ body {
         &:hover {
           transform: translateY(-10px) scale(1.05);
           @include shadow-hover;
-
           .item-overlay {
             opacity: 1;
           }
@@ -718,7 +722,7 @@ body {
 
         img {
           width: 100%;
-          height: 200px;
+          height: clamp(140px, 38vw, 200px);
           object-fit: cover;
           @include transition;
         }
@@ -733,15 +737,13 @@ body {
           padding: 1.5rem;
           opacity: 0;
           @include transition;
-
           h3 {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 1vw + 0.4rem, 1.2rem);
             font-weight: 600;
             margin-bottom: 0.5rem;
           }
-
           p {
-            font-size: 0.9rem;
+            font-size: clamp(0.85rem, 0.8vw + 0.3rem, 0.95rem);
             opacity: 0.9;
           }
         }
@@ -749,7 +751,6 @@ body {
     }
   }
 }
-
 @keyframes slideLeft {
   0% {
     transform: translateX(0);
@@ -759,9 +760,9 @@ body {
   }
 }
 
-// ========================================
-// SECTIONS GÉNÉRIQUES
-// ========================================
+/* ========================================
+   SECTIONS GÉNÉRIQUES
+   ======================================== */
 #daily-menu,
 #about,
 #services {
@@ -777,16 +778,14 @@ body {
     header {
       text-align: center;
       margin-bottom: 3rem;
-
       h2 {
-        font-size: 2.5rem;
+        font-size: clamp(1.4rem, 4.5vw + 0.5rem, 2.5rem);
         font-weight: 700;
         color: $color-black;
         margin-bottom: 1rem;
       }
-
       p {
-        font-size: 1.1rem;
+        font-size: clamp(0.95rem, 0.8vw + 0.4rem, 1.1rem);
         color: $color-gray-dark;
         max-width: 600px;
         margin: 0 auto;
@@ -795,9 +794,9 @@ body {
   }
 }
 
-// ========================================
-// MENU DU JOUR
-// ========================================
+/* ========================================
+   MENU DU JOUR
+   ======================================== */
 #daily-menu {
   background: $color-gray-light;
   position: relative;
@@ -809,13 +808,9 @@ body {
 
   .decorative-elements {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     pointer-events: none;
     z-index: 3;
-
     .deco-item {
       position: absolute;
       width: 30px;
@@ -824,57 +819,46 @@ body {
       align-items: center;
       justify-content: center;
       animation: float 3s ease-in-out infinite;
-
       i {
         font-size: 1.2rem;
         color: $color-rose;
       }
-
       &:nth-child(1) {
         top: 10%;
         left: 10%;
         animation-delay: 0s;
-
         i {
           color: $color-green;
         }
       }
-
       &:nth-child(2) {
         top: 20%;
         right: 15%;
         animation-delay: 1s;
-
         i {
           color: $color-green;
         }
       }
-
       &:nth-child(3) {
         bottom: 15%;
         left: 20%;
         animation-delay: 2s;
-
         i {
           color: $color-rose;
         }
       }
-
       &:nth-child(4) {
         top: 60%;
         right: 10%;
         animation-delay: 0.5s;
-
         i {
           color: $color-accent;
         }
       }
-
       &:nth-child(5) {
         bottom: 30%;
         right: 25%;
         animation-delay: 1.5s;
-
         i {
           color: $color-accent;
         }
@@ -895,16 +879,14 @@ body {
       overflow: hidden;
       @include shadow-soft;
       @include transition;
-
       &:hover {
         transform: translateY(-5px);
         @include shadow-hover;
       }
 
       figure {
-        height: 200px;
+        height: clamp(150px, 42vw, 200px);
         overflow: hidden;
-
         img {
           width: 100%;
           height: 100%;
@@ -916,9 +898,8 @@ body {
       header {
         padding: 1.5rem;
         margin-bottom: 0;
-
         h3 {
-          font-size: 1.3rem;
+          font-size: clamp(1.05rem, 1.2vw + 0.4rem, 1.3rem);
           font-weight: 600;
           color: $color-black;
           margin-bottom: 0.5rem;
@@ -934,16 +915,17 @@ body {
   }
 }
 
-// ========================================
-// À PROPOS
-// ========================================
+/* ========================================
+   À PROPOS
+   ======================================== */
 #about {
   background: linear-gradient(144deg, #131212 0%, rgb(220 85 132) 100%);
 
   .about-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    /* Mobile-first: 1 colonne */
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
     align-items: center;
 
     .about-img {
@@ -958,22 +940,19 @@ body {
       header {
         text-align: left;
         margin-bottom: 2rem;
-
         h2 {
-          font-size: 2.5rem;
+          font-size: clamp(1.4rem, 4.5vw + 0.5rem, 2.5rem);
           font-weight: 700;
           color: $color-white;
           margin-bottom: 1rem;
         }
       }
-
       p {
-        font-size: 1.1rem;
+        font-size: clamp(0.95rem, 0.9vw + 0.4rem, 1.1rem);
         color: $color-white;
         line-height: 1.8;
         margin-bottom: 2rem;
       }
-
       .cta-btn {
         background: $color-rose;
         color: $color-white;
@@ -981,13 +960,12 @@ body {
         padding: 1rem 2rem;
         border-radius: 2rem;
         font-weight: 600;
-        font-size: 1.1rem;
+        font-size: clamp(0.95rem, 0.8vw + 0.4rem, 1.1rem);
         cursor: pointer;
         text-decoration: none;
         display: inline-block;
         @include transition;
         @include shadow-soft;
-
         &:hover {
           background: color.adjust($color-rose, $lightness: -10%);
           transform: translateY(-3px);
@@ -996,11 +974,20 @@ body {
       }
     }
   }
+
+  /* ≥768px : 2 colonnes + davantage d’air */
+  @include up(lg) {
+    .about-container {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      text-align: left;
+    }
+  }
 }
 
-// ========================================
-// SERVICES
-// ========================================
+/* ========================================
+   SERVICES
+   ======================================== */
 #services {
   background: $color-gray-light;
 
@@ -1016,7 +1003,6 @@ body {
       text-align: center;
       @include shadow-soft;
       @include transition;
-
       &:hover {
         transform: translateY(-5px);
         @include shadow-hover;
@@ -1024,16 +1010,14 @@ body {
 
       header {
         margin-bottom: 1.5rem;
-
         .service-icon {
           display: block;
-          font-size: 3rem;
+          font-size: clamp(1.7rem, 3.5vw + 0.6rem, 3rem);
           color: $color-rose;
           margin-bottom: 1rem;
         }
-
         h3 {
-          font-size: 1.3rem;
+          font-size: clamp(1.05rem, 1.2vw + 0.4rem, 1.3rem);
           font-weight: 600;
           color: $color-black;
         }
@@ -1047,9 +1031,9 @@ body {
   }
 }
 
-// ========================================
-// FOOTER
-// ========================================
+/* ========================================
+   FOOTER
+   ======================================== */
 #site-footer {
   background: $color-black;
   color: $color-white;
@@ -1065,41 +1049,32 @@ body {
 
     .footer-section {
       h3 {
-        font-size: 1.2rem;
+        font-size: clamp(1rem, 1vw + 0.3rem, 1.2rem);
         font-weight: 600;
         margin-bottom: 1rem;
         color: $color-rose;
       }
-
       p,
       a {
         color: $color-gray-light;
         line-height: 1.6;
         text-decoration: none;
         @include transition;
-
         &:hover {
           color: $color-white;
         }
       }
-
-      .contact-info {
-        p {
-          margin-bottom: 0.5rem;
-        }
+      .contact-info p {
+        margin-bottom: 0.5rem;
       }
 
-      .footer-links {
-        ul {
-          list-style: none;
-
-          li {
-            margin-bottom: 0.5rem;
-
-            a {
-              &:hover {
-                color: $color-rose;
-              }
+      .footer-links ul {
+        list-style: none;
+        li {
+          margin-bottom: 0.5rem;
+          a {
+            &:hover {
+              color: $color-rose;
             }
           }
         }
@@ -1109,7 +1084,6 @@ body {
         display: flex;
         gap: 1rem;
         margin-top: 1rem;
-
         a {
           display: inline-block;
           width: 40px;
@@ -1119,7 +1093,6 @@ body {
           border-radius: 50%;
           @include flex-center;
           @include transition;
-
           &:hover {
             background: color.adjust($color-rose, $lightness: -10%);
             transform: translateY(-3px);
@@ -1130,9 +1103,9 @@ body {
   }
 }
 
-// ========================================
-// SECTIONS PRODUIT (UNIFORMISÉES)
-// ========================================
+/* ========================================
+   SECTIONS PRODUIT (UNIFORMISÉES)
+   ======================================== */
 #produit-hero {
   background: linear-gradient(144deg, #131212 0%, rgb(220 85 132) 100%);
   color: $color-white;
@@ -1143,17 +1116,15 @@ body {
     max-width: 100%;
     margin: 0 auto;
     padding: 0 1rem;
-
     header {
       h1 {
-        font-size: 2rem;
+        font-size: clamp(1.3rem, 3.5vw + 0.4rem, 2rem);
         font-weight: 700;
         margin-bottom: 1rem;
         text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       }
-
       p {
-        font-size: 1rem;
+        font-size: clamp(0.95rem, 0.8vw + 0.3rem, 1rem);
         opacity: 0.95;
         line-height: 1.6;
         max-width: 100%;
@@ -1162,18 +1133,14 @@ body {
     }
   }
 
-  // Responsive - Tablette
-  @media (min-width: 768px) {
+  @include up(lg) {
     padding: 3rem 0;
-
     .hero-content {
       max-width: 90%;
-
       header {
         h1 {
           font-size: 2.5rem;
         }
-
         p {
           font-size: 1.1rem;
           max-width: 80%;
@@ -1182,18 +1149,14 @@ body {
     }
   }
 
-  // Responsive - Desktop
-  @media (min-width: 1024px) {
+  @include up(xl) {
     padding: 4rem 0;
-
     .hero-content {
       max-width: 1200px;
-
       header {
         h1 {
           font-size: 3rem;
         }
-
         p {
           font-size: 1.2rem;
           max-width: 70%;
@@ -1220,29 +1183,26 @@ body {
       position: relative;
       max-width: 100%;
       margin: 0 auto;
-
       .search-input {
         width: 100%;
         padding: 1rem 3rem 1rem 1rem;
         border: 2px solid $color-gray-light;
         border-radius: 2rem;
-        font-size: 1rem;
+        font-size: clamp(0.95rem, 0.8vw + 0.3rem, 1rem);
         @include transition;
-
         &:focus {
           outline: none;
           border-color: $color-rose;
           @include shadow-soft;
         }
       }
-
       .search-icon {
         position: absolute;
         right: 1rem;
         top: 50%;
         transform: translateY(-50%);
         color: $color-gray-medium;
-        font-size: 1.1rem;
+        font-size: clamp(1rem, 0.7vw + 0.3rem, 1.1rem);
       }
     }
 
@@ -1251,7 +1211,6 @@ body {
       justify-content: center;
       gap: 0.5rem;
       flex-wrap: wrap;
-
       .filter-btn {
         background: $color-gray-light;
         color: $color-gray-dark;
@@ -1261,7 +1220,7 @@ body {
         font-weight: 600;
         cursor: pointer;
         @include transition;
-
+        font-size: clamp(0.9rem, 0.9vw + 0.25rem, 1rem);
         &.active,
         &:hover {
           background: $color-rose;
@@ -1273,21 +1232,16 @@ body {
     }
   }
 
-  // Responsive - Tablette
-  @media (min-width: 768px) {
+  @include up(lg) {
     padding: 2rem 0;
-
     .filters-container {
       max-width: 90%;
       gap: 1.5rem;
-
       .search-box {
         max-width: 80%;
       }
-
       .filter-buttons {
         gap: 0.8rem;
-
         .filter-btn {
           padding: 0.8rem 1.5rem;
           font-size: 1rem;
@@ -1296,21 +1250,16 @@ body {
     }
   }
 
-  // Responsive - Desktop
-  @media (min-width: 1024px) {
+  @include up(xl) {
     padding: 2.5rem 0;
-
     .filters-container {
       max-width: 1200px;
       gap: 2rem;
-
       .search-box {
         max-width: 60%;
       }
-
       .filter-buttons {
         gap: 1rem;
-
         .filter-btn {
           padding: 1rem 2rem;
           font-size: 1.1rem;
@@ -1320,20 +1269,17 @@ body {
   }
 }
 
-// ========================================
-// SECTION PRODUIT GRID (UNIFORMISÉE)
-// ========================================
+/* ========================================
+   SECTION PRODUIT GRID (UNIFORMISÉE)
+   ======================================== */
 #produit-grid {
   background: $color-gray-light;
   padding: 2rem 0;
 
-  // Responsive - Tablette
-  @media (min-width: 768px) {
+  @include up(lg) {
     padding: 3rem 0;
   }
-
-  // Responsive - Desktop
-  @media (min-width: 1024px) {
+  @include up(xl) {
     padding: 4rem 0;
   }
 
@@ -1345,27 +1291,21 @@ body {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-
-  // Responsive - Tablette (2 colonnes)
-  @media (min-width: 768px) {
+  @include up(lg) {
     .produit-container {
       max-width: 90%;
       grid-template-columns: repeat(2, 1fr);
       gap: 1.5rem;
     }
   }
-
-  // Responsive - Desktop (3 colonnes)
-  @media (min-width: 1024px) {
+  @include up(xl) {
     .produit-container {
       max-width: 1200px;
       grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
     }
   }
-
-  // Responsive - Large Desktop (3 colonnes avec plus d'espace)
-  @media (min-width: 1280px) {
+  @include up(xxl) {
     .produit-container {
       gap: 2.5rem;
     }
@@ -1377,7 +1317,6 @@ body {
     overflow: hidden;
     @include shadow-soft;
     @include transition;
-
     &:hover {
       transform: translateY(-8px);
       @include shadow-hover;
@@ -1385,9 +1324,8 @@ body {
 
     .card-image {
       position: relative;
-      height: 180px;
+      height: clamp(140px, 38vw, 180px);
       overflow: hidden;
-
       img {
         width: 100%;
         height: 100%;
@@ -1395,13 +1333,10 @@ body {
         @include transition;
       }
 
-      // Responsive - Tablette
-      @media (min-width: 768px) {
+      @include up(lg) {
         height: 200px;
       }
-
-      // Responsive - Desktop
-      @media (min-width: 1024px) {
+      @include up(xl) {
         height: 220px;
       }
 
@@ -1412,25 +1347,20 @@ body {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
-
         .card-badge {
           padding: 0.3rem 0.8rem;
           border-radius: 1rem;
           font-size: 0.8rem;
           font-weight: 600;
           text-transform: uppercase;
-
-          // Catégories harmonisées avec le thème
           &.poulet {
             background: $color-rose;
             color: $color-white;
           }
-
           &.crevettes {
             background: $color-accent;
             color: $color-white;
           }
-
           &.oeufs {
             background: $color-green;
             color: $color-white;
@@ -1443,7 +1373,7 @@ body {
       padding: 1rem;
 
       header h3 {
-        font-size: 1.1rem;
+        font-size: clamp(1rem, 0.9vw + 0.3rem, 1.1rem);
         color: $color-black;
         margin-bottom: 0.5rem;
         font-weight: 600;
@@ -1463,13 +1393,12 @@ body {
           flex-wrap: wrap;
           gap: 0.5rem;
           margin-bottom: 0.5rem;
-
           .ingredient-tag {
             background: $color-gray-light;
             color: $color-gray-dark;
             padding: 0.3rem 0.8rem;
             border-radius: 1rem;
-            font-size: 0.8rem;
+            font-size: clamp(0.75rem, 0.6vw + 0.2rem, 0.85rem);
             font-weight: 500;
           }
         }
@@ -1477,9 +1406,8 @@ body {
         .nutrition {
           display: flex;
           gap: 0.7rem;
-          font-size: 0.9rem;
+          font-size: clamp(0.85rem, 0.7vw + 0.2rem, 0.95rem);
           color: $color-gray-medium;
-
           .calories,
           .protein {
             font-weight: 600;
@@ -1496,18 +1424,15 @@ body {
           display: flex;
           align-items: center;
           gap: 0.7rem;
-
           .price {
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 0.9vw + 0.3rem, 1.15rem);
             font-weight: 700;
             color: $color-rose;
           }
-
           .quantity-controls {
             display: flex;
             align-items: center;
             gap: 0.3rem;
-
             .qty-btn {
               background: $color-gray-light;
               border: none;
@@ -1516,13 +1441,11 @@ body {
               border-radius: 50%;
               cursor: pointer;
               @include transition;
-
               &:hover {
                 background: $color-rose;
                 color: $color-white;
               }
             }
-
             .quantity {
               font-weight: 600;
               min-width: 1.2rem;
@@ -1543,7 +1466,8 @@ body {
           display: flex;
           align-items: center;
           gap: 0.5rem;
-
+          /* cibles tactiles confortables */
+          min-height: 44px;
           &:hover {
             background: color.adjust($color-green, $lightness: -10%);
             transform: translateY(-2px);
@@ -1555,20 +1479,16 @@ body {
   }
 }
 
-// ========================================
-// SECTION PRODUIT INFO (UNIFORMISÉE)
-// ========================================
+/* ========================================
+   SECTION PRODUIT INFO (UNIFORMISÉE)
+   ======================================== */
 #produit-info {
   background: $color-white;
   padding: 2rem 0;
-
-  // Responsive - Tablette
-  @media (min-width: 768px) {
+  @include up(lg) {
     padding: 3rem 0;
   }
-
-  // Responsive - Desktop
-  @media (min-width: 1024px) {
+  @include up(xl) {
     padding: 4rem 0;
   }
 
@@ -1580,27 +1500,21 @@ body {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-
-  // Responsive - Tablette (2 colonnes)
-  @media (min-width: 768px) {
+  @include up(lg) {
     .info-container {
       max-width: 90%;
       grid-template-columns: repeat(2, 1fr);
       gap: 1.5rem;
     }
   }
-
-  // Responsive - Desktop (3 colonnes)
-  @media (min-width: 1024px) {
+  @include up(xl) {
     .info-container {
       max-width: 1200px;
       grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
     }
   }
-
-  // Responsive - Large Desktop (3 colonnes avec plus d'espace)
-  @media (min-width: 1280px) {
+  @include up(xxl) {
     .info-container {
       gap: 2.5rem;
     }
@@ -1612,16 +1526,14 @@ body {
 
     header {
       margin-bottom: 0.7rem;
-
       i {
-        font-size: 2rem;
+        font-size: clamp(1.4rem, 3vw + 0.4rem, 2rem);
         color: $color-rose;
         margin-bottom: 0.7rem;
         display: block;
       }
-
       h3 {
-        font-size: 1.1rem;
+        font-size: clamp(1rem, 0.9vw + 0.3rem, 1.1rem);
         color: $color-black;
         font-weight: 600;
       }
@@ -1634,12 +1546,12 @@ body {
   }
 }
 
-// ========================================
-// ANIMATIONS AU SCROLL (OPTIMISÉES)
-// ========================================
+/* ========================================
+   ANIMATIONS AU SCROLL (OPTIMISÉES)
+   ======================================== */
 .site-tagline {
   text-align: center;
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 1.6vw + 0.3rem, 1.3rem);
   color: $color-gray-dark;
   margin: 2rem 0;
   letter-spacing: 0.04em;
@@ -1648,34 +1560,31 @@ body {
 
 .animate-on-scroll {
   opacity: 0;
-  transform: translate3d(0, 40px, 0); // GPU acceleration
+  transform: translate3d(0, 40px, 0);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  will-change: opacity, transform; // Temporaire pendant l'animation
-  contain: layout style paint; // Optimisation GPU
-  backface-visibility: hidden; // Évite les problèmes de rendu
+  will-change: opacity, transform;
+  contain: layout style paint;
+  backface-visibility: hidden;
 
   &.in-view {
     opacity: 1;
-    transform: translate3d(0, 0, 0); // GPU acceleration
+    transform: translate3d(0, 0, 0);
   }
 }
 
-// Animation mot à mot pour le slogan (CSS pur)
+/* Animation mot à mot pour le slogan (CSS pur) */
 .site-tagline.animate-words {
   span {
     opacity: 0;
     display: inline-block;
-    transform: translate3d(0, 20px, 0); // GPU acceleration
+    transform: translate3d(0, 20px, 0);
     transition: opacity 0.4s, transform 0.4s;
-    will-change: opacity, transform; // Temporaire pendant l'animation
+    will-change: opacity, transform;
   }
-
   &.in-view {
     span {
       opacity: 1;
-      transform: translate3d(0, 0, 0); // GPU acceleration
-
-      // Animation progressive avec délai CSS
+      transform: translate3d(0, 0, 0);
       &:nth-child(1) {
         transition-delay: 0ms;
       }
@@ -1695,104 +1604,22 @@ body {
   }
 }
 
-// ========================================
-// RESPONSIVE DESIGN
-// ========================================
-
-// Mobile First - Breakpoints
-// 320px - Mobile
-// 768px - Tablette
-// 1024px - Desktop
-// 1280px - Large Desktop
-// 1440px - Extra Large
-// 1600px - Ultra Wide
-
-// Navigation responsive
-@media (min-width: 768px) {
-  #navbar {
-    .top-bar {
-      .top-bar-content {
-        flex-direction: row;
-      }
-    }
+/* ========================================
+   RESPONSIVE DESIGN (structure uniquement)
+   ======================================== */
+/* Nav alignement déjà géré plus haut via @include up(lg/xl) */
+/* Footer : grille plus riche ≥768px */
+@include up(lg) {
+  #site-footer .footer-container {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    text-align: left;
   }
 }
 
-@media (min-width: 1024px) {
-  #navbar {
-    .header-container {
-      .main-nav {
-        display: flex;
-      }
-
-      .burger-btn {
-        display: none;
-      }
-    }
-  }
-}
-
-// Hero section responsive
-@media (min-width: 768px) {
-  .hero-section {
-    .hero-content {
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      text-align: left;
-
-      .hero-text {
-        h2 {
-          font-size: 3rem;
-        }
-
-        p {
-          font-size: 1.2rem;
-        }
-      }
-    }
-  }
-}
-
-// Sections responsive
-@media (min-width: 768px) {
-  #daily-menu,
-  #about,
-  #services {
-    .menu-container,
-    .about-container,
-    .services-container {
-      header {
-        h2 {
-          font-size: 2.5rem;
-        }
-
-        p {
-          font-size: 1.1rem;
-        }
-      }
-    }
-  }
-
-  #about {
-    .about-container {
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      text-align: left;
-    }
-  }
-}
-
-// Footer responsive
-@media (min-width: 768px) {
-  #site-footer {
-    .footer-container {
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      text-align: left;
-    }
-  }
-}
-
-// Accessibilité
+/* ========================================
+   ACCESSIBILITÉ & ERGONOMIE
+   ======================================== */
+/* Réduction motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1801,8 +1628,27 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-
   .slider-track {
     animation: none !important;
   }
+}
+
+/* Cibles tactiles minimales (sans changer le design) */
+.btn-login,
+.phone-btn,
+.add-to-cart-btn,
+.qty-btn {
+  min-height: 44px;
+}
+
+/* Perf : ne peindre que visible (pas d’impact visuel) */
+#horizontal-slider,
+#daily-menu,
+#about,
+#services,
+#produit-grid,
+#produit-info,
+#site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px;
 }

@@ -1,3 +1,14 @@
+@charset "UTF-8";
+/* ========================================
+   VARIABLES & COULEURS (NOUVEAU DESIGN)
+   ======================================== */
+/* ========================================
+   MIXINS
+   ======================================== */
+/* --- Breakpoints mobile-first (min-width) --- */
+/* ========================================
+   ÉLÉMENTS DÉCORATIFS PAGE-WIDE
+   ======================================== */
 .page-decorative-elements {
   position: fixed;
   top: 0;
@@ -7,6 +18,7 @@
   pointer-events: none;
   z-index: 1003;
   overflow: hidden;
+  /* ≥768px : on remet les positions "desktop" d’origine pour 6→10 */
 }
 .page-decorative-elements .page-deco-item {
   position: absolute;
@@ -17,9 +29,21 @@
   justify-content: center;
   animation: floatPage 4s ease-in-out infinite;
   opacity: 0.6;
+  /* Carotte - Orange */
+  /* Pomme - Rouge */
+  /* Feuille - Vert */
+  /* Germination - Vert clair */
+  /* Poivron - Rouge foncé */
+  /* --- Mobile-first: positions "centrées" par défaut pour 6→10 --- */
+  /* Aubergine */
+  /* Oignon */
+  /* Tomate */
+  /* Brocoli */
+  /* Maïs */
 }
 .page-decorative-elements .page-deco-item i {
-  font-size: 2.5rem;
+  /* Icônes décoratives : taille fluide pour petits écrans */
+  font-size: clamp(1.2rem, 4vw + 0.6rem, 2.5rem); /* was 2.5rem fixe */
 }
 .page-decorative-elements .page-deco-item:nth-child(1) {
   top: 15%;
@@ -62,71 +86,78 @@
   color: #c0392b;
 }
 .page-decorative-elements .page-deco-item:nth-child(6) {
-  top: 6%;
-  left: 63%;
+  left: 70%;
+  top: 35%;
   animation-delay: 1.5s;
 }
 .page-decorative-elements .page-deco-item:nth-child(6) i {
   color: #8e44ad;
 }
 .page-decorative-elements .page-deco-item:nth-child(7) {
-  top: 19%;
-  left: 24%;
+  left: 75%;
+  top: 55%;
   animation-delay: 1s;
 }
 .page-decorative-elements .page-deco-item:nth-child(7) i {
   color: #f39c12;
 }
 .page-decorative-elements .page-deco-item:nth-child(8) {
-  top: 70%;
-  right: 38%;
+  right: 20%;
+  top: 65%;
   animation-delay: 1.5s;
 }
 .page-decorative-elements .page-deco-item:nth-child(8) i {
   color: #e74c3c;
 }
 .page-decorative-elements .page-deco-item:nth-child(9) {
-  top: 5%;
-  right: 35%;
+  right: 30%;
+  top: 75%;
   animation-delay: 1s;
 }
 .page-decorative-elements .page-deco-item:nth-child(9) i {
   color: #16a085;
 }
 .page-decorative-elements .page-deco-item:nth-child(10) {
-  top: 68%;
-  left: 58%;
+  left: 30%;
+  top: 80%;
   animation-delay: 1s;
 }
 .page-decorative-elements .page-deco-item:nth-child(10) i {
   color: #f1c40f;
 }
-@media (max-width: 767px) {
+@media (min-width: 768px) {
+  .page-decorative-elements .page-deco-item {
+    /* Aubergine */
+    /* Oignon */
+    /* Tomate */
+    /* Brocoli */
+    /* Maïs */
+  }
   .page-decorative-elements .page-deco-item:nth-child(6) {
-    left: 70%;
-    top: 35%;
+    top: 6%;
+    left: 63%;
   }
   .page-decorative-elements .page-deco-item:nth-child(7) {
-    left: 75%;
-    top: 55%;
+    top: 19%;
+    left: 24%;
   }
   .page-decorative-elements .page-deco-item:nth-child(8) {
-    right: 20%;
-    top: 65%;
+    top: 70%;
+    right: 38%;
   }
   .page-decorative-elements .page-deco-item:nth-child(9) {
-    right: 30%;
-    top: 75%;
+    top: 5%;
+    right: 35%;
   }
   .page-decorative-elements .page-deco-item:nth-child(10) {
-    left: 30%;
-    top: 80%;
+    top: 68%;
+    left: 58%;
   }
 }
 
 @keyframes floatPage {
   0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0) rotate(0);
   }
   25% {
     transform: translateY(-10px) rotate(5deg);
@@ -138,6 +169,9 @@
     transform: translateY(-15px) rotate(8deg);
   }
 }
+/* ========================================
+   ANIMATIONS
+   ======================================== */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -170,12 +204,15 @@
 }
 @keyframes float {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
   50% {
     transform: translateY(-10px);
   }
 }
+/* ========================================
+   RESET & BASE
+   ======================================== */
 * {
   margin: 0;
   padding: 0;
@@ -200,6 +237,9 @@ body {
   padding: 0 1rem;
 }
 
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
 #navbar {
   background: #ffffff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -210,10 +250,11 @@ body {
   -webkit-backdrop-filter: blur(10px);
 }
 #navbar .top-bar {
+  /* Taille fluide pour lisibilité mobile */
+  font-size: clamp(0.8rem, 0.6vw + 0.65rem, 0.95rem);
   background: #e91e63;
   color: #ffffff;
   padding: 0.5rem 0;
-  font-size: 0.9rem;
 }
 #navbar .top-bar .top-bar-content {
   max-width: 1200px;
@@ -242,6 +283,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 1rem;
+  /* icône suit la taille du texte */
 }
 #navbar .top-bar .top-bar-content .top-actions .cart-icon {
   position: relative;
@@ -250,7 +292,7 @@ body {
   background: none;
   border: none;
   color: #ffffff;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 0.6vw + 0.85rem, 1.1rem);
 }
 #navbar .top-bar .top-bar-content .top-actions .cart-icon:hover {
   transform: scale(1.1);
@@ -264,13 +306,13 @@ body {
   border-radius: 50%;
   width: 18px;
   height: 18px;
-  font-size: 0.7rem;
+  font-size: clamp(0.65rem, 0.4vw + 0.5rem, 0.75rem);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
 }
-#navbar .top-bar .top-bar-content .top-actions .order-btn {
+#navbar .top-bar .top-bar-content .top-actions .btn-login {
   background: #4caf50;
   color: #ffffff;
   border: none;
@@ -279,10 +321,14 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: clamp(0.95rem, 0.8vw + 0.6rem, 1rem);
 }
-#navbar .top-bar .top-bar-content .top-actions .order-btn:hover {
+#navbar .top-bar .top-bar-content .top-actions .btn-login:hover {
   background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
   transform: translateY(-2px);
+}
+#navbar .top-bar .top-bar-content .top-actions .btn-login i {
+  font-size: 1em;
 }
 #navbar .top-bar .top-bar-content .top-actions .phone-btn {
   background: transparent;
@@ -297,6 +343,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  font-size: clamp(0.95rem, 0.8vw + 0.6rem, 1rem);
 }
 #navbar .top-bar .top-bar-content .top-actions .phone-btn:hover {
   background: #ffffff;
@@ -326,7 +373,7 @@ body {
   justify-content: space-between;
 }
 #navbar .header-container .logo {
-  font-size: 1.8rem;
+  font-size: clamp(1.3rem, 2vw + 1rem, 1.8rem);
   font-weight: 700;
   color: #e91e63;
   text-decoration: none;
@@ -395,7 +442,8 @@ body {
   position: fixed;
   top: 0;
   right: -100%;
-  width: 300px;
+  /* Mobile-first: largeur relative confortable */
+  width: 85vw;
   height: 100vh;
   background: #ffffff;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
@@ -426,27 +474,48 @@ body {
   color: #1a1a1a;
   text-decoration: none;
   font-weight: 500;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 0.8vw + 0.8rem, 1.1rem);
   transition: all 0.3s ease;
 }
 #navbar .burger-menu ul li .nav-link:hover, #navbar .burger-menu ul li .nav-link.active {
   color: #e91e63;
 }
 
+/* ≥400px : largeur fixe 300px pour le burger */
+@media (min-width: 400px) {
+  #navbar .burger-menu {
+    width: 300px;
+  }
+}
+/* Nav responsive: alignements à partir de 768+ */
+@media (min-width: 768px) {
+  #navbar .top-bar .top-bar-content {
+    flex-direction: row;
+  }
+}
+@media (min-width: 1024px) {
+  #navbar .header-container .main-nav {
+    display: flex;
+  }
+  #navbar .header-container .burger-btn {
+    display: none;
+  }
+}
+/* ========================================
+   HERO SECTION
+   ======================================== */
 .hero-section {
   background: linear-gradient(144deg, #131212 0%, rgb(220, 85, 132) 100%);
   color: #ffffff;
   padding: 4rem 0;
   position: relative;
   overflow: hidden;
+  /* ≥600px : 2 colonnes + plus d’espace */
 }
 .hero-section::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: url("/app/public/images/wireframes/home-mobil.webp") center/cover;
   opacity: 0.1;
   z-index: 1;
@@ -458,18 +527,22 @@ body {
   margin: 0 auto;
   padding: 0 1rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  /* Mobile-first: 1 colonne pour respirer */
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   align-items: center;
+  text-align: left;
 }
 .hero-section .hero-content .hero-text h2 {
-  font-size: 3rem;
+  /* Titre fluide + retours équilibrés */
+  font-size: clamp(1.6rem, 6vw + 0.4rem, 3rem);
   font-weight: 700;
   margin-bottom: 1rem;
-  line-height: 1.2;
+  line-height: 1.25;
+  text-wrap: balance;
 }
 .hero-section .hero-content .hero-text p {
-  font-size: 1.2rem;
+  font-size: clamp(0.95rem, 1.2vw + 0.5rem, 1.2rem);
   margin-bottom: 2rem;
   opacity: 0.9;
 }
@@ -480,7 +553,7 @@ body {
   padding: 1rem 2rem;
   border-radius: 2rem;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 0.8vw + 0.5rem, 1.1rem);
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -494,17 +567,14 @@ body {
 }
 .hero-section .hero-content .hero-image img {
   width: 100%;
-  height: 350px;
+  height: clamp(180px, 52vw, 350px);
   object-fit: cover;
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 .hero-section .hero-content .hero-image .decorative-elements {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   pointer-events: none;
 }
 .hero-section .hero-content .hero-image .decorative-elements .deco-item {
@@ -532,7 +602,16 @@ body {
   left: 20%;
   animation-delay: 2s;
 }
+@media (min-width: 600px) {
+  .hero-section .hero-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+}
 
+/* ========================================
+   SLIDER HORIZONTAL
+   ======================================== */
 #horizontal-slider {
   background: #ffffff;
   padding: 3rem 0;
@@ -567,7 +646,7 @@ body {
 }
 #horizontal-slider .slider-container .slider-track .slider-item img {
   width: 100%;
-  height: 200px;
+  height: clamp(140px, 38vw, 200px);
   object-fit: cover;
   transition: all 0.3s ease;
 }
@@ -583,12 +662,12 @@ body {
   transition: all 0.3s ease;
 }
 #horizontal-slider .slider-container .slider-track .slider-item .item-overlay h3 {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 1vw + 0.4rem, 1.2rem);
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 #horizontal-slider .slider-container .slider-track .slider-item .item-overlay p {
-  font-size: 0.9rem;
+  font-size: clamp(0.85rem, 0.8vw + 0.3rem, 0.95rem);
   opacity: 0.9;
 }
 
@@ -600,6 +679,9 @@ body {
     transform: translateX(-50%);
   }
 }
+/* ========================================
+   SECTIONS GÉNÉRIQUES
+   ======================================== */
 #daily-menu,
 #about,
 #services {
@@ -639,7 +721,7 @@ body {
 #services .menu-container header h2,
 #services .about-container header h2,
 #services .services-container header h2 {
-  font-size: 2.5rem;
+  font-size: clamp(1.4rem, 4.5vw + 0.5rem, 2.5rem);
   font-weight: 700;
   color: #1a1a1a;
   margin-bottom: 1rem;
@@ -653,12 +735,15 @@ body {
 #services .menu-container header p,
 #services .about-container header p,
 #services .services-container header p {
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 0.8vw + 0.4rem, 1.1rem);
   color: #495057;
   max-width: 600px;
   margin: 0 auto;
 }
 
+/* ========================================
+   MENU DU JOUR
+   ======================================== */
 #daily-menu {
   background: #f8f9fa;
   position: relative;
@@ -669,10 +754,7 @@ body {
 }
 #daily-menu .decorative-elements {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   pointer-events: none;
   z-index: 3;
 }
@@ -748,7 +830,7 @@ body {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 #daily-menu .menu-content .menu-item figure {
-  height: 200px;
+  height: clamp(150px, 42vw, 200px);
   overflow: hidden;
 }
 #daily-menu .menu-content .menu-item figure img {
@@ -762,7 +844,7 @@ body {
   margin-bottom: 0;
 }
 #daily-menu .menu-content .menu-item header h3 {
-  font-size: 1.3rem;
+  font-size: clamp(1.05rem, 1.2vw + 0.4rem, 1.3rem);
   font-weight: 600;
   color: #1a1a1a;
   margin-bottom: 0.5rem;
@@ -773,13 +855,18 @@ body {
   line-height: 1.6;
 }
 
+/* ========================================
+   À PROPOS
+   ======================================== */
 #about {
   background: linear-gradient(144deg, #131212 0%, rgb(220, 85, 132) 100%);
+  /* ≥768px : 2 colonnes + davantage d’air */
 }
 #about .about-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  /* Mobile-first: 1 colonne */
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   align-items: center;
 }
 #about .about-container .about-img img {
@@ -792,13 +879,13 @@ body {
   margin-bottom: 2rem;
 }
 #about .about-container .about-text header h2 {
-  font-size: 2.5rem;
+  font-size: clamp(1.4rem, 4.5vw + 0.5rem, 2.5rem);
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 1rem;
 }
 #about .about-container .about-text p {
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 0.9vw + 0.4rem, 1.1rem);
   color: #ffffff;
   line-height: 1.8;
   margin-bottom: 2rem;
@@ -810,7 +897,7 @@ body {
   padding: 1rem 2rem;
   border-radius: 2rem;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 0.8vw + 0.4rem, 1.1rem);
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
@@ -822,7 +909,17 @@ body {
   transform: translateY(-3px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
+@media (min-width: 768px) {
+  #about .about-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    text-align: left;
+  }
+}
 
+/* ========================================
+   SERVICES
+   ======================================== */
 #services {
   background: #f8f9fa;
 }
@@ -848,12 +945,12 @@ body {
 }
 #services .services-list .service header .service-icon {
   display: block;
-  font-size: 3rem;
+  font-size: clamp(1.7rem, 3.5vw + 0.6rem, 3rem);
   color: #e91e63;
   margin-bottom: 1rem;
 }
 #services .services-list .service header h3 {
-  font-size: 1.3rem;
+  font-size: clamp(1.05rem, 1.2vw + 0.4rem, 1.3rem);
   font-weight: 600;
   color: #1a1a1a;
 }
@@ -862,6 +959,9 @@ body {
   line-height: 1.6;
 }
 
+/* ========================================
+   FOOTER
+   ======================================== */
 #site-footer {
   background: #1a1a1a;
   color: #ffffff;
@@ -876,7 +976,7 @@ body {
   gap: 2rem;
 }
 #site-footer .footer-container .footer-section h3 {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 1vw + 0.3rem, 1.2rem);
   font-weight: 600;
   margin-bottom: 1rem;
   color: #e91e63;
@@ -926,6 +1026,9 @@ body {
   transform: translateY(-3px);
 }
 
+/* ========================================
+   SECTIONS PRODUIT (UNIFORMISÉES)
+   ======================================== */
 #produit-hero {
   background: linear-gradient(144deg, #131212 0%, rgb(220, 85, 132) 100%);
   color: #ffffff;
@@ -938,13 +1041,13 @@ body {
   padding: 0 1rem;
 }
 #produit-hero .hero-content header h1 {
-  font-size: 2rem;
+  font-size: clamp(1.3rem, 3.5vw + 0.4rem, 2rem);
   font-weight: 700;
   margin-bottom: 1rem;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 #produit-hero .hero-content header p {
-  font-size: 1rem;
+  font-size: clamp(0.95rem, 0.8vw + 0.3rem, 1rem);
   opacity: 0.95;
   line-height: 1.6;
   max-width: 100%;
@@ -1004,7 +1107,7 @@ body {
   padding: 1rem 3rem 1rem 1rem;
   border: 2px solid #f8f9fa;
   border-radius: 2rem;
-  font-size: 1rem;
+  font-size: clamp(0.95rem, 0.8vw + 0.3rem, 1rem);
   transition: all 0.3s ease;
 }
 #produit-filters .filters-container .search-box .search-input:focus {
@@ -1018,7 +1121,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   color: #6c757d;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 0.7vw + 0.3rem, 1.1rem);
 }
 #produit-filters .filters-container .filter-buttons {
   display: flex;
@@ -1035,6 +1138,7 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: clamp(0.9rem, 0.9vw + 0.25rem, 1rem);
 }
 #produit-filters .filters-container .filter-buttons .filter-btn.active, #produit-filters .filters-container .filter-buttons .filter-btn:hover {
   background: #e91e63;
@@ -1081,6 +1185,9 @@ body {
   }
 }
 
+/* ========================================
+   SECTION PRODUIT GRID (UNIFORMISÉE)
+   ======================================== */
 #produit-grid {
   background: #f8f9fa;
   padding: 2rem 0;
@@ -1135,7 +1242,7 @@ body {
 }
 #produit-grid .produit-card .card-image {
   position: relative;
-  height: 180px;
+  height: clamp(140px, 38vw, 180px);
   overflow: hidden;
 }
 #produit-grid .produit-card .card-image img {
@@ -1185,7 +1292,7 @@ body {
   padding: 1rem;
 }
 #produit-grid .produit-card .card-content header h3 {
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 0.9vw + 0.3rem, 1.1rem);
   color: #1a1a1a;
   margin-bottom: 0.5rem;
   font-weight: 600;
@@ -1209,13 +1316,13 @@ body {
   color: #495057;
   padding: 0.3rem 0.8rem;
   border-radius: 1rem;
-  font-size: 0.8rem;
+  font-size: clamp(0.75rem, 0.6vw + 0.2rem, 0.85rem);
   font-weight: 500;
 }
 #produit-grid .produit-card .card-content .card-details .nutrition {
   display: flex;
   gap: 0.7rem;
-  font-size: 0.9rem;
+  font-size: clamp(0.85rem, 0.7vw + 0.2rem, 0.95rem);
   color: #6c757d;
 }
 #produit-grid .produit-card .card-content .card-details .nutrition .calories,
@@ -1233,7 +1340,7 @@ body {
   gap: 0.7rem;
 }
 #produit-grid .produit-card .card-content .card-footer .price-quantity .price {
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 0.9vw + 0.3rem, 1.15rem);
   font-weight: 700;
   color: #e91e63;
 }
@@ -1272,6 +1379,8 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  /* cibles tactiles confortables */
+  min-height: 44px;
 }
 #produit-grid .produit-card .card-content .card-footer .add-to-cart-btn:hover {
   background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
@@ -1279,6 +1388,9 @@ body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
+/* ========================================
+   SECTION PRODUIT INFO (UNIFORMISÉE)
+   ======================================== */
 #produit-info {
   background: #ffffff;
   padding: 2rem 0;
@@ -1328,13 +1440,13 @@ body {
   margin-bottom: 0.7rem;
 }
 #produit-info .info-card header i {
-  font-size: 2rem;
+  font-size: clamp(1.4rem, 3vw + 0.4rem, 2rem);
   color: #e91e63;
   margin-bottom: 0.7rem;
   display: block;
 }
 #produit-info .info-card header h3 {
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 0.9vw + 0.3rem, 1.1rem);
   color: #1a1a1a;
   font-weight: 600;
 }
@@ -1343,9 +1455,12 @@ body {
   line-height: 1.6;
 }
 
+/* ========================================
+   ANIMATIONS AU SCROLL (OPTIMISÉES)
+   ======================================== */
 .site-tagline {
   text-align: center;
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 1.6vw + 0.3rem, 1.3rem);
   color: #495057;
   margin: 2rem 0;
   letter-spacing: 0.04em;
@@ -1365,6 +1480,7 @@ body {
   transform: translate3d(0, 0, 0);
 }
 
+/* Animation mot à mot pour le slogan (CSS pur) */
 .site-tagline.animate-words span {
   opacity: 0;
   display: inline-block;
@@ -1392,67 +1508,21 @@ body {
   transition-delay: 600ms;
 }
 
-@media (min-width: 768px) {
-  #navbar .top-bar .top-bar-content {
-    flex-direction: row;
-  }
-}
-@media (min-width: 1024px) {
-  #navbar .header-container .main-nav {
-    display: flex;
-  }
-  #navbar .header-container .burger-btn {
-    display: none;
-  }
-}
-@media (min-width: 768px) {
-  .hero-section .hero-content {
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    text-align: left;
-  }
-  .hero-section .hero-content .hero-text h2 {
-    font-size: 3rem;
-  }
-  .hero-section .hero-content .hero-text p {
-    font-size: 1.2rem;
-  }
-}
-@media (min-width: 768px) {
-  #daily-menu .menu-container header h2,
-  #daily-menu .about-container header h2,
-  #daily-menu .services-container header h2,
-  #about .menu-container header h2,
-  #about .about-container header h2,
-  #about .services-container header h2,
-  #services .menu-container header h2,
-  #services .about-container header h2,
-  #services .services-container header h2 {
-    font-size: 2.5rem;
-  }
-  #daily-menu .menu-container header p,
-  #daily-menu .about-container header p,
-  #daily-menu .services-container header p,
-  #about .menu-container header p,
-  #about .about-container header p,
-  #about .services-container header p,
-  #services .menu-container header p,
-  #services .about-container header p,
-  #services .services-container header p {
-    font-size: 1.1rem;
-  }
-  #about .about-container {
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    text-align: left;
-  }
-}
+/* ========================================
+   RESPONSIVE DESIGN (structure uniquement)
+   ======================================== */
+/* Nav alignement déjà géré plus haut via @include up(lg/xl) */
+/* Footer : grille plus riche ≥768px */
 @media (min-width: 768px) {
   #site-footer .footer-container {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     text-align: left;
   }
 }
+/* ========================================
+   ACCESSIBILITÉ & ERGONOMIE
+   ======================================== */
+/* Réduction motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1464,6 +1534,25 @@ body {
   .slider-track {
     animation: none !important;
   }
+}
+/* Cibles tactiles minimales (sans changer le design) */
+.btn-login,
+.phone-btn,
+.add-to-cart-btn,
+.qty-btn {
+  min-height: 44px;
+}
+
+/* Perf : ne peindre que visible (pas d’impact visuel) */
+#horizontal-slider,
+#daily-menu,
+#about,
+#services,
+#produit-grid,
+#produit-info,
+#site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px;
 }
 
 /*# sourceMappingURL=main.css.map */
