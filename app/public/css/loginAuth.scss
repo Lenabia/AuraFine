@@ -197,7 +197,7 @@
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  // gap: 1.5rem;
 }
 
 .auth-field {
@@ -508,6 +508,86 @@
 }
 
 /* ========================================
+   NOUVEAUX ÉLÉMENTS POUR L'INSCRIPTION
+   ======================================== */
+.auth-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+
+  @media (min-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.auth-textarea {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  border: 2px solid $color-gray-light;
+  border-radius: 12px;
+  font-size: clamp(0.95rem, 0.8vw + 0.3rem, 1rem);
+  background: $color-white;
+  color: $color-black;
+  transition: all 0.3s ease;
+  min-height: 80px;
+  resize: vertical;
+  font-family: inherit;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: $color-rose;
+    box-shadow: 0 0 0 4px rgba($color-rose, 0.1);
+    transform: translateY(-1px);
+  }
+
+  &::placeholder {
+    color: $color-gray-medium;
+    opacity: 0.7;
+  }
+
+  &:hover {
+    border-color: rgba($color-rose, 0.5);
+  }
+}
+
+.auth-select {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  border: 2px solid $color-gray-light;
+  border-radius: 12px;
+  font-size: clamp(0.95rem, 0.8vw + 0.3rem, 1rem);
+  background: $color-white;
+  color: $color-black;
+  transition: all 0.3s ease;
+  min-height: 48px;
+  cursor: pointer;
+  box-sizing: border-box;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 3rem;
+
+  &:focus {
+    outline: none;
+    border-color: $color-rose;
+    box-shadow: 0 0 0 4px rgba($color-rose, 0.1);
+    transform: translateY(-1px);
+  }
+
+  &:hover {
+    border-color: rgba($color-rose, 0.5);
+  }
+
+  option {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* ========================================
    RESPONSIVE
    ======================================== */
 @media (max-width: 480px) {
@@ -528,6 +608,9 @@
 }
 
 @media (min-width: 768px) {
+  #regis-contain {
+    max-width: 700px;
+  }
   .auth-container {
     max-width: 500px;
   }

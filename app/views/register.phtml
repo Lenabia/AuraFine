@@ -1,0 +1,144 @@
+<!-- Page d'inscription -->
+<section class="auth-page">
+  <div class="auth-wrapper">
+    <!-- Formulaire d'inscription -->
+    <div class="auth-container" id="regis-contain">
+      <div class="auth-card">
+        <header class="auth-header">
+          <h1 class="auth-title">Inscription</h1>
+          <p class="auth-subtitle">Créez votre compte AuraFine</p>
+        </header>
+
+        <form action="index.php?action=register-post" method="post" class="auth-form" novalidate>
+          <!-- CSRF côté serveur -->
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
+
+          <!-- Nom et Prénom -->
+          <div class="auth-row">
+            <div class="auth-field">
+              <label for="auth-nom" class="auth-label">Nom</label>
+              <input 
+                type="text" 
+                id="auth-nom" 
+                name="nom" 
+                class="auth-input" 
+                autocomplete="family-name" 
+                placeholder="Votre nom" 
+                value="<?= htmlspecialchars($old['nom'] ?? '') ?>"
+                required
+              >
+              <div class="auth-error" aria-live="polite"><?= $errors['nom'] ?? '' ?></div>
+            </div>
+
+            <div class="auth-field">
+              <label for="auth-prenom" class="auth-label">Prénom</label>
+              <input 
+                type="text" 
+                id="auth-prenom" 
+                name="prenom" 
+                class="auth-input" 
+                autocomplete="given-name" 
+                placeholder="Votre prénom" 
+                value="<?= htmlspecialchars($old['prenom'] ?? '') ?>"
+                required
+              >
+              <div class="auth-error" aria-live="polite"><?= $errors['prenom'] ?? '' ?></div>
+            </div>
+          </div>
+
+          <!-- Adresse -->
+          <div class="auth-field">
+            <label for="auth-adresse" class="auth-label">Adresse</label>
+            <textarea 
+              id="auth-adresse" 
+              name="adresse" 
+              class="auth-textarea" 
+              placeholder="Votre adresse complète" 
+              rows="3"
+              required
+            ><?= htmlspecialchars($old['adresse'] ?? '') ?></textarea>
+            <div class="auth-error" aria-live="polite"><?= $errors['adresse'] ?? '' ?></div>
+          </div>
+
+          <!-- Ville -->
+          <div class="auth-field">
+            <label for="auth-ville" class="auth-label">Ville</label>
+            <select id="auth-ville" name="ville" class="auth-select" required>
+              <option value="">Sélectionnez une ville</option>
+              <option value="dakar" <?= ($old['ville'] ?? '') === 'dakar' ? 'selected' : '' ?>>Dakar</option>
+              <option value="thies" <?= ($old['ville'] ?? '') === 'thies' ? 'selected' : '' ?>>Thiès</option>
+            </select>
+            <div class="auth-error" aria-live="polite"><?= $errors['ville'] ?? '' ?></div>
+          </div>
+
+          <!-- Email -->
+          <div class="auth-field">
+            <label for="auth-email" class="auth-label">Email</label>
+            <input 
+              type="email" 
+              id="auth-email" 
+              name="email" 
+              class="auth-input" 
+              autocomplete="email" 
+              placeholder="votre@email.com" 
+              value="<?= htmlspecialchars($old['email'] ?? '') ?>"
+              required
+            >
+            <div class="auth-error" aria-live="polite"><?= $errors['email'] ?? '' ?></div>
+          </div>
+
+          <!-- Téléphone -->
+          <div class="auth-field">
+            <label for="auth-telephone" class="auth-label">Téléphone</label>
+            <input 
+              type="tel" 
+              id="auth-telephone" 
+              name="telephone" 
+              class="auth-input" 
+              autocomplete="tel" 
+              placeholder="+221 77 123 45 67" 
+              value="<?= htmlspecialchars($old['telephone'] ?? '') ?>"
+              required
+            >
+            <div class="auth-error" aria-live="polite"><?= $errors['telephone'] ?? '' ?></div>
+          </div>
+
+          <!-- Mot de passe -->
+          <div class="auth-field auth-password">
+            <label for="auth-password" class="auth-label">Mot de passe</label>
+            <div class="auth-password-wrap">
+              <input type="password" id="auth-password" name="password" class="auth-input" autocomplete="new-password" required>
+              <button type="button" class="auth-toggle-pass" aria-label="Afficher le mot de passe" aria-pressed="false">
+                <i class="fas fa-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="auth-error" aria-live="polite"><?= $errors['password'] ?? '' ?></div>
+          </div>
+
+          <!-- Confirmation mot de passe -->
+          <!-- <div class="auth-field auth-password">
+            <label for="auth-password-confirm" class="auth-label">Confirmer le mot de passe</label>
+            <div class="auth-password-wrap">
+              <input type="password" id="auth-password-confirm" name="password_confirm" class="auth-input" autocomplete="new-password" required>
+              <button type="button" class="auth-toggle-pass" aria-label="Afficher le mot de passe" aria-pressed="false">
+                <i class="fas fa-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="auth-error" aria-live="polite">< ?= $errors['password_confirm'] ?? '' ?></div>
+          </div> -->
+
+          <!-- Bouton d'inscription -->
+          <button class="auth-submit" type="submit">
+            <i class="fas fa-user-plus"></i>
+            Créer mon compte
+          </button>
+
+          <!-- Lien vers connexion -->
+          <p class="auth-signup">
+            Déjà un compte ? <a href="index.php?action=login">Connectez-vous</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -62,6 +62,18 @@ if(array_key_exists('action', $_GET)):
     $controller->login();
     break;
 
+    //page d'inscription
+    case 'register':
+    $controller = new \app\controllers\UsersController();
+    $controller->showRegister();
+    break;
+
+    //traitement de l'inscription
+    case 'register-post':
+    $controller = new \app\controllers\UsersController();
+    $controller->register();
+    break;
+
 //si pas de route on redirige vers l'accueil
     default:
     header('Location: index.php?action=home');
