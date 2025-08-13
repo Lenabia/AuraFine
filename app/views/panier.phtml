@@ -1,0 +1,83 @@
+<!-- Hero Section Panier -->
+<section id="panier-hero" class="panier-hero">
+  <div class="panier-hero-content">
+    <header>
+      <h1><i class="fas fa-shopping-cart"></i> Mon Panier</h1>
+      <p>Vérifiez vos articles avant de commander</p>
+    </header>
+  </div>
+</section>
+
+<!-- Section Panier Principal -->
+<section id="panier-main" class="panier-main">
+  <div class="panier-container">
+    
+    <!-- Liste des articles -->
+    <div class="panier-articles">
+      <h2>Articles dans votre panier</h2>
+      
+      <!-- Conteneur pour les articles (sera rempli par JavaScript) -->
+      <div id="panier-articles-container">
+        <!-- Les articles seront injectés ici via JavaScript -->
+      </div>
+
+      <!-- Message panier vide (caché par défaut) -->
+      <div id="panier-vide" class="panier-vide" style="display: none;">
+        <div class="empty-cart">
+          <i class="fas fa-shopping-basket"></i>
+          <h3>Votre panier est vide</h3>
+          <p>Ajoutez des articles pour commencer vos achats</p>
+          <a href="index.php?action=home" class="btn-continuer">Continuer mes achats</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Résumé et commande -->
+    <div class="panier-resume">
+      <div class="resume-card">
+        <h3>Résumé de votre commande</h3>
+        
+        <div class="resume-details">
+          <div class="resume-line">
+            <span>Sous-total</span>
+            <span id="sous-total">0,00 €</span>
+          </div>
+          <div class="resume-line">
+            <span>Livraison</span>
+            <span>Gratuite</span>
+          </div>
+          <div class="resume-line total">
+            <span>Total</span>
+            <span id="total-commande">0,00 €</span>
+          </div>
+        </div>
+
+        <div class="resume-actions">
+          <button class="btn-commander" aria-label="Commander">
+            <i class="fas fa-credit-card"></i>
+            Commander maintenant
+          </button>
+          <a href="index.php?action=home" class="btn-continuer-sec">
+            <i class="fas fa-arrow-left"></i>
+            Continuer mes achats
+          </a>
+        </div>
+
+        <div class="resume-info">
+          <p><i class="fas fa-shield-alt"></i> Paiement sécurisé</p>
+          <p><i class="fas fa-truck"></i> Livraison rapide</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section recommandations (optionnelle) -->
+<section id="panier-recommandations" class="panier-recommandations">
+  <div class="recommandations-container">
+    <h2>Vous aimerez aussi</h2>
+    <div class="recommandations-grid">
+      <!-- Les recommandations seront injectées ici via JavaScript -->
+    </div>
+  </div>
+</section>

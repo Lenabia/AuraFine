@@ -1,0 +1,538 @@
+/* ========================================
+   PAGE DE CONNEXION - STYLES AUTH
+   ======================================== */
+
+@use "sass:color";
+@use "./color" as *;
+
+/* ========================================
+   LAYOUT PRINCIPAL
+   ======================================== */
+.auth-page {
+  min-height: 100vh;
+  background: linear-gradient(
+      135deg,
+      rgba($color-black, 0.65) 0%,
+      rgba($color-black, 0.6) 100%
+    ),
+    url("/app/public/images/salade1.webp");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+
+  /* Éléments décoratifs en arrière-plan */
+  &::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle,
+      rgba($color-rose, 0.1) 0%,
+      transparent 70%
+    );
+    animation: float 20s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -30%;
+    right: -30%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(
+      circle,
+      rgba($color-green, 0.1) 0%,
+      transparent 70%
+    );
+    animation: float 25s ease-in-out infinite reverse;
+    pointer-events: none;
+  }
+}
+
+/* ========================================
+   WRAPPER ET IMAGE
+   ======================================== */
+.auth-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  z-index: 2;
+}
+
+.auth-image {
+  display: none; /* Caché par défaut sur mobile */
+  flex: 1;
+  max-width: 500px;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+
+  @media (min-width: 1024px) {
+    flex: 1.2;
+  }
+}
+
+.auth-illustration {
+  width: 100%;
+  height: auto;
+  max-width: 450px;
+  filter: drop-shadow(0 20px 40px rgba($color-black, 0.1));
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px) scale(1.02);
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 500px;
+  }
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  z-index: 2;
+
+  @media (min-width: 768px) {
+    flex: 1;
+    max-width: 400px;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 450px;
+  }
+}
+
+.auth-card {
+  background: $color-white;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba($color-black, 0.1),
+    0 8px 24px rgba($color-rose, 0.1);
+  padding: 3rem 2rem;
+  width: 100%;
+  border: 1px solid rgba($color-rose, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+
+  /* Bordure décorative */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(
+      90deg,
+      $color-rose,
+      $color-green,
+      $color-accent
+    );
+    border-radius: 24px 24px 0 0;
+  }
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+.auth-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+
+  /* Icône décorative */
+  &::before {
+    content: "🍃";
+    position: absolute;
+    top: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    opacity: 0.6;
+  }
+}
+
+.auth-title {
+  font-size: clamp(1.8rem, 5vw + 0.5rem, 2.5rem);
+  font-weight: 800;
+  color: $color-black;
+  margin: 0 0 0.8rem 0;
+  line-height: 1.2;
+  background: linear-gradient(135deg, $color-rose, $color-green);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.auth-subtitle {
+  font-size: clamp(1rem, 1vw + 0.4rem, 1.1rem);
+  color: $color-gray-medium;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* ========================================
+   FORMULAIRE
+   ======================================== */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.auth-field {
+  position: relative;
+}
+
+.auth-label {
+  display: block;
+  font-size: clamp(0.95rem, 0.8vw + 0.3rem, 1rem);
+  font-weight: 600;
+  color: $color-black;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  border: 2px solid $color-gray-light;
+  border-radius: 12px;
+  font-size: clamp(0.95rem, 0.8vw + 0.3rem, 1rem);
+  background: $color-white;
+  color: $color-black;
+  transition: all 0.3s ease;
+  min-height: 48px;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: $color-rose;
+    box-shadow: 0 0 0 4px rgba($color-rose, 0.1);
+    transform: translateY(-1px);
+  }
+
+  &::placeholder {
+    color: $color-gray-medium;
+    opacity: 0.7;
+  }
+
+  &:hover {
+    border-color: rgba($color-rose, 0.5);
+  }
+}
+
+/* ========================================
+   MOT DE PASSE
+   ======================================== */
+.auth-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.auth-toggle-pass {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: $color-gray-medium;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+
+  &:hover {
+    color: $color-rose;
+    background: rgba($color-rose, 0.1);
+    transform: scale(1.1);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color-rose, 0.2);
+  }
+}
+
+/* ========================================
+   EXTRAS
+   ======================================== */
+.auth-extras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+
+.auth-remember {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: clamp(0.9rem, 0.7vw + 0.3rem, 0.95rem);
+  color: $color-gray-dark;
+  font-weight: 500;
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: $color-rose;
+    cursor: pointer;
+  }
+
+  span {
+    user-select: none;
+  }
+}
+
+.auth-forgot {
+  color: $color-rose;
+  text-decoration: none;
+  font-size: clamp(0.9rem, 0.7vw + 0.3rem, 0.95rem);
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: color.adjust($color-rose, $lightness: -10%);
+    text-decoration: underline;
+  }
+}
+
+/* ========================================
+   BOUTON DE CONNEXION
+   ======================================== */
+.auth-submit {
+  background: linear-gradient(
+    135deg,
+    $color-rose,
+    color.adjust($color-rose, $lightness: -10%)
+  );
+  color: $color-white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: clamp(1rem, 0.9vw + 0.4rem, 1.1rem);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  box-shadow: 0 8px 24px rgba($color-rose, 0.3);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba($color-white, 0.2),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba($color-rose, 0.4);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba($color-rose, 0.3);
+  }
+
+  i {
+    font-size: 1.1em;
+  }
+}
+
+/* ========================================
+   SÉPARATEUR
+   ======================================== */
+.auth-separator {
+  text-align: center;
+  position: relative;
+  margin: 1.5rem 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      $color-gray-light,
+      transparent
+    );
+  }
+
+  span {
+    background: $color-white;
+    padding: 0 1rem;
+    color: $color-gray-medium;
+    font-size: clamp(0.9rem, 0.7vw + 0.3rem, 0.95rem);
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* ========================================
+   BOUTON GOOGLE
+   ======================================== */
+.auth-google-btn {
+  background: $color-white;
+  color: $color-black;
+  border: 2px solid $color-gray-light;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: clamp(0.95rem, 0.8vw + 0.3rem, 1rem);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 52px;
+
+  &:hover {
+    border-color: $color-accent;
+    background: rgba($color-accent, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba($color-accent, 0.2);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba($color-accent, 0.2);
+  }
+
+  i {
+    color: #4285f4;
+    font-size: 1.2em;
+  }
+}
+
+/* ========================================
+   LIEN INSCRIPTION
+   ======================================== */
+.auth-signup {
+  text-align: center;
+  margin: 1.5rem 0 0 0;
+  font-size: clamp(0.9rem, 0.7vw + 0.3rem, 0.95rem);
+  color: $color-gray-medium;
+
+  a {
+    color: $color-green;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: color.adjust($color-green, $lightness: -10%);
+      text-decoration: underline;
+    }
+  }
+}
+
+/* ========================================
+   ERREURS
+   ======================================== */
+.auth-error {
+  color: #dc3545;
+  font-size: clamp(0.85rem, 0.6vw + 0.25rem, 0.9rem);
+  margin-top: 0.5rem;
+  font-weight: 500;
+  min-height: 1.2em;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-20px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(10px) rotate(-1deg);
+  }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+  }
+
+  .auth-title {
+    font-size: 1.8rem;
+  }
+
+  .auth-extras {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .auth-container {
+    max-width: 500px;
+  }
+
+  .auth-card {
+    padding: 3.5rem 3rem;
+  }
+}

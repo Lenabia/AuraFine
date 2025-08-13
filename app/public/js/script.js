@@ -86,3 +86,200 @@ document.addEventListener("DOMContentLoaded", function () {
     taglineObserver.observe(tagline);
   }
 });
+
+// ========================================
+// SLIDER HORIZONTAL AUTOMATIQUE (CSS ANIMATION)
+// ========================================
+document.addEventListener("DOMContentLoaded", function () {
+  // Sélectionner le track du slider
+  const sliderTrack = document.querySelector(".slider-track");
+
+  if (sliderTrack) {
+    // Configuration du slider
+    const config = {
+      pauseOnHover: true,
+    };
+
+    // Gestion du hover (pause/reprise de l'animation CSS)
+    function handleSliderHover() {
+      if (config.pauseOnHover && sliderTrack) {
+        sliderTrack.addEventListener("mouseenter", function () {
+          if (this instanceof HTMLElement) {
+            this.style.animationPlayState = "paused";
+          }
+        });
+
+        sliderTrack.addEventListener("mouseleave", function () {
+          if (this instanceof HTMLElement) {
+            this.style.animationPlayState = "running";
+          }
+        });
+      }
+    }
+
+    // Gestion du redimensionnement optimisé (pas de recréation DOM)
+    function handleResize() {
+      let resizeTimer;
+      window.addEventListener("resize", function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          // Pas de recréation DOM - l'animation CSS s'adapte automatiquement
+          // Juste une vérification que l'animation fonctionne
+          if (
+            sliderTrack &&
+            sliderTrack instanceof HTMLElement &&
+            sliderTrack.style.animationPlayState === "paused"
+          ) {
+            sliderTrack.style.animationPlayState = "running";
+          }
+        }, 300); // Debounce de 300ms
+      });
+    }
+
+    // Initialiser le slider (plus simple, pas de recréation DOM)
+    setTimeout(() => {
+      handleSliderHover();
+      handleResize();
+    }, 100);
+  }
+});
+
+// ========================================
+// EFFETS HOVER SUR LES ÉLÉMENTS (OPTIMISÉ)
+// ========================================
+document.addEventListener("DOMContentLoaded", function () {
+  // Effet hover/touch sur les cartes du slider - Délégation d'événements
+  const sliderContainer = document.querySelector(".slider-track");
+  if (sliderContainer) {
+    // Support desktop (hover)
+    sliderContainer.addEventListener(
+      "mouseenter",
+      function (e) {
+        const target = e.target;
+        if (target && target.closest) {
+          const sliderItem = target.closest(".slider-item");
+          if (sliderItem) {
+            sliderItem.classList.add("hover");
+          }
+        }
+      },
+      true
+    );
+
+    sliderContainer.addEventListener(
+      "mouseleave",
+      function (e) {
+        const target = e.target;
+        if (target && target.closest) {
+          const sliderItem = target.closest(".slider-item");
+          if (sliderItem) {
+            sliderItem.classList.remove("hover");
+          }
+        }
+      },
+      true
+    );
+
+    // Support mobile (touch)
+    let activeItem = null;
+
+    sliderContainer.addEventListener(
+      "touchstart",
+      function (e) {
+        const target = e.target;
+        if (target && target.closest) {
+          const sliderItem = target.closest(".slider-item");
+          if (sliderItem) {
+            activeItem = sliderItem;
+            sliderItem.classList.add("hover");
+          }
+        }
+      },
+      { passive: true }
+    );
+
+    sliderContainer.addEventListener(
+      "touchend",
+      function (e) {
+        if (activeItem) {
+          setTimeout(() => {
+            activeItem.classList.remove("hover");
+            activeItem = null;
+          }, 300); // Garder l'effet un peu plus longtemps sur mobile
+        }
+      },
+      { passive: true }
+    );
+  }
+
+  // ========================================
+  // EFFET HOVER SUR LES IMAGES DES CARTES
+  // ========================================
+  const cardImages = document.querySelectorAll(".card-image img");
+
+  cardImages.forEach((img) => {
+    img.addEventListener("mouseenter", function () {
+      this.style.transform = "scale(1.05)";
+    });
+
+    img.addEventListener("mouseleave", function () {
+      this.style.transform = "scale(1)";
+    });
+  });
+});
+
+// ========================================
+// PRÉCHARGEMENT DES IMAGES CRITIQUES
+// ========================================
+document.addEventListener("DOMContentLoaded", function () {
+  // Précharger les images des sections about/services/menu (plus importantes que le slider)
+  // Fallback pour les navigateurs qui ne supportent pas requestIdleCallback
+  (
+    window.requestIdleCallback ||
+    function (cb) {
+      setTimeout(cb, 200);
+    }
+  )(() => {
+    const criticalImages = document.querySelectorAll(
+      "#about img, #services img, #daily-menu img"
+    );
+    criticalImages.forEach((img) => {
+      if (img instanceof HTMLImageElement && img.src) {
+        const preloadImg = new Image();
+        preloadImg.src = img.src;
+      }
+    });
+  });
+});
+
+// ========================================
+// GESTION DES ERREURS D'IMAGES
+// ========================================
+document.addEventListener("DOMContentLoaded", function () {
+  // Gestion des erreurs de chargement d'images
+  const images = document.querySelectorAll("img");
+  images.forEach((img) => {
+    img.addEventListener("error", function () {
+      this.src = "/app/public/images/wireframes/salad.webp"; // Image de fallback
+      this.alt = "Image non disponible";
+    });
+  });
+});
+
+// ========================================
+// ANIMATIONS CSS ADDITIONNELLES
+// ========================================
+document.addEventListener("DOMContentLoaded", function () {
+  // Ajouter l'animation pulse pour le panier
+  const style = document.createElement("style");
+  style.textContent = `
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+  `;
+  document.head.appendChild(style);
+});
+
+console.log("Script principal initialisé avec succès !");

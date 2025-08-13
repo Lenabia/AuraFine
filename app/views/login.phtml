@@ -1,0 +1,75 @@
+<!-- Page de connexion -->
+<section class="auth-page">
+  <div class="auth-wrapper">
+    <!-- Image décorative -->
+    <div class="auth-image">
+      <img src="/app/public/images/login-illustration.svg" alt="Connexion AuraFine" class="auth-illustration">
+    </div>
+    
+    <!-- Formulaire de connexion -->
+    <div class="auth-container">
+      <div class="auth-card">
+        <header class="auth-header">
+          <h1 class="auth-title">Connexion</h1>
+          <p class="auth-subtitle">Connectez-vous à votre compte AuraFine</p>
+        </header>
+
+        <form action="index.php?action=login-post" method="post" class="auth-form" novalidate>
+          <!-- CSRF côté serveur -->
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
+
+          <!-- Identifiant unique (Email ou Téléphone) -->
+          <div class="auth-field">
+            <label for="auth-identifier" class="auth-label">Email ou Téléphone</label>
+            <input 
+              type="text" 
+              id="auth-identifier" 
+              name="identifier" 
+              class="auth-input" 
+              autocomplete="username" 
+              placeholder="nom@exemple.com ou +33 6 12 34 56 78" 
+              value="<?= htmlspecialchars($old['identifier'] ?? '') ?>"
+              required
+            >
+            <div class="auth-error" aria-live="polite"><?= $errors['identifier'] ?? '' ?></div>
+          </div>
+
+          <!-- Mot de passe -->
+          <div class="auth-field auth-password">
+            <label for="auth-password" class="auth-label">Mot de passe</label>
+            <div class="auth-password-wrap">
+              <input type="password" id="auth-password" name="password" class="auth-input" autocomplete="current-password" required>
+              <button type="button" class="auth-toggle-pass" aria-label="Afficher le mot de passe" aria-pressed="false">
+                <i class="fas fa-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="auth-error" aria-live="polite"><?= $errors['password'] ?? '' ?></div>
+          </div>
+
+          <div class="auth-extras">
+            <label class="auth-remember">
+              <input type="checkbox" name="remember" <?= !empty($old['remember']) ? 'checked' : '' ?>>
+              <span>Se souvenir de moi</span>
+            </label>
+            <a class="auth-forgot" href="/mot-de-passe-oublie">Mot de passe oublié ?</a>
+          </div>
+
+          <button class="auth-submit" type="submit">
+            <i class="fas fa-sign-in-alt"></i>
+            Se connecter
+          </button>
+
+          <div class="auth-separator"><span>ou</span></div>
+
+          <a class="auth-google-btn" href="/auth/google">
+            <i class="fab fa-google" aria-hidden="true"></i> Continuer avec Google
+          </a>
+
+          <p class="auth-signup">
+            Pas de compte ? <a href="/inscription">Créez un compte</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section> 

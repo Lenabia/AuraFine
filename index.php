@@ -44,6 +44,24 @@ if(array_key_exists('action', $_GET)):
     $controller->displayFruitsLegumesPage();
     break;
 
+    //page du panier
+    case 'panier':
+    $controller = new \app\controllers\UsersController();
+    $controller->displayPanierPage();
+    break;
+
+    //page de connexion
+    case 'login':
+    $controller = new \app\controllers\UsersController();
+    $controller->showLogin();
+    break;
+
+    //traitement de la connexion
+    case 'login-post':
+    $controller = new \app\controllers\UsersController();
+    $controller->login();
+    break;
+
 //si pas de route on redirige vers l'accueil
     default:
     header('Location: index.php?action=home');
