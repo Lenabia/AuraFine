@@ -1,5 +1,12 @@
 <!-- Hero section avec grande image -->
 <section class="hero-section">
+  <!-- Message de déconnexion -->
+  <?php if (isset($success_message)): ?>
+    <div class="auth-success" role="alert">
+      <?= htmlspecialchars($success_message) ?>
+    </div>
+  <?php endif; ?>
+  
   <article class="hero-content">
     <header class="hero-text">
       <h2>Salades Fraîches & Raffinées</h2>

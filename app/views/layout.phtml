@@ -16,6 +16,8 @@
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="app/public/css/main.css" rel="stylesheet" />
+
+    <link href="app/public/css/login.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -33,15 +35,28 @@
           <span class="cart-count">0</span>
         </a>
         <!-- <button class="order-btn">Commander</button> -->
-        <!-- Bouton "Se connecter" avec icône -->
-        <a href="index.php?action=login" class="btn-login" aria-label="Se connecter">
-          <i class="fas fa-user"></i>
-          <span>Connexion</span>
-        </a>
-        <button class="phone-btn">
-          <i class="fas fa-phone"></i>
-          +221-77-473-13-87
-        </button>
+        
+        <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'user'): ?>
+          <!-- Utilisateur connecté avec rôle user -->
+          <a href="index.php?action=logout" class="btn-login" aria-label="Se déconnecter">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Déconnexion</span>
+          </a>
+          <span class="phone-btn">
+            <i class="fas fa-user"></i>
+            <?= htmlspecialchars($_SESSION['user']['first_name']) ?>
+          </span>
+        <?php else: ?>
+          <!-- Utilisateur non connecté -->
+          <a href="index.php?action=login" class="btn-login" aria-label="Se connecter">
+            <i class="fas fa-user"></i>
+            <span>Connexion</span>
+          </a>
+          <button class="phone-btn">
+            <i class="fas fa-phone"></i>
+            +221-77-473-13-87
+          </button>
+        <?php endif; ?>
         <nav class="social-links">
           <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
           <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -53,6 +68,13 @@
   <!-- Navigation principale -->
   <section class="header-container">
     <h1 class="logo">AuraFine</h1>
+    
+    <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'user'): ?>
+      <!-- Message de bienvenue pour utilisateur connecté -->
+      <div class="welcome-message">
+        <span>Bienvenue <?= htmlspecialchars($_SESSION['user']['first_name']) ?></span>
+      </div>
+    <?php endif; ?>
     
     <!-- Menu burger pour mobile/tablette -->
     <button id="burger-btn" class="burger-btn" aria-label="Ouvrir le menu">
@@ -76,6 +98,14 @@
   <!-- Menu burger slide-in -->
   <nav id="burger-menu" class="burger-menu">
     <button id="close-burger" class="close-burger" aria-label="Fermer le menu">&times;</button>
+    
+    <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'user'): ?>
+      <!-- Message de bienvenue pour utilisateur connecté -->
+      <div class="welcome-message-mobile">
+        <span>Bienvenue <?= htmlspecialchars($_SESSION['user']['first_name']) ?></span>
+      </div>
+    <?php endif; ?>
+    
     <ul>
      <li><a href="index.php?action=home" class="nav-link active">Accueil</a></li>
         <li><a href="#" class="nav-link">Menu</a></li>

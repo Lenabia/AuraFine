@@ -3,21 +3,39 @@ namespace app\middleware;
 
 class Middleware {
 
-//Methode pour créer la session
-  public function createdSession($data) {
-        $_SESSION['connected'] = true;
-        $_SESSION['user'] = $data;
-        unset($_SESSION['user']['password']);//supprime le mdp de la session par securité
-    }
+/**
+ * Nettoie la session utilisateur en supprimant les données sensibles
+ * 
+ * @param array $data Les données utilisateur
+ * @security Supprime immédiatement le mot de passe de la session
+ */
+public function createdSession($data) {
+    $_SESSION['connected'] = true;
+    $_SESSION['user'] = $data;
+    
+    // CRITIQUE : Supprimer le mot de passe de la session pour la sécurité
+    // Même hashé, un mot de passe ne doit jamais être stocké en session
+    unset($_SESSION['user']['password']);
+    
+    // Ajouter un timestamp de création pour la gestion de l'expiration
+    $_SESSION['session_created'] = time();
+}
 
-    //Methode render pour afficher le header et footer 
-
+    /**
+     * Méthode render pour afficher le header et footer
+     * 
+     * @param string $template Le template principal à inclure
+     * @param string $layout Le layout à utiliser
+     * @param array $data Les données à passer à la vue
+     */
     public function render($template, $layout, $data = []) {
         // Extraire les données pour les rendre disponibles dans la vue
         if (!empty($data)) {
             extract($data);
         }
-        include_once "app/views/$layout";
+        
+        // Inclure le layout qui inclura ensuite le template
+        include "app/views/$layout";
     }
        
     
@@ -28,19 +46,109 @@ class Middleware {
         exit;
     }
     
-    // Vérifie que l'utilisateur est connecté
+    /**
+     * Vérifie si l'utilisateur est authentifié et si sa session n'a pas expiré
+     * 
+     * @return bool True si l'utilisateur est authentifié et sa session valide
+     * 
+     * @security Vérifie l'expiration de session pour prévenir la fixation de session
+     */
     protected function isAuthenticated() {
+        // Vérifier que l'utilisateur est connecté
         if (!isset($_SESSION['connected']) || $_SESSION['connected'] === false) {
-            $this->redirectTo('accessDenied');//Redirige vers une page de connexion, 
+            return false;
         }
+        
+        // Vérifier l'expiration de session (8 heures par défaut)
+        $sessionLifetime = 8 * 3600; // 8 heures en secondes
+        if (isset($_SESSION['session_created']) && 
+            (time() - $_SESSION['session_created']) > $sessionLifetime) {
+            
+            // Session expirée - nettoyer et rediriger
+            $this->destroySession();
+            return false;
+        }
+        
+        return true;
     }
 
-//Methode pour le token eviter la faille cscrf
-     protected function checkCSRFToken() {
-        if (!isset($_SESSION['token']) || $_POST['token'] !== $_SESSION['token']) {
-            return false;
-        } else {
-            return true;
+    /**
+     * Détruit proprement la session utilisateur
+     * 
+     * @security Nettoie complètement la session pour éviter la réutilisation
+     */
+    protected function destroySession() {
+        // Vider le tableau de session
+        $_SESSION = array();
+        
+        // Détruire le cookie de session si il existe
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
         }
+        
+        // Détruire la session
+        session_destroy();
     }
+
+    /**
+     * Vérifie si la requête est une requête AJAX
+     * 
+     * @return bool True si c'est une requête AJAX, False sinon
+     * 
+     * @security Détecte les requêtes AJAX pour adapter la réponse
+     */
+    protected function isAjaxRequest() {
+        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+               strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+    }
+
+    /**
+     * Vérifie la validité du token CSRF pour prévenir les attaques Cross-Site Request Forgery
+     * 
+     * @return bool True si le token est valide, False sinon
+     * 
+     * @security Cette méthode utilise hash_equals() pour une comparaison sécurisée
+     *           qui évite les attaques par timing attack
+     */
+    protected function checkCSRFToken() {
+        // Vérifier que le token existe dans la session ET dans la requête POST
+        if (!isset($_SESSION['csrf_token']) || !isset($_POST['csrf_token'])) {
+        return false;
+    }
+    
+    // Utiliser hash_equals() pour une comparaison sécurisée (timing attack safe)
+    return hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']);
+}
+
+/**
+ * Génère un token CSRF cryptographiquement sécurisé
+ * 
+ * @return string Le token CSRF généré
+ * 
+ * @security Utilise random_bytes(32) pour générer 256 bits d'entropie
+ *           Suffisant pour résister aux attaques par force brute
+ */
+protected function generateCSRFToken() {
+    if (!isset($_SESSION['csrf_token'])) {
+        // Générer 32 bytes (256 bits) d'entropie cryptographique
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+/**
+ * Vérifie un token CSRF spécifique
+ * 
+ * @param string $token Le token à vérifier
+ * @return bool True si le token est valide, False sinon
+ * 
+ * @security Utilise hash_equals() pour éviter les attaques par timing
+ */
+protected function verifyCSRFToken($token) {
+    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+}
 }

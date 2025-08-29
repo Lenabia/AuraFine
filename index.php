@@ -1,13 +1,17 @@
 <?php
 
-session_start(); 
+// Charger la configuration AVANT de démarrer la session
+require('app/config/config.php');
+
+// Démarrer la session APRÈS la configuration
+session_start();
+
 //gérer les erreurs
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 date_default_timezone_set('Africa/Dakar');
-require('app/config/config.php');
 
 //chargement des class
 spl_autoload_register(function($class) {
@@ -26,52 +30,60 @@ if(array_key_exists('action', $_GET)):
     $controller->displayHome();
     break;
 
-    //page des salades
-    case 'salad-page':
-    $controller = new \app\controllers\UsersController();
-    $controller->displaySaladPage();
-    break;
+    //page des salades (à adapter plus tard)
+    // case 'salad-page':
+    // $controller = new \app\controllers\UsersController();
+    // $controller->displaySaladPage();
+    // break;
 
-    //page des boissons
-    case 'boissons':
-    $controller = new \app\controllers\UsersController();
-    $controller->displayBoissonsPage();
-    break;
+    //page des boissons (à adapter plus tard)
+    // case 'boissons':
+    // $controller = new \app\controllers\UsersController();
+    // $controller->displayBoissonsPage();
+    // break;
 
-    //page des fruits et légumes
-    case 'fruits-legumes':
-    $controller = new \app\controllers\UsersController();
-    $controller->displayFruitsLegumesPage();
-    break;
+    //page des fruits et légumes (à adapter plus tard)
+    // case 'fruits-legumes':
+    // $controller = new \app\controllers\UsersController();
+    // $controller->displayFruitsLegumesPage();
+    // break;
 
-    //page du panier
-    case 'panier':
-    $controller = new \app\controllers\UsersController();
-    $controller->displayPanierPage();
-    break;
+    //page du panier (à adapter plus tard)
+    // case 'panier':
+    // $controller = new \app\controllers\UsersController();
+    // $controller->displayPanierPage();
+    // break;
 
     //page de connexion
     case 'login':
     $controller = new \app\controllers\UsersController();
-    $controller->showLogin();
-    break;
-
-    //traitement de la connexion
-    case 'login-post':
-    $controller = new \app\controllers\UsersController();
-    $controller->login();
+    
+    // Si c'est une soumission POST, traiter la connexion
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $controller->login();
+    } else {
+        // Sinon afficher le formulaire
+        $controller->showLogin();
+    }
     break;
 
     //page d'inscription
     case 'register':
     $controller = new \app\controllers\UsersController();
-    $controller->showRegister();
+    
+    // Si c'est une soumission POST, traiter l'inscription
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $controller->register();
+    } else {
+        // Sinon afficher le formulaire
+        $controller->showRegister();
+    }
     break;
 
-    //traitement de l'inscription
-    case 'register-post':
+    //déconnexion
+    case 'logout':
     $controller = new \app\controllers\UsersController();
-    $controller->register();
+    $controller->logout();
     break;
 
 //si pas de route on redirige vers l'accueil

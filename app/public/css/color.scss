@@ -18,3 +18,43 @@ $color-green: #4caf50;
 $color-green-light: #a5d6a7;
 $color-accent: #ff6b35;
 $color-bg-section: #7f0d33;
+
+/* ========================================
+   NOUVELLES COULEURS POUR L'AUTHENTIFICATION
+   ======================================== */
+
+/* Couleurs rouges (Erreurs) */
+$color-red: #dc2626; // Rouge principal
+$color-red-light: #fef2f2; // Fond rouge clair
+$color-red-border: #fecaca; // Bordure rouge claire
+$color-red-dark: #991b1b; // Rouge foncé pour le mode sombre
+$color-red-accent: #ef4444; // Rouge accent pour focus/validation
+
+/* Couleurs vertes (Succès) */
+$color-green-success: #16a34a; // Vert succès principal
+$color-green-light-bg: #f0fdf4; // Fond vert clair
+$color-green-border: #bbf7d0; // Bordure verte claire
+$color-green-dark: #166534; // Vert foncé pour le mode sombre
+$color-green-accent: #22c55e; // Vert accent pour focus/validation
+
+/* Couleurs jaunes/oranges (Avertissements) */
+$color-warning: #f59e0b; // Orange avertissement principal
+$color-warning-light: #fffbeb; // Fond jaune clair
+$color-warning-dark: #92400e; // Orange foncé pour le mode sombre
+
+/* Couleurs d'information (utilisant les couleurs existantes) */
+$color-info: $color-accent; // Utiliser $color-accent (#ff6b35) au lieu du bleu
+$color-info-light: #fff7f0; // Fond orange très clair
+$color-info-border: #ffd4b3; // Bordure orange claire
+
+/* Couleurs de bienvenue (utilisant les couleurs existantes) */
+$color-welcome: $color-rose; // Utiliser $color-rose au lieu du bleu
+$color-welcome-light: #fdf2f8; // Fond rose très clair
+$color-welcome-border: #fce7f3; // Bordure rose claire
+
+/* Couleurs de focus et validation */
+$color-focus: $color-rose; // Couleur de focus (rose)
+$color-focus-light: rgba(
+  $color-rose,
+  0.1
+); // Couleur de focus avec transparence

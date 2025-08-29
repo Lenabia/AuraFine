@@ -14,24 +14,37 @@
           <p class="auth-subtitle">Connectez-vous à votre compte AuraFine</p>
         </header>
 
-        <form action="index.php?action=login-post" method="post" class="auth-form" novalidate>
+        <?php if (isset($_SESSION['success_message'])): ?>
+          <div class="auth-success" role="alert">
+            <?= htmlspecialchars($_SESSION['success_message']) ?>
+          </div>
+          <?php unset($_SESSION['success_message']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($errors['general'])): ?>
+          <div class="auth-error" role="alert">
+            <?= htmlspecialchars($errors['general']) ?>
+          </div>
+        <?php endif; ?>
+
+        <form action="index.php?action=login" method="post" class="auth-form" novalidate>
           <!-- CSRF côté serveur -->
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
 
-          <!-- Identifiant unique (Email ou Téléphone) -->
+          <!-- Email -->
           <div class="auth-field">
-            <label for="auth-identifier" class="auth-label">Email ou Téléphone</label>
+            <label for="auth-email" class="auth-label">Email</label>
             <input 
-              type="text" 
-              id="auth-identifier" 
-              name="identifier" 
+              type="email" 
+              id="auth-email" 
+              name="email" 
               class="auth-input" 
               autocomplete="username" 
-              placeholder="nom@exemple.com ou +33 6 12 34 56 78" 
-              value="<?= htmlspecialchars($old['identifier'] ?? '') ?>"
+              placeholder="votre@email.com" 
+              value="<?= htmlspecialchars($old['email'] ?? '') ?>"
               required
             >
-            <div class="auth-error" aria-live="polite"><?= $errors['identifier'] ?? '' ?></div>
+            <div class="auth-error" aria-live="polite"><?= $errors['email'] ?? '' ?></div>
           </div>
 
           <!-- Mot de passe -->

@@ -1,0 +1,306 @@
+# Cursor Rules for Aura Fine Restaurant Website
+
+## Project Context
+
+You are developing a salad restaurant e-commerce website called "Aura Fine" using Laravel (backend) and JavaScript/HTML/SCSS (frontend).
+
+## General Development Rules
+
+### Code Quality Standards
+
+- **Always write clean, self-documenting code**
+- **Follow DRY (Don't Repeat Yourself) principle**
+- **Keep functions small and focused (Single Responsibility Principle)**
+- **Add meaningful comments**
+- **Use consistent indentation (4 spaces for PHP, 2 for JS/SCSS)**
+
+## Laravel Backend Rules
+
+### Architecture & Structure
+
+- **Follow Laravel MVC architecture strictly**
+- **Use Repository Pattern for complex queries**
+- **Implement Service Classes for business logic**
+- **Keep controllers thin, models fat**
+- **Use Form Requests for validation**
+
+### Naming Conventions
+
+```
+- Controllers: PascalCase with 'Controller' suffix (e.g., SaladController)
+- Models: Singular PascalCase (e.g., Salad, Order)
+- Migrations: snake_case with descriptive names (e.g., create_salads_table)
+- Routes: kebab-case for URLs (e.g., /api/salad-ingredients)
+- Database tables: plural snake_case (e.g., salads, order_items)
+- Database columns: snake_case (e.g., created_at, salad_name)
+- Methods: camelCase (e.g., getSaladPrice())
+- Variables: camelCase for PHP (e.g., $saladPrice)
+```
+
+### Database & Eloquent
+
+- **Always use migrations for database changes**
+- **Define all relationships in models**
+- **Use eager loading to prevent N+1 queries**
+- **Implement soft deletes for orders and user data**
+- **Use database transactions for critical operations**
+
+### Security Rules
+
+- **Always validate and sanitize user inputs**
+- **Use Laravel's built-in CSRF protection**
+- **Implement rate limiting on API endpoints**
+- **Hash passwords using bcrypt**
+- **Use policies and gates for authorization**
+- **Never expose sensitive data in API responses**
+- **Use prepared statements (Eloquent does this automatically)**
+- **Implement API authentication using Laravel Sanctum**
+
+### API Development
+
+```php
+// Always return consistent JSON responses
+return response()->json([
+    'success' => true,
+    'data' => $data,
+    'message' => 'Operation successful'
+], 200);
+
+// Use proper HTTP status codes
+// 200: OK, 201: Created, 400: Bad Request, 401: Unauthorized, 404: Not Found, 422: Validation Error
+```
+
+## Frontend JavaScript Rules
+
+### Modern JavaScript Standards
+
+- **Use ES6+ features (arrow functions, destructuring, template literals)**
+- **Prefer const over let, avoid var**
+- **Use async/await over promises chains**
+- **Implement proper error handling with try/catch**
+
+### Code Organization
+
+```javascript
+// Use modules and proper imports
+import { validateSalad } from "./validators/saladValidator.js";
+
+// Group related functions in modules
+export const SaladService = {
+  fetchAll: async () => {},
+  create: async (data) => {},
+  update: async (id, data) => {},
+  delete: async (id) => {},
+};
+```
+
+### DOM Manipulation & Events
+
+- **Use event delegation for dynamic elements**
+- **Cache DOM queries**
+- **Debounce input events**
+- **Use data attributes for JavaScript hooks**
+
+### AJAX & API Calls
+
+```javascript
+// Always use try/catch with async operations
+const fetchSalads = async () => {
+  try {
+    const response = await fetch("/api/salads", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+          .content,
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch salads");
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching salads:", error);
+    // Show user-friendly error message
+  }
+};
+```
+
+## SCSS/CSS Rules
+
+### Organization
+
+- **Use BEM methodology for class naming**
+- **Keep specificity low**
+- **Use variables for colors, spacing, and breakpoints**
+- **Mobile-first approach for responsive design**
+
+```scss
+// Variables
+$primary-color: #2ecc71;
+$spacing-unit: 8px;
+
+// BEM Example
+.salad-card {
+  &__image {
+  }
+  &__title {
+  }
+  &__price {
+  }
+  &--featured {
+  }
+}
+```
+
+## E-commerce Specific Rules
+
+### No-Inventory Mode (Availability-Only)
+
+- **Products (salads, menus, drinks) do not track stock**
+- **Add boolean `is_active` (default: true)**
+- **Optional time windows: `available_from` / `available_until` (nullable)**
+- **Customer queries MUST filter by `is_active = true` and time windows**
+- **Admin endpoints return all products regardless**
+
+### Scheduled Publishing & Time Windows
+
+- **Exclude items outside their window from customer endpoints**
+- **Queue job to invalidate caches at window boundaries**
+- **Use Laravel Task Scheduling for automated visibility changes**
+
+### Cart & Checkout Validation (No Stock)
+
+- **Server MUST re-fetch items at checkout**
+- **Validate availability (`is_active` + time window)** -
+- **Return 422 with detailed error if unavailable**
+- **Mark unavailable cart items and prevent checkout**
+
+```php
+// Example validation
+if (!$product->is_active || !$product->isAvailableNow()) {
+    return response()->json([
+        'success' => false,
+        'errors' => ['product' => 'This item is currently unavailable'],
+        'unavailable_items' => [$product->id]
+    ], 422);
+}
+```
+
+### Pricing & Server Authority
+
+- **Server is single source of truth for prices**
+- **Use integer minor units (cents) or decimal(10,2)**
+- **Recalculate totals on every cart update**
+
+```php
+// Store prices in cents
+$price_in_cents = (int)($price * 100);
+```
+
+### Product Management
+
+- **Use slugs for SEO-friendly URLs**
+- **Implement image optimization and lazy loading**
+- **Cache product queries with tags**
+- **Daily specials with time windows**
+
+## Search, Indexing & Caching
+
+- **Exclude inactive/out-of-window items from customer search**
+- **Maintain separate Admin indexes with all products**
+- **Use cache tags (e.g., `products`, `category:{id}`)**
+- **Bust cache on availability changes**
+
+```php
+Cache::tags(['products', "category:{$categoryId}"])->flush();
+```
+
+### SEO & Direct Access
+
+- **Return 404 for temporarily unavailable products**
+- **Return 410 for permanently removed items**
+- **Allow admin preview via signed URLs**
+
+```php
+URL::temporarySignedRoute('product.preview', now()->addHours(1), ['product' => $product]);
+```
+
+## Testing Requirements
+
+- **Test availability toggle and time-window enforcement**
+- **Test checkout rejection of unavailable items**
+- **Test cache invalidation on changes**
+- **Test search exclusion of inactive items**
+- **Test pagination and N+1 query prevention**
+- **Mock external services in tests**
+
+## Performance Optimization
+
+- **Use Laravel's query builder for complex queries**
+- **Implement pagination for list views**
+- **Use Laravel queues for heavy operations**
+- **Minify and bundle assets in production**
+- **Implement Redis caching for frequently accessed data** -
+
+## Error Handling
+
+- **Log all errors with context**
+- **Never show technical errors to users**
+- **Implement global error handlers**
+- **Use Laravel's exception handler**
+
+## Git Commit Rules
+
+- **Use conventional commits (feat:, fix:, refactor:, docs:)**
+- **Write clear commit messages**
+- **One feature per commit**
+
+## Environment Configuration
+
+- **Never commit .env file**
+- **Use environment variables for all configurations**
+- **Different configs for dev/staging/production**
+
+## Documentation
+
+- **Document API endpoints with comments**
+- **Keep README.md updated**
+- **Document complex business logic**
+
+### Admin UX & Role-Based Access Control (RBAC)
+
+- **Provide bulk toggle actions for availability**
+- **Schedule visibility changes in advance**
+- **Enforce Policies for all mutations**
+- **Log all admin actions (who/what/when)**
+
+```php
+activity()
+    ->causedBy(auth()->user())
+    ->performedOn($product)
+    ->log('Product availability toggled');
+```
+
+### Accessibility & Customer UX
+
+- **Clearly label unavailable items in cart**
+- **One-click removal of unavailable items**
+- **Show availability windows to customers**
+- **Grace period notifications before items expire**
+
+## Final Security Checklist
+
+- [ ] All forms have CSRF tokens
+- [ ] All inputs are validated and sanitized
+- [ ] SQL injection prevention through Eloquent/Query Builder
+- [ ] XSS prevention through blade escaping
+- [ ] Authentication required for protected routes
+- [ ] Rate limiting implemented
+- [ ] HTTPS enforced in production
+- [ ] Sensitive data encrypted
+- [ ] Regular security updates applied
+- [ ] Availability validation at checkout
+- [ ] Price recalculation server-side
+- [ ] Admin actions logged
