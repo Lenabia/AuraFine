@@ -34,20 +34,46 @@
           <i class="fas fa-shopping-cart"></i>
           <span class="cart-count">0</span>
         </a>
-        <!-- <button class="order-btn">Commander</button> -->
         
-        <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'user'): ?>
+        <?php if (isset($_SESSION['user']) && (strtolower($_SESSION['user']['role']) === 'user' || $_SESSION['user']['role'] == 'user')): ?>
           <!-- Utilisateur connecté avec rôle user -->
           <a href="index.php?action=logout" class="btn-login" aria-label="Se déconnecter">
             <i class="fas fa-sign-out-alt"></i>
             <span>Déconnexion</span>
           </a>
-          <span class="phone-btn">
-            <i class="fas fa-user"></i>
-            <?= htmlspecialchars($_SESSION['user']['first_name']) ?>
+          
+          <!-- Bouton Profil avec menu déroulant -->
+          <div class="user-profile-dropdown">
+            <button class="btn-login profile-trigger" aria-label="Mon profil">
+              <i class="fas fa-user-circle"></i>
+              <span>Profil</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            
+            <div class="profile-menu-content">
+              <a href="index.php?action=my-orders" class="profile-menu-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Commandes</span>
+              </a>
+              <a href="index.php?action=profile" class="profile-menu-item">
+                <i class="fas fa-user-cog"></i>
+                <span>Profil</span>
+              </a>
+              <a href="index.php?action=referral" class="profile-menu-item">
+                <i class="fas fa-gift"></i>
+                <span>Parrainage</span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Points Fidélité (remplace le téléphone) -->
+          <span class="loyalty-points" id="loyalty-points" data-points="<?= (int)($_SESSION['user']['loyalty_points'] ?? 0) ?>">
+            <i class="fas fa-star"></i>
+            <span>Pts Fidélité : <?= (int)($_SESSION['user']['loyalty_points'] ?? 0) ?></span>
           </span>
+          
         <?php else: ?>
-          <!-- Utilisateur non connecté -->
+          <!-- Utilisateur non connecté - Structure inchangée -->
           <a href="index.php?action=login" class="btn-login" aria-label="Se connecter">
             <i class="fas fa-user"></i>
             <span>Connexion</span>
@@ -57,6 +83,7 @@
             +221-77-473-13-87
           </button>
         <?php endif; ?>
+        
         <nav class="social-links">
           <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
           <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -114,6 +141,28 @@
         <li><a href="index.php?action=fruits-legumes" class="nav-link">Fruits et légumes</a></li>
         <li><a href="#" class="nav-link">Décoration et traiteur</a></li>
         <li><a href="#" class="nav-link">Conseils</a></li>
+        
+        <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'user'): ?>
+        <!-- Actions utilisateur connecté -->
+        <li class="mobile-user-actions">
+          <a href="index.php?action=my-orders" class="nav-link">
+            <i class="fas fa-shopping-bag"></i>
+            <span>Commandes</span>
+          </a>
+        </li>
+        <li class="mobile-user-actions">
+          <a href="index.php?action=profile" class="nav-link">
+            <i class="fas fa-user-cog"></i>
+            <span>Profil</span>
+          </a>
+        </li>
+        <li class="mobile-user-actions">
+          <a href="index.php?action=referral" class="nav-link">
+            <i class="fas fa-gift"></i>
+            <span>Parrainage</span>
+          </a>
+        </li>
+        <?php endif; ?>
     </ul>
   </nav>
 

@@ -57,33 +57,25 @@ if(array_key_exists('action', $_GET)):
     //page de connexion
     case 'login':
     $controller = new \app\controllers\UsersController();
-    
-    // Si c'est une soumission POST, traiter la connexion
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $controller->login();
-    } else {
-        // Sinon afficher le formulaire
-        $controller->showLogin();
-    }
+    $controller->showLogin();
     break;
 
     //page d'inscription
     case 'register':
     $controller = new \app\controllers\UsersController();
-    
-    // Si c'est une soumission POST, traiter l'inscription
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $controller->register();
-    } else {
-        // Sinon afficher le formulaire
-        $controller->showRegister();
-    }
+    $controller->showRegister();
     break;
 
     //déconnexion
     case 'logout':
     $controller = new \app\controllers\UsersController();
     $controller->logout();
+    break;
+
+    //mes commandes
+    case 'my-orders':
+    $controller = new \app\controllers\UsersController();
+    $controller->showMyOrders();
     break;
 
 //si pas de route on redirige vers l'accueil

@@ -282,4 +282,80 @@ document.addEventListener("DOMContentLoaded", function () {
   document.head.appendChild(style);
 });
 
+/* ========================================
+   MENU PROFIL UTILISATEUR
+   ======================================== */
+
+// Gestion du menu déroulant profil
+document.addEventListener("DOMContentLoaded", function () {
+  const profileDropdown = document.querySelector(".user-profile-dropdown");
+
+  if (profileDropdown) {
+    const profileTrigger = profileDropdown.querySelector(".profile-trigger");
+    const profileMenu = profileDropdown.querySelector(".profile-menu-content");
+
+    // Gestion du clic sur mobile
+    profileTrigger.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      // Toggle du menu sur mobile
+      if (window.innerWidth < 1024) {
+        profileMenu.classList.toggle("show");
+
+        // Fermer le menu si on clique ailleurs
+        document.addEventListener("click", function closeMenu(e) {
+          if (!profileDropdown.contains(e.target)) {
+            profileMenu.classList.remove("show");
+            document.removeEventListener("click", closeMenu);
+          }
+        });
+      }
+    });
+
+    // Gestion du hover sur desktop
+    if (window.innerWidth >= 1024) {
+      profileDropdown.addEventListener("mouseenter", function () {
+        profileMenu.style.opacity = "1";
+        profileMenu.style.visibility = "visible";
+        profileMenu.style.transform = "translateX(-50%) translateY(0)";
+      });
+
+      profileDropdown.addEventListener("mouseleave", function () {
+        profileMenu.style.opacity = "0";
+        profileMenu.style.visibility = "hidden";
+        profileMenu.style.transform = "translateX(-50%) translateY(-10px)";
+      });
+    }
+
+    // Gestion du redimensionnement de la fenêtre
+    window.addEventListener("resize", function () {
+      if (window.innerWidth < 1024) {
+        profileMenu.style.opacity = "";
+        profileMenu.style.visibility = "";
+        profileMenu.style.transform = "";
+      }
+    });
+  }
+});
+
+// Gestion des points fidélité (pour usage futur)
+document.addEventListener("DOMContentLoaded", function () {
+  const loyaltyPoints = document.getElementById("loyalty-points");
+
+  if (loyaltyPoints) {
+    const currentPoints = parseInt(loyaltyPoints.dataset.points) || 0;
+
+    // Animation des points fidélité
+    loyaltyPoints.addEventListener("click", function () {
+      this.style.transform = "scale(1.1)";
+      setTimeout(() => {
+        this.style.transform = "scale(1)";
+      }, 200);
+    });
+
+    // Log pour debug (à retirer en production)
+    console.log("Points fidélité actuels:", currentPoints);
+  }
+});
+
 console.log("Script principal initialisé avec succès !");
