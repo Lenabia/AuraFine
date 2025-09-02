@@ -17,7 +17,6 @@
     <!-- Custom CSS -->
     <link href="app/public/css/main.css" rel="stylesheet" />
 
-    <link href="app/public/css/login.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -69,7 +68,8 @@
           <!-- Points Fidélité (remplace le téléphone) -->
           <span class="loyalty-points" id="loyalty-points" data-points="<?= (int)($_SESSION['user']['loyalty_points'] ?? 0) ?>">
             <i class="fas fa-star"></i>
-            <span>Pts Fidélité : <?= (int)($_SESSION['user']['loyalty_points'] ?? 0) ?></span>
+            <span class="loyalty-text">Pts Fidélité :</span>
+            <span class="loyalty-number"><?= (int)($_SESSION['user']['loyalty_points'] ?? 0) ?></span>
           </span>
           
         <?php else: ?>

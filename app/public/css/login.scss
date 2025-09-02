@@ -354,11 +354,13 @@
   gap: 1.5rem;
 }
 
-.form-group {
+.form-group,
+.auth-field {
   position: relative;
 }
 
-.form-label {
+.form-label,
+.auth-label {
   display: block;
   font-weight: 600;
   color: $color-black;
@@ -366,7 +368,10 @@
   font-size: 0.95rem;
 }
 
-.form-input {
+.form-input,
+.auth-input,
+.auth-textarea,
+.auth-select {
   width: 100%;
   padding: 1rem 1.25rem;
   border: 2px solid rgba($color-gray-light, 0.3);
@@ -400,11 +405,184 @@
   }
 }
 
+/* Styles spécifiques pour textarea */
+.auth-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Styles spécifiques pour select */
+.auth-select {
+  cursor: pointer;
+
+  option {
+    padding: 0.5rem;
+  }
+}
+
+/* Champs en ligne (nom/prénom) */
+.auth-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Champ mot de passe avec bouton toggle */
+.auth-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .auth-input {
+    padding-right: 3rem;
+  }
+
+  .auth-toggle-pass {
+    position: absolute;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: $color-gray-medium;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: $color-rose;
+      background: rgba($color-rose, 0.1);
+    }
+  }
+}
+
+/* Extras (remember me, forgot password) */
+.auth-extras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+}
+
+.auth-remember {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: $color-gray-dark;
+
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: $color-rose;
+  }
+}
+
+.auth-forgot {
+  color: $color-rose;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Séparateur */
+.auth-separator {
+  text-align: center;
+  margin: 1.5rem 0;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: $color-gray-light;
+  }
+
+  span {
+    background: $color-white;
+    padding: 0 1rem;
+    color: $color-gray-medium;
+    font-size: 0.9rem;
+  }
+}
+
+/* Bouton Google */
+.auth-google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: $color-white;
+  color: $color-gray-dark;
+  border: 2px solid $color-gray-light;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+
+  &:hover {
+    border-color: #4285f4;
+    color: #4285f4;
+    transform: translateY(-1px);
+  }
+
+  i {
+    font-size: 1.2em;
+  }
+}
+
+/* Lien inscription/connexion */
+.auth-signup {
+  text-align: center;
+  color: $color-gray-medium;
+  font-size: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid rgba($color-gray-light, 0.3);
+
+  a {
+    color: $color-rose;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+
+    &:hover {
+      text-decoration: underline;
+      background: rgba($color-rose, 0.1);
+      transform: translateY(-1px);
+    }
+  }
+}
+
 /* ========================================
    BOUTONS
    ======================================== */
 
-.btn-primary {
+.btn-primary,
+.auth-submit {
   background: linear-gradient(135deg, $color-rose, $color-green);
   color: $color-white;
   border: none;
@@ -420,6 +598,7 @@
   font-family: inherit;
   position: relative;
   overflow: hidden;
+  width: 100%;
 
   &:hover {
     transform: translateY(-2px);

@@ -1,7 +1,7 @@
 @use "sass:color";
 @use "sass:map";
 @use "./color" as *;
-@use "./loginAuth" as *;
+@use "./login" as *;
 
 /* ========================================
    MIXINS
@@ -44,7 +44,7 @@ $bp: (
   // desktop large
   xxxl: 1440px,
   // desktop XL
-  uhd: 1600px // très grands écrans,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+  uhd: 1600px // très grands écrans,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 );
 @mixin up($key) {
   @media (min-width: map.get($bp, $key)) {
@@ -2068,6 +2068,312 @@ body {
 }
 
 /* ========================================
+   STYLES UTILISATEUR CONNECTÉ
+   ======================================== */
+
+/* Dropdown profil utilisateur */
+.user-profile-dropdown {
+  position: relative;
+  display: inline-block;
+
+  .profile-trigger {
+    background: $color-green;
+    color: $color-white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    cursor: pointer;
+    @include transition;
+    font-size: clamp(0.95rem, 0.8vw + 0.6rem, 1rem);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover {
+      background: color.adjust($color-green, $lightness: -10%);
+      transform: translateY(-2px);
+    }
+
+    i {
+      font-size: 1em;
+    }
+
+    .fa-chevron-down {
+      font-size: 0.8em;
+      transition: transform 0.3s ease;
+    }
+  }
+
+  .profile-menu-content {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: $color-white;
+    border-radius: 1rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba($color-rose, 0.1);
+    min-width: 200px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    @include transition;
+    margin-top: 0.5rem;
+
+    &.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      right: 20px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 8px solid $color-white;
+    }
+  }
+
+  .profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: $color-black;
+    text-decoration: none;
+    font-weight: 500;
+    @include transition;
+    border-bottom: 1px solid rgba($color-gray-light, 0.5);
+
+    &:last-child {
+      border-bottom: none;
+      border-radius: 0 0 1rem 1rem;
+    }
+
+    &:first-child {
+      border-radius: 1rem 1rem 0 0;
+    }
+
+    &:hover {
+      background: rgba($color-rose, 0.05);
+      color: $color-rose;
+      transform: translateX(5px);
+    }
+
+    i {
+      font-size: 1.1em;
+      width: 16px;
+      text-align: center;
+    }
+  }
+}
+
+/* Points de fidélité */
+.loyalty-points {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba($color-white, 0.1);
+  color: $color-white;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  font-size: clamp(0.85rem, 0.7vw + 0.5rem, 0.95rem);
+  border: 1px solid rgba($color-white, 0.2);
+  @include transition;
+
+  &:hover {
+    background: rgba($color-white, 0.2);
+    transform: translateY(-1px);
+  }
+
+  i {
+    color: #ffd700;
+    font-size: 1.1em;
+  }
+
+  span {
+    font-weight: 600;
+  }
+}
+
+/* Actions utilisateur mobile */
+.mobile-user-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+
+  .profile-menu-item {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background: rgba($color-white, 0.05);
+    border: 1px solid rgba($color-white, 0.1);
+    margin-bottom: 0.5rem;
+
+    &:hover {
+      background: rgba($color-white, 0.1);
+      transform: none;
+    }
+  }
+}
+
+/* Responsive pour le dropdown */
+@include up(lg) {
+  .user-profile-dropdown {
+    .profile-menu-content {
+      min-width: 220px;
+    }
+  }
+}
+
+/* Hover sur desktop, click sur mobile */
+@media (hover: hover) and (pointer: fine) {
+  .user-profile-dropdown:hover .profile-menu-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   RESPONSIVE BOUTONS UTILISATEUR
+   ======================================== */
+
+/* Mobile-first : boutons compacts pour petits écrans */
+.top-actions {
+  .btn-login,
+  .profile-trigger {
+    /* Taille mobile optimisée */
+    padding: 0.35rem 0.8rem;
+    font-size: clamp(0.75rem, 2vw + 0.5rem, 0.9rem);
+    min-height: 36px; /* Réduit de 44px */
+
+    i {
+      font-size: 0.9em;
+    }
+
+    span {
+      font-size: 0.85em;
+    }
+  }
+
+  .loyalty-points {
+    /* Taille mobile optimisée */
+    padding: 0.35rem 0.8rem;
+    font-size: clamp(0.7rem, 1.8vw + 0.4rem, 0.85rem);
+    min-height: 36px;
+
+    i {
+      font-size: 0.9em;
+    }
+
+    span {
+      font-size: 0.85em;
+    }
+  }
+
+  /* Réduction de l'espacement sur mobile */
+  gap: 0.6rem;
+}
+
+/* Tablettes (≥600px) : taille intermédiaire */
+@include up(md) {
+  .top-actions {
+    .btn-login,
+    .profile-trigger {
+      padding: 0.4rem 0.9rem;
+      font-size: clamp(0.85rem, 1.5vw + 0.6rem, 0.95rem);
+      min-height: 40px;
+    }
+
+    .loyalty-points {
+      padding: 0.4rem 0.9rem;
+      font-size: clamp(0.8rem, 1.4vw + 0.5rem, 0.9rem);
+      min-height: 40px;
+    }
+
+    gap: 0.8rem;
+  }
+}
+
+/* Desktop (≥768px) : taille normale */
+@include up(lg) {
+  .top-actions {
+    .btn-login,
+    .profile-trigger {
+      padding: 0.5rem 1rem;
+      font-size: clamp(0.95rem, 0.8vw + 0.6rem, 1rem);
+      min-height: 44px; /* Taille normale */
+
+      i {
+        font-size: 1em;
+      }
+
+      span {
+        font-size: 1em;
+      }
+    }
+
+    .loyalty-points {
+      padding: 0.5rem 1rem;
+      font-size: clamp(0.85rem, 0.7vw + 0.5rem, 0.95rem);
+      min-height: 44px; /* Taille normale */
+
+      i {
+        font-size: 1.1em;
+      }
+
+      span {
+        font-size: 1em;
+      }
+    }
+
+    gap: 1rem; /* Espacement normal */
+  }
+}
+
+/* Très petits écrans (≤480px) : ultra-compact */
+@media (max-width: 480px) {
+  .top-actions {
+    .btn-login,
+    .profile-trigger {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+      min-height: 32px;
+
+      /* Masquer le texte, garder seulement l'icône */
+      span {
+        display: none;
+      }
+
+      i {
+        font-size: 1em;
+      }
+    }
+
+    .loyalty-points {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.65rem;
+      min-height: 32px;
+
+      /* Masquer le texte "Pts Fidélité :", garder seulement le nombre */
+      .loyalty-text {
+        display: none;
+      }
+    }
+
+    gap: 0.4rem;
+  }
+}
+
+/* ========================================
    ACCESSIBILITÉ & ERGONOMIE
    ======================================== */
 /* Réduction motion */
@@ -2088,11 +2394,12 @@ body {
 .btn-login,
 .phone-btn,
 .add-to-cart-btn,
-.qty-btn {
+.qty-btn,
+.profile-trigger {
   min-height: 44px;
 }
 
-/* Perf : ne peindre que visible (pas d’impact visuel) */
+/* Perf : ne peindre que visible (pas d'impact visuel) */
 #horizontal-slider,
 #daily-menu,
 #about,
