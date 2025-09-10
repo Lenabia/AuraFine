@@ -1,0 +1,145 @@
+<!-- ========================================
+PAGE D'ACCUEIL ADMIN - DASHBOARD
+======================================== -->
+
+<!-- Métriques principales -->
+<section class="admin-metrics">
+    <!-- Chiffre d'affaires -->
+    <article class="metric-card revenue">
+        <header class="metric-header">
+            <figure class="metric-icon revenue">
+                <i class="fas fa-chart-line"></i>
+            </figure>
+            <aside class="metric-trend <?= $revenue_trend ?? 'positive' ?>">
+                <i class="fas fa-arrow-<?= ($revenue_trend ?? 'positive') === 'positive' ? 'up' : 'down' ?>"></i> 
+                <?= $revenue_percentage ?? '+12%' ?>
+            </aside>
+        </header>
+        <h3 class="metric-title">Chiffre d'affaires</h3>
+        <p class="metric-value"><?= number_format($revenue ?? 125750, 0, ',', ' ') ?> FCFA</p>
+        <p class="metric-subtitle"><?= $revenue_period ?? 'Aujourd\'hui' ?></p>
+    </article>
+    
+    <!-- Plat le plus commandé -->
+    <article class="metric-card popular">
+        <header class="metric-header">
+            <figure class="metric-icon popular">
+                <i class="fas fa-utensils"></i>
+            </figure>
+            <aside class="metric-trend positive">
+                <i class="fas fa-fire"></i> Populaire
+            </aside>
+        </header>
+        <h3 class="metric-title">Plat le plus commandé</h3>
+        <p class="metric-value"><?= htmlspecialchars($most_popular_dish ?? 'Salade César') ?></p>
+        <p class="metric-subtitle"><?= $popular_dish_orders ?? '23' ?> commandes aujourd'hui</p>
+    </article>
+    
+    <!-- Commandes en cours -->
+    <article class="metric-card orders">
+        <header class="metric-header">
+            <figure class="metric-icon orders">
+                <i class="fas fa-shopping-bag"></i>
+            </figure>
+            <aside class="metric-trend positive">
+                <i class="fas fa-clock"></i> En attente
+            </aside>
+        </header>
+        <h3 class="metric-title">Commandes en cours</h3>
+        <p class="metric-value"><?= $pending_orders ?? '8' ?></p>
+        <p class="metric-subtitle">En cours de traitement</p>
+    </article>
+</section>
+
+<!-- Activité récente -->
+<section class="admin-activity">
+    <header class="activity-header">
+        <h3>
+            <i class="fas fa-history"></i>
+            Activité récente
+        </h3>
+    </header>
+    <section class="activity-list">
+        <?php if (isset($recent_activities) && is_array($recent_activities)): ?>
+            <?php foreach ($recent_activities as $activity): ?>
+                <article class="activity-item">
+                    <figure class="activity-icon <?= $activity['type'] ?? 'order' ?>">
+                        <i class="fas fa-<?= $activity['icon'] ?? 'shopping-cart' ?>"></i>
+                    </figure>
+                    <section class="activity-content">
+                        <h4 class="activity-title"><?= htmlspecialchars($activity['title'] ?? 'Activité') ?></h4>
+                        <p class="activity-description"><?= htmlspecialchars($activity['description'] ?? 'Description') ?></p>
+                    </section>
+                    <time class="activity-time"><?= htmlspecialchars($activity['time_ago'] ?? 'Il y a 5 min') ?></time>
+                </article>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <!-- Activités par défaut (à remplacer par des données BDD) -->
+            <article class="activity-item">
+                <figure class="activity-icon order">
+                    <i class="fas fa-shopping-cart"></i>
+                </figure>
+                <section class="activity-content">
+                    <h4 class="activity-title">Nouvelle commande #<?= $last_order_id ?? '1234' ?></h4>
+                    <p class="activity-description"><?= htmlspecialchars($last_order_items ?? 'Salade César + Jus d\'orange') ?> - <?= number_format($last_order_amount ?? 2500, 0, ',', ' ') ?> FCFA</p>
+                </section>
+                <time class="activity-time"><?= $last_order_time ?? 'Il y a 5 min' ?></time>
+            </article>
+            
+            <article class="activity-item">
+                <figure class="activity-icon user">
+                    <i class="fas fa-user-plus"></i>
+                </figure>
+                <section class="activity-content">
+                    <h4 class="activity-title">Nouvel utilisateur inscrit</h4>
+                    <p class="activity-description"><?= htmlspecialchars($last_user_name ?? 'Fatou Diop') ?> - <?= htmlspecialchars($last_user_zone ?? 'Zone 1') ?></p>
+                </section>
+                <time class="activity-time"><?= $last_user_time ?? 'Il y a 12 min' ?></time>
+            </article>
+            
+            <article class="activity-item">
+                <figure class="activity-icon order">
+                    <i class="fas fa-check-circle"></i>
+                </figure>
+                <section class="activity-content">
+                    <h4 class="activity-title">Commande livrée #<?= $delivered_order_id ?? '1233' ?></h4>
+                    <p class="activity-description"><?= htmlspecialchars($delivered_order_items ?? 'Salade Grecque + Smoothie') ?> - <?= number_format($delivered_order_amount ?? 3200, 0, ',', ' ') ?> FCFA</p>
+                </section>
+                <time class="activity-time"><?= $delivered_order_time ?? 'Il y a 25 min' ?></time>
+            </article>
+            
+            <article class="activity-item">
+                <figure class="activity-icon product">
+                    <i class="fas fa-plus-circle"></i>
+                </figure>
+                <section class="activity-content">
+                    <h4 class="activity-title">Nouveau produit ajouté</h4>
+                    <p class="activity-description"><?= htmlspecialchars($new_product_name ?? 'Salade Thaï') ?> - <?= number_format($new_product_price ?? 2800, 0, ',', ' ') ?> FCFA</p>
+                </section>
+                <time class="activity-time"><?= $new_product_time ?? 'Il y a 1h' ?></time>
+            </article>
+            
+            <article class="activity-item">
+                <figure class="activity-icon order">
+                    <i class="fas fa-times-circle"></i>
+                </figure>
+                <section class="activity-content">
+                    <h4 class="activity-title">Commande annulée #<?= $cancelled_order_id ?? '1232' ?></h4>
+                    <p class="activity-description"><?= htmlspecialchars($cancelled_order_items ?? 'Salade Niçoise') ?> - <?= number_format($cancelled_order_amount ?? 2300, 0, ',', ' ') ?> FCFA</p>
+                </section>
+                <time class="activity-time"><?= $cancelled_order_time ?? 'Il y a 2h' ?></time>
+            </article>
+            
+            <article class="activity-item">
+                <figure class="activity-icon user">
+                    <i class="fas fa-sign-in-alt"></i>
+                </figure>
+                <section class="activity-content">
+                    <h4 class="activity-title">Connexion utilisateur</h4>
+                    <p class="activity-description"><?= htmlspecialchars($connected_user_name ?? 'Moussa Fall') ?> - <?= htmlspecialchars($connected_user_status ?? 'Client fidèle') ?></p>
+                </section>
+                <time class="activity-time"><?= $connected_user_time ?? 'Il y a 3h' ?></time>
+            </article>
+        <?php endif; ?>
+    </section>
+</section>

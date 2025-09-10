@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - AuraFine</title>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- RemixIcon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Google font  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="app/public/css/main.css" rel="stylesheet" />
+</head>
+<body>
+
+<main class="admin-container">
+    <!-- Overlay pour mobile -->
+    <aside class="admin-overlay" id="admin-overlay"></aside>
+    
+    <!-- Sidebar -->
+    <nav class="admin-sidebar" id="admin-sidebar">
+        <header class="sidebar-header">
+            <h1>
+                <i class="fas fa-crown"></i>
+                AuraFine Admin
+            </h1>
+            <address class="admin-role">Administrateur</address>
+            <button class="sidebar-close" id="sidebar-close" aria-label="Fermer le menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </header>
+        
+        <section class="sidebar-nav">
+            <a href="index.php?action=admin-home" class="nav-item active">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </a>
+            <a href="index.php?action=admin-orders" class="nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                Commandes
+            </a>
+            <a href="index.php?action=admin-catalog" class="nav-item">
+                <i class="fas fa-book"></i>
+                Catalogue
+            </a>
+            <a href="index.php?action=admin-users" class="nav-item">
+                <i class="fas fa-users"></i>
+                Utilisateurs
+            </a>
+            <a href="index.php?action=admin-delivery" class="nav-item">
+                <i class="fas fa-truck"></i>
+                Livraison
+            </a>
+            <a href="index.php?action=admin-settings" class="nav-item">
+                <i class="fas fa-cog"></i>
+                Paramètres
+            </a>
+        </section>
+        
+        <footer class="sidebar-footer">
+            <button class="logout-btn" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                Déconnexion
+            </button>
+        </footer>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- Header -->
+        <header class="admin-header">
+            <section class="header-left">
+                <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2 class="page-title"><?= $pageTitle ?? 'Dashboard' ?></h2>
+            </section>
+            <section class="header-right">
+                <address class="admin-user">
+                    <i class="fas fa-user-circle"></i>
+                    <span><?= $_SESSION['user']['first_name'] ?? 'Admin' ?></span>
+                </address>
+            </section>
+        </header>
+        
+        <!-- Content -->
+        <section class="admin-content">
+            <?php include $template ?>
+        </section>
+    </main>
+</main>
+
+<!-- Scripts -->
+<script src="/app/public/js/admin.js" defer></script>
+
+</body>
+</html>

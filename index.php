@@ -72,6 +72,14 @@ if(array_key_exists('action', $_GET)):
     $controller->logout();
     break;
 
+
+    //accueil admin 
+    case 'admin-home':
+    $controller = new \app\controllers\AdminController();
+    $controller->displayAdminHome();
+    break;
+
+
     //mes commandes
     case 'my-orders':
     $controller = new \app\controllers\UsersController();

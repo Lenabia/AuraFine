@@ -2,6 +2,7 @@
 @use "sass:map";
 @use "./color" as *;
 @use "./login" as *;
+@use "./admin" as *;
 
 /* ========================================
    MIXINS
@@ -44,7 +45,7 @@ $bp: (
   // desktop large
   xxxl: 1440px,
   // desktop XL
-  uhd: 1600px // très grands écrans,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+  uhd: 1600px // très grands écrans,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 );
 @mixin up($key) {
   @media (min-width: map.get($bp, $key)) {

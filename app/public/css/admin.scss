@@ -1,0 +1,606 @@
+/* ========================================
+   STYLES ADMIN - AURAFINE
+   ======================================== 
+   Interface d'administration mobile-first
+   ======================================== */
+
+@use "sass:color";
+@use "sass:map";
+@use "./color" as *;
+
+/* ========================================
+   VARIABLES ADMIN
+   ======================================== */
+
+/* Breakpoints existants */
+$bp: (
+  sm: 480px,
+  md: 600px,
+  lg: 768px,
+  xl: 1024px,
+  xxl: 1280px,
+  xxxl: 1440px,
+  uhd: 1600px,
+);
+
+@mixin up($key) {
+  @media (min-width: map.get($bp, $key)) {
+    @content;
+  }
+}
+
+/* Variables admin spécifiques */
+$admin-sidebar-width: 280px;
+$admin-sidebar-width-mobile: 100%;
+$admin-header-height: 70px;
+$admin-card-radius: 12px;
+$admin-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+$admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+
+/* ========================================
+   CONTAINER PRINCIPAL ADMIN
+   ======================================== */
+
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+  background: $color-gray-light;
+
+  /* Mobile-first: sidebar en overlay */
+  @media (max-width: 1023px) {
+    flex-direction: column;
+  }
+
+  /* Desktop: sidebar fixe */
+  @include up(xl) {
+    flex-direction: row;
+  }
+}
+
+/* ========================================
+   SIDEBAR ADMIN
+   ======================================== */
+
+.admin-sidebar {
+  background: $color-white;
+  box-shadow: $admin-shadow;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: $admin-sidebar-width-mobile;
+  height: 100vh;
+  z-index: 1000;
+  transition: left 0.3s ease;
+  overflow-y: auto;
+
+  /* Mobile: sidebar ouverte */
+  &.open {
+    left: 0;
+  }
+
+  /* Desktop: sidebar fixe */
+  @include up(xl) {
+    position: relative;
+    left: 0;
+    width: $admin-sidebar-width;
+    height: 100vh;
+    flex-shrink: 0;
+  }
+
+  .sidebar-header {
+    padding: 1.5rem 1rem;
+    border-bottom: 1px solid rgba($color-gray-light, 0.5);
+    background: linear-gradient(135deg, $color-rose, $color-green);
+    color: $color-white;
+    position: relative;
+
+    h1 {
+      font-size: clamp(1.2rem, 3vw + 0.5rem, 1.5rem);
+      font-weight: 700;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      i {
+        font-size: 1.2em;
+      }
+    }
+
+    .admin-role {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-top: 0.25rem;
+      font-style: normal;
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: $color-white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+      }
+
+      /* Cacher sur desktop */
+      @include up(xl) {
+        display: none;
+      }
+    }
+  }
+
+  .sidebar-nav {
+    padding: 1rem 0;
+
+    .nav-item {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      color: $color-gray-dark;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+
+      &:hover {
+        background: rgba($color-rose, 0.1);
+        color: $color-rose;
+        border-left-color: $color-rose;
+      }
+
+      &.active {
+        background: rgba($color-rose, 0.1);
+        color: $color-rose;
+        border-left-color: $color-rose;
+        font-weight: 600;
+      }
+
+      i {
+        width: 20px;
+        text-align: center;
+        margin-right: 0.75rem;
+        font-size: 1.1em;
+      }
+    }
+  }
+
+  .sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    border-top: 1px solid rgba($color-gray-light, 0.5);
+
+    .logout-btn {
+      width: 100%;
+      background: $color-red;
+      color: $color-white;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: $admin-card-radius;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: color.adjust($color-red, $lightness: -10%);
+        transform: translateY(-1px);
+      }
+
+      i {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+/* ========================================
+   MAIN CONTENT ADMIN
+   ======================================== */
+
+.admin-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  /* Mobile: padding pour le header */
+  padding-top: $admin-header-height;
+
+  /* Desktop: pas de padding top */
+  @include up(xl) {
+    padding-top: 0;
+  }
+}
+
+/* ========================================
+   HEADER ADMIN
+   ======================================== */
+
+.admin-header {
+  background: $color-white;
+  box-shadow: $admin-shadow;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $admin-header-height;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+
+  /* Desktop: ajuster pour la sidebar */
+  @include up(xl) {
+    left: $admin-sidebar-width;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .menu-toggle {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: $color-gray-dark;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: rgba($color-rose, 0.1);
+        color: $color-rose;
+      }
+
+      /* Cacher sur desktop */
+      @include up(xl) {
+        display: none;
+      }
+    }
+
+    .page-title {
+      font-size: clamp(1.1rem, 2.5vw + 0.5rem, 1.3rem);
+      font-weight: 600;
+      color: $color-black;
+      margin: 0;
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .admin-user {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: $color-gray-dark;
+      font-size: 0.9rem;
+      font-style: normal;
+
+      i {
+        color: $color-rose;
+      }
+    }
+  }
+}
+
+/* ========================================
+   CONTENU PRINCIPAL
+   ======================================== */
+
+.admin-content {
+  flex: 1;
+  padding: 1.5rem 1rem;
+
+  @include up(md) {
+    padding: 2rem 1.5rem;
+  }
+
+  @include up(xl) {
+    padding: 2.5rem;
+  }
+}
+
+/* ========================================
+   MÉTRIQUES PRINCIPALES
+   ======================================== */
+
+.admin-metrics {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 4rem;
+
+  @include up(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include up(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .metric-card {
+    background: $color-white;
+    border-radius: $admin-card-radius;
+    padding: 1.5rem;
+    box-shadow: $admin-shadow;
+    transition: all 0.3s ease;
+    border-left: 4px solid;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $admin-shadow-hover;
+    }
+
+    &.revenue {
+      border-left-color: $color-green;
+    }
+
+    &.popular {
+      border-left-color: $color-rose;
+    }
+
+    &.orders {
+      border-left-color: $color-accent;
+    }
+
+    .metric-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+
+      .metric-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: $color-white;
+        margin: 0;
+
+        &.revenue {
+          background: $color-green;
+        }
+
+        &.popular {
+          background: $color-rose;
+        }
+
+        &.orders {
+          background: $color-accent;
+        }
+      }
+
+      .metric-trend {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 1rem;
+        font-weight: 600;
+
+        &.positive {
+          background: rgba($color-green, 0.1);
+          color: $color-green;
+        }
+
+        &.negative {
+          background: rgba($color-red, 0.1);
+          color: $color-red;
+        }
+      }
+    }
+
+    .metric-title {
+      font-size: 0.9rem;
+      color: $color-gray-medium;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .metric-value {
+      font-size: clamp(1.5rem, 4vw + 0.5rem, 2rem);
+      font-weight: 700;
+      color: $color-black;
+      margin-bottom: 0.25rem;
+      margin: 0 0 0.25rem 0;
+    }
+
+    .metric-subtitle {
+      font-size: 0.8rem;
+      color: $color-gray-medium;
+      margin: 0;
+    }
+  }
+}
+
+/* ========================================
+   ACTIVITÉ RÉCENTE
+   ======================================== */
+
+.admin-activity {
+  background: $color-white;
+  border-radius: $admin-card-radius;
+  box-shadow: $admin-shadow;
+  overflow: hidden;
+
+  .activity-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba($color-gray-light, 0.5);
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: $color-black;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      i {
+        color: $color-rose;
+      }
+    }
+  }
+
+  .activity-list {
+    .activity-item {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba($color-gray-light, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: background 0.3s ease;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background: rgba($color-gray-light, 0.3);
+      }
+
+      .activity-icon {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        color: $color-white;
+        flex-shrink: 0;
+
+        &.order {
+          background: $color-green;
+        }
+
+        &.user {
+          background: $color-rose;
+        }
+
+        &.product {
+          background: $color-accent;
+        }
+      }
+
+      .activity-content {
+        flex: 1;
+
+        .activity-title {
+          font-weight: 600;
+          color: $color-black;
+          margin-bottom: 0.25rem;
+          font-size: 0.9rem;
+          margin: 0 0 0.25rem 0;
+        }
+
+        .activity-description {
+          color: $color-gray-medium;
+          font-size: 0.8rem;
+          margin: 0;
+        }
+      }
+
+      .activity-time {
+        color: $color-gray-medium;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+      }
+    }
+  }
+}
+
+/* ========================================
+   OVERLAY MOBILE
+   ======================================== */
+
+.admin-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Cacher sur desktop */
+  @include up(xl) {
+    display: none;
+  }
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 480px) {
+  .admin-content {
+    padding: 1rem 0.75rem;
+  }
+
+  .admin-metrics {
+    gap: 0.75rem;
+
+    .metric-card {
+      padding: 1rem;
+    }
+  }
+
+  .admin-activity {
+    .activity-item {
+      padding: 0.75rem 1rem;
+    }
+  }
+}
+
+/* ========================================
+   ACCESSIBILITÉ
+   ======================================== */
+
+.admin-sidebar:focus-within,
+.menu-toggle:focus,
+.logout-btn:focus {
+  outline: 2px solid $color-rose;
+  outline-offset: 2px;
+}
+
+/* Réduction des animations */
+@media (prefers-reduced-motion: reduce) {
+  .admin-sidebar,
+  .admin-overlay,
+  .metric-card,
+  .activity-item {
+    transition: none;
+  }
+}
