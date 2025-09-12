@@ -79,11 +79,146 @@ if(array_key_exists('action', $_GET)):
     $controller->displayAdminHome();
     break;
 
+    //catalogue admin
+    case 'admin-catalog':
+    $controller = new \app\controllers\AdminController();
+    $controller->displayCatalogue();
+    break;
+
+    //gestion des salades
+    case 'admin-salads':
+    $controller = new \app\controllers\SaladsController();
+    $controller->index();
+    break;
+
+    case 'admin-salads-create':
+    $controller = new \app\controllers\SaladsController();
+    $controller->form();
+    break;
+
+    case 'admin-salads-edit':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\SaladsController();
+    $controller->form($id);
+    break;
+
+    case 'admin-salads-store':
+    $controller = new \app\controllers\SaladsController();
+    $controller->store();
+    break;
+
+    case 'admin-salads-update':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\SaladsController();
+    $controller->update($id);
+    break;
+
+    case 'admin-salads-delete':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\SaladsController();
+    $controller->delete($id);
+    break;
+
+
+    //gestion des boissons
+    case 'admin-drinks':
+    $controller = new \app\controllers\DrinksController();
+    $controller->index();
+    break;
+
+    case 'admin-drinks-create':
+    $controller = new \app\controllers\DrinksController();
+    $controller->form();
+    break;
+
+    case 'admin-drinks-edit':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\DrinksController();
+    $controller->form($id);
+    break;
+
+    case 'admin-drinks-store':
+    $controller = new \app\controllers\DrinksController();
+    $controller->store();
+    break;
+
+    case 'admin-drinks-update':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\DrinksController();
+    $controller->update($id);
+    break;
+
+    case 'admin-drinks-delete':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\DrinksController();
+    $controller->delete($id);
+    break;
+
+    //gestion des menus (stub)
+    case 'admin-menus':
+    $controller = new \app\controllers\MenuController();
+    $controller->index();
+    break;
+
+    //gestion des fruits et légumes
+    case 'admin-fruits-legumes':
+    $controller = new \app\controllers\FruitsVeggiesController();
+    $controller->index();
+    break;
+
+    case 'admin-fruits-legumes-create':
+    $controller = new \app\controllers\FruitsVeggiesController();
+    $controller->form();
+    break;
+
+    case 'admin-fruits-legumes-edit':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\FruitsVeggiesController();
+    $controller->form($id);
+    break;
+
+    case 'admin-fruits-legumes-store':
+    $controller = new \app\controllers\FruitsVeggiesController();
+    $controller->store();
+    break;
+
+    case 'admin-fruits-legumes-update':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\FruitsVeggiesController();
+    $controller->update($id);
+    break;
+
+    case 'admin-fruits-legumes-delete':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\FruitsVeggiesController();
+    $controller->delete($id);
+    break;
 
     //mes commandes
     case 'my-orders':
     $controller = new \app\controllers\UsersController();
     $controller->showMyOrders();
+    break;
+
+    //pages publiques des produits
+    case 'salads':
+    $controller = new \app\controllers\SaladsController();
+    $controller->publicIndex();
+    break;
+
+    case 'drinks':
+    $controller = new \app\controllers\DrinksController();
+    $controller->publicIndex();
+    break;
+
+    case 'fruits-veggies':
+    $controller = new \app\controllers\FruitsVeggiesController();
+    $controller->publicIndex();
+    break;
+
+    //accès refusé
+    case 'accesDenied':
+    include 'app/views/accesDenied.php';
     break;
 
 //si pas de route on redirige vers l'accueil

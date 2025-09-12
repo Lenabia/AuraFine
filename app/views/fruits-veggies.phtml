@@ -1,0 +1,80 @@
+<main class="fruit-veggie-page">
+    <section class="fruit-veggie-hero">
+        <header>
+            <h1>Nos Fruits et Légumes Frais</h1>
+            <p>Découvrez notre sélection de fruits et légumes frais, cultivés avec soin</p>
+        </header>
+    </section>
+
+    <section class="fruit-veggie-content">
+        <?php if (isset($error)): ?>
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($totalFruitsVeggies > 0): ?>
+            <div class="fruit-veggie-stats">
+                <p class="fruit-veggie-count">
+                    <i class="fas fa-seedling"></i>
+                    <?= $totalFruitsVeggies ?> produit<?= $totalFruitsVeggies > 1 ? 's' : '' ?> disponible<?= $totalFruitsVeggies > 1 ? 's' : '' ?>
+                </p>
+            </div>
+
+            <div class="fruit-veggie-grid">
+                <?php foreach ($fruitsVeggies as $fruitVeggie): ?>
+                    <article class="fruit-veggie-card">
+                        <figure class="fruit-veggie-image">
+                            <?php if (!empty($fruitVeggie['image'])): ?>
+                                <img src="<?= htmlspecialchars($fruitVeggie['image']) ?>" 
+                                     alt="<?= htmlspecialchars($fruitVeggie['name']) ?>"
+                                     loading="lazy">
+                            <?php else: ?>
+                                <div class="fruit-veggie-placeholder">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                            <?php endif; ?>
+                        </figure>
+                        
+                        <div class="fruit-veggie-info">
+                            <h3 class="fruit-veggie-name"><?= htmlspecialchars($fruitVeggie['name']) ?></h3>
+                            
+                            <?php if (!empty($fruitVeggie['description'])): ?>
+                                <p class="fruit-veggie-description"><?= htmlspecialchars($fruitVeggie['description']) ?></p>
+                            <?php endif; ?>
+                            
+                            <div class="fruit-veggie-details">
+                                <div class="fruit-veggie-price">
+                                    <span class="price-amount"><?= number_format($fruitVeggie['price'], 2) ?>€</span>
+                                </div>
+                                
+                                <div class="fruit-veggie-stock">
+                                    <?php if ($fruitVeggie['stock_quantity'] > 0): ?>
+                                        <span class="stock-available">
+                                            <i class="fas fa-check-circle"></i>
+                                            En stock
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="stock-unavailable">
+                                            <i class="fas fa-times-circle"></i>
+                                            Rupture de stock
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <h3>Aucun produit disponible</h3>
+                <p>Nous travaillons actuellement sur de nouveaux produits. Revenez bientôt !</p>
+            </div>
+        <?php endif; ?>
+    </section>
+</main>

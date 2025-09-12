@@ -37,27 +37,27 @@
         </header>
         
         <section class="sidebar-nav">
-            <a href="index.php?action=admin-home" class="nav-item active">
+            <a href="index.php?action=admin-home" class="nav-item <?= ($currentPage === 'admin-home') ? 'active' : '' ?>">
                 <i class="fas fa-tachometer-alt"></i>
                 Dashboard
             </a>
-            <a href="index.php?action=admin-orders" class="nav-item">
+            <a href="index.php?action=admin-orders" class="nav-item <?= ($currentPage === 'admin-orders') ? 'active' : '' ?>">
                 <i class="fas fa-shopping-bag"></i>
                 Commandes
             </a>
-            <a href="index.php?action=admin-catalog" class="nav-item">
+            <a href="index.php?action=admin-catalog" class="nav-item <?= ($currentPage === 'admin-catalog') ? 'active' : '' ?>">
                 <i class="fas fa-book"></i>
                 Catalogue
             </a>
-            <a href="index.php?action=admin-users" class="nav-item">
+            <a href="index.php?action=admin-users" class="nav-item <?= ($currentPage === 'admin-users') ? 'active' : '' ?>">
                 <i class="fas fa-users"></i>
                 Utilisateurs
             </a>
-            <a href="index.php?action=admin-delivery" class="nav-item">
+            <a href="index.php?action=admin-delivery" class="nav-item <?= ($currentPage === 'admin-delivery') ? 'active' : '' ?>">
                 <i class="fas fa-truck"></i>
                 Livraison
             </a>
-            <a href="index.php?action=admin-settings" class="nav-item">
+            <a href="index.php?action=admin-settings" class="nav-item <?= ($currentPage === 'admin-settings') ? 'active' : '' ?>">
                 <i class="fas fa-cog"></i>
                 Paramètres
             </a>
@@ -88,6 +88,34 @@
                 </address>
             </section>
         </header>
+        
+        <!-- Fil d'Ariane -->
+        <?php if (isset($breadcrumbs) && !empty($breadcrumbs)): ?>
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+            <ol class="breadcrumb-list">
+                <?php foreach ($breadcrumbs as $index => $breadcrumb): ?>
+                    <?php if ($index === count($breadcrumbs) - 1): ?>
+                        <!-- Dernier élément (page actuelle) -->
+                        <li class="breadcrumb-item current" aria-current="page">
+                            <i class="<?= $breadcrumb['icon'] ?? 'fas fa-circle' ?>"></i>
+                            <?= htmlspecialchars($breadcrumb['title']) ?>
+                        </li>
+                    <?php else: ?>
+                        <!-- Éléments précédents -->
+                        <li class="breadcrumb-item">
+                            <a href="<?= htmlspecialchars($breadcrumb['url']) ?>" class="breadcrumb-link">
+                                <i class="<?= $breadcrumb['icon'] ?? 'fas fa-circle' ?>"></i>
+                                <?= htmlspecialchars($breadcrumb['title']) ?>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-separator">
+                            <i class="fas fa-chevron-right"></i>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ol>
+        </nav>
+        <?php endif; ?>
         
         <!-- Content -->
         <section class="admin-content">

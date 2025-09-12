@@ -1,22 +1,22 @@
 <?php
 namespace app\controllers;
 
-use app\Models\Drinks;
+use app\Models\FruitsVeggies;
 use app\middleware\Middleware;
 
 /**
- * Contrôleur pour la gestion des boissons (CRUD complet)
+ * Contrôleur pour la gestion des fruits et légumes (CRUD complet)
  * 
  * @security Vérification du rôle admin sur toutes les actions
  * @csrf Protection CSRF sur toutes les actions de modification
  * @error-handling Gestion centralisée des erreurs avec messages flash
  */
-class DrinksController extends Middleware {
+class FruitsVeggiesController extends Middleware {
     
-    private $drinkModel;
+    private $fruitVeggieModel;
     
     public function __construct() {
-        $this->drinkModel = new Drinks();
+        $this->fruitVeggieModel = new FruitsVeggies();
     }
     
     /**
@@ -31,25 +31,25 @@ class DrinksController extends Middleware {
     }
     
     /**
-     * Affiche la liste des boissons avec boutons d'action
+     * Affiche la liste des fruits et légumes avec boutons d'action
      * 
-     * @route GET /admin/boissons
+     * @route GET /admin/fruits-legumes
      * @security Vérification du rôle admin
      */
     public function index() {
         $this->checkAdminAccess();
         
         try {
-            // Récupérer toutes les boissons actives
-            $drinks = $this->drinkModel->getAll();
-            $totalDrinks = $this->drinkModel->count();
+            // Récupérer tous les fruits et légumes actifs
+            $fruitsVeggies = $this->fruitVeggieModel->getAll();
+            $totalFruitsVeggies = $this->fruitVeggieModel->count();
             
             // Générer le token CSRF pour les formulaires
             $csrfToken = $this->generateCSRFToken();
             
-            $this->render("display-drinks.phtml", "admin-layout.phtml", [
-                'pageTitle' => 'Gestion des Boissons',
-                'currentPage' => 'admin-drinks',
+            $this->render("display-fruits-veggies.phtml", "admin-layout.phtml", [
+                'pageTitle' => 'Gestion des Fruits & Légumes',
+                'currentPage' => 'admin-fruits-legumes',
                 'breadcrumbs' => [
                     [
                         'title' => 'Dashboard',
@@ -60,18 +60,18 @@ class DrinksController extends Middleware {
                         'url' => 'index.php?action=admin-catalog'
                     ],
                     [
-                        'title' => 'Boissons',
+                        'title' => 'Fruits & Légumes',
                         'url' => ''
                     ]
                 ],
-                'drinks' => $drinks,
-                'totalDrinks' => $totalDrinks,
+                'fruitsVeggies' => $fruitsVeggies,
+                'totalFruitsVeggies' => $totalFruitsVeggies,
                 'csrfToken' => $csrfToken
             ]);
             
         } catch (\Exception $e) {
-            error_log("Erreur affichage boissons: " . $e->getMessage());
-            $_SESSION['error_message'] = 'Erreur lors du chargement des boissons';
+            error_log("Erreur affichage fruits et légumes: " . $e->getMessage());
+            $_SESSION['error_message'] = 'Erreur lors du chargement des fruits et légumes';
             $this->redirectTo('admin-home');
         }
     }
@@ -79,35 +79,35 @@ class DrinksController extends Middleware {
     /**
      * Affiche le formulaire de création/modification
      * 
-     * @route GET /admin/boissons/create ou /admin/boissons/edit/{id}
+     * @route GET /admin/fruits-legumes/create ou /admin/fruits-legumes/edit/{id}
      * @security Vérification du rôle admin
      */
     public function form($id = null) {
         $this->checkAdminAccess();
         
         $isEdit = !is_null($id);
-        $drink = null;
+        $fruitVeggie = null;
         
         if ($isEdit) {
             try {
-                $drink = $this->drinkModel->findById($id);
-                if (!$drink) {
-                    $_SESSION['error_message'] = 'Boisson non trouvée';
-                    $this->redirectTo('admin-drinks');
+                $fruitVeggie = $this->fruitVeggieModel->findById($id);
+                if (!$fruitVeggie) {
+                    $_SESSION['error_message'] = 'Fruit/légume non trouvé';
+                    $this->redirectTo('admin-fruits-legumes');
                 }
             } catch (\Exception $e) {
-                error_log("Erreur récupération boisson: " . $e->getMessage());
-                $_SESSION['error_message'] = 'Erreur lors du chargement de la boisson';
-                $this->redirectTo('admin-drinks');
+                error_log("Erreur récupération fruit/légume: " . $e->getMessage());
+                $_SESSION['error_message'] = 'Erreur lors du chargement du fruit/légume';
+                $this->redirectTo('admin-fruits-legumes');
             }
         }
         
         // Générer le token CSRF
         $csrfToken = $this->generateCSRFToken();
         
-        $this->render("form-drinks.phtml", "admin-layout.phtml", [
-            'pageTitle' => $isEdit ? 'Modifier la Boisson' : 'Nouvelle Boisson',
-            'currentPage' => 'admin-drinks',
+        $this->render("form-fruits-veggies.phtml", "admin-layout.phtml", [
+            'pageTitle' => $isEdit ? 'Modifier le Fruit/Légume' : 'Nouveau Fruit/Légume',
+            'currentPage' => 'admin-fruits-legumes',
             'breadcrumbs' => [
                 [
                     'title' => 'Dashboard',
@@ -118,8 +118,8 @@ class DrinksController extends Middleware {
                     'url' => 'index.php?action=admin-catalog'
                 ],
                 [
-                    'title' => 'Boissons',
-                    'url' => 'index.php?action=admin-drinks'
+                    'title' => 'Fruits & Légumes',
+                    'url' => 'index.php?action=admin-fruits-legumes'
                 ],
                 [
                     'title' => $isEdit ? 'Modifier' : 'Créer',
@@ -127,15 +127,15 @@ class DrinksController extends Middleware {
                 ]
             ],
             'isEdit' => $isEdit,
-            'drink' => $drink,
+            'fruitVeggie' => $fruitVeggie,
             'csrfToken' => $csrfToken
         ]);
     }
     
     /**
-     * Traite la création d'une nouvelle boisson
+     * Traite la création d'un nouveau fruit/légume
      * 
-     * @route POST /admin/boissons/store
+     * @route POST /admin/fruits-legumes/store
      * @security Vérification du rôle admin + CSRF
      */
     public function store() {
@@ -144,52 +144,52 @@ class DrinksController extends Middleware {
         // Vérification CSRF
         if (!$this->verifyCSRFToken($_POST['csrf_token'] ?? '')) {
             $_SESSION['error_message'] = 'Token de sécurité invalide';
-            $this->redirectTo('admin-drinks-create');
+            $this->redirectTo('admin-fruits-legumes-create');
         }
         
         try {
             // Validation des données
-            $validationErrors = $this->validateDrinkData($_POST);
+            $validationErrors = $this->validateFruitVeggieData($_POST);
             
             if (!empty($validationErrors)) {
                 $_SESSION['validation_errors'] = $validationErrors;
                 $_SESSION['old_input'] = $_POST;
-                $this->redirectTo('admin-drinks-create');
+                $this->redirectTo('admin-fruits-legumes-create');
             }
             
             // Gestion de l'upload d'image
             $imagePath = $this->handleImageUpload();
             if ($imagePath === false) {
                 // Erreur d'upload, rediriger vers le formulaire
-                header('Location: index.php?action=admin-drinks-create');
+                header('Location: index.php?action=admin-fruits-legumes-create');
                 exit;
             }
             
             // Ajouter le chemin de l'image aux données
             $_POST['image'] = $imagePath;
             
-            // Créer la boisson
-            $drinkId = $this->drinkModel->create($_POST);
+            // Créer le fruit/légume
+            $fruitVeggieId = $this->fruitVeggieModel->create($_POST);
             
-            if ($drinkId) {
-                $_SESSION['success_message'] = 'Boisson créée avec succès !';
-                $this->redirectTo('admin-drinks');
+            if ($fruitVeggieId) {
+                $_SESSION['success_message'] = 'Fruit/légume créé avec succès !';
+                $this->redirectTo('admin-fruits-legumes');
             } else {
-                $_SESSION['error_message'] = 'Erreur lors de la création de la boisson';
-                $this->redirectTo('admin-drinks-create');
+                $_SESSION['error_message'] = 'Erreur lors de la création du fruit/légume';
+                $this->redirectTo('admin-fruits-legumes-create');
             }
             
         } catch (\Exception $e) {
-            error_log("Erreur création boisson: " . $e->getMessage());
-            $_SESSION['error_message'] = 'Erreur lors de la création de la boisson';
-            $this->redirectTo('admin-drinks-create');
+            error_log("Erreur création fruit/légume: " . $e->getMessage());
+            $_SESSION['error_message'] = 'Erreur lors de la création du fruit/légume';
+            $this->redirectTo('admin-fruits-legumes-create');
         }
     }
     
     /**
-     * Traite la modification d'une boisson existante
+     * Traite la modification d'un fruit/légume existant
      * 
-     * @route POST /admin/boissons/update/{id}
+     * @route POST /admin/fruits-legumes/update/{id}
      * @security Vérification du rôle admin + CSRF
      */
     public function update($id) {
@@ -198,24 +198,24 @@ class DrinksController extends Middleware {
         // Vérification CSRF
         if (!$this->verifyCSRFToken($_POST['csrf_token'] ?? '')) {
             $_SESSION['error_message'] = 'Token de sécurité invalide';
-            $this->redirectTo('admin-drinks-edit', ['id' => $id]);
+            $this->redirectTo('admin-fruits-legumes-edit', ['id' => $id]);
         }
         
         try {
-            // Récupérer la boisson existante pour préserver l'image
-            $existingDrink = $this->drinkModel->findById($id);
-            if (!$existingDrink) {
-                $_SESSION['error_message'] = 'Boisson non trouvée';
-                $this->redirectTo('admin-drinks');
+            // Récupérer le fruit/légume existant pour préserver l'image
+            $existingFruitVeggie = $this->fruitVeggieModel->findById($id);
+            if (!$existingFruitVeggie) {
+                $_SESSION['error_message'] = 'Fruit/légume non trouvé';
+                $this->redirectTo('admin-fruits-legumes');
             }
             
             // Validation des données
-            $validationErrors = $this->validateDrinkData($_POST);
+            $validationErrors = $this->validateFruitVeggieData($_POST);
             
             if (!empty($validationErrors)) {
                 $_SESSION['validation_errors'] = $validationErrors;
                 $_SESSION['old_input'] = $_POST;
-                header('Location: index.php?action=admin-drinks-edit&id=' . $id);
+                header('Location: index.php?action=admin-fruits-legumes-edit&id=' . $id);
                 exit;
             }
             
@@ -223,41 +223,41 @@ class DrinksController extends Middleware {
             $imagePath = $this->handleImageUpload();
             if ($imagePath === false) {
                 // Erreur d'upload, rediriger vers le formulaire
-                header('Location: index.php?action=admin-drinks-edit&id=' . $id);
+                header('Location: index.php?action=admin-fruits-legumes-edit&id=' . $id);
                 exit;
             }
             
             // Si pas de nouvelle image, conserver l'ancienne
             if ($imagePath === null) {
-                $_POST['image'] = $existingDrink['image'];
+                $_POST['image'] = $existingFruitVeggie['image'];
             } else {
                 $_POST['image'] = $imagePath;
             }
             
-            // Mettre à jour la boisson
-            $success = $this->drinkModel->update($id, $_POST);
+            // Mettre à jour le fruit/légume
+            $success = $this->fruitVeggieModel->update($id, $_POST);
             
             if ($success) {
-                $_SESSION['success_message'] = 'Boisson modifiée avec succès !';
-                $this->redirectTo('admin-drinks');
+                $_SESSION['success_message'] = 'Fruit/légume modifié avec succès !';
+                $this->redirectTo('admin-fruits-legumes');
             } else {
-                $_SESSION['error_message'] = 'Erreur lors de la modification de la boisson';
-                header('Location: index.php?action=admin-drinks-edit&id=' . $id);
+                $_SESSION['error_message'] = 'Erreur lors de la modification du fruit/légume';
+                header('Location: index.php?action=admin-fruits-legumes-edit&id=' . $id);
                 exit;
             }
             
         } catch (\Exception $e) {
-            error_log("Erreur modification boisson: " . $e->getMessage());
-            $_SESSION['error_message'] = 'Erreur lors de la modification de la boisson';
-            header('Location: index.php?action=admin-drinks-edit&id=' . $id);
+            error_log("Erreur modification fruit/légume: " . $e->getMessage());
+            $_SESSION['error_message'] = 'Erreur lors de la modification du fruit/légume';
+            header('Location: index.php?action=admin-fruits-legumes-edit&id=' . $id);
             exit;
         }
     }
     
     /**
-     * Supprime une boisson
+     * Supprime un fruit/légume
      * 
-     * @route POST /admin/boissons/delete/{id}
+     * @route POST /admin/fruits-legumes/delete/{id}
      * @security Vérification du rôle admin + CSRF
      */
     public function delete($id) {
@@ -266,69 +266,69 @@ class DrinksController extends Middleware {
         // Vérification CSRF
         if (!$this->verifyCSRFToken($_POST['csrf_token'] ?? '')) {
             $_SESSION['error_message'] = 'Token de sécurité invalide';
-            $this->redirectTo('admin-drinks');
+            $this->redirectTo('admin-fruits-legumes');
         }
         
         try {
-            $success = $this->drinkModel->delete($id);
+            $success = $this->fruitVeggieModel->delete($id);
             
             if ($success) {
-                $_SESSION['success_message'] = 'Boisson supprimée avec succès !';
+                $_SESSION['success_message'] = 'Fruit/légume supprimé avec succès !';
             } else {
-                $_SESSION['error_message'] = 'Erreur lors de la suppression de la boisson';
+                $_SESSION['error_message'] = 'Erreur lors de la suppression du fruit/légume';
             }
             
         } catch (\Exception $e) {
-            error_log("Erreur suppression boisson: " . $e->getMessage());
-            $_SESSION['error_message'] = 'Erreur lors de la suppression de la boisson';
+            error_log("Erreur suppression fruit/légume: " . $e->getMessage());
+            $_SESSION['error_message'] = 'Erreur lors de la suppression du fruit/légume';
         }
         
-        $this->redirectTo('admin-drinks');
+        $this->redirectTo('admin-fruits-legumes');
     }
     
     /**
-     * Affiche la liste publique des boissons (disponibles uniquement)
+     * Affiche la liste publique des fruits et légumes (disponibles uniquement)
      * 
-     * @route GET /drinks
+     * @route GET /fruits-veggies
      * @public Page accessible à tous les utilisateurs
      */
     public function publicIndex() {
         try {
-            // Récupérer seulement les boissons disponibles
-            $drinks = $this->drinkModel->getAvailable();
-            $totalDrinks = $this->drinkModel->countAvailable();
+            // Récupérer seulement les fruits et légumes disponibles
+            $fruitsVeggies = $this->fruitVeggieModel->getAvailable();
+            $totalFruitsVeggies = $this->fruitVeggieModel->countAvailable();
             
-            $this->render("drinks.phtml", "layout.phtml", [
-                'pageTitle' => 'Nos Boissons Rafraîchissantes',
-                'drinks' => $drinks,
-                'totalDrinks' => $totalDrinks
+            $this->render("fruits-veggies.phtml", "layout.phtml", [
+                'pageTitle' => 'Nos Fruits & Légumes Frais',
+                'fruitsVeggies' => $fruitsVeggies,
+                'totalFruitsVeggies' => $totalFruitsVeggies
             ]);
             
         } catch (\Exception $e) {
-            error_log("Erreur affichage boissons publiques: " . $e->getMessage());
+            error_log("Erreur affichage fruits et légumes publics: " . $e->getMessage());
             
-            $this->render("drinks.phtml", "layout.phtml", [
-                'pageTitle' => 'Nos Boissons Rafraîchissantes',
-                'drinks' => [],
-                'totalDrinks' => 0,
-                'error' => 'Erreur lors du chargement des boissons'
+            $this->render("fruits-veggies.phtml", "layout.phtml", [
+                'pageTitle' => 'Nos Fruits & Légumes Frais',
+                'fruitsVeggies' => [],
+                'totalFruitsVeggies' => 0,
+                'error' => 'Erreur lors du chargement des fruits et légumes'
             ]);
         }
     }
     
     /**
-     * Valide les données du formulaire de boisson
+     * Valide les données du formulaire de fruit/légume
      * 
      * @param array $data Les données à valider
      * @return array Liste des erreurs de validation
      * @security Validation côté serveur pour la sécurité
      */
-    private function validateDrinkData($data) {
+    private function validateFruitVeggieData($data) {
         $errors = [];
         
         // Nom obligatoire
         if (empty(trim($data['name'] ?? ''))) {
-            $errors['name'] = 'Le nom de la boisson est obligatoire';
+            $errors['name'] = 'Le nom du fruit/légume est obligatoire';
         }
         
         // Prix obligatoire et positif
@@ -345,7 +345,7 @@ class DrinksController extends Middleware {
     }
     
     /**
-     * Gère l'upload d'image pour les boissons
+     * Gère l'upload d'image pour les fruits et légumes
      * 
      * @return string|null|false Chemin de l'image, null si pas d'upload, false si erreur
      * @security Validation du type et de la taille du fichier
@@ -378,14 +378,14 @@ class DrinksController extends Middleware {
         }
         
         // Créer le dossier d'upload s'il n'existe pas
-        $uploadDir = 'app/public/uploads/drinks/';
+        $uploadDir = 'app/public/uploads/fruits-veggies/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
         
         // Générer un nom de fichier unique
         $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-        $filename = 'drink_' . uniqid() . '.' . $extension;
+        $filename = 'fruit_veggie_' . uniqid() . '.' . $extension;
         $filepath = $uploadDir . $filename;
         
         // Déplacer le fichier

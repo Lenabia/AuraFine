@@ -45,7 +45,8 @@ $bp: (
   // desktop large
   xxxl: 1440px,
   // desktop XL
-  uhd: 1600px // très grands écrans,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+  uhd: 1600px
+    // très grands écrans,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 );
 @mixin up($key) {
   @media (min-width: map.get($bp, $key)) {
@@ -1099,449 +1100,6 @@ body {
 }
 
 /* ========================================
-   SECTIONS PRODUIT (UNIFORMISÉES)
-   ======================================== */
-#produit-hero {
-  background: linear-gradient(144deg, #131212 0%, rgb(220 85 132) 100%);
-  color: $color-white;
-  padding: 2rem 0;
-  text-align: center;
-
-  .hero-content {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0 1rem;
-    header {
-      h1 {
-        font-size: clamp(1.3rem, 3.5vw + 0.4rem, 2rem);
-        font-weight: 700;
-        margin-bottom: 1rem;
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      }
-      p {
-        font-size: clamp(0.95rem, 0.8vw + 0.3rem, 1rem);
-        opacity: 0.95;
-        line-height: 1.6;
-        max-width: 100%;
-        margin: 0 auto;
-      }
-    }
-  }
-
-  @include up(lg) {
-    padding: 3rem 0;
-    .hero-content {
-      max-width: 90%;
-      header {
-        h1 {
-          font-size: 2.5rem;
-        }
-        p {
-          font-size: 1.1rem;
-          max-width: 80%;
-        }
-      }
-    }
-  }
-
-  @include up(xl) {
-    padding: 4rem 0;
-    .hero-content {
-      max-width: 1200px;
-      header {
-        h1 {
-          font-size: 3rem;
-        }
-        p {
-          font-size: 1.2rem;
-          max-width: 70%;
-        }
-      }
-    }
-  }
-}
-
-#produit-filters {
-  background: $color-white;
-  padding: 1.5rem 0;
-  border-bottom: 1px solid $color-gray-light;
-
-  .filters-container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    .search-box {
-      position: relative;
-      max-width: 100%;
-      margin: 0 auto;
-      .search-input {
-        width: 100%;
-        padding: 1rem 3rem 1rem 1rem;
-        border: 2px solid $color-gray-light;
-        border-radius: 2rem;
-        font-size: clamp(0.95rem, 0.8vw + 0.3rem, 1rem);
-        @include transition;
-        &:focus {
-          outline: none;
-          border-color: $color-rose;
-          @include shadow-soft;
-        }
-      }
-      .search-icon {
-        position: absolute;
-        right: 1rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: $color-gray-medium;
-        font-size: clamp(1rem, 0.7vw + 0.3rem, 1.1rem);
-      }
-    }
-
-    .filter-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      .filter-btn {
-        background: $color-gray-light;
-        color: $color-gray-dark;
-        border: none;
-        padding: 0.7rem 1.2rem;
-        border-radius: 2rem;
-        font-weight: 600;
-        cursor: pointer;
-        @include transition;
-        font-size: clamp(0.9rem, 0.9vw + 0.25rem, 1rem);
-        &.active,
-        &:hover {
-          background: $color-rose;
-          color: $color-white;
-          transform: translateY(-2px);
-          @include shadow-soft;
-        }
-      }
-    }
-  }
-
-  @include up(lg) {
-    padding: 2rem 0;
-    .filters-container {
-      max-width: 90%;
-      gap: 1.5rem;
-      .search-box {
-        max-width: 80%;
-      }
-      .filter-buttons {
-        gap: 0.8rem;
-        .filter-btn {
-          padding: 0.8rem 1.5rem;
-          font-size: 1rem;
-        }
-      }
-    }
-  }
-
-  @include up(xl) {
-    padding: 2.5rem 0;
-    .filters-container {
-      max-width: 1200px;
-      gap: 2rem;
-      .search-box {
-        max-width: 60%;
-      }
-      .filter-buttons {
-        gap: 1rem;
-        .filter-btn {
-          padding: 1rem 2rem;
-          font-size: 1.1rem;
-        }
-      }
-    }
-  }
-}
-
-/* ========================================
-   SECTION PRODUIT GRID (UNIFORMISÉE)
-   ======================================== */
-#produit-grid {
-  background: $color-gray-light;
-  padding: 2rem 0;
-
-  @include up(lg) {
-    padding: 3rem 0;
-  }
-  @include up(xl) {
-    padding: 4rem 0;
-  }
-
-  .produit-container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0 1rem;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  @include up(lg) {
-    .produit-container {
-      max-width: 90%;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-    }
-  }
-  @include up(xl) {
-    .produit-container {
-      max-width: 1200px;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-    }
-  }
-  @include up(xxl) {
-    .produit-container {
-      gap: 2.5rem;
-    }
-  }
-
-  .produit-card {
-    background: $color-white;
-    border-radius: 1.5rem;
-    overflow: hidden;
-    @include shadow-soft;
-    @include transition;
-    &:hover {
-      transform: translateY(-8px);
-      @include shadow-hover;
-    }
-
-    .card-image {
-      position: relative;
-      height: clamp(140px, 38vw, 180px);
-      overflow: hidden;
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        @include transition;
-      }
-
-      @include up(lg) {
-        height: 200px;
-      }
-      @include up(xl) {
-        height: 220px;
-      }
-
-      figcaption {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        .card-badge {
-          padding: 0.3rem 0.8rem;
-          border-radius: 1rem;
-          font-size: 0.8rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          &.poulet {
-            background: $color-rose;
-            color: $color-white;
-          }
-          &.crevettes {
-            background: $color-accent;
-            color: $color-white;
-          }
-          &.oeufs {
-            background: $color-green;
-            color: $color-white;
-          }
-        }
-      }
-    }
-
-    .card-content {
-      padding: 1rem;
-
-      header h3 {
-        font-size: clamp(1rem, 0.9vw + 0.3rem, 1.1rem);
-        color: $color-black;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-      }
-
-      .description {
-        color: $color-gray-dark;
-        margin-bottom: 0.7rem;
-        line-height: 1.6;
-      }
-
-      .card-details {
-        margin-bottom: 1rem;
-
-        .ingredients {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.5rem;
-          margin-bottom: 0.5rem;
-          .ingredient-tag {
-            background: $color-gray-light;
-            color: $color-gray-dark;
-            padding: 0.3rem 0.8rem;
-            border-radius: 1rem;
-            font-size: clamp(0.75rem, 0.6vw + 0.2rem, 0.85rem);
-            font-weight: 500;
-          }
-        }
-
-        .nutrition {
-          display: flex;
-          gap: 0.7rem;
-          font-size: clamp(0.85rem, 0.7vw + 0.2rem, 0.95rem);
-          color: $color-gray-medium;
-          .calories,
-          .protein {
-            font-weight: 600;
-          }
-        }
-      }
-
-      .card-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .price-quantity {
-          display: flex;
-          align-items: center;
-          gap: 0.7rem;
-          .price {
-            font-size: clamp(1rem, 0.9vw + 0.3rem, 1.15rem);
-            font-weight: 700;
-            color: $color-rose;
-          }
-          .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            .qty-btn {
-              background: $color-gray-light;
-              border: none;
-              width: 1.7rem;
-              height: 1.7rem;
-              border-radius: 50%;
-              cursor: pointer;
-              @include transition;
-              &:hover {
-                background: $color-rose;
-                color: $color-white;
-              }
-            }
-            .quantity {
-              font-weight: 600;
-              min-width: 1.2rem;
-              text-align: center;
-            }
-          }
-        }
-
-        .add-to-cart-btn {
-          background: $color-green;
-          color: $color-white;
-          border: none;
-          padding: 0.7rem 1.2rem;
-          border-radius: 2rem;
-          font-weight: 600;
-          cursor: pointer;
-          @include transition;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          /* cibles tactiles confortables */
-          min-height: 44px;
-          &:hover {
-            background: color.adjust($color-green, $lightness: -10%);
-            transform: translateY(-2px);
-            @include shadow-soft;
-          }
-        }
-      }
-    }
-  }
-}
-
-/* ========================================
-   SECTION PRODUIT INFO (UNIFORMISÉE)
-   ======================================== */
-#produit-info {
-  background: $color-white;
-  padding: 2rem 0;
-  @include up(lg) {
-    padding: 3rem 0;
-  }
-  @include up(xl) {
-    padding: 4rem 0;
-  }
-
-  .info-container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0 1rem;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  @include up(lg) {
-    .info-container {
-      max-width: 90%;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-    }
-  }
-  @include up(xl) {
-    .info-container {
-      max-width: 1200px;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-    }
-  }
-  @include up(xxl) {
-    .info-container {
-      gap: 2.5rem;
-    }
-  }
-
-  .info-card {
-    text-align: center;
-    padding: 1.2rem;
-
-    header {
-      margin-bottom: 0.7rem;
-      i {
-        font-size: clamp(1.4rem, 3vw + 0.4rem, 2rem);
-        color: $color-rose;
-        margin-bottom: 0.7rem;
-        display: block;
-      }
-      h3 {
-        font-size: clamp(1rem, 0.9vw + 0.3rem, 1.1rem);
-        color: $color-black;
-        font-weight: 600;
-      }
-    }
-
-    p {
-      color: $color-gray-dark;
-      line-height: 1.6;
-    }
-  }
-}
-
-/* ========================================
    ANIMATIONS AU SCROLL (OPTIMISÉES)
    ======================================== */
 .site-tagline {
@@ -2405,9 +1963,412 @@ body {
 #daily-menu,
 #about,
 #services,
-#produit-grid,
-#produit-info,
 #site-footer {
   content-visibility: auto;
   contain-intrinsic-size: 1px 1000px;
+}
+
+/* ========================================
+   PAGES PUBLIQUES PRODUITS
+   ======================================== */
+
+/* Classes communes pour toutes les pages produits */
+.product-hero {
+  background: linear-gradient(144deg, #131212 0%, rgb(220 85 132) 100%);
+  color: $color-white;
+  padding: 2rem 0;
+  text-align: center;
+
+  header {
+    h1 {
+      font-size: clamp(1.5rem, 4vw + 0.5rem, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+
+      i {
+        color: $color-green;
+      }
+    }
+
+    p {
+      font-size: clamp(0.95rem, 1vw + 0.4rem, 1.1rem);
+      opacity: 0.9;
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+}
+
+.product-content {
+  background: $color-gray-light;
+  padding: 2rem 0;
+
+  .product-stats {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    margin-bottom: 2rem;
+
+    .product-count {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: $color-white;
+      color: $color-gray-dark;
+      padding: 1rem 1.5rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: clamp(0.95rem, 1vw + 0.3rem, 1.1rem);
+      @include shadow-soft;
+      display: inline-flex;
+      margin: 0 auto;
+
+      i {
+        color: $color-green;
+        font-size: 1.2em;
+      }
+    }
+  }
+
+  .product-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @include up(md) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    @include up(lg) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+
+    .product-card {
+      background: $color-white;
+      border-radius: 1rem;
+      overflow: hidden;
+      @include shadow-soft;
+      @include transition;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      &:hover {
+        transform: translateY(-5px);
+        @include shadow-hover;
+      }
+
+      .product-image {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          @include transition;
+        }
+
+        .product-placeholder {
+          width: 100%;
+          height: 100%;
+          background: $color-gray-light;
+          @include flex-center;
+          color: $color-gray-medium;
+          font-size: 3rem;
+        }
+      }
+
+      .product-info {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .product-name {
+          font-size: clamp(1.1rem, 1.2vw + 0.4rem, 1.3rem);
+          font-weight: 600;
+          color: $color-black;
+          margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+          color: $color-gray-dark;
+          line-height: 1.6;
+          margin-bottom: 1rem;
+          font-size: clamp(0.9rem, 0.8vw + 0.3rem, 1rem);
+          flex: 1;
+        }
+
+        .product-details {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 1rem;
+          margin-top: auto;
+
+          .product-price {
+            .price-amount {
+              font-size: clamp(1.1rem, 1vw + 0.3rem, 1.3rem);
+              font-weight: 700;
+              color: $color-rose;
+            }
+          }
+
+          .product-stock {
+            .stock-available {
+              display: flex;
+              align-items: center;
+              gap: 0.3rem;
+              color: $color-green;
+              font-weight: 600;
+              font-size: clamp(0.85rem, 0.7vw + 0.2rem, 0.95rem);
+
+              i {
+                font-size: 1.1em;
+              }
+            }
+
+            .stock-unavailable {
+              display: flex;
+              align-items: center;
+              gap: 0.3rem;
+              color: $color-gray-medium;
+              font-weight: 600;
+              font-size: clamp(0.85rem, 0.7vw + 0.2rem, 0.95rem);
+
+              i {
+                font-size: 1.1em;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 1rem;
+    background: $color-white;
+    border-radius: 1rem;
+    @include shadow-soft;
+    max-width: 500px;
+    margin: 0 auto;
+
+    .empty-icon {
+      font-size: clamp(3rem, 8vw + 1rem, 5rem);
+      color: $color-gray-medium;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: clamp(1.2rem, 2.5vw + 0.5rem, 1.6rem);
+      color: $color-black;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    p {
+      color: $color-gray-dark;
+      line-height: 1.6;
+      font-size: clamp(0.95rem, 0.8vw + 0.3rem, 1.1rem);
+    }
+  }
+}
+
+/* Page Salades */
+.salad-page {
+  .salad-hero {
+    @extend .product-hero;
+  }
+
+  .salad-content {
+    @extend .product-content;
+  }
+
+  .salad-grid {
+    @extend .product-grid;
+  }
+}
+
+/* Classes de cartes pour les pages publiques */
+.salad-card,
+.drink-card,
+.fruit-veggie-card {
+  @extend .product-card;
+}
+
+/* Styles des images pour les pages publiques */
+.salad-image,
+.drink-image,
+.fruit-veggie-image {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    @include transition;
+  }
+
+  .salad-placeholder,
+  .drink-placeholder,
+  .fruit-veggie-placeholder {
+    width: 100%;
+    height: 100%;
+    background: $color-gray-light;
+    @include flex-center;
+    color: $color-gray-medium;
+    font-size: 3rem;
+  }
+}
+
+.salad-info,
+.drink-info,
+.fruit-veggie-info {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  .salad-name,
+  .drink-name,
+  .fruit-veggie-name {
+    font-size: clamp(1.1rem, 1.2vw + 0.4rem, 1.3rem);
+    font-weight: 600;
+    color: $color-black;
+    margin-bottom: 0.5rem;
+  }
+
+  .salad-description,
+  .drink-description,
+  .fruit-veggie-description {
+    color: $color-gray-medium;
+    line-height: 1.5;
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+
+  .salad-details,
+  .drink-details,
+  .fruit-veggie-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: auto;
+
+    .salad-price,
+    .drink-price,
+    .fruit-veggie-price {
+      .price-amount {
+        font-size: clamp(1.1rem, 1.2vw + 0.4rem, 1.3rem);
+        font-weight: 700;
+        color: $color-green;
+      }
+    }
+
+    .salad-stock,
+    .drink-stock,
+    .fruit-veggie-stock {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: clamp(0.85rem, 0.7vw + 0.2rem, 0.95rem);
+
+      &.stock-available {
+        color: $color-green;
+        font-weight: 600;
+      }
+
+      &.stock-unavailable {
+        color: $color-red;
+        font-weight: 600;
+      }
+
+      i {
+        font-size: 1.1em;
+      }
+    }
+  }
+}
+
+/* Page Boissons */
+.drink-page {
+  .drink-hero {
+    @extend .product-hero;
+
+    header h1 i {
+      color: $color-accent;
+    }
+  }
+
+  .drink-content {
+    @extend .product-content;
+
+    .drink-stats .drink-count i {
+      color: $color-accent;
+    }
+  }
+
+  .drink-grid {
+    @extend .product-grid;
+  }
+}
+
+/* Page Fruits et Légumes */
+.fruit-veggie-page {
+  .fruit-veggie-hero {
+    @extend .product-hero;
+  }
+
+  .fruit-veggie-content {
+    @extend .product-content;
+  }
+
+  .fruit-veggie-grid {
+    @extend .product-grid;
+  }
+}
+
+/* Alertes communes */
+.alert {
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &.alert-error {
+    background: #fee;
+    color: #c53030;
+    border: 1px solid #feb2b2;
+  }
+
+  &.alert-success {
+    background: #f0fff4;
+    color: #22543d;
+    border: 1px solid #9ae6b4;
+  }
+
+  i {
+    font-size: 1.1em;
+  }
 }

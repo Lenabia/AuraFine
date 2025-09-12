@@ -62,6 +62,14 @@ class AdminController extends Middleware {
         
         $this->render("admin-home.phtml", "admin-layout.phtml", [
             'pageTitle' => $pageTitle,
+            'currentPage' => 'admin-home',
+            'breadcrumbs' => [
+                [
+                    'title' => 'Dashboard',
+                    'url' => 'index.php?action=admin-home',
+                    'icon' => 'fas fa-tachometer-alt'
+                ]
+            ],
             'revenue' => $revenue,
             'revenue_trend' => $revenue_trend,
             'revenue_percentage' => $revenue_percentage,
@@ -91,6 +99,36 @@ class AdminController extends Middleware {
             'connected_user_name' => $connected_user_name,
             'connected_user_status' => $connected_user_status,
             'connected_user_time' => $connected_user_time
+        ]);
+    }
+    
+    /**
+     * Affiche la page catalogue
+     * 
+     * @route GET /admin/catalog
+     * @security Vérification du rôle admin
+     */
+    public function displayCatalogue() {
+        // Vérifier que l'utilisateur est admin
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+            $this->redirectTo('accesDenied');
+        }
+        
+        $this->render("catalogue.phtml", "admin-layout.phtml", [
+            'pageTitle' => 'Catalogue',
+            'currentPage' => 'admin-catalog',
+            'breadcrumbs' => [
+                [
+                    'title' => 'Dashboard',
+                    'url' => 'index.php?action=admin-home',
+                    'icon' => 'fas fa-tachometer-alt'
+                ],
+                [
+                    'title' => 'Catalogue',
+                    'url' => 'index.php?action=admin-catalog',
+                    'icon' => 'fas fa-book'
+                ]
+            ]
         ]);
     }
 }

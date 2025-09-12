@@ -1,0 +1,173 @@
+<!-- ========================================
+FORMULAIRE CRÉATION/MODIFICATION FRUIT/LÉGUME
+======================================== -->
+
+<!-- En-tête du formulaire -->
+<section class="form-header">
+    <header>
+        <h2><?= $isEdit ? 'Modifier le Fruit/Légume' : 'Nouveau Fruit/Légume' ?></h2>
+        <p><?= $isEdit ? 'Modifiez les informations du fruit/légume' : 'Créez un nouveau fruit ou légume' ?></p>
+    </header>
+    <nav class="header-actions">
+        <a href="index.php?action=admin-fruits-legumes" class="btn-back">
+            <i class="fas fa-arrow-left"></i>
+            Retour à la liste
+        </a>
+    </nav>
+</section>
+
+<!-- Messages d'erreur de validation -->
+<?php if (isset($_SESSION['validation_errors'])): ?>
+    <div class="alert alert-error" role="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h4>Erreurs de validation :</h4>
+        <ul>
+            <?php foreach ($_SESSION['validation_errors'] as $field => $error): ?>
+                <li><strong><?= htmlspecialchars($field) ?>:</strong> <?= htmlspecialchars($error) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php unset($_SESSION['validation_errors']); ?>
+<?php endif; ?>
+
+<!-- Messages d'erreur générales -->
+<?php if (isset($_SESSION['error_message'])): ?>
+    <div class="alert alert-error" role="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <?= htmlspecialchars($_SESSION['error_message']) ?>
+    </div>
+    <?php unset($_SESSION['error_message']); ?>
+<?php endif; ?>
+
+<!-- Formulaire -->
+<form method="POST" 
+      action="index.php?action=<?= $isEdit ? 'admin-fruits-legumes-update&id=' . $fruitVeggie['id'] : 'admin-fruits-legumes-store' ?>" 
+      enctype="multipart/form-data" 
+      class="fruit-veggie-form">
+    
+    <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+    
+    <div class="form-grid">
+        <!-- Informations principales -->
+        <section class="form-section">
+            <header>
+                <h3>Informations principales</h3>
+            </header>
+            
+            <div class="form-group">
+                <label for="name" class="form-label required">Nom du fruit/légume</label>
+                <input type="text" 
+                       id="name" 
+                       name="name" 
+                       class="form-input <?= isset($_SESSION['validation_errors']['name']) ? 'error' : '' ?>"
+                       value="<?= htmlspecialchars($fruitVeggie['name'] ?? $_SESSION['old_input']['name'] ?? '') ?>"
+                       placeholder="Ex: Tomates cerises"
+                       required>
+                <?php if (isset($_SESSION['validation_errors']['name'])): ?>
+                    <span class="form-error"><?= htmlspecialchars($_SESSION['validation_errors']['name']) ?></span>
+                <?php endif; ?>
+            </div>
+            
+            <div class="form-group">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" 
+                          name="description" 
+                          class="form-textarea"
+                          rows="4"
+                          placeholder="Décrivez votre fruit ou légume..."><?= htmlspecialchars($fruitVeggie['description'] ?? $_SESSION['old_input']['description'] ?? '') ?></textarea>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="price" class="form-label required">Prix (FCFA)</label>
+                    <input type="number" 
+                           id="price" 
+                           name="price" 
+                           class="form-input <?= isset($_SESSION['validation_errors']['price']) ? 'error' : '' ?>"
+                           value="<?= htmlspecialchars($fruitVeggie['price'] ?? $_SESSION['old_input']['price'] ?? '') ?>"
+                           min="0" 
+                           step="1"
+                           placeholder="800"
+                           required>
+                    <?php if (isset($_SESSION['validation_errors']['price'])): ?>
+                        <span class="form-error"><?= htmlspecialchars($_SESSION['validation_errors']['price']) ?></span>
+                    <?php endif; ?>
+                </div>
+                
+                <div class="form-group">
+                    <label for="stock_quantity" class="form-label">Quantité en stock</label>
+                    <input type="number" 
+                           id="stock_quantity" 
+                           name="stock_quantity" 
+                           class="form-input <?= isset($_SESSION['validation_errors']['stock_quantity']) ? 'error' : '' ?>"
+                           value="<?= htmlspecialchars($fruitVeggie['stock_quantity'] ?? $_SESSION['old_input']['stock_quantity'] ?? '0') ?>"
+                           min="0" 
+                           step="1"
+                           placeholder="25">
+                    <?php if (isset($_SESSION['validation_errors']['stock_quantity'])): ?>
+                        <span class="form-error"><?= htmlspecialchars($_SESSION['validation_errors']['stock_quantity']) ?></span>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Image et disponibilité -->
+        <section class="form-section">
+            <header>
+                <h3>Image et disponibilité</h3>
+            </header>
+            
+            <div class="form-group">
+                <label for="image" class="form-label">Image du fruit/légume</label>
+                <input type="file" 
+                       id="image" 
+                       name="image" 
+                       class="form-file"
+                       accept="image/jpeg,image/jpg,image/png,image/webp">
+                <small class="form-help">Formats acceptés : JPG, PNG, WEBP (max 2MB)</small>
+                
+                <!-- Aperçu de l'image actuelle -->
+                <?php if ($isEdit && !empty($fruitVeggie['image'])): ?>
+                    <div class="current-image-preview">
+                        <h4>Image actuelle :</h4>
+                        <img src="<?= htmlspecialchars($fruitVeggie['image']) ?>" 
+                             alt="Image actuelle" 
+                             class="preview-image">
+                    </div>
+                <?php endif; ?>
+            </div>
+            
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input type="checkbox" 
+                           id="is_available" 
+                           name="is_available" 
+                           value="1"
+                           <?= ($fruitVeggie['is_available'] ?? $_SESSION['old_input']['is_available'] ?? '1') == '1' ? 'checked' : '' ?>>
+                    <label for="is_available" class="checkbox-label">
+                        <span class="checkbox-custom"></span>
+                        Fruit/légume disponible à la vente
+                    </label>
+                </div>
+                <small class="form-help">Décochez pour désactiver temporairement ce fruit/légume</small>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Actions du formulaire -->
+    <footer class="form-actions">
+        <a href="index.php?action=admin-fruits-legumes" class="btn-secondary">
+            <i class="fas fa-times"></i>
+            Annuler
+        </a>
+        <button type="submit" class="btn-primary">
+            <i class="fas fa-save"></i>
+            <?= $isEdit ? 'Modifier le fruit/légume' : 'Créer le fruit/légume' ?>
+        </button>
+    </footer>
+</form>
+
+<?php
+// Nettoyer les données temporaires après affichage
+unset($_SESSION['old_input']);
+?>

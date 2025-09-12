@@ -1,0 +1,164 @@
+<!-- ========================================
+PAGE GESTION DES BOISSONS - LISTE ET ACTIONS
+======================================== -->
+
+<!-- En-tête avec bouton d'ajout -->
+<section class="drinks-header">
+    <header>
+        <h2>Gestion des Boissons</h2>
+        <p>Créez et gérez vos boissons rafraîchissantes</p>
+    </header>
+    <nav class="header-actions">
+        <a href="index.php?action=admin-catalog" class="btn-back">
+            <i class="fas fa-arrow-left"></i>
+            Retour au Catalogue
+        </a>
+        <a href="index.php?action=admin-drinks-create" class="btn-add">
+            <i class="fas fa-plus"></i>
+            Ajouter une boisson
+        </a>
+    </nav>
+</section>
+
+<!-- Messages de succès/erreur -->
+<?php if (isset($_SESSION['success_message'])): ?>
+    <div class="alert alert-success" role="alert">
+        <i class="fas fa-check-circle"></i>
+        <?= htmlspecialchars($_SESSION['success_message']) ?>
+    </div>
+    <?php unset($_SESSION['success_message']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['error_message'])): ?>
+    <div class="alert alert-error" role="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <?= htmlspecialchars($_SESSION['error_message']) ?>
+    </div>
+    <?php unset($_SESSION['error_message']); ?>
+<?php endif; ?>
+
+<!-- Statistiques -->
+<section class="drinks-stats">
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-wine-bottle"></i>
+        </div>
+        <div class="stat-content">
+            <h3><?= $totalDrinks ?></h3>
+            <p>Boissons au total</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+            <h3><?= count(array_filter($drinks, function($drink) { return $drink['is_available'] == 1; })) ?></h3>
+            <p>Disponibles</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="stat-content">
+            <h3><?= count(array_filter($drinks, function($drink) { return $drink['is_available'] == 0; })) ?></h3>
+            <p>Désactivées</p>
+        </div>
+    </div>
+</section>
+
+<!-- Liste des boissons -->
+<?php if (empty($drinks)): ?>
+    <!-- État vide -->
+    <section class="empty-state">
+        <div class="empty-icon">
+            <i class="fas fa-wine-bottle"></i>
+        </div>
+        <h3>Aucune boisson créée</h3>
+        <p>Commencez par ajouter votre première boisson</p>
+        <a href="index.php?action=admin-drinks-create" class="btn-primary">
+            <i class="fas fa-plus"></i>
+            Ajouter une boisson
+        </a>
+    </section>
+<?php else: ?>
+    <!-- Grille des boissons -->
+    <section class="drinks-grid">
+        <?php foreach ($drinks as $drink): ?>
+            <article class="drink-card">
+                <header class="drink-header">
+                    <?php if (!empty($drink['image'])): ?>
+                        <figure class="drink-image">
+                            <img src="<?= htmlspecialchars($drink['image']) ?>" 
+                                 alt="<?= htmlspecialchars($drink['name']) ?>"
+                                 loading="lazy">
+                        </figure>
+                    <?php else: ?>
+                        <figure class="drink-image placeholder">
+                            <i class="fas fa-wine-bottle"></i>
+                        </figure>
+                    <?php endif; ?>
+                    
+                    <div class="drink-status">
+                        <?php if ($drink['is_available']): ?>
+                            <span class="status-badge available">
+                                <i class="fas fa-check"></i>
+                                Disponible
+                            </span>
+                        <?php else: ?>
+                            <span class="status-badge unavailable">
+                                <i class="fas fa-times"></i>
+                                Indisponible
+                            </span>
+                        <?php endif; ?>
+                    </div>
+                </header>
+                
+                <div class="drink-content">
+                    <h3 class="drink-name"><?= htmlspecialchars($drink['name']) ?></h3>
+                    
+                    <div class="drink-description">
+                        <p><?= htmlspecialchars($drink['description']) ?></p>
+                    </div>
+                    
+                    <div class="drink-details">
+                        <div class="detail-item">
+                            <i class="fas fa-tag"></i>
+                            <span class="price"><?= number_format($drink['price'], 0, ',', ' ') ?> FCFA</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-boxes"></i>
+                            <span class="stock <?= $drink['stock_quantity'] > 0 ? 'available' : 'unavailable' ?>">
+                                <?= $drink['stock_quantity'] ?> en stock
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-calendar"></i>
+                            <time datetime="<?= $drink['created_at'] ?>">
+                                <?= date('d/m/Y', strtotime($drink['created_at'])) ?>
+                            </time>
+                        </div>
+                    </div>
+                </div>
+                
+                <footer class="drink-actions">
+                    <a href="index.php?action=admin-drinks-edit&id=<?= $drink['id'] ?>" 
+                       class="btn-edit">
+                        <i class="fas fa-edit"></i>
+                        Modifier
+                    </a>
+                    <form method="POST" action="index.php?action=admin-drinks-delete&id=<?= $drink['id'] ?>" 
+                          class="delete-form"
+                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette boisson ?')">
+                        <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                        <button type="submit" class="btn-delete">
+                            <i class="fas fa-trash"></i>
+                            Supprimer
+                        </button>
+                    </form>
+                </footer>
+            </article>
+        <?php endforeach; ?>
+    </section>
+<?php endif; ?>

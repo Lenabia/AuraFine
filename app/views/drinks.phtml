@@ -1,0 +1,80 @@
+<main class="drink-page">
+    <section class="drink-hero">
+        <header>
+            <h1>Nos Boissons Rafraîchissantes</h1>
+            <p>Découvrez notre sélection de boissons fraîches et naturelles</p>
+        </header>
+    </section>
+
+    <section class="drink-content">
+        <?php if (isset($error)): ?>
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($totalDrinks > 0): ?>
+            <div class="drink-stats">
+                <p class="drink-count">
+                    <i class="fas fa-glass-whiskey"></i>
+                    <?= $totalDrinks ?> boisson<?= $totalDrinks > 1 ? 's' : '' ?> disponible<?= $totalDrinks > 1 ? 's' : '' ?>
+                </p>
+            </div>
+
+            <div class="drink-grid">
+                <?php foreach ($drinks as $drink): ?>
+                    <article class="drink-card">
+                        <figure class="drink-image">
+                            <?php if (!empty($drink['image'])): ?>
+                                <img src="<?= htmlspecialchars($drink['image']) ?>" 
+                                     alt="<?= htmlspecialchars($drink['name']) ?>"
+                                     loading="lazy">
+                            <?php else: ?>
+                                <div class="drink-placeholder">
+                                    <i class="fas fa-glass-whiskey"></i>
+                                </div>
+                            <?php endif; ?>
+                        </figure>
+                        
+                        <div class="drink-info">
+                            <h3 class="drink-name"><?= htmlspecialchars($drink['name']) ?></h3>
+                            
+                            <?php if (!empty($drink['description'])): ?>
+                                <p class="drink-description"><?= htmlspecialchars($drink['description']) ?></p>
+                            <?php endif; ?>
+                            
+                            <div class="drink-details">
+                                <div class="drink-price">
+                                    <span class="price-amount"><?= number_format($drink['price'], 2) ?>€</span>
+                                </div>
+                                
+                                <div class="drink-stock">
+                                    <?php if ($drink['stock_quantity'] > 0): ?>
+                                        <span class="stock-available">
+                                            <i class="fas fa-check-circle"></i>
+                                            En stock
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="stock-unavailable">
+                                            <i class="fas fa-times-circle"></i>
+                                            Rupture de stock
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-glass-whiskey"></i>
+                </div>
+                <h3>Aucune boisson disponible</h3>
+                <p>Nous travaillons actuellement sur de nouvelles boissons. Revenez bientôt !</p>
+            </div>
+        <?php endif; ?>
+    </section>
+</main>

@@ -1,0 +1,182 @@
+<!-- ========================================
+FORMULAIRE CRÉATION/MODIFICATION SALADE
+======================================== -->
+
+<!-- En-tête du formulaire -->
+<section class="form-header">
+    <header>
+        <h2><?= $isEdit ? 'Modifier la Salade' : 'Nouvelle Salade' ?></h2>
+        <p><?= $isEdit ? 'Modifiez les informations de la salade' : 'Créez une nouvelle salade' ?></p>
+    </header>
+    <nav class="header-actions">
+        <a href="index.php?action=admin-salads" class="btn-back">
+            <i class="fas fa-arrow-left"></i>
+            Retour à la liste
+        </a>
+    </nav>
+</section>
+
+<!-- Messages d'erreur de validation -->
+<?php if (isset($_SESSION['validation_errors'])): ?>
+    <div class="alert alert-error" role="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h4>Erreurs de validation :</h4>
+        <ul>
+            <?php foreach ($_SESSION['validation_errors'] as $field => $error): ?>
+                <li><strong><?= htmlspecialchars($field) ?>:</strong> <?= htmlspecialchars($error) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php unset($_SESSION['validation_errors']); ?>
+<?php endif; ?>
+
+<!-- Messages d'erreur générales -->
+<?php if (isset($_SESSION['error_message'])): ?>
+    <div class="alert alert-error" role="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <?= htmlspecialchars($_SESSION['error_message']) ?>
+    </div>
+    <?php unset($_SESSION['error_message']); ?>
+<?php endif; ?>
+
+<!-- Formulaire -->
+<section class="form-container">
+    <form method="POST" action="<?= $isEdit ? 'index.php?action=admin-salads-update&id=' . $salad['id'] : 'index.php?action=admin-salads-store' ?>" 
+          class="salad-form" enctype="multipart/form-data" novalidate>
+        
+        <!-- Token CSRF pour la sécurité -->
+        <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+        
+        <!-- Nom de la salade -->
+        <div class="form-group">
+            <label for="name" class="form-label required">
+                <i class="fas fa-leaf"></i>
+                Nom de la salade
+            </label>
+            <input type="text" 
+                   id="name" 
+                   name="name" 
+                   class="form-input" 
+                   value="<?= htmlspecialchars($salad['name'] ?? ($_SESSION['old_input']['name'] ?? '')) ?>"
+                   placeholder="Ex: Salade César"
+                   required
+                   maxlength="100">
+            <small class="form-help">Le nom de la salade (obligatoire, max 100 caractères)</small>
+        </div>
+        
+        <!-- Description -->
+        <div class="form-group">
+            <label for="description" class="form-label">
+                <i class="fas fa-align-left"></i>
+                Description
+            </label>
+            <textarea id="description" 
+                      name="description" 
+                      class="form-textarea" 
+                      rows="4"
+                      placeholder="Décrivez les ingrédients et la préparation..."
+                      maxlength="1000"><?= htmlspecialchars($salad['description'] ?? ($_SESSION['old_input']['description'] ?? '')) ?></textarea>
+            <small class="form-help">Description détaillée (optionnel, max 1000 caractères)</small>
+        </div>
+        
+        <!-- Prix et Stock -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="price" class="form-label required">
+                    <i class="fas fa-tag"></i>
+                    Prix (FCFA)
+                </label>
+                <input type="number" 
+                       id="price" 
+                       name="price" 
+                       class="form-input" 
+                       value="<?= htmlspecialchars($salad['price'] ?? ($_SESSION['old_input']['price'] ?? '')) ?>"
+                       placeholder="2500"
+                       min="0"
+                       step="0.01"
+                       required>
+                <small class="form-help">Prix en francs CFA (obligatoire)</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="stock_quantity" class="form-label">
+                    <i class="fas fa-boxes"></i>
+                    Quantité en stock
+                </label>
+                <input type="number" 
+                       id="stock_quantity" 
+                       name="stock_quantity" 
+                       class="form-input" 
+                       value="<?= htmlspecialchars($salad['stock_quantity'] ?? ($_SESSION['old_input']['stock_quantity'] ?? '0')) ?>"
+                       placeholder="0"
+                       min="0"
+                       step="1">
+                <small class="form-help">Quantité disponible (optionnel)</small>
+            </div>
+        </div>
+        
+        <!-- Image -->
+        <div class="form-group">
+            <label for="image" class="form-label">
+                <i class="fas fa-image"></i>
+                Image de la salade
+            </label>
+            
+            <!-- Aperçu de l'image actuelle -->
+            <?php if (!empty($salad['image'])): ?>
+                <div class="current-image-preview">
+                    <img src="<?= htmlspecialchars($salad['image']) ?>" 
+                         alt="Image actuelle" 
+                         style="max-width: 200px; max-height: 200px; border-radius: 0.5rem; margin-bottom: 1rem;">
+                    <p class="current-image-text">Image actuelle</p>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Input file pour l'upload -->
+            <input type="file" 
+                   id="image" 
+                   name="image" 
+                   class="form-input" 
+                   accept="image/jpeg,image/jpg,image/png,image/webp">
+            
+            <small class="form-help">Sélectionnez une image (JPG, PNG, WEBP - max 2MB) ou laissez vide pour conserver l'image actuelle</small>
+        </div>
+        
+        <!-- Disponibilité -->
+        <div class="form-group">
+            <label class="form-label">
+                <i class="fas fa-toggle-on"></i>
+                Disponibilité
+            </label>
+            <div class="form-checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" 
+                           name="is_available" 
+                           value="1" 
+                           <?= (($salad['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) == '1' || (($salad['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) === 1)) ? 'checked' : '' ?>>
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-text">Salade disponible à la vente</span>
+                </label>
+            </div>
+            <small class="form-help">Décochez pour désactiver temporairement la salade</small>
+        </div>
+        
+        <!-- Boutons d'action -->
+        <footer class="form-actions">
+            <button type="submit" class="btn-save">
+                <i class="fas fa-save"></i>
+                <?= $isEdit ? 'Modifier la salade' : 'Créer la salade' ?>
+            </button>
+            
+            <a href="index.php?action=admin-salads" class="btn-cancel">
+                <i class="fas fa-times"></i>
+                Annuler
+            </a>
+        </footer>
+    </form>
+</section>
+
+<?php
+// Nettoyer les données temporaires après affichage
+unset($_SESSION['old_input']);
+?>

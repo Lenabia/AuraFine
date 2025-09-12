@@ -1,0 +1,164 @@
+<!-- ========================================
+PAGE GESTION DES FRUITS & LÉGUMES - LISTE ET ACTIONS
+======================================== -->
+
+<!-- En-tête avec bouton d'ajout -->
+<section class="fruits-veggies-header">
+    <header>
+        <h2>Gestion des Fruits & Légumes</h2>
+        <p>Créez et gérez vos fruits et légumes frais</p>
+    </header>
+    <nav class="header-actions">
+        <a href="index.php?action=admin-catalog" class="btn-back">
+            <i class="fas fa-arrow-left"></i>
+            Retour au Catalogue
+        </a>
+        <a href="index.php?action=admin-fruits-legumes-create" class="btn-add">
+            <i class="fas fa-plus"></i>
+            Ajouter un fruit/légume
+        </a>
+    </nav>
+</section>
+
+<!-- Messages de succès/erreur -->
+<?php if (isset($_SESSION['success_message'])): ?>
+    <div class="alert alert-success" role="alert">
+        <i class="fas fa-check-circle"></i>
+        <?= htmlspecialchars($_SESSION['success_message']) ?>
+    </div>
+    <?php unset($_SESSION['success_message']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['error_message'])): ?>
+    <div class="alert alert-error" role="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <?= htmlspecialchars($_SESSION['error_message']) ?>
+    </div>
+    <?php unset($_SESSION['error_message']); ?>
+<?php endif; ?>
+
+<!-- Statistiques -->
+<section class="fruits-veggies-stats">
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-seedling"></i>
+        </div>
+        <div class="stat-content">
+            <h3><?= $totalFruitsVeggies ?></h3>
+            <p>Fruits & Légumes au total</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+            <h3><?= count(array_filter($fruitsVeggies, function($item) { return $item['is_available'] == 1; })) ?></h3>
+            <p>Disponibles</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="stat-content">
+            <h3><?= count(array_filter($fruitsVeggies, function($item) { return $item['is_available'] == 0; })) ?></h3>
+            <p>Désactivés</p>
+        </div>
+    </div>
+</section>
+
+<!-- Liste des fruits et légumes -->
+<?php if (empty($fruitsVeggies)): ?>
+    <!-- État vide -->
+    <section class="empty-state">
+        <div class="empty-icon">
+            <i class="fas fa-seedling"></i>
+        </div>
+        <h3>Aucun fruit/légume créé</h3>
+        <p>Commencez par ajouter votre premier fruit ou légume</p>
+        <a href="index.php?action=admin-fruits-legumes-create" class="btn-primary">
+            <i class="fas fa-plus"></i>
+            Ajouter un fruit/légume
+        </a>
+    </section>
+<?php else: ?>
+    <!-- Grille des fruits et légumes -->
+    <section class="fruits-veggies-grid">
+        <?php foreach ($fruitsVeggies as $fruitVeggie): ?>
+            <article class="fruit-veggie-card">
+                <header class="fruit-veggie-header">
+                    <?php if (!empty($fruitVeggie['image'])): ?>
+                        <figure class="fruit-veggie-image">
+                            <img src="<?= htmlspecialchars($fruitVeggie['image']) ?>" 
+                                 alt="<?= htmlspecialchars($fruitVeggie['name']) ?>"
+                                 loading="lazy">
+                        </figure>
+                    <?php else: ?>
+                        <figure class="fruit-veggie-image placeholder">
+                            <i class="fas fa-seedling"></i>
+                        </figure>
+                    <?php endif; ?>
+                    
+                    <div class="fruit-veggie-status">
+                        <?php if ($fruitVeggie['is_available']): ?>
+                            <span class="status-badge available">
+                                <i class="fas fa-check"></i>
+                                Disponible
+                            </span>
+                        <?php else: ?>
+                            <span class="status-badge unavailable">
+                                <i class="fas fa-times"></i>
+                                Indisponible
+                            </span>
+                        <?php endif; ?>
+                    </div>
+                </header>
+                
+                <div class="fruit-veggie-content">
+                    <h3 class="fruit-veggie-name"><?= htmlspecialchars($fruitVeggie['name']) ?></h3>
+                    
+                    <div class="fruit-veggie-description">
+                        <p><?= htmlspecialchars($fruitVeggie['description']) ?></p>
+                    </div>
+                    
+                    <div class="fruit-veggie-details">
+                        <div class="detail-item">
+                            <i class="fas fa-tag"></i>
+                            <span class="price"><?= number_format($fruitVeggie['price'], 0, ',', ' ') ?> FCFA</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-boxes"></i>
+                            <span class="stock <?= $fruitVeggie['stock_quantity'] > 0 ? 'available' : 'unavailable' ?>">
+                                <?= $fruitVeggie['stock_quantity'] ?> en stock
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-calendar"></i>
+                            <time datetime="<?= $fruitVeggie['created_at'] ?>">
+                                <?= date('d/m/Y', strtotime($fruitVeggie['created_at'])) ?>
+                            </time>
+                        </div>
+                    </div>
+                </div>
+                
+                <footer class="fruit-veggie-actions">
+                    <a href="index.php?action=admin-fruits-legumes-edit&id=<?= $fruitVeggie['id'] ?>" 
+                       class="btn-edit">
+                        <i class="fas fa-edit"></i>
+                        Modifier
+                    </a>
+                    <form method="POST" action="index.php?action=admin-fruits-legumes-delete&id=<?= $fruitVeggie['id'] ?>" 
+                          class="delete-form"
+                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce fruit/légume ?')">
+                        <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                        <button type="submit" class="btn-delete">
+                            <i class="fas fa-trash"></i>
+                            Supprimer
+                        </button>
+                    </form>
+                </footer>
+            </article>
+        <?php endforeach; ?>
+    </section>
+<?php endif; ?>
