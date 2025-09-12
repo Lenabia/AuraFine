@@ -674,6 +674,7 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
+  align-items: stretch;
 
   @include up(md) {
     grid-template-columns: repeat(2, 1fr);
@@ -690,6 +691,7 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
 
 .catalogue-card {
   @extend .card-with-actions !optional;
+  min-height: 300px;
 
   .card-header {
     background: linear-gradient(135deg, $color-rose, $color-green);

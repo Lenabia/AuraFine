@@ -39,13 +39,33 @@ PAGE GESTION DES SALADES - LISTE ET ACTIONS
 
 <!-- Statistiques -->
 <section class="salads-stats">
-    <article class="stat-card">
-        <header>
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-leaf"></i>
-            <h3>Total des salades</h3>
-        </header>
-        <p class="stat-number"><?= $totalSalads ?? 0 ?></p>
-    </article>
+        </div>
+        <div class="stat-content">
+            <h3><?= $totalSalads ?? 0 ?></h3>
+            <p>Salades au total</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+            <h3><?= count(array_filter($salads, function($salad) { return $salad['is_available'] == 1; })) ?></h3>
+            <p>Disponibles</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="stat-content">
+            <h3><?= count(array_filter($salads, function($salad) { return $salad['is_available'] == 0; })) ?></h3>
+            <p>Désactivées</p>
+        </div>
+    </div>
 </section>
 
 <!-- Liste des salades -->

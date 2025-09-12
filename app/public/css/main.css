@@ -1351,6 +1351,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
+  align-items: stretch;
 }
 @media (min-width: 600px) {
   .catalogue-grid {
@@ -1368,6 +1369,9 @@
   }
 }
 
+.catalogue-card {
+  min-height: 300px;
+}
 .catalogue-card .card-header {
   background: linear-gradient(135deg, #e91e63, #4caf50);
   color: #ffffff;
