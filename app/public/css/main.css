@@ -1419,14 +1419,35 @@
   }
 }
 .catalogue-card .card-footer .btn-see-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #e91e63;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
   width: 100%;
   justify-content: center;
+}
+.catalogue-card .card-footer .btn-see-more:hover {
+  background: rgb(193.1174089069, 18.8825910931, 78.1052631579);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+}
+.catalogue-card .card-footer .btn-see-more:active {
+  transform: translateY(0);
 }
 
 /* Pages CRUD */
 .salads-header,
-.drinks-header,
 .menus-header,
+.drinks-header,
 .fruits-veggies-header {
   display: flex;
   justify-content: space-between;
@@ -1511,6 +1532,44 @@
 .fruits-veggies-header .header-actions .btn-back i {
   font-size: 0.8rem;
 }
+.salads-header .header-actions .btn-add,
+.drinks-header .header-actions .btn-add,
+.menus-header .header-actions .btn-add,
+.fruits-veggies-header .header-actions .btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.salads-header .header-actions .btn-add:hover,
+.drinks-header .header-actions .btn-add:hover,
+.menus-header .header-actions .btn-add:hover,
+.fruits-veggies-header .header-actions .btn-add:hover {
+  background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+.salads-header .header-actions .btn-add:active,
+.drinks-header .header-actions .btn-add:active,
+.menus-header .header-actions .btn-add:active,
+.fruits-veggies-header .header-actions .btn-add:active {
+  transform: translateY(0);
+}
+.salads-header .header-actions .btn-add i,
+.drinks-header .header-actions .btn-add i,
+.menus-header .header-actions .btn-add i,
+.fruits-veggies-header .header-actions .btn-add i {
+  font-size: 0.8rem;
+}
 .salads-header .header-actions .btn-add.disabled,
 .drinks-header .header-actions .btn-add.disabled,
 .menus-header .header-actions .btn-add.disabled,
@@ -1550,39 +1609,39 @@
 }
 
 /* Statistiques */
-.salads-stats {
+.salads-stats, .menus-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
   margin-bottom: 2rem;
 }
 @media (max-width: 480px) {
-  .salads-stats {
+  .salads-stats, .menus-stats {
     grid-template-columns: 1fr;
     gap: 0.75rem;
   }
 }
-.salads-stats .stat-card {
+.salads-stats .stat-card, .menus-stats .stat-card {
   text-align: center;
 }
-.salads-stats .stat-card header {
+.salads-stats .stat-card header, .menus-stats .stat-card header {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
   margin-bottom: 1rem;
 }
-.salads-stats .stat-card header i {
+.salads-stats .stat-card header i, .menus-stats .stat-card header i {
   font-size: 1.5rem;
   color: #e91e63;
 }
-.salads-stats .stat-card header h3 {
+.salads-stats .stat-card header h3, .menus-stats .stat-card header h3 {
   font-size: 0.9rem;
   font-weight: 600;
   color: #495057;
   margin: 0;
 }
-.salads-stats .stat-card .stat-number {
+.salads-stats .stat-card .stat-number, .menus-stats .stat-card .stat-number {
   font-size: 2rem;
   font-weight: 700;
   color: #1a1a1a;
@@ -1590,28 +1649,28 @@
 }
 
 /* Liste des produits */
-.salads-list {
+.salads-list, .menus-list {
   margin-top: 2rem;
 }
 
 /* Grille des produits */
-.salads-grid {
+.salads-grid, .admin-container .menus-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
 }
 @media (min-width: 600px) {
-  .salads-grid {
+  .salads-grid, .admin-container .menus-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (min-width: 768px) {
-  .salads-grid {
+  .salads-grid, .admin-container .menus-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 @media (max-width: 480px) {
-  .salads-grid {
+  .salads-grid, .admin-container .menus-grid {
     gap: 1rem;
   }
 }
@@ -1662,36 +1721,36 @@
   margin: 0 auto;
 }
 
-.salad-card .salad-header {
+.salad-card .salad-header, .menu-card .salad-header, .menu-card .menu-header {
   position: relative;
 }
-.salad-card .salad-header .salad-image {
+.salad-card .salad-header .salad-image, .salad-card .salad-header .menu-card .menu-image, .menu-card .salad-header .salad-image, .menu-card .salad-header .menu-image, .menu-card .menu-header .salad-image, .menu-card .menu-header .menu-image {
   width: 100%;
   height: 200px;
   overflow: hidden;
   margin: 0;
 }
-.salad-card .salad-header .salad-image img {
+.salad-card .salad-header .salad-image img, .salad-card .salad-header .menu-card .menu-image img, .menu-card .salad-header .salad-image img, .menu-card .salad-header .menu-image img, .menu-card .menu-header .salad-image img, .menu-card .menu-header .menu-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.salad-card .salad-header .salad-image.placeholder {
+.salad-card .salad-header .salad-image.placeholder, .salad-card .salad-header .menu-card .placeholder.menu-image, .menu-card .salad-header .salad-image.placeholder, .menu-card .salad-header .placeholder.menu-image, .menu-card .menu-header .salad-image.placeholder, .menu-card .menu-header .placeholder.menu-image {
   background: linear-gradient(135deg, #e91e63, #4caf50);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.salad-card .salad-header .salad-image.placeholder i {
+.salad-card .salad-header .salad-image.placeholder i, .salad-card .salad-header .menu-card .placeholder.menu-image i, .menu-card .salad-header .salad-image.placeholder i, .menu-card .salad-header .placeholder.menu-image i, .menu-card .menu-header .salad-image.placeholder i, .menu-card .menu-header .placeholder.menu-image i {
   font-size: 3rem;
   color: #ffffff;
 }
-.salad-card .salad-header .salad-status {
+.salad-card .salad-header .salad-status, .menu-card .salad-header .salad-status, .menu-card .menu-header .salad-status {
   position: absolute;
   top: 1rem;
   right: 1rem;
 }
-.salad-card .salad-header .salad-status .status-badge {
+.salad-card .salad-header .salad-status .status-badge, .menu-card .salad-header .salad-status .status-badge, .menu-card .menu-header .salad-status .status-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -1700,69 +1759,95 @@
   font-size: 0.8rem;
   font-weight: 600;
 }
-.salad-card .salad-header .salad-status .status-badge.available {
+.salad-card .salad-header .salad-status .status-badge.available, .menu-card .salad-header .salad-status .status-badge.available, .menu-card .menu-header .salad-status .status-badge.available {
   background: rgba(22, 163, 74, 0.9);
   color: #ffffff;
 }
-.salad-card .salad-header .salad-status .status-badge.unavailable {
+.salad-card .salad-header .salad-status .status-badge.unavailable, .menu-card .salad-header .salad-status .status-badge.unavailable, .menu-card .menu-header .salad-status .status-badge.unavailable {
   background: rgba(220, 38, 38, 0.9);
   color: #ffffff;
 }
-.salad-card .salad-content,
-.salad-card .card-body {
+.salad-card .salad-content, .menu-card .salad-content, .menu-card .menu-content,
+.salad-card .card-body,
+.menu-card .card-body {
   padding: 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-.salad-card .salad-content .salad-name,
-.salad-card .card-body .salad-name {
+.salad-card .salad-content .salad-name, .salad-card .salad-content .menu-card .menu-name, .menu-card .salad-content .salad-name, .menu-card .salad-content .menu-name, .menu-card .menu-content .salad-name, .menu-card .menu-content .menu-name,
+.salad-card .card-body .salad-name,
+.salad-card .card-body .menu-card .menu-name,
+.menu-card .card-body .salad-name,
+.menu-card .card-body .menu-name {
   font-size: 1.2rem;
   font-weight: 600;
   color: #1a1a1a;
   margin: 0 0 0.75rem 0;
 }
-.salad-card .salad-content .salad-description,
-.salad-card .card-body .salad-description {
+.salad-card .salad-content .salad-description, .salad-card .salad-content .menu-card .menu-description, .menu-card .salad-content .salad-description, .menu-card .salad-content .menu-description, .menu-card .menu-content .salad-description, .menu-card .menu-content .menu-description,
+.salad-card .card-body .salad-description,
+.salad-card .card-body .menu-card .menu-description,
+.menu-card .card-body .salad-description,
+.menu-card .card-body .menu-description {
   color: #6c757d;
   line-height: 1.5;
   margin-bottom: 1rem;
   flex: 1;
 }
-.salad-card .salad-content .salad-details,
-.salad-card .card-body .salad-details {
+.salad-card .salad-content .salad-details, .salad-card .salad-content .menu-card .menu-details, .menu-card .salad-content .salad-details, .menu-card .salad-content .menu-details, .menu-card .menu-content .salad-details, .menu-card .menu-content .menu-details,
+.salad-card .card-body .salad-details,
+.salad-card .card-body .menu-card .menu-details,
+.menu-card .card-body .salad-details,
+.menu-card .card-body .menu-details {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-.salad-card .salad-content .salad-details .detail-item,
-.salad-card .card-body .salad-details .detail-item {
+.salad-card .salad-content .salad-details .detail-item, .salad-card .salad-content .menu-card .menu-details .detail-item, .menu-card .salad-content .salad-details .detail-item, .menu-card .salad-content .menu-details .detail-item, .menu-card .menu-content .salad-details .detail-item, .menu-card .menu-content .menu-details .detail-item,
+.salad-card .card-body .salad-details .detail-item,
+.salad-card .card-body .menu-card .menu-details .detail-item,
+.menu-card .card-body .salad-details .detail-item,
+.menu-card .card-body .menu-details .detail-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   color: #495057;
   font-size: 0.9rem;
 }
-.salad-card .salad-content .salad-details .detail-item i,
-.salad-card .card-body .salad-details .detail-item i {
+.salad-card .salad-content .salad-details .detail-item i, .salad-card .salad-content .menu-card .menu-details .detail-item i, .menu-card .salad-content .salad-details .detail-item i, .menu-card .salad-content .menu-details .detail-item i, .menu-card .menu-content .salad-details .detail-item i, .menu-card .menu-content .menu-details .detail-item i,
+.salad-card .card-body .salad-details .detail-item i,
+.salad-card .card-body .menu-card .menu-details .detail-item i,
+.menu-card .card-body .salad-details .detail-item i,
+.menu-card .card-body .menu-details .detail-item i {
   color: #e91e63;
   width: 16px;
 }
-.salad-card .salad-content .salad-details .detail-item .price,
-.salad-card .card-body .salad-details .detail-item .price {
+.salad-card .salad-content .salad-details .detail-item .price, .salad-card .salad-content .menu-card .menu-details .detail-item .price, .menu-card .salad-content .salad-details .detail-item .price, .menu-card .salad-content .menu-details .detail-item .price, .menu-card .menu-content .salad-details .detail-item .price, .menu-card .menu-content .menu-details .detail-item .price,
+.salad-card .card-body .salad-details .detail-item .price,
+.salad-card .card-body .menu-card .menu-details .detail-item .price,
+.menu-card .card-body .salad-details .detail-item .price,
+.menu-card .card-body .menu-details .detail-item .price {
   font-weight: 600;
   color: #4caf50;
 }
-.salad-card .salad-content .salad-details .detail-item .stock.available,
-.salad-card .card-body .salad-details .detail-item .stock.available {
+.salad-card .salad-content .salad-details .detail-item .stock.available, .salad-card .salad-content .menu-card .menu-details .detail-item .stock.available, .menu-card .salad-content .salad-details .detail-item .stock.available, .menu-card .salad-content .menu-details .detail-item .stock.available, .menu-card .menu-content .salad-details .detail-item .stock.available, .menu-card .menu-content .menu-details .detail-item .stock.available,
+.salad-card .card-body .salad-details .detail-item .stock.available,
+.salad-card .card-body .menu-card .menu-details .detail-item .stock.available,
+.menu-card .card-body .salad-details .detail-item .stock.available,
+.menu-card .card-body .menu-details .detail-item .stock.available {
   color: #16a34a;
 }
-.salad-card .salad-content .salad-details .detail-item .stock.unavailable,
-.salad-card .card-body .salad-details .detail-item .stock.unavailable {
+.salad-card .salad-content .salad-details .detail-item .stock.unavailable, .salad-card .salad-content .menu-card .menu-details .detail-item .stock.unavailable, .menu-card .salad-content .salad-details .detail-item .stock.unavailable, .menu-card .salad-content .menu-details .detail-item .stock.unavailable, .menu-card .menu-content .salad-details .detail-item .stock.unavailable, .menu-card .menu-content .menu-details .detail-item .stock.unavailable,
+.salad-card .card-body .salad-details .detail-item .stock.unavailable,
+.salad-card .card-body .menu-card .menu-details .detail-item .stock.unavailable,
+.menu-card .card-body .salad-details .detail-item .stock.unavailable,
+.menu-card .card-body .menu-details .detail-item .stock.unavailable {
   color: #dc2626;
 }
-.salad-card .salad-actions,
-.salad-card .card-actions {
+.salad-card .salad-actions, .menu-card .salad-actions, .menu-card .menu-actions,
+.salad-card .card-actions,
+.menu-card .card-actions {
   padding: 1rem 1.5rem;
   background: rgba(248, 249, 250, 0.3);
   display: flex;
@@ -1771,16 +1856,21 @@
   flex-shrink: 0;
 }
 @media (max-width: 480px) {
-  .salad-card .salad-actions,
-  .salad-card .card-actions {
+  .salad-card .salad-actions, .menu-card .salad-actions, .menu-card .menu-actions,
+  .salad-card .card-actions,
+  .menu-card .card-actions {
     flex-direction: column;
     padding: 1rem;
   }
 }
-.salad-card .salad-actions .btn-edit,
+.salad-card .salad-actions .btn-edit, .menu-card .salad-actions .btn-edit, .menu-card .menu-actions .btn-edit,
 .salad-card .salad-actions .btn-delete,
+.menu-card .salad-actions .btn-delete,
+.menu-card .menu-actions .btn-delete,
 .salad-card .card-actions .btn-edit,
-.salad-card .card-actions .btn-delete {
+.menu-card .card-actions .btn-edit,
+.salad-card .card-actions .btn-delete,
+.menu-card .card-actions .btn-delete {
   flex: 1;
   display: inline-flex;
   align-items: center;
@@ -1796,30 +1886,16 @@
   cursor: pointer;
 }
 @media (max-width: 480px) {
-  .salad-card .salad-actions .btn-edit,
+  .salad-card .salad-actions .btn-edit, .menu-card .salad-actions .btn-edit, .menu-card .menu-actions .btn-edit,
   .salad-card .salad-actions .btn-delete,
+  .menu-card .salad-actions .btn-delete,
+  .menu-card .menu-actions .btn-delete,
   .salad-card .card-actions .btn-edit,
-  .salad-card .card-actions .btn-delete {
+  .menu-card .card-actions .btn-edit,
+  .salad-card .card-actions .btn-delete,
+  .menu-card .card-actions .btn-delete {
     width: 100%;
   }
-}
-.salad-card .salad-actions .btn-edit,
-.salad-card .card-actions .btn-edit {
-  background: #e91e63;
-  color: #ffffff;
-}
-.salad-card .salad-actions .btn-edit:hover,
-.salad-card .card-actions .btn-edit:hover {
-  background: #c2185b;
-}
-.salad-card .salad-actions .btn-delete,
-.salad-card .card-actions .btn-delete {
-  background: #dc2626;
-  color: #ffffff;
-}
-.salad-card .salad-actions .btn-delete:hover,
-.salad-card .card-actions .btn-delete:hover {
-  background: #b91c1c;
 }
 
 .drink-card .drink-header {
@@ -1937,50 +2013,6 @@
     padding: 1rem;
   }
 }
-.drink-card .drink-actions .btn-edit,
-.drink-card .drink-actions .btn-delete,
-.drink-card .card-actions .btn-edit,
-.drink-card .card-actions .btn-delete {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
-}
-@media (max-width: 480px) {
-  .drink-card .drink-actions .btn-edit,
-  .drink-card .drink-actions .btn-delete,
-  .drink-card .card-actions .btn-edit,
-  .drink-card .card-actions .btn-delete {
-    width: 100%;
-  }
-}
-.drink-card .drink-actions .btn-edit,
-.drink-card .card-actions .btn-edit {
-  background: #e91e63;
-  color: #ffffff;
-}
-.drink-card .drink-actions .btn-edit:hover,
-.drink-card .card-actions .btn-edit:hover {
-  background: #c2185b;
-}
-.drink-card .drink-actions .btn-delete,
-.drink-card .card-actions .btn-delete {
-  background: #dc2626;
-  color: #ffffff;
-}
-.drink-card .drink-actions .btn-delete:hover,
-.drink-card .card-actions .btn-delete:hover {
-  background: #b91c1c;
-}
 
 .fruit-veggie-card .fruit-veggie-header {
   position: relative;
@@ -2097,10 +2129,151 @@
     padding: 1rem;
   }
 }
-.fruit-veggie-card .fruit-veggie-actions .btn-edit,
-.fruit-veggie-card .fruit-veggie-actions .btn-delete,
-.fruit-veggie-card .card-actions .btn-edit,
-.fruit-veggie-card .card-actions .btn-delete {
+
+.salads-grid, .admin-container .menus-grid,
+.drinks-grid,
+.fruits-veggies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+@media (max-width: 768px) {
+  .salads-grid, .admin-container .menus-grid,
+  .drinks-grid,
+  .fruits-veggies-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .salads-grid, .admin-container .menus-grid,
+  .drinks-grid,
+  .fruits-veggies-grid {
+    gap: 1rem;
+  }
+}
+
+.salads-header, .menus-header,
+.drinks-header,
+.fruits-veggies-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+@media (max-width: 768px) {
+  .salads-header, .menus-header,
+  .drinks-header,
+  .fruits-veggies-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+.salads-header header, .menus-header header,
+.drinks-header header,
+.fruits-veggies-header header {
+  flex: 1;
+}
+.salads-header header h2, .menus-header header h2,
+.drinks-header header h2,
+.fruits-veggies-header header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #e91e63;
+  margin-bottom: 0.5rem;
+}
+.salads-header header p, .menus-header header p,
+.drinks-header header p,
+.fruits-veggies-header header p {
+  color: #6c757d;
+  font-size: 1rem;
+}
+.salads-header .header-actions, .menus-header .header-actions,
+.drinks-header .header-actions,
+.fruits-veggies-header .header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+@media (max-width: 480px) {
+  .salads-header .header-actions, .menus-header .header-actions,
+  .drinks-header .header-actions,
+  .fruits-veggies-header .header-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .salads-header .header-actions a, .menus-header .header-actions a,
+  .drinks-header .header-actions a,
+  .fruits-veggies-header .header-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.salads-stats, .menus-stats,
+.drinks-stats,
+.fruits-veggies-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+@media (max-width: 480px) {
+  .salads-stats, .menus-stats,
+  .drinks-stats,
+  .fruits-veggies-stats {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+.salads-stats .stat-card, .menus-stats .stat-card,
+.drinks-stats .stat-card,
+.fruits-veggies-stats .stat-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.salads-stats .stat-card .stat-icon, .menus-stats .stat-card .stat-icon,
+.drinks-stats .stat-card .stat-icon,
+.fruits-veggies-stats .stat-card .stat-icon {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, #e91e63, #f8bbd9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+}
+.salads-stats .stat-card .stat-content h3, .menus-stats .stat-card .stat-content h3,
+.drinks-stats .stat-card .stat-content h3,
+.fruits-veggies-stats .stat-card .stat-content h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #e91e63;
+  margin: 0;
+}
+.salads-stats .stat-card .stat-content p, .menus-stats .stat-card .stat-content p,
+.drinks-stats .stat-card .stat-content p,
+.fruits-veggies-stats .stat-card .stat-content p {
+  color: #6c757d;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+/* ========================================
+   BOUTONS D'ACTION COMMUNS
+   ======================================== */
+.btn-edit,
+.btn-delete {
   flex: 1;
   display: inline-flex;
   align-items: center;
@@ -2116,184 +2289,104 @@
   cursor: pointer;
 }
 @media (max-width: 480px) {
-  .fruit-veggie-card .fruit-veggie-actions .btn-edit,
-  .fruit-veggie-card .fruit-veggie-actions .btn-delete,
-  .fruit-veggie-card .card-actions .btn-edit,
-  .fruit-veggie-card .card-actions .btn-delete {
+  .btn-edit,
+  .btn-delete {
     width: 100%;
   }
 }
-.fruit-veggie-card .fruit-veggie-actions .btn-edit,
-.fruit-veggie-card .card-actions .btn-edit {
-  background: #e91e63;
+
+.btn-edit {
+  background: #4caf50;
   color: #ffffff;
 }
-.fruit-veggie-card .fruit-veggie-actions .btn-edit:hover,
-.fruit-veggie-card .card-actions .btn-edit:hover {
-  background: #c2185b;
+.btn-edit:hover {
+  background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
+  transform: translateY(-1px);
 }
-.fruit-veggie-card .fruit-veggie-actions .btn-delete,
-.fruit-veggie-card .card-actions .btn-delete {
+
+.btn-delete {
   background: #dc2626;
   color: #ffffff;
 }
-.fruit-veggie-card .fruit-veggie-actions .btn-delete:hover,
-.fruit-veggie-card .card-actions .btn-delete:hover {
+.btn-delete:hover {
   background: #b91c1c;
+  transform: translateY(-1px);
 }
 
-.salads-grid,
-.drinks-grid,
-.fruits-veggies-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-@media (max-width: 768px) {
-  .salads-grid,
-  .drinks-grid,
-  .fruits-veggies-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-}
-@media (max-width: 480px) {
-  .salads-grid,
-  .drinks-grid,
-  .fruits-veggies-grid {
-    gap: 1rem;
-  }
-}
-
-.salads-header,
-.drinks-header,
-.fruits-veggies-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-@media (max-width: 768px) {
-  .salads-header,
-  .drinks-header,
-  .fruits-veggies-header {
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
-.salads-header header,
-.drinks-header header,
-.fruits-veggies-header header {
-  flex: 1;
-}
-.salads-header header h2,
-.drinks-header header h2,
-.fruits-veggies-header header h2 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #e91e63;
-  margin-bottom: 0.5rem;
-}
-.salads-header header p,
-.drinks-header header p,
-.fruits-veggies-header header p {
-  color: #6c757d;
-  font-size: 1rem;
-}
-.salads-header .header-actions,
-.drinks-header .header-actions,
-.fruits-veggies-header .header-actions {
-  display: flex;
-  gap: 1rem;
+/* Boutons de formulaire */
+.btn-save {
+  display: inline-flex;
   align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
-@media (max-width: 480px) {
-  .salads-header .header-actions,
-  .drinks-header .header-actions,
-  .fruits-veggies-header .header-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-  .salads-header .header-actions a,
-  .drinks-header .header-actions a,
-  .fruits-veggies-header .header-actions a {
-    width: 100%;
-    justify-content: center;
-  }
+.btn-save:hover {
+  background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
-
-.salads-stats,
-.drinks-stats,
-.fruits-veggies-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+.btn-save:active {
+  transform: translateY(0);
 }
-@media (max-width: 480px) {
-  .salads-stats,
-  .drinks-stats,
-  .fruits-veggies-stats {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-}
-.salads-stats .stat-card,
-.drinks-stats .stat-card,
-.fruits-veggies-stats .stat-card {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.salads-stats .stat-card .stat-icon,
-.drinks-stats .stat-card .stat-icon,
-.fruits-veggies-stats .stat-card .stat-icon {
-  width: 3rem;
-  height: 3rem;
-  background: linear-gradient(135deg, #e91e63, #f8bbd9);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.25rem;
-}
-.salads-stats .stat-card .stat-content h3,
-.drinks-stats .stat-card .stat-content h3,
-.fruits-veggies-stats .stat-card .stat-content h3 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #e91e63;
-  margin: 0;
-}
-.salads-stats .stat-card .stat-content p,
-.drinks-stats .stat-card .stat-content p,
-.fruits-veggies-stats .stat-card .stat-content p {
-  color: #6c757d;
-  margin: 0;
-  font-size: 0.875rem;
+.btn-save i {
+  font-size: 0.8rem;
 }
 
+.btn-cancel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #ffffff;
+  color: #495057;
+  border: 2px solid rgba(248, 249, 250, 0.5);
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-cancel:hover {
+  background: #f8f9fa;
+  border-color: #6c757d;
+  transform: translateY(-1px);
+}
+.btn-cancel:active {
+  transform: translateY(0);
+}
+.btn-cancel i {
+  font-size: 0.8rem;
+}
+
+/* ========================================
+   FORMULAIRES DES PRODUITS
+   ======================================== */
 .salad-form,
 .drink-form,
-.fruit-veggie-form {
+.fruit-veggie-form,
+.menu-form {
   /* Aperçu d'image actuelle */
 }
 .salad-form .form-group,
 .drink-form .form-group,
-.fruit-veggie-form .form-group {
+.fruit-veggie-form .form-group,
+.menu-form .form-group {
   margin-bottom: 1.5rem;
 }
 .salad-form .form-group .form-label,
 .drink-form .form-group .form-label,
-.fruit-veggie-form .form-group .form-label {
+.fruit-veggie-form .form-group .form-label,
+.menu-form .form-group .form-label {
   display: block;
   font-weight: 600;
   color: #1a1a1a;
@@ -2302,13 +2395,15 @@
 }
 .salad-form .form-group .form-label.required::after,
 .drink-form .form-group .form-label.required::after,
-.fruit-veggie-form .form-group .form-label.required::after {
+.fruit-veggie-form .form-group .form-label.required::after,
+.menu-form .form-group .form-label.required::after {
   content: " *";
   color: #dc2626;
 }
 .salad-form .form-group .form-label i,
 .drink-form .form-group .form-label i,
-.fruit-veggie-form .form-group .form-label i {
+.fruit-veggie-form .form-group .form-label i,
+.menu-form .form-group .form-label i {
   margin-right: 0.5rem;
   color: #e91e63;
 }
@@ -2317,7 +2412,9 @@
 .drink-form .form-group .form-input,
 .drink-form .form-group .form-textarea,
 .fruit-veggie-form .form-group .form-input,
-.fruit-veggie-form .form-group .form-textarea {
+.fruit-veggie-form .form-group .form-textarea,
+.menu-form .form-group .form-input,
+.menu-form .form-group .form-textarea {
   width: 100%;
   padding: 0.75rem 1rem;
   border: 2px solid rgba(248, 249, 250, 0.5);
@@ -2330,20 +2427,24 @@
 .drink-form .form-group .form-input:focus,
 .drink-form .form-group .form-textarea:focus,
 .fruit-veggie-form .form-group .form-input:focus,
-.fruit-veggie-form .form-group .form-textarea:focus {
+.fruit-veggie-form .form-group .form-textarea:focus,
+.menu-form .form-group .form-input:focus,
+.menu-form .form-group .form-textarea:focus {
   outline: none;
   border-color: #e91e63;
   box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
 }
 .salad-form .form-group .form-textarea,
 .drink-form .form-group .form-textarea,
-.fruit-veggie-form .form-group .form-textarea {
+.fruit-veggie-form .form-group .form-textarea,
+.menu-form .form-group .form-textarea {
   resize: vertical;
   min-height: 100px;
 }
 .salad-form .form-group .form-help,
 .drink-form .form-group .form-help,
-.fruit-veggie-form .form-group .form-help {
+.fruit-veggie-form .form-group .form-help,
+.menu-form .form-group .form-help {
   display: block;
   font-size: 0.8rem;
   color: #6c757d;
@@ -2351,7 +2452,8 @@
 }
 .salad-form .form-row,
 .drink-form .form-row,
-.fruit-veggie-form .form-row {
+.fruit-veggie-form .form-row,
+.menu-form .form-row {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
@@ -2359,13 +2461,15 @@
 @media (min-width: 600px) {
   .salad-form .form-row,
   .drink-form .form-row,
-  .fruit-veggie-form .form-row {
+  .fruit-veggie-form .form-row,
+  .menu-form .form-row {
     grid-template-columns: 1fr 1fr;
   }
 }
 .salad-form .form-checkbox-group .checkbox-label,
 .drink-form .form-checkbox-group .checkbox-label,
-.fruit-veggie-form .form-checkbox-group .checkbox-label {
+.fruit-veggie-form .form-checkbox-group .checkbox-label,
+.menu-form .form-checkbox-group .checkbox-label {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -2373,12 +2477,14 @@
 }
 .salad-form .form-checkbox-group .checkbox-label input[type=checkbox],
 .drink-form .form-checkbox-group .checkbox-label input[type=checkbox],
-.fruit-veggie-form .form-checkbox-group .checkbox-label input[type=checkbox] {
+.fruit-veggie-form .form-checkbox-group .checkbox-label input[type=checkbox],
+.menu-form .form-checkbox-group .checkbox-label input[type=checkbox] {
   display: none;
 }
 .salad-form .form-checkbox-group .checkbox-label .checkbox-custom,
 .drink-form .form-checkbox-group .checkbox-label .checkbox-custom,
-.fruit-veggie-form .form-checkbox-group .checkbox-label .checkbox-custom {
+.fruit-veggie-form .form-checkbox-group .checkbox-label .checkbox-custom,
+.menu-form .form-checkbox-group .checkbox-label .checkbox-custom {
   width: 20px;
   height: 20px;
   border: 2px solid rgba(248, 249, 250, 0.5);
@@ -2388,7 +2494,8 @@
 }
 .salad-form .form-checkbox-group .checkbox-label .checkbox-custom::after,
 .drink-form .form-checkbox-group .checkbox-label .checkbox-custom::after,
-.fruit-veggie-form .form-checkbox-group .checkbox-label .checkbox-custom::after {
+.fruit-veggie-form .form-checkbox-group .checkbox-label .checkbox-custom::after,
+.menu-form .form-checkbox-group .checkbox-label .checkbox-custom::after {
   content: "";
   position: absolute;
   top: 2px;
@@ -2403,43 +2510,50 @@
 }
 .salad-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom,
 .drink-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom,
-.fruit-veggie-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom {
+.fruit-veggie-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom,
+.menu-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom {
   background: #e91e63;
   border-color: #e91e63;
 }
 .salad-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom::after,
 .drink-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom::after,
-.fruit-veggie-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom::after {
+.fruit-veggie-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom::after,
+.menu-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom::after {
   opacity: 1;
 }
 .salad-form .form-checkbox-group .checkbox-label .checkbox-text,
 .drink-form .form-checkbox-group .checkbox-label .checkbox-text,
-.fruit-veggie-form .form-checkbox-group .checkbox-label .checkbox-text {
+.fruit-veggie-form .form-checkbox-group .checkbox-label .checkbox-text,
+.menu-form .form-checkbox-group .checkbox-label .checkbox-text {
   font-weight: 500;
   color: #1a1a1a;
 }
 .salad-form .current-image-preview,
 .drink-form .current-image-preview,
-.fruit-veggie-form .current-image-preview {
+.fruit-veggie-form .current-image-preview,
+.menu-form .current-image-preview {
   text-align: center;
   margin-bottom: 1rem;
 }
 .salad-form .current-image-preview img,
 .drink-form .current-image-preview img,
-.fruit-veggie-form .current-image-preview img {
+.fruit-veggie-form .current-image-preview img,
+.menu-form .current-image-preview img {
   border-radius: 0.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .salad-form .current-image-preview .current-image-text,
 .drink-form .current-image-preview .current-image-text,
-.fruit-veggie-form .current-image-preview .current-image-text {
+.fruit-veggie-form .current-image-preview .current-image-text,
+.menu-form .current-image-preview .current-image-text {
   color: #6c757d;
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
 .salad-form .form-actions,
 .drink-form .form-actions,
-.fruit-veggie-form .form-actions {
+.fruit-veggie-form .form-actions,
+.menu-form .form-actions {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
@@ -2451,7 +2565,8 @@
 @media (max-width: 480px) {
   .salad-form .form-actions,
   .drink-form .form-actions,
-  .fruit-veggie-form .form-actions {
+  .fruit-veggie-form .form-actions,
+  .menu-form .form-actions {
     flex-direction: column;
     gap: 0.75rem;
   }
@@ -2460,11 +2575,14 @@
   .drink-form .form-actions .btn-save,
   .drink-form .form-actions .btn-cancel,
   .fruit-veggie-form .form-actions .btn-save,
-  .fruit-veggie-form .form-actions .btn-cancel {
+  .fruit-veggie-form .form-actions .btn-cancel,
+  .menu-form .form-actions .btn-save,
+  .menu-form .form-actions .btn-cancel {
     width: 100%;
     justify-content: center;
   }
 }
+
 /* Page accès refusé */
 .access-denied {
   text-align: center;
@@ -2516,97 +2634,7 @@
   justify-content: center;
   flex-wrap: wrap;
 }
-.access-denied .denied-footer p {
-  color: #6c757d;
-  font-size: 0.9rem;
-}
-
-/* ========================================
-   BOUTONS ADMIN
-   ======================================== */
-/* Bouton primaire */
-.btn-primary, .catalogue-card .card-footer .btn-see-more, .access-denied .denied-content .denied-actions .btn-login {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: #e91e63;
-  color: #ffffff;
-  border: none;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.btn-primary:hover, .catalogue-card .card-footer .btn-see-more:hover, .access-denied .denied-content .denied-actions .btn-login:hover {
-  background: rgb(193.1174089069, 18.8825910931, 78.1052631579);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
-}
-.btn-primary:active, .catalogue-card .card-footer .btn-see-more:active, .access-denied .denied-content .denied-actions .btn-login:active {
-  transform: translateY(0);
-}
-.btn-primary i, .catalogue-card .card-footer .btn-see-more i, .access-denied .denied-content .denied-actions .btn-login i {
-  font-size: 0.8rem;
-}
-
-/* Bouton succès */
-.btn-success, .salads-header .header-actions .btn-add,
-.drinks-header .header-actions .btn-add,
-.menus-header .header-actions .btn-add,
-.fruits-veggies-header .header-actions .btn-add, .salad-form .form-actions .btn-save,
-.drink-form .form-actions .btn-save,
-.fruit-veggie-form .form-actions .btn-save {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: #4caf50;
-  color: #ffffff;
-  border: none;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.btn-success:hover, .salads-header .header-actions .btn-add:hover,
-.drinks-header .header-actions .btn-add:hover,
-.menus-header .header-actions .btn-add:hover,
-.fruits-veggies-header .header-actions .btn-add:hover, .salad-form .form-actions .btn-save:hover,
-.drink-form .form-actions .btn-save:hover,
-.fruit-veggie-form .form-actions .btn-save:hover {
-  background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-}
-.btn-success:active, .salads-header .header-actions .btn-add:active,
-.drinks-header .header-actions .btn-add:active,
-.menus-header .header-actions .btn-add:active,
-.fruits-veggies-header .header-actions .btn-add:active, .salad-form .form-actions .btn-save:active,
-.drink-form .form-actions .btn-save:active,
-.fruit-veggie-form .form-actions .btn-save:active {
-  transform: translateY(0);
-}
-.btn-success i, .salads-header .header-actions .btn-add i,
-.drinks-header .header-actions .btn-add i,
-.menus-header .header-actions .btn-add i,
-.fruits-veggies-header .header-actions .btn-add i, .salad-form .form-actions .btn-save i,
-.drink-form .form-actions .btn-save i,
-.fruit-veggie-form .form-actions .btn-save i {
-  font-size: 0.8rem;
-}
-
-/* Bouton secondaire */
-.btn-secondary, .salads-header .header-actions .btn-back,
-.drinks-header .header-actions .btn-back,
-.menus-header .header-actions .btn-back,
-.fruits-veggies-header .header-actions .btn-back, .salad-form .form-actions .btn-cancel,
-.drink-form .form-actions .btn-cancel,
-.fruit-veggie-form .form-actions .btn-cancel, .access-denied .denied-content .denied-actions .btn-home {
+.access-denied .denied-content .denied-actions .btn-home {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -2621,36 +2649,132 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.btn-secondary:hover, .salads-header .header-actions .btn-back:hover,
-.drinks-header .header-actions .btn-back:hover,
-.menus-header .header-actions .btn-back:hover,
-.fruits-veggies-header .header-actions .btn-back:hover, .salad-form .form-actions .btn-cancel:hover,
-.drink-form .form-actions .btn-cancel:hover,
-.fruit-veggie-form .form-actions .btn-cancel:hover, .access-denied .denied-content .denied-actions .btn-home:hover {
+.access-denied .denied-content .denied-actions .btn-home:hover {
+  background: #f8f9fa;
+  border-color: #6c757d;
+  transform: translateY(-1px);
+}
+.access-denied .denied-content .denied-actions .btn-home:active {
+  transform: translateY(0);
+}
+.access-denied .denied-content .denied-actions .btn-login {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #e91e63;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.access-denied .denied-content .denied-actions .btn-login:hover {
+  background: rgb(193.1174089069, 18.8825910931, 78.1052631579);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+}
+.access-denied .denied-content .denied-actions .btn-login:active {
+  transform: translateY(0);
+}
+.access-denied .denied-footer p {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* ========================================
+   BOUTONS ADMIN
+   ======================================== */
+/* Bouton primaire */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #e91e63;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-primary:hover {
+  background: rgb(193.1174089069, 18.8825910931, 78.1052631579);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+.btn-primary i {
+  font-size: 0.8rem;
+}
+
+/* Bouton succès */
+.btn-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-success:hover {
+  background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+.btn-success:active {
+  transform: translateY(0);
+}
+.btn-success i {
+  font-size: 0.8rem;
+}
+
+/* Bouton secondaire */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #ffffff;
+  color: #495057;
+  border: 2px solid rgba(248, 249, 250, 0.5);
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-secondary:hover {
   background: rgba(248, 249, 250, 0.1);
   border-color: #6c757d;
   color: #1a1a1a;
   transform: translateY(-1px);
 }
-.btn-secondary:active, .salads-header .header-actions .btn-back:active,
-.drinks-header .header-actions .btn-back:active,
-.menus-header .header-actions .btn-back:active,
-.fruits-veggies-header .header-actions .btn-back:active, .salad-form .form-actions .btn-cancel:active,
-.drink-form .form-actions .btn-cancel:active,
-.fruit-veggie-form .form-actions .btn-cancel:active, .access-denied .denied-content .denied-actions .btn-home:active {
+.btn-secondary:active {
   transform: translateY(0);
 }
-.btn-secondary i, .salads-header .header-actions .btn-back i,
-.drinks-header .header-actions .btn-back i,
-.menus-header .header-actions .btn-back i,
-.fruits-veggies-header .header-actions .btn-back i, .salad-form .form-actions .btn-cancel i,
-.drink-form .form-actions .btn-cancel i,
-.fruit-veggie-form .form-actions .btn-cancel i, .access-denied .denied-content .denied-actions .btn-home i {
+.btn-secondary i {
   font-size: 0.8rem;
 }
 
 /* Carte admin de base */
-.admin-card, .card-with-actions, .catalogue-card, .salad-card, .drink-card, .fruit-veggie-card, .salads-stats .stat-card, .form-container {
+.admin-card, .card-with-actions, .catalogue-card, .salad-card, .menu-card, .drink-card, .fruit-veggie-card, .salads-stats .stat-card, .menus-stats .stat-card, .form-container {
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -2659,31 +2783,33 @@
 }
 
 /* Carte avec boutons alignés (factorisé) */
-.card-with-actions, .catalogue-card, .salad-card, .drink-card, .fruit-veggie-card {
+.card-with-actions, .catalogue-card, .salad-card, .menu-card, .drink-card, .fruit-veggie-card {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-.card-with-actions .card-content, .catalogue-card .card-content, .salad-card .card-content, .drink-card .card-content, .fruit-veggie-card .card-content,
+.card-with-actions .card-content, .catalogue-card .card-content, .salad-card .card-content, .menu-card .card-content, .drink-card .card-content, .fruit-veggie-card .card-content,
 .card-with-actions .card-body,
 .catalogue-card .card-body,
 .salad-card .card-body,
+.menu-card .card-body,
 .drink-card .card-body,
 .fruit-veggie-card .card-body {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-.card-with-actions .card-footer, .catalogue-card .card-footer, .salad-card .card-footer, .drink-card .card-footer, .fruit-veggie-card .card-footer,
+.card-with-actions .card-footer, .catalogue-card .card-footer, .salad-card .card-footer, .menu-card .card-footer, .drink-card .card-footer, .fruit-veggie-card .card-footer,
 .card-with-actions .card-actions,
 .catalogue-card .card-actions,
 .salad-card .card-actions,
+.menu-card .card-actions,
 .drink-card .card-actions,
 .fruit-veggie-card .card-actions {
   margin-top: auto;
   flex-shrink: 0;
 }
-.card-with-actions:hover, .catalogue-card:hover, .salad-card:hover, .drink-card:hover, .fruit-veggie-card:hover {
+.card-with-actions:hover, .catalogue-card:hover, .salad-card:hover, .menu-card:hover, .drink-card:hover, .fruit-veggie-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
@@ -2707,6 +2833,793 @@
     transition: none;
   }
 }
+/* ========================================
+   STYLES POUR LES MENUS
+   ======================================== */
+/* En-tête des menus */
+.menus-header h2::before {
+  content: "\f2e7";
+}
+
+/* Statistiques des menus */
+/* Liste des menus */
+/* Grille des menus admin */
+/* Carte de menu */
+.menu-card .menu-image.placeholder {
+  background: linear-gradient(135deg, #e91e63, #ff6b35);
+}
+.menu-card .menu-image.placeholder i {
+  color: #ffffff;
+  font-size: 2rem;
+}
+.menu-card .menu-category {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+.menu-card .menu-category i {
+  color: #e91e63;
+}
+
+/* ========================================
+   PAGE PUBLIQUE DES MENUS
+   ======================================== */
+.menus-page {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+/* Hero section */
+.menus-hero {
+  background: linear-gradient(135deg, #e91e63, #ff6b35);
+  color: #ffffff;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+.menus-hero h1 {
+  font-size: clamp(1.8rem, 4vw + 1rem, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+.menus-hero p {
+  font-size: clamp(1rem, 2vw + 0.5rem, 1.2rem);
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+@media (min-width: 600px) {
+  .menus-hero {
+    padding: 4rem 2rem;
+  }
+}
+
+/* Filtres */
+.menus-filters {
+  background: #ffffff;
+  padding: 1.5rem 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+@media (min-width: 600px) {
+  .menus-filters {
+    padding: 2rem;
+  }
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #ffffff;
+  color: #495057;
+  border: 2px solid rgba(248, 249, 250, 0.5);
+  border-radius: 2rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.filter-btn:hover {
+  background: rgba(233, 30, 99, 0.1);
+  border-color: #e91e63;
+  color: #e91e63;
+  transform: translateY(-2px);
+}
+.filter-btn.active {
+  background: #e91e63;
+  color: #ffffff;
+  border-color: #e91e63;
+  box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+}
+.filter-btn i {
+  font-size: 0.8rem;
+}
+@media (max-width: 480px) {
+  .filter-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Contenu des menus */
+.menus-content {
+  padding: 2rem 1rem;
+}
+@media (min-width: 600px) {
+  .menus-content {
+    padding: 3rem 2rem;
+  }
+}
+
+.menus-stats {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.menus-stats .menus-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  color: #495057;
+}
+.menus-stats .menus-count i {
+  color: #e91e63;
+}
+
+/* Grille des menus publics */
+.menus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media (max-width: 480px) {
+  .menus-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Carte de menu publique */
+.menu-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+.menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.menu-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+.menu-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.menu-card:hover .menu-image img {
+  transform: scale(1.05);
+}
+.menu-image .menu-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: linear-gradient(135deg, #e91e63, #ff6b35);
+}
+.menu-image .menu-placeholder i {
+  font-size: 3rem;
+  color: #ffffff;
+}
+
+.menu-info {
+  padding: 1.5rem;
+}
+
+.menu-category-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(233, 30, 99, 0.1);
+  color: #e91e63;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.menu-category-badge i {
+  font-size: 0.7rem;
+}
+
+.menu-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.menu-description {
+  color: #6c757d;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.menu-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.menu-price .price-amount {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #e91e63;
+}
+
+.menu-availability .availability-available {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #4caf50;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.menu-availability .availability-available i {
+  font-size: 0.8rem;
+}
+
+/* Boutons d'action pour les cartes de menus publiques */
+.menu-card .menu-actions .btn-add-to-cart {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  background: #e91e63;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.menu-card .menu-actions .btn-add-to-cart:hover {
+  background: rgb(193.1174089069, 18.8825910931, 78.1052631579);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+}
+.menu-card .menu-actions .btn-add-to-cart.added {
+  background: #4caf50;
+  transform: scale(0.98);
+}
+.menu-card .menu-actions .btn-add-to-cart i {
+  font-size: 0.8rem;
+}
+
+/* État vide */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+.empty-state .empty-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #e91e63, #ff6b35);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+}
+.empty-state .empty-icon i {
+  font-size: 2.5rem;
+  color: #ffffff;
+}
+.empty-state h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+}
+.empty-state p {
+  color: #6c757d;
+  font-size: 1.1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* ========================================
+   CLASSES GÉNÉRIQUES - REFACTORISATION
+   ======================================== 
+   Classes communes pour tous les types de contenu
+   (salads, drinks, fruits_legumes, menus)
+   ======================================== */
+/* Pages génériques */
+.item-page {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+/* En-têtes génériques */
+.item-header {
+  background: #ffffff;
+  padding: 2rem 1.5rem;
+  border-bottom: 1px solid rgba(248, 249, 250, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.item-header header {
+  flex: 1;
+  min-width: 250px;
+}
+.item-header header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+.item-header header p {
+  color: #6c757d;
+  font-size: 1rem;
+}
+.item-header .header-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+@media (max-width: 480px) {
+  .item-header .header-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+  .item-header .header-actions .item-btn-back,
+  .item-header .header-actions .item-btn-add {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+/* Statistiques génériques */
+.item-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 1.5rem;
+  background: #ffffff;
+  margin-bottom: 1.5rem;
+}
+.item-stats .stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+.item-stats .stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.item-stats .stat-card .stat-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #e91e63, #ff6b35);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.item-stats .stat-card .stat-icon i {
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+.item-stats .stat-card .stat-content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+.item-stats .stat-card .stat-content p {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Listes génériques */
+.item-list {
+  padding: 0 1.5rem 2rem;
+}
+
+/* Grilles génériques */
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+@media (max-width: 480px) {
+  .item-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Cartes génériques */
+.item-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+.item-card .item-header {
+  position: relative;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+.item-card .item-header .item-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+.item-card .item-header .item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.item-card .item-header .item-image.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e91e63, #ff6b35);
+}
+.item-card .item-header .item-image.placeholder i {
+  font-size: 3rem;
+  color: #ffffff;
+}
+.item-card .item-header .item-status {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+.item-card .item-header .item-status .status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.item-card .item-header .item-status .status-badge.available {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+}
+.item-card .item-header .item-status .status-badge.unavailable {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+}
+.item-card .item-content {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.item-card .item-content .item-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+.item-card .item-content .item-description {
+  color: #6c757d;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  flex: 1;
+}
+.item-card .item-content .item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.item-card .item-content .item-details .detail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #495057;
+}
+.item-card .item-content .item-details .detail-item i {
+  color: #e91e63;
+  width: 16px;
+  text-align: center;
+}
+.item-card .item-actions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: rgba(248, 249, 250, 0.3);
+  margin-top: auto;
+  flex-shrink: 0;
+}
+@media (max-width: 480px) {
+  .item-card .item-actions {
+    flex-direction: column;
+    padding: 1rem;
+  }
+}
+
+/* Formulaires génériques */
+.item-form .form-group {
+  margin-bottom: 1.5rem;
+}
+.item-form .form-group .form-label {
+  display: block;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+.item-form .form-group .form-label.required::after {
+  content: " *";
+  color: #dc2626;
+}
+.item-form .form-group .form-label i {
+  margin-right: 0.5rem;
+  color: #e91e63;
+}
+.item-form .form-group .form-input,
+.item-form .form-group .form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(248, 249, 250, 0.5);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+.item-form .form-group .form-input:focus,
+.item-form .form-group .form-textarea:focus {
+  outline: none;
+  border-color: #e91e63;
+  box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+}
+.item-form .form-group .form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+.item-form .form-group .form-help {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+.item-form .form-actions {
+  display: flex;
+  gap: 1rem;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(248, 249, 250, 0.5);
+  margin-top: 2rem;
+}
+@media (max-width: 480px) {
+  .item-form .form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .item-form .form-actions .item-btn-save,
+  .item-form .form-actions .item-btn-cancel {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Boutons génériques */
+.item-btn-edit,
+.item-btn-delete {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+@media (max-width: 480px) {
+  .item-btn-edit,
+  .item-btn-delete {
+    width: 100%;
+  }
+}
+
+.item-btn-edit {
+  background: #4caf50;
+  color: #ffffff;
+}
+.item-btn-edit:hover {
+  background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
+  transform: translateY(-1px);
+}
+
+.item-btn-delete {
+  background: #dc2626;
+  color: #ffffff;
+}
+.item-btn-delete:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.item-btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(248, 249, 250, 0.5);
+  background: #ffffff;
+  color: #495057;
+}
+.item-btn-back:hover {
+  background: rgba(248, 249, 250, 0.1);
+  border-color: #6c757d;
+  color: #1a1a1a;
+  transform: translateX(-2px);
+}
+.item-btn-back i {
+  font-size: 0.8rem;
+}
+
+.item-btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.item-btn-add:hover {
+  background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+.item-btn-add:active {
+  transform: translateY(0);
+}
+.item-btn-add i {
+  font-size: 0.8rem;
+}
+.item-btn-add.disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.item-btn-add.disabled:hover {
+  transform: none;
+}
+
+.item-btn-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.item-btn-save:hover {
+  background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+.item-btn-save:active {
+  transform: translateY(0);
+}
+.item-btn-save i {
+  font-size: 0.8rem;
+}
+
+.item-btn-cancel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #ffffff;
+  color: #495057;
+  border: 2px solid rgba(248, 249, 250, 0.5);
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.item-btn-cancel:hover {
+  background: #f8f9fa;
+  border-color: #6c757d;
+  transform: translateY(-1px);
+}
+.item-btn-cancel:active {
+  transform: translateY(0);
+}
+.item-btn-cancel i {
+  font-size: 0.8rem;
+}
+
 /* ========================================
    MIXINS
    ======================================== */

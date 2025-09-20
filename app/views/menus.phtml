@@ -1,0 +1,122 @@
+<!-- refactor: utilisation de la classe générique .item-page -->
+<main class="item-page">
+    <section class="menus-hero">
+        <header>
+            <h1>Des menus spécialement conçus pour vous</h1>
+            <p>Découvrez notre sélection de menus composés avec des ingrédients frais et de qualité</p>
+        </header>
+    </section>
+
+    <!-- Filtres par catégories -->
+    <section class="menus-filters">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-category="all">
+                <i class="fas fa-th"></i>
+                Tous les menus
+            </button>
+            <?php foreach ($categories as $category): ?>
+                <?php 
+                $categoryNames = [
+                    1 => 'Petit-déjeuners',
+                    2 => 'Déjeuner & Diner', 
+                    3 => 'Entrées & Desserts'
+                ];
+                $displayName = $categoryNames[$category['id']] ?? $category['name'];
+                ?>
+                <button class="filter-btn" data-category="<?= $category['id'] ?>">
+                    <i class="fas fa-<?= $category['id'] == 1 ? 'sun' : ($category['id'] == 2 ? 'utensils' : 'ice-cream') ?>"></i>
+                    <?= htmlspecialchars($displayName) ?>
+                </button>
+            <?php endforeach; ?>
+        </div>
+    </section>
+
+    <section class="menus-content">
+        <?php if (isset($error)): ?>
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($totalMenus > 0): ?>
+            <div class="menus-stats">
+                <p class="menus-count">
+                    <i class="fas fa-utensils"></i>
+                    <span id="filtered-count"><?= $totalMenus ?></span> menu<?= $totalMenus > 1 ? 's' : '' ?> disponible<?= $totalMenus > 1 ? 's' : '' ?>
+                </p>
+            </div>
+
+            <!-- refactor: utilisation de la classe générique .item-grid -->
+            <div class="item-grid" id="menus-grid">
+                <?php foreach ($menus as $menu): ?>
+                    <!-- refactor: utilisation de la classe générique .item-card -->
+                    <article class="item-card" data-category="<?= $menu['category_id'] ?>">
+                        <header class="item-header">
+                            <figure class="item-image">
+                                <?php if (!empty($menu['image'])): ?>
+                                    <img src="<?= htmlspecialchars($menu['image']) ?>" 
+                                         alt="<?= htmlspecialchars($menu['name']) ?>"
+                                         loading="lazy">
+                                <?php else: ?>
+                                    <div class="placeholder">
+                                        <i class="fas fa-utensils"></i>
+                                    </div>
+                                <?php endif; ?>
+                            </figure>
+                        </header>
+                        
+                        <div class="item-content">
+                            <div class="menu-category-badge">
+                                <?php 
+                                $categoryNames = [
+                                    1 => 'Petit-déjeuners',
+                                    2 => 'Déjeuner & Diner', 
+                                    3 => 'Entrées & Desserts'
+                                ];
+                                $displayCategoryName = $categoryNames[$menu['category_id']] ?? $menu['category_name'];
+                                ?>
+                                <i class="fas fa-<?= $menu['category_id'] == 1 ? 'sun' : ($menu['category_id'] == 2 ? 'utensils' : 'ice-cream') ?>"></i>
+                                <?= htmlspecialchars($displayCategoryName) ?>
+                            </div>
+                            
+                            <h3 class="item-name"><?= htmlspecialchars($menu['name']) ?></h3>
+                            
+                            <?php if (!empty($menu['description'])): ?>
+                                <p class="item-description"><?= htmlspecialchars($menu['description']) ?></p>
+                            <?php endif; ?>
+                            
+                            <div class="item-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-tag"></i>
+                                    <span class="price-amount"><?= number_format($menu['price'], 0, ',', ' ') ?> FCFA</span>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Disponible</span>
+                                </div>
+                            </div>
+                            
+                            <div class="menu-actions">
+                                <button class="btn-add-to-cart" data-menu-id="<?= $menu['id'] ?>">
+                                    <i class="fas fa-plus"></i>
+                                    Ajouter au panier
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3>Aucun menu disponible</h3>
+                <p>Nous travaillons actuellement sur de nouveaux menus. Revenez bientôt !</p>
+            </div>
+        <?php endif; ?>
+    </section>
+</main>
+

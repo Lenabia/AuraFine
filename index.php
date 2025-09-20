@@ -154,10 +154,38 @@ if(array_key_exists('action', $_GET)):
     $controller->delete($id);
     break;
 
-    //gestion des menus (stub)
+    //gestion des menus
     case 'admin-menus':
-    $controller = new \app\controllers\MenuController();
+    $controller = new \app\controllers\MenusController();
     $controller->index();
+    break;
+
+    case 'admin-menus-create':
+    $controller = new \app\controllers\MenusController();
+    $controller->form();
+    break;
+
+    case 'admin-menus-edit':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\MenusController();
+    $controller->form($id);
+    break;
+
+    case 'admin-menus-store':
+    $controller = new \app\controllers\MenusController();
+    $controller->store();
+    break;
+
+    case 'admin-menus-update':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\MenusController();
+    $controller->update($id);
+    break;
+
+    case 'admin-menus-delete':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\MenusController();
+    $controller->delete($id);
     break;
 
     //gestion des fruits et légumes
@@ -213,6 +241,11 @@ if(array_key_exists('action', $_GET)):
 
     case 'fruits-veggies':
     $controller = new \app\controllers\FruitsVeggiesController();
+    $controller->publicIndex();
+    break;
+
+    case 'menus':
+    $controller = new \app\controllers\MenusController();
     $controller->publicIndex();
     break;
 

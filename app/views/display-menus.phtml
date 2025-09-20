@@ -1,0 +1,165 @@
+<!-- ========================================
+PAGE GESTION DES MENUS - LISTE ET ACTIONS
+======================================== -->
+
+<!-- refactor: utilisation de la classe générique .item-header -->
+<section class="item-header">
+    <header>
+        <h2>Gestion des Menus</h2>
+        <p>Créez et gérez vos menus</p>
+    </header>
+    <nav class="header-actions">
+        <!-- refactor: utilisation de la classe générique .item-btn-back -->
+        <a href="index.php?action=admin-catalog" class="item-btn-back">
+            <i class="fas fa-arrow-left"></i>
+            Retour au Catalogue
+        </a>
+        <!-- refactor: utilisation de la classe générique .item-btn-add -->
+        <a href="index.php?action=admin-menus-create" class="item-btn-add">
+            <i class="fas fa-plus"></i>
+            Ajouter un menu
+        </a>
+    </nav>
+</section>
+
+<!-- Messages de succès/erreur -->
+<?php if (isset($_SESSION['success_message'])): ?>
+    <div class="alert alert-success" role="alert">
+        <i class="fas fa-check-circle"></i>
+        <?= htmlspecialchars($_SESSION['success_message']) ?>
+    </div>
+    <?php unset($_SESSION['success_message']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['error_message'])): ?>
+    <div class="alert alert-error" role="alert">
+        <i class="fas fa-exclamation-circle"></i>
+        <?= htmlspecialchars($_SESSION['error_message']) ?>
+    </div>
+    <?php unset($_SESSION['error_message']); ?>
+<?php endif; ?>
+
+<!-- refactor: utilisation de la classe générique .item-stats -->
+<section class="item-stats">
+    <div class="stat-card">
+        <div class="stat-icon">
+        </div>
+        <div class="stat-content">
+            <h3><?= $totalMenus ?? 0 ?></h3>
+            <p>Menus au total</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+            <h3><?= count(array_filter($menus, function($menu) { return $menu['is_available'] == 1; })) ?></h3>
+            <p>Disponibles</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="stat-content">
+            <h3><?= count(array_filter($menus, function($menu) { return $menu['is_available'] == 0; })) ?></h3>
+            <p>Désactivés</p>
+        </div>
+    </div>
+</section>
+
+<!-- refactor: utilisation de la classe générique .item-list -->
+<section class="item-list">
+    <?php if (!empty($menus)): ?>
+        <!-- refactor: utilisation de la classe générique .item-grid -->
+        <div class="item-grid">
+            <?php foreach ($menus as $menu): ?>
+                <!-- refactor: utilisation de la classe générique .item-card -->
+                <article class="item-card">
+                    <header class="item-header">
+                        <div class="item-image">
+                            <?php if (!empty($menu['image'])): ?>
+                                <img src="<?= htmlspecialchars($menu['image']) ?>" 
+                                     alt="<?= htmlspecialchars($menu['name']) ?>"
+                                     loading="lazy">
+                            <?php else: ?>
+                                <div class="placeholder">
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <div class="item-status">
+                            <?php if ($menu['is_available']): ?>
+                                <span class="status-badge available">
+                                    <i class="fas fa-check"></i>
+                                    Disponible
+                                </span>
+                            <?php else: ?>
+                                <span class="status-badge unavailable">
+                                    <i class="fas fa-times"></i>
+                                    Indisponible
+                                </span>
+                            <?php endif; ?>
+                        </div>
+                    </header>
+                    
+                    <section class="item-content">
+                        <h3 class="item-name"><?= htmlspecialchars($menu['name']) ?></h3>
+                        
+                        <?php if (!empty($menu['category_name'])): ?>
+                            <div class="menu-category">
+                                <i class="fas fa-tag"></i>
+                                <span><?= htmlspecialchars($menu['category_name']) ?></span>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <?php if (!empty($menu['description'])): ?>
+                            <p class="item-description"><?= htmlspecialchars($menu['description']) ?></p>
+                        <?php endif; ?>
+                        
+                        <div class="item-details">
+                            <div class="detail-item">
+                                <i class="fas fa-tag"></i>
+                                <span><?= number_format($menu['price'], 0, ',', ' ') ?> FCFA</span>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <footer class="item-actions">
+                        <!-- refactor: utilisation de la classe générique .item-btn-edit -->
+                        <a href="index.php?action=admin-menus-edit&id=<?= $menu['id'] ?>" 
+                           class="item-btn-edit" title="Modifier">
+                            <i class="fas fa-edit"></i>
+                            Modifier
+                        </a>
+                        
+                        <form method="POST" action="index.php?action=admin-menus-delete&id=<?= $menu['id'] ?>" 
+                              class="delete-form" 
+                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce menu ?')">
+                            <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                            <!-- refactor: utilisation de la classe générique .item-btn-delete -->
+                            <button type="submit" class="item-btn-delete" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                                Supprimer
+                            </button>
+                        </form>
+                    </footer>
+                </article>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <!-- Aucun menu -->
+        <section class="empty-state">
+            <figure class="empty-icon">
+            </figure>
+            <h3>Aucun menu créé</h3>
+            <p>Commencez par créer votre premier menu</p>
+            <!-- refactor: utilisation de la classe générique .item-btn-add -->
+            <a href="index.php?action=admin-menus-create" class="item-btn-add">
+                <i class="fas fa-plus"></i>
+                Ajouter un menu
+            </a>
+        </section>
+    <?php endif; ?>
+</section>

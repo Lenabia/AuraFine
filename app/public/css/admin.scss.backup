@@ -748,31 +748,9 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
     }
 
     .btn-see-more {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1rem;
-      background: $color-rose;
-      color: $color-white;
-      border: none;
-      border-radius: 0.5rem;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      @extend .btn-primary !optional;
       width: 100%;
       justify-content: center;
-
-      &:hover {
-        background: color.adjust($color-rose, $lightness: -10%);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba($color-rose, 0.3);
-      }
-
-      &:active {
-        transform: translateY(0);
-      }
     }
   }
 }
@@ -820,6 +798,7 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
     }
 
     .btn-back {
+      @extend .btn-secondary !optional;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
@@ -846,33 +825,7 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
     }
 
     .btn-add {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      background: $color-green;
-      color: $color-white;
-      border: none;
-      border-radius: 0.5rem;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-
-      &:hover {
-        background: color.adjust($color-green, $lightness: -10%);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba($color-green, 0.3);
-      }
-
-      &:active {
-        transform: translateY(0);
-      }
-
-      i {
-        font-size: 0.8rem;
-      }
+      @extend .btn-success !optional;
 
       &.disabled {
         background: $color-gray-medium;
@@ -1185,6 +1138,24 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
         width: 100%;
       }
     }
+
+    .btn-edit {
+      background: $color-rose;
+      color: $color-white;
+
+      &:hover {
+        background: #c2185b;
+      }
+    }
+
+    .btn-delete {
+      background: $color-red;
+      color: $color-white;
+
+      &:hover {
+        background: #b91c1c;
+      }
+    }
   }
 }
 
@@ -1316,6 +1287,45 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
       flex-direction: column;
       padding: 1rem;
     }
+
+    .btn-edit,
+    .btn-delete {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+
+      @media (max-width: 480px) {
+        width: 100%;
+      }
+    }
+
+    .btn-edit {
+      background: $color-rose;
+      color: $color-white;
+
+      &:hover {
+        background: #c2185b;
+      }
+    }
+
+    .btn-delete {
+      background: $color-red;
+      color: $color-white;
+
+      &:hover {
+        background: #b91c1c;
+      }
+    }
   }
 }
 
@@ -1446,6 +1456,45 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
     @media (max-width: 480px) {
       flex-direction: column;
       padding: 1rem;
+    }
+
+    .btn-edit,
+    .btn-delete {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+
+      @media (max-width: 480px) {
+        width: 100%;
+      }
+    }
+
+    .btn-edit {
+      background: $color-rose;
+      color: $color-white;
+
+      &:hover {
+        background: #c2185b;
+      }
+    }
+
+    .btn-delete {
+      background: $color-red;
+      color: $color-white;
+
+      &:hover {
+        background: #b91c1c;
+      }
     }
   }
 }
@@ -1597,11 +1646,11 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
 .btn-edit {
-  background: $color-green;
+  background: $color-rose;
   color: $color-white;
 
   &:hover {
-    background: color.adjust($color-green, $lightness: -10%);
+    background: #c2185b;
     transform: translateY(-1px);
   }
 }
@@ -1613,67 +1662,6 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
   &:hover {
     background: #b91c1c;
     transform: translateY(-1px);
-  }
-}
-
-/* Boutons de formulaire */
-.btn-save {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: $color-green;
-  color: $color-white;
-  border: none;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: color.adjust($color-green, $lightness: -10%);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba($color-green, 0.3);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  i {
-    font-size: 0.8rem;
-  }
-}
-
-.btn-cancel {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: $color-white;
-  color: $color-gray-dark;
-  border: 2px solid rgba($color-gray-light, 0.5);
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: $color-gray-light;
-    border-color: $color-gray-medium;
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  i {
-    font-size: 0.8rem;
   }
 }
 
@@ -1832,7 +1820,13 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
       }
     }
 
-    // Les styles des boutons sont maintenant dans la section commune
+    .btn-save {
+      @extend .btn-success !optional;
+    }
+
+    .btn-cancel {
+      @extend .btn-secondary !optional;
+    }
   }
 }
 
@@ -1896,55 +1890,11 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
       flex-wrap: wrap;
 
       .btn-home {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.75rem 1.5rem;
-        background: $color-white;
-        color: $color-gray-dark;
-        border: 2px solid rgba($color-gray-light, 0.5);
-        border-radius: 0.5rem;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-
-        &:hover {
-          background: $color-gray-light;
-          border-color: $color-gray-medium;
-          transform: translateY(-1px);
-        }
-
-        &:active {
-          transform: translateY(0);
-        }
+        @extend .btn-secondary !optional;
       }
 
       .btn-login {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.75rem 1.5rem;
-        background: $color-rose;
-        color: $color-white;
-        border: none;
-        border-radius: 0.5rem;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-
-        &:hover {
-          background: color.adjust($color-rose, $lightness: -10%);
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba($color-rose, 0.3);
-        }
-
-        &:active {
-          transform: translateY(0);
-        }
+        @extend .btn-primary !optional;
       }
     }
   }
@@ -2136,8 +2086,8 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
   @extend .salads-list;
 }
 
-/* Grille des menus admin */
-.admin-container .menus-grid {
+/* Grille des menus */
+.menus-grid {
   @extend .salads-grid;
 }
 
@@ -2181,7 +2131,42 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
   .menu-actions {
     @extend .salad-actions;
 
-    // Les styles des boutons sont maintenant dans la section commune
+    .btn-edit,
+    .btn-delete {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .btn-edit {
+      background: $color-accent;
+      color: $color-white;
+
+      &:hover {
+        background: color.adjust($color-accent, $lightness: -10%);
+        transform: translateY(-1px);
+      }
+    }
+
+    .btn-delete {
+      background: $color-red;
+      color: $color-white;
+
+      &:hover {
+        background: #b91c1c;
+        transform: translateY(-1px);
+      }
+    }
   }
 
   .menu-category {
@@ -2517,516 +2502,5 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
     font-size: 1.1rem;
     max-width: 400px;
     margin: 0 auto;
-  }
-}
-
-/* ========================================
-   CLASSES GÉNÉRIQUES - REFACTORISATION
-   ======================================== 
-   Classes communes pour tous les types de contenu
-   (salads, drinks, fruits_legumes, menus)
-   ======================================== */
-
-/* Pages génériques */
-.item-page {
-  min-height: 100vh;
-  background: $color-gray-light;
-}
-
-/* En-têtes génériques */
-.item-header {
-  background: $color-white;
-  padding: 2rem 1.5rem;
-  border-bottom: 1px solid rgba($color-gray-light, 0.5);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-
-  header {
-    flex: 1;
-    min-width: 250px;
-
-    h2 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: $color-black;
-      margin-bottom: 0.5rem;
-    }
-
-    p {
-      color: $color-gray-medium;
-      font-size: 1rem;
-    }
-  }
-
-  .header-actions {
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-
-    @media (max-width: 480px) {
-      width: 100%;
-      justify-content: stretch;
-
-      .item-btn-back,
-      .item-btn-add {
-        flex: 1;
-        justify-content: center;
-      }
-    }
-  }
-}
-
-/* Statistiques génériques */
-.item-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem 1.5rem;
-  background: $color-white;
-  margin-bottom: 1.5rem;
-
-  .stat-card {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.5rem;
-    background: $color-gray-light;
-    border-radius: 0.75rem;
-    transition: all 0.3s ease;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .stat-icon {
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(135deg, $color-rose, $color-accent);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-
-      i {
-        font-size: 1.25rem;
-        color: $color-white;
-      }
-    }
-
-    .stat-content {
-      h3 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: $color-black;
-        margin-bottom: 0.25rem;
-      }
-
-      p {
-        color: $color-gray-medium;
-        font-size: 0.9rem;
-        margin: 0;
-      }
-    }
-  }
-}
-
-/* Listes génériques */
-.item-list {
-  padding: 0 1.5rem 2rem;
-}
-
-/* Grilles génériques */
-.item-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
-  max-width: 1400px;
-  margin: 0 auto;
-
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-}
-
-/* Cartes génériques */
-.item-card {
-  background: $color-white;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-  }
-
-  .item-header {
-    position: relative;
-    padding: 0;
-    border: none;
-    background: transparent;
-
-    .item-image {
-      position: relative;
-      height: 200px;
-      overflow: hidden;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-      }
-
-      &.placeholder {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, $color-rose, $color-accent);
-
-        i {
-          font-size: 3rem;
-          color: $color-white;
-        }
-      }
-    }
-
-    .item-status {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-
-      .status-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
-        border-radius: 2rem;
-        font-size: 0.85rem;
-        font-weight: 600;
-
-        &.available {
-          background: rgba($color-green, 0.1);
-          color: $color-green;
-        }
-
-        &.unavailable {
-          background: rgba($color-red, 0.1);
-          color: $color-red;
-        }
-      }
-    }
-  }
-
-  .item-content {
-    flex: 1;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-
-    .item-name {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: $color-black;
-      margin-bottom: 0.75rem;
-      line-height: 1.3;
-    }
-
-    .item-description {
-      color: $color-gray-medium;
-      line-height: 1.5;
-      margin-bottom: 1rem;
-      font-size: 0.95rem;
-      flex: 1;
-    }
-
-    .item-details {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-
-      .detail-item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.9rem;
-        color: $color-gray-dark;
-
-        i {
-          color: $color-rose;
-          width: 16px;
-          text-align: center;
-        }
-      }
-    }
-  }
-
-  .item-actions {
-    display: flex;
-    gap: 0.75rem;
-    padding: 1rem 1.5rem;
-    background: rgba($color-gray-light, 0.3);
-    margin-top: auto;
-    flex-shrink: 0;
-
-    @media (max-width: 480px) {
-      flex-direction: column;
-      padding: 1rem;
-    }
-
-    // Les styles des boutons sont maintenant dans la section commune
-  }
-}
-
-/* Formulaires génériques */
-.item-form {
-  .form-group {
-    margin-bottom: 1.5rem;
-
-    .form-label {
-      display: block;
-      font-weight: 600;
-      color: $color-black;
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
-
-      &.required::after {
-        content: " *";
-        color: $color-red;
-      }
-
-      i {
-        margin-right: 0.5rem;
-        color: $color-rose;
-      }
-    }
-
-    .form-input,
-    .form-textarea {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 2px solid rgba($color-gray-light, 0.5);
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-
-      &:focus {
-        outline: none;
-        border-color: $color-rose;
-        box-shadow: 0 0 0 3px rgba($color-rose, 0.1);
-      }
-    }
-
-    .form-textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .form-help {
-      display: block;
-      margin-top: 0.5rem;
-      font-size: 0.85rem;
-      color: $color-gray-medium;
-    }
-  }
-
-  .form-actions {
-    display: flex;
-    gap: 1rem;
-    padding: 2rem 0;
-    border-top: 1px solid rgba($color-gray-light, 0.5);
-    margin-top: 2rem;
-
-    @media (max-width: 480px) {
-      flex-direction: column;
-      gap: 0.75rem;
-
-      .item-btn-save,
-      .item-btn-cancel {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-
-    // Les styles des boutons sont maintenant dans la section commune
-  }
-}
-
-/* Boutons génériques */
-.item-btn-edit,
-.item-btn-delete {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
-
-  @media (max-width: 480px) {
-    width: 100%;
-  }
-}
-
-.item-btn-edit {
-  background: $color-green;
-  color: $color-white;
-
-  &:hover {
-    background: color.adjust($color-green, $lightness: -10%);
-    transform: translateY(-1px);
-  }
-}
-
-.item-btn-delete {
-  background: $color-red;
-  color: $color-white;
-
-  &:hover {
-    background: #b91c1c;
-    transform: translateY(-1px);
-  }
-}
-
-.item-btn-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  border: 2px solid rgba($color-gray-light, 0.5);
-  background: $color-white;
-  color: $color-gray-dark;
-
-  &:hover {
-    background: rgba($color-gray-light, 0.1);
-    border-color: $color-gray-medium;
-    color: $color-black;
-    transform: translateX(-2px);
-  }
-
-  i {
-    font-size: 0.8rem;
-  }
-}
-
-.item-btn-add {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: $color-green;
-  color: $color-white;
-  border: none;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: color.adjust($color-green, $lightness: -10%);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba($color-green, 0.3);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  i {
-    font-size: 0.8rem;
-  }
-
-  &.disabled {
-    background: $color-gray-medium;
-    cursor: not-allowed;
-    opacity: 0.6;
-
-    &:hover {
-      transform: none;
-    }
-  }
-}
-
-.item-btn-save {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: $color-green;
-  color: $color-white;
-  border: none;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: color.adjust($color-green, $lightness: -10%);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba($color-green, 0.3);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  i {
-    font-size: 0.8rem;
-  }
-}
-
-.item-btn-cancel {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: $color-white;
-  color: $color-gray-dark;
-  border: 2px solid rgba($color-gray-light, 0.5);
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: $color-gray-light;
-    border-color: $color-gray-medium;
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  i {
-    font-size: 0.8rem;
   }
 }
