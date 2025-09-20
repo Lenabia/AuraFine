@@ -3,7 +3,8 @@ FORMULAIRE CRÉATION/MODIFICATION BOISSON
 ======================================== -->
 
 <!-- En-tête du formulaire -->
-<section class="form-header">
+<!-- refactor: utilisation de la classe générique .item-header -->
+<section class="item-header">
     <header>
         <h2><?= $isEdit ? 'Modifier la Boisson' : 'Nouvelle Boisson' ?></h2>
         <p><?= $isEdit ? 'Modifiez les informations de la boisson' : 'Créez une nouvelle boisson' ?></p>
@@ -40,10 +41,11 @@ FORMULAIRE CRÉATION/MODIFICATION BOISSON
 <?php endif; ?>
 
 <!-- Formulaire -->
-<form method="POST" 
-      action="index.php?action=<?= $isEdit ? 'admin-drinks-update&id=' . $drink['id'] : 'admin-drinks-store' ?>" 
-      enctype="multipart/form-data" 
-      class="drink-form">
+<section class="form-container">
+    <form method="POST" 
+          action="index.php?action=<?= $isEdit ? 'admin-drinks-update&id=' . $drink['id'] : 'admin-drinks-store' ?>" 
+          enctype="multipart/form-data" 
+          class="drink-form">
     
     <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
     
@@ -165,7 +167,8 @@ FORMULAIRE CRÉATION/MODIFICATION BOISSON
             <?= $isEdit ? 'Modifier la boisson' : 'Créer la boisson' ?>
         </button>
     </footer>
-</form>
+    </form>
+</section>
 
 <?php
 // Nettoyer les données temporaires après affichage

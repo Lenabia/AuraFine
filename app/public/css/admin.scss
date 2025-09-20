@@ -781,7 +781,8 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
 .salads-header,
 .drinks-header,
 .menus-header,
-.fruits-veggies-header {
+.fruits-veggies-header,
+.item-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1034,6 +1035,7 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
   @extend .admin-card !optional;
   max-width: 800px;
   margin: 0 auto;
+  padding: 2rem;
 }
 
 // Styles spécifiques pour les salades
@@ -1368,53 +1370,53 @@ $admin-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
 // En-têtes des pages produits
-.salads-header,
-.drinks-header,
-.fruits-veggies-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
+// .salads-header,
+// .drinks-header,
+// .fruits-veggies-header {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: flex-start;
+//   margin-bottom: 2rem;
+//   flex-wrap: wrap;
+//   gap: 1rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: stretch;
-  }
+//   @media (max-width: 768px) {
+//     flex-direction: column;
+//     align-items: stretch;
+//   }
 
-  header {
-    flex: 1;
+//   header {
+//     flex: 1;
 
-    h2 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: $color-rose;
-      margin-bottom: 0.5rem;
-    }
+//     h2 {
+//       font-size: 1.75rem;
+//       font-weight: 700;
+//       color: $color-rose;
+//       margin-bottom: 0.5rem;
+//     }
 
-    p {
-      color: $color-gray-medium;
-      font-size: 1rem;
-    }
-  }
+//     p {
+//       color: $color-gray-medium;
+//       font-size: 1rem;
+//     }
+//   }
 
-  .header-actions {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+//   .header-actions {
+//     display: flex;
+//     gap: 1rem;
+//     align-items: center;
 
-    @media (max-width: 480px) {
-      flex-direction: column;
-      width: 100%;
+//     @media (max-width: 480px) {
+//       flex-direction: column;
+//       width: 100%;
 
-      a {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-  }
-}
+//       a {
+//         width: 100%;
+//         justify-content: center;
+//       }
+//     }
+//   }
+// }
 
 // Statistiques des produits
 .salads-stats,

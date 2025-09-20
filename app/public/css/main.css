@@ -1445,7 +1445,8 @@
 }
 
 /* Pages CRUD */
-.salads-header, .item-header,
+.salads-header,
+.item-header,
 .menus-header,
 .drinks-header,
 .fruits-veggies-header {
@@ -1456,43 +1457,45 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
-.salads-header header h2, .item-header header h2,
+.salads-header header h2,
 .drinks-header header h2,
 .menus-header header h2,
-.fruits-veggies-header header h2 {
+.fruits-veggies-header header h2,
+.item-header header h2 {
   font-size: clamp(1.3rem, 3vw + 0.5rem, 1.8rem);
   font-weight: 700;
   color: #1a1a1a;
   margin-bottom: 0.25rem;
 }
-.salads-header header p, .item-header header p,
+.salads-header header p,
 .drinks-header header p,
 .menus-header header p,
-.fruits-veggies-header header p {
+.fruits-veggies-header header p,
+.item-header header p {
   color: #6c757d;
   margin: 0;
 }
-.salads-header .header-actions, .item-header .header-actions,
+.salads-header .header-actions,
 .drinks-header .header-actions,
 .menus-header .header-actions,
-.fruits-veggies-header .header-actions {
+.fruits-veggies-header .header-actions,
+.item-header .header-actions {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
 }
 @media (max-width: 480px) {
-  .salads-header .header-actions, .item-header .header-actions,
+  .salads-header .header-actions,
   .drinks-header .header-actions,
   .menus-header .header-actions,
-  .fruits-veggies-header .header-actions {
+  .fruits-veggies-header .header-actions,
+  .item-header .header-actions {
     flex-direction: column;
     width: 100%;
   }
-  .salads-header .header-actions .btn-back, .salads-header .header-actions .item-btn-back, .item-header .header-actions .btn-back, .item-header .header-actions .item-btn-back,
+  .salads-header .header-actions .btn-back, .salads-header .header-actions .item-btn-back,
   .salads-header .header-actions .btn-add,
   .salads-header .header-actions .item-btn-add,
-  .item-header .header-actions .btn-add,
-  .item-header .header-actions .item-btn-add,
   .drinks-header .header-actions .btn-back,
   .drinks-header .header-actions .item-btn-back,
   .drinks-header .header-actions .btn-add,
@@ -1504,18 +1507,24 @@
   .fruits-veggies-header .header-actions .btn-back,
   .fruits-veggies-header .header-actions .item-btn-back,
   .fruits-veggies-header .header-actions .btn-add,
-  .fruits-veggies-header .header-actions .item-btn-add {
+  .fruits-veggies-header .header-actions .item-btn-add,
+  .item-header .header-actions .btn-back,
+  .item-header .header-actions .item-btn-back,
+  .item-header .header-actions .btn-add,
+  .item-header .header-actions .item-btn-add {
     width: 100%;
     justify-content: center;
   }
 }
-.salads-header .header-actions .btn-back, .salads-header .header-actions .item-btn-back, .item-header .header-actions .btn-back, .item-header .header-actions .item-btn-back,
+.salads-header .header-actions .btn-back, .salads-header .header-actions .item-btn-back,
 .drinks-header .header-actions .btn-back,
 .drinks-header .header-actions .item-btn-back,
 .menus-header .header-actions .btn-back,
 .menus-header .header-actions .item-btn-back,
 .fruits-veggies-header .header-actions .btn-back,
-.fruits-veggies-header .header-actions .item-btn-back {
+.fruits-veggies-header .header-actions .item-btn-back,
+.item-header .header-actions .btn-back,
+.item-header .header-actions .item-btn-back {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -1529,34 +1538,40 @@
   background: #ffffff;
   color: #495057;
 }
-.salads-header .header-actions .btn-back:hover, .salads-header .header-actions .item-btn-back:hover, .item-header .header-actions .btn-back:hover, .item-header .header-actions .item-btn-back:hover,
+.salads-header .header-actions .btn-back:hover, .salads-header .header-actions .item-btn-back:hover,
 .drinks-header .header-actions .btn-back:hover,
 .drinks-header .header-actions .item-btn-back:hover,
 .menus-header .header-actions .btn-back:hover,
 .menus-header .header-actions .item-btn-back:hover,
 .fruits-veggies-header .header-actions .btn-back:hover,
-.fruits-veggies-header .header-actions .item-btn-back:hover {
+.fruits-veggies-header .header-actions .item-btn-back:hover,
+.item-header .header-actions .btn-back:hover,
+.item-header .header-actions .item-btn-back:hover {
   background: rgba(248, 249, 250, 0.1);
   border-color: #6c757d;
   color: #1a1a1a;
   transform: translateX(-2px);
 }
-.salads-header .header-actions .btn-back i, .salads-header .header-actions .item-btn-back i, .item-header .header-actions .btn-back i, .item-header .header-actions .item-btn-back i,
+.salads-header .header-actions .btn-back i, .salads-header .header-actions .item-btn-back i,
 .drinks-header .header-actions .btn-back i,
 .drinks-header .header-actions .item-btn-back i,
 .menus-header .header-actions .btn-back i,
 .menus-header .header-actions .item-btn-back i,
 .fruits-veggies-header .header-actions .btn-back i,
-.fruits-veggies-header .header-actions .item-btn-back i {
+.fruits-veggies-header .header-actions .item-btn-back i,
+.item-header .header-actions .btn-back i,
+.item-header .header-actions .item-btn-back i {
   font-size: 0.8rem;
 }
-.salads-header .header-actions .btn-add, .salads-header .header-actions .item-btn-add, .item-header .header-actions .btn-add, .item-header .header-actions .item-btn-add,
+.salads-header .header-actions .btn-add, .salads-header .header-actions .item-btn-add,
 .drinks-header .header-actions .btn-add,
 .drinks-header .header-actions .item-btn-add,
 .menus-header .header-actions .btn-add,
 .menus-header .header-actions .item-btn-add,
 .fruits-veggies-header .header-actions .btn-add,
-.fruits-veggies-header .header-actions .item-btn-add {
+.fruits-veggies-header .header-actions .item-btn-add,
+.item-header .header-actions .btn-add,
+.item-header .header-actions .item-btn-add {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -1571,53 +1586,63 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.salads-header .header-actions .btn-add:hover, .salads-header .header-actions .item-btn-add:hover, .item-header .header-actions .btn-add:hover, .item-header .header-actions .item-btn-add:hover,
+.salads-header .header-actions .btn-add:hover, .salads-header .header-actions .item-btn-add:hover,
 .drinks-header .header-actions .btn-add:hover,
 .drinks-header .header-actions .item-btn-add:hover,
 .menus-header .header-actions .btn-add:hover,
 .menus-header .header-actions .item-btn-add:hover,
 .fruits-veggies-header .header-actions .btn-add:hover,
-.fruits-veggies-header .header-actions .item-btn-add:hover {
+.fruits-veggies-header .header-actions .item-btn-add:hover,
+.item-header .header-actions .btn-add:hover,
+.item-header .header-actions .item-btn-add:hover {
   background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
-.salads-header .header-actions .btn-add:active, .salads-header .header-actions .item-btn-add:active, .item-header .header-actions .btn-add:active, .item-header .header-actions .item-btn-add:active,
+.salads-header .header-actions .btn-add:active, .salads-header .header-actions .item-btn-add:active,
 .drinks-header .header-actions .btn-add:active,
 .drinks-header .header-actions .item-btn-add:active,
 .menus-header .header-actions .btn-add:active,
 .menus-header .header-actions .item-btn-add:active,
 .fruits-veggies-header .header-actions .btn-add:active,
-.fruits-veggies-header .header-actions .item-btn-add:active {
+.fruits-veggies-header .header-actions .item-btn-add:active,
+.item-header .header-actions .btn-add:active,
+.item-header .header-actions .item-btn-add:active {
   transform: translateY(0);
 }
-.salads-header .header-actions .btn-add i, .salads-header .header-actions .item-btn-add i, .item-header .header-actions .btn-add i, .item-header .header-actions .item-btn-add i,
+.salads-header .header-actions .btn-add i, .salads-header .header-actions .item-btn-add i,
 .drinks-header .header-actions .btn-add i,
 .drinks-header .header-actions .item-btn-add i,
 .menus-header .header-actions .btn-add i,
 .menus-header .header-actions .item-btn-add i,
 .fruits-veggies-header .header-actions .btn-add i,
-.fruits-veggies-header .header-actions .item-btn-add i {
+.fruits-veggies-header .header-actions .item-btn-add i,
+.item-header .header-actions .btn-add i,
+.item-header .header-actions .item-btn-add i {
   font-size: 0.8rem;
 }
-.salads-header .header-actions .btn-add.disabled, .salads-header .header-actions .disabled.item-btn-add, .item-header .header-actions .btn-add.disabled, .item-header .header-actions .disabled.item-btn-add,
+.salads-header .header-actions .btn-add.disabled, .salads-header .header-actions .disabled.item-btn-add,
 .drinks-header .header-actions .btn-add.disabled,
 .drinks-header .header-actions .disabled.item-btn-add,
 .menus-header .header-actions .btn-add.disabled,
 .menus-header .header-actions .disabled.item-btn-add,
 .fruits-veggies-header .header-actions .btn-add.disabled,
-.fruits-veggies-header .header-actions .disabled.item-btn-add {
+.fruits-veggies-header .header-actions .disabled.item-btn-add,
+.item-header .header-actions .btn-add.disabled,
+.item-header .header-actions .disabled.item-btn-add {
   background: #6c757d;
   cursor: not-allowed;
   opacity: 0.6;
 }
-.salads-header .header-actions .btn-add.disabled:hover, .salads-header .header-actions .disabled.item-btn-add:hover, .item-header .header-actions .btn-add.disabled:hover, .item-header .header-actions .disabled.item-btn-add:hover,
+.salads-header .header-actions .btn-add.disabled:hover, .salads-header .header-actions .disabled.item-btn-add:hover,
 .drinks-header .header-actions .btn-add.disabled:hover,
 .drinks-header .header-actions .disabled.item-btn-add:hover,
 .menus-header .header-actions .btn-add.disabled:hover,
 .menus-header .header-actions .disabled.item-btn-add:hover,
 .fruits-veggies-header .header-actions .btn-add.disabled:hover,
-.fruits-veggies-header .header-actions .disabled.item-btn-add:hover {
+.fruits-veggies-header .header-actions .disabled.item-btn-add:hover,
+.item-header .header-actions .btn-add.disabled:hover,
+.item-header .header-actions .disabled.item-btn-add:hover {
   transform: none;
 }
 
@@ -1755,6 +1780,7 @@
 .form-container {
   max-width: 800px;
   margin: 0 auto;
+  padding: 2rem;
 }
 
 .salad-card .salad-header, .item-card .salad-header, .menu-card .salad-header, .menu-card .menu-header {
@@ -2182,65 +2208,6 @@
   .drinks-grid,
   .fruits-veggies-grid {
     gap: 1rem;
-  }
-}
-
-.salads-header, .item-header, .menus-header,
-.drinks-header,
-.fruits-veggies-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-@media (max-width: 768px) {
-  .salads-header, .item-header, .menus-header,
-  .drinks-header,
-  .fruits-veggies-header {
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
-.salads-header header, .item-header header, .menus-header header,
-.drinks-header header,
-.fruits-veggies-header header {
-  flex: 1;
-}
-.salads-header header h2, .item-header header h2, .menus-header header h2,
-.drinks-header header h2,
-.fruits-veggies-header header h2 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #e91e63;
-  margin-bottom: 0.5rem;
-}
-.salads-header header p, .item-header header p, .menus-header header p,
-.drinks-header header p,
-.fruits-veggies-header header p {
-  color: #6c757d;
-  font-size: 1rem;
-}
-.salads-header .header-actions, .item-header .header-actions, .menus-header .header-actions,
-.drinks-header .header-actions,
-.fruits-veggies-header .header-actions {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-@media (max-width: 480px) {
-  .salads-header .header-actions, .item-header .header-actions, .menus-header .header-actions,
-  .drinks-header .header-actions,
-  .fruits-veggies-header .header-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-  .salads-header .header-actions a, .item-header .header-actions a, .menus-header .header-actions a,
-  .drinks-header .header-actions a,
-  .fruits-veggies-header .header-actions a {
-    width: 100%;
-    justify-content: center;
   }
 }
 

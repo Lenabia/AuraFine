@@ -3,7 +3,8 @@ FORMULAIRE CRÉATION/MODIFICATION FRUIT/LÉGUME
 ======================================== -->
 
 <!-- En-tête du formulaire -->
-<section class="form-header">
+<!-- refactor: utilisation de la classe générique .item-header -->
+<section class="item-header">
     <header>
         <h2><?= $isEdit ? 'Modifier le Fruit/Légume' : 'Nouveau Fruit/Légume' ?></h2>
         <p><?= $isEdit ? 'Modifiez les informations du fruit/légume' : 'Créez un nouveau fruit ou légume' ?></p>
@@ -40,10 +41,11 @@ FORMULAIRE CRÉATION/MODIFICATION FRUIT/LÉGUME
 <?php endif; ?>
 
 <!-- Formulaire -->
-<form method="POST" 
-      action="index.php?action=<?= $isEdit ? 'admin-fruits-legumes-update&id=' . $fruitVeggie['id'] : 'admin-fruits-legumes-store' ?>" 
-      enctype="multipart/form-data" 
-      class="fruit-veggie-form">
+<section class="form-container">
+    <form method="POST" 
+          action="index.php?action=<?= $isEdit ? 'admin-fruits-legumes-update&id=' . $fruitVeggie['id'] : 'admin-fruits-legumes-store' ?>" 
+          enctype="multipart/form-data" 
+          class="fruit-veggie-form">
     
     <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
     
@@ -165,7 +167,8 @@ FORMULAIRE CRÉATION/MODIFICATION FRUIT/LÉGUME
             <?= $isEdit ? 'Modifier le fruit/légume' : 'Créer le fruit/légume' ?>
         </button>
     </footer>
-</form>
+    </form>
+</section>
 
 <?php
 // Nettoyer les données temporaires après affichage

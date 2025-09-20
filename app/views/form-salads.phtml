@@ -3,7 +3,8 @@ FORMULAIRE CRÉATION/MODIFICATION SALADE
 ======================================== -->
 
 <!-- En-tête du formulaire -->
-<section class="form-header">
+<!-- refactor: utilisation de la classe générique .item-header -->
+<section class="item-header">
     <header>
         <h2><?= $isEdit ? 'Modifier la Salade' : 'Nouvelle Salade' ?></h2>
         <p><?= $isEdit ? 'Modifiez les informations de la salade' : 'Créez une nouvelle salade' ?></p>
