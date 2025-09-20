@@ -2,18 +2,20 @@
 PAGE GESTION DES SALADES - LISTE ET ACTIONS
 ======================================== -->
 
-<!-- En-tête avec bouton d'ajout -->
-<section class="salads-header">
+<!-- refactor: utilisation de la classe générique .item-header -->
+<section class="item-header">
     <header>
         <h2>Gestion des Salades</h2>
         <p>Créez et gérez vos salades fraîches</p>
     </header>
     <nav class="header-actions">
-        <a href="index.php?action=admin-catalog" class="btn-back">
+        <!-- refactor: utilisation de la classe générique .item-btn-back -->
+        <a href="index.php?action=admin-catalog" class="item-btn-back">
             <i class="fas fa-arrow-left"></i>
             Retour au Catalogue
         </a>
-        <a href="index.php?action=admin-salads-create" class="btn-add">
+        <!-- refactor: utilisation de la classe générique .item-btn-add -->
+        <a href="index.php?action=admin-salads-create" class="item-btn-add">
             <i class="fas fa-plus"></i>
             Ajouter une salade
         </a>
@@ -37,8 +39,8 @@ PAGE GESTION DES SALADES - LISTE ET ACTIONS
     <?php unset($_SESSION['error_message']); ?>
 <?php endif; ?>
 
-<!-- Statistiques -->
-<section class="salads-stats">
+<!-- refactor: utilisation de la classe générique .item-stats -->
+<section class="item-stats">
     <div class="stat-card">
         <div class="stat-icon">
             <i class="fas fa-leaf"></i>
@@ -68,26 +70,28 @@ PAGE GESTION DES SALADES - LISTE ET ACTIONS
     </div>
 </section>
 
-<!-- Liste des salades -->
-<section class="salads-list">
+<!-- refactor: utilisation de la classe générique .item-list -->
+<section class="item-list">
     <?php if (!empty($salads)): ?>
-        <div class="salads-grid">
+        <!-- refactor: utilisation de la classe générique .item-grid -->
+        <div class="item-grid">
             <?php foreach ($salads as $salad): ?>
-                <article class="salad-card">
-                    <header class="salad-header">
+                <!-- refactor: utilisation de la classe générique .item-card -->
+                <article class="item-card">
+                    <header class="item-header">
                         <?php if (!empty($salad['image'])): ?>
-                            <figure class="salad-image">
+                            <figure class="item-image">
                                 <img src="<?= htmlspecialchars($salad['image']) ?>" 
                                      alt="<?= htmlspecialchars($salad['name']) ?>"
                                      loading="lazy">
                             </figure>
                         <?php else: ?>
-                            <figure class="salad-image placeholder">
+                            <figure class="item-image placeholder">
                                 <i class="fas fa-leaf"></i>
                             </figure>
                         <?php endif; ?>
                         
-                        <div class="salad-status">
+                        <div class="item-status">
                             <?php if ($salad['is_available']): ?>
                                 <span class="status-badge available">
                                     <i class="fas fa-check"></i>
@@ -102,14 +106,14 @@ PAGE GESTION DES SALADES - LISTE ET ACTIONS
                         </div>
                     </header>
                     
-                    <section class="salad-content">
-                        <h3 class="salad-name"><?= htmlspecialchars($salad['name']) ?></h3>
+                    <section class="item-content">
+                        <h3 class="item-name"><?= htmlspecialchars($salad['name']) ?></h3>
                         
                         <?php if (!empty($salad['description'])): ?>
-                            <p class="salad-description"><?= htmlspecialchars($salad['description']) ?></p>
+                            <p class="item-description"><?= htmlspecialchars($salad['description']) ?></p>
                         <?php endif; ?>
                         
-                        <div class="salad-details">
+                        <div class="item-details">
                             <div class="detail-item">
                                 <i class="fas fa-tag"></i>
                                 <span><?= number_format($salad['price'], 0, ',', ' ') ?> FCFA</span>
@@ -121,9 +125,10 @@ PAGE GESTION DES SALADES - LISTE ET ACTIONS
                         </div>
                     </section>
                     
-                    <footer class="salad-actions">
+                    <footer class="item-actions">
+                        <!-- refactor: utilisation de la classe générique .item-btn-edit -->
                         <a href="index.php?action=admin-salads-edit&id=<?= $salad['id'] ?>" 
-                           class="btn-edit" title="Modifier">
+                           class="item-btn-edit" title="Modifier">
                             <i class="fas fa-edit"></i>
                             Modifier
                         </a>
@@ -132,7 +137,8 @@ PAGE GESTION DES SALADES - LISTE ET ACTIONS
                               class="delete-form" 
                               onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette salade ?')">
                             <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
-                            <button type="submit" class="btn-delete" title="Supprimer">
+                            <!-- refactor: utilisation de la classe générique .item-btn-delete -->
+                            <button type="submit" class="item-btn-delete" title="Supprimer">
                                 <i class="fas fa-trash"></i>
                                 Supprimer
                             </button>
@@ -149,7 +155,8 @@ PAGE GESTION DES SALADES - LISTE ET ACTIONS
             </figure>
             <h3>Aucune salade créée</h3>
             <p>Commencez par créer votre première salade</p>
-            <a href="index.php?action=admin-salads-create" class="btn-add">
+            <!-- refactor: utilisation de la classe générique .item-btn-add -->
+            <a href="index.php?action=admin-salads-create" class="item-btn-add">
                 <i class="fas fa-plus"></i>
                 Ajouter une salade
             </a>

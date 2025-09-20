@@ -2,18 +2,20 @@
 PAGE GESTION DES BOISSONS - LISTE ET ACTIONS
 ======================================== -->
 
-<!-- En-tête avec bouton d'ajout -->
-<section class="drinks-header">
+<!-- refactor: utilisation de la classe générique .item-header -->
+<section class="item-header">
     <header>
         <h2>Gestion des Boissons</h2>
         <p>Créez et gérez vos boissons rafraîchissantes</p>
     </header>
     <nav class="header-actions">
-        <a href="index.php?action=admin-catalog" class="btn-back">
+        <!-- refactor: utilisation de la classe générique .item-btn-back -->
+        <a href="index.php?action=admin-catalog" class="item-btn-back">
             <i class="fas fa-arrow-left"></i>
             Retour au Catalogue
         </a>
-        <a href="index.php?action=admin-drinks-create" class="btn-add">
+        <!-- refactor: utilisation de la classe générique .item-btn-add -->
+        <a href="index.php?action=admin-drinks-create" class="item-btn-add">
             <i class="fas fa-plus"></i>
             Ajouter une boisson
         </a>
@@ -37,8 +39,8 @@ PAGE GESTION DES BOISSONS - LISTE ET ACTIONS
     <?php unset($_SESSION['error_message']); ?>
 <?php endif; ?>
 
-<!-- Statistiques -->
-<section class="drinks-stats">
+<!-- refactor: utilisation de la classe générique .item-stats -->
+<section class="item-stats">
     <div class="stat-card">
         <div class="stat-icon">
             <i class="fas fa-wine-bottle"></i>
@@ -83,24 +85,25 @@ PAGE GESTION DES BOISSONS - LISTE ET ACTIONS
         </a>
     </section>
 <?php else: ?>
-    <!-- Grille des boissons -->
-    <section class="drinks-grid">
+    <!-- refactor: utilisation de la classe générique .item-grid -->
+    <section class="item-grid">
         <?php foreach ($drinks as $drink): ?>
-            <article class="drink-card">
-                <header class="drink-header">
+            <!-- refactor: utilisation de la classe générique .item-card -->
+            <article class="item-card">
+                <header class="item-header">
                     <?php if (!empty($drink['image'])): ?>
-                        <figure class="drink-image">
+                        <figure class="item-image">
                             <img src="<?= htmlspecialchars($drink['image']) ?>" 
                                  alt="<?= htmlspecialchars($drink['name']) ?>"
                                  loading="lazy">
                         </figure>
                     <?php else: ?>
-                        <figure class="drink-image placeholder">
+                        <figure class="item-image placeholder">
                             <i class="fas fa-wine-bottle"></i>
                         </figure>
                     <?php endif; ?>
                     
-                    <div class="drink-status">
+                    <div class="item-status">
                         <?php if ($drink['is_available']): ?>
                             <span class="status-badge available">
                                 <i class="fas fa-check"></i>
@@ -115,14 +118,14 @@ PAGE GESTION DES BOISSONS - LISTE ET ACTIONS
                     </div>
                 </header>
                 
-                <div class="drink-content">
-                    <h3 class="drink-name"><?= htmlspecialchars($drink['name']) ?></h3>
+                <div class="item-content">
+                    <h3 class="item-name"><?= htmlspecialchars($drink['name']) ?></h3>
                     
-                    <div class="drink-description">
+                    <div class="item-description">
                         <p><?= htmlspecialchars($drink['description']) ?></p>
                     </div>
                     
-                    <div class="drink-details">
+                    <div class="item-details">
                         <div class="detail-item">
                             <i class="fas fa-tag"></i>
                             <span class="price"><?= number_format($drink['price'], 0, ',', ' ') ?> FCFA</span>
@@ -142,9 +145,10 @@ PAGE GESTION DES BOISSONS - LISTE ET ACTIONS
                     </div>
                 </div>
                 
-                <footer class="drink-actions">
+                <footer class="item-actions">
+                    <!-- refactor: utilisation de la classe générique .item-btn-edit -->
                     <a href="index.php?action=admin-drinks-edit&id=<?= $drink['id'] ?>" 
-                       class="btn-edit">
+                       class="item-btn-edit">
                         <i class="fas fa-edit"></i>
                         Modifier
                     </a>
@@ -152,7 +156,8 @@ PAGE GESTION DES BOISSONS - LISTE ET ACTIONS
                           class="delete-form"
                           onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette boisson ?')">
                         <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
-                        <button type="submit" class="btn-delete">
+                        <!-- refactor: utilisation de la classe générique .item-btn-delete -->
+                        <button type="submit" class="item-btn-delete">
                             <i class="fas fa-trash"></i>
                             Supprimer
                         </button>

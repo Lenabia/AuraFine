@@ -2,18 +2,20 @@
 PAGE GESTION DES FRUITS & LÉGUMES - LISTE ET ACTIONS
 ======================================== -->
 
-<!-- En-tête avec bouton d'ajout -->
-<section class="fruits-veggies-header">
+<!-- refactor: utilisation de la classe générique .item-header -->
+<section class="item-header">
     <header>
         <h2>Gestion des Fruits & Légumes</h2>
         <p>Créez et gérez vos fruits et légumes frais</p>
     </header>
     <nav class="header-actions">
-        <a href="index.php?action=admin-catalog" class="btn-back">
+        <!-- refactor: utilisation de la classe générique .item-btn-back -->
+        <a href="index.php?action=admin-catalog" class="item-btn-back">
             <i class="fas fa-arrow-left"></i>
             Retour au Catalogue
         </a>
-        <a href="index.php?action=admin-fruits-legumes-create" class="btn-add">
+        <!-- refactor: utilisation de la classe générique .item-btn-add -->
+        <a href="index.php?action=admin-fruits-legumes-create" class="item-btn-add">
             <i class="fas fa-plus"></i>
             Ajouter un fruit/légume
         </a>
@@ -37,8 +39,8 @@ PAGE GESTION DES FRUITS & LÉGUMES - LISTE ET ACTIONS
     <?php unset($_SESSION['error_message']); ?>
 <?php endif; ?>
 
-<!-- Statistiques -->
-<section class="fruits-veggies-stats">
+<!-- refactor: utilisation de la classe générique .item-stats -->
+<section class="item-stats">
     <div class="stat-card">
         <div class="stat-icon">
             <i class="fas fa-seedling"></i>
@@ -83,24 +85,25 @@ PAGE GESTION DES FRUITS & LÉGUMES - LISTE ET ACTIONS
         </a>
     </section>
 <?php else: ?>
-    <!-- Grille des fruits et légumes -->
-    <section class="fruits-veggies-grid">
+    <!-- refactor: utilisation de la classe générique .item-grid -->
+    <section class="item-grid">
         <?php foreach ($fruitsVeggies as $fruitVeggie): ?>
-            <article class="fruit-veggie-card">
-                <header class="fruit-veggie-header">
+            <!-- refactor: utilisation de la classe générique .item-card -->
+            <article class="item-card">
+                <header class="item-header">
                     <?php if (!empty($fruitVeggie['image'])): ?>
-                        <figure class="fruit-veggie-image">
+                        <figure class="item-image">
                             <img src="<?= htmlspecialchars($fruitVeggie['image']) ?>" 
                                  alt="<?= htmlspecialchars($fruitVeggie['name']) ?>"
                                  loading="lazy">
                         </figure>
                     <?php else: ?>
-                        <figure class="fruit-veggie-image placeholder">
+                        <figure class="item-image placeholder">
                             <i class="fas fa-seedling"></i>
                         </figure>
                     <?php endif; ?>
                     
-                    <div class="fruit-veggie-status">
+                    <div class="item-status">
                         <?php if ($fruitVeggie['is_available']): ?>
                             <span class="status-badge available">
                                 <i class="fas fa-check"></i>
@@ -115,14 +118,14 @@ PAGE GESTION DES FRUITS & LÉGUMES - LISTE ET ACTIONS
                     </div>
                 </header>
                 
-                <div class="fruit-veggie-content">
-                    <h3 class="fruit-veggie-name"><?= htmlspecialchars($fruitVeggie['name']) ?></h3>
+                <div class="item-content">
+                    <h3 class="item-name"><?= htmlspecialchars($fruitVeggie['name']) ?></h3>
                     
-                    <div class="fruit-veggie-description">
+                    <div class="item-description">
                         <p><?= htmlspecialchars($fruitVeggie['description']) ?></p>
                     </div>
                     
-                    <div class="fruit-veggie-details">
+                    <div class="item-details">
                         <div class="detail-item">
                             <i class="fas fa-tag"></i>
                             <span class="price"><?= number_format($fruitVeggie['price'], 0, ',', ' ') ?> FCFA</span>
@@ -142,9 +145,10 @@ PAGE GESTION DES FRUITS & LÉGUMES - LISTE ET ACTIONS
                     </div>
                 </div>
                 
-                <footer class="fruit-veggie-actions">
+                <footer class="item-actions">
+                    <!-- refactor: utilisation de la classe générique .item-btn-edit -->
                     <a href="index.php?action=admin-fruits-legumes-edit&id=<?= $fruitVeggie['id'] ?>" 
-                       class="btn-edit">
+                       class="item-btn-edit">
                         <i class="fas fa-edit"></i>
                         Modifier
                     </a>
@@ -152,7 +156,8 @@ PAGE GESTION DES FRUITS & LÉGUMES - LISTE ET ACTIONS
                           class="delete-form"
                           onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce fruit/légume ?')">
                         <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
-                        <button type="submit" class="btn-delete">
+                        <!-- refactor: utilisation de la classe générique .item-btn-delete -->
+                        <button type="submit" class="item-btn-delete">
                             <i class="fas fa-trash"></i>
                             Supprimer
                         </button>

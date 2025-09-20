@@ -1445,7 +1445,7 @@
 }
 
 /* Pages CRUD */
-.salads-header,
+.salads-header, .item-header,
 .menus-header,
 .drinks-header,
 .fruits-veggies-header {
@@ -1456,7 +1456,7 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
-.salads-header header h2,
+.salads-header header h2, .item-header header h2,
 .drinks-header header h2,
 .menus-header header h2,
 .fruits-veggies-header header h2 {
@@ -1465,14 +1465,14 @@
   color: #1a1a1a;
   margin-bottom: 0.25rem;
 }
-.salads-header header p,
+.salads-header header p, .item-header header p,
 .drinks-header header p,
 .menus-header header p,
 .fruits-veggies-header header p {
   color: #6c757d;
   margin: 0;
 }
-.salads-header .header-actions,
+.salads-header .header-actions, .item-header .header-actions,
 .drinks-header .header-actions,
 .menus-header .header-actions,
 .fruits-veggies-header .header-actions {
@@ -1481,29 +1481,41 @@
   flex-wrap: wrap;
 }
 @media (max-width: 480px) {
-  .salads-header .header-actions,
+  .salads-header .header-actions, .item-header .header-actions,
   .drinks-header .header-actions,
   .menus-header .header-actions,
   .fruits-veggies-header .header-actions {
     flex-direction: column;
     width: 100%;
   }
-  .salads-header .header-actions .btn-back,
+  .salads-header .header-actions .btn-back, .salads-header .header-actions .item-btn-back, .item-header .header-actions .btn-back, .item-header .header-actions .item-btn-back,
   .salads-header .header-actions .btn-add,
+  .salads-header .header-actions .item-btn-add,
+  .item-header .header-actions .btn-add,
+  .item-header .header-actions .item-btn-add,
   .drinks-header .header-actions .btn-back,
+  .drinks-header .header-actions .item-btn-back,
   .drinks-header .header-actions .btn-add,
+  .drinks-header .header-actions .item-btn-add,
   .menus-header .header-actions .btn-back,
+  .menus-header .header-actions .item-btn-back,
   .menus-header .header-actions .btn-add,
+  .menus-header .header-actions .item-btn-add,
   .fruits-veggies-header .header-actions .btn-back,
-  .fruits-veggies-header .header-actions .btn-add {
+  .fruits-veggies-header .header-actions .item-btn-back,
+  .fruits-veggies-header .header-actions .btn-add,
+  .fruits-veggies-header .header-actions .item-btn-add {
     width: 100%;
     justify-content: center;
   }
 }
-.salads-header .header-actions .btn-back,
+.salads-header .header-actions .btn-back, .salads-header .header-actions .item-btn-back, .item-header .header-actions .btn-back, .item-header .header-actions .item-btn-back,
 .drinks-header .header-actions .btn-back,
+.drinks-header .header-actions .item-btn-back,
 .menus-header .header-actions .btn-back,
-.fruits-veggies-header .header-actions .btn-back {
+.menus-header .header-actions .item-btn-back,
+.fruits-veggies-header .header-actions .btn-back,
+.fruits-veggies-header .header-actions .item-btn-back {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -1517,25 +1529,34 @@
   background: #ffffff;
   color: #495057;
 }
-.salads-header .header-actions .btn-back:hover,
+.salads-header .header-actions .btn-back:hover, .salads-header .header-actions .item-btn-back:hover, .item-header .header-actions .btn-back:hover, .item-header .header-actions .item-btn-back:hover,
 .drinks-header .header-actions .btn-back:hover,
+.drinks-header .header-actions .item-btn-back:hover,
 .menus-header .header-actions .btn-back:hover,
-.fruits-veggies-header .header-actions .btn-back:hover {
+.menus-header .header-actions .item-btn-back:hover,
+.fruits-veggies-header .header-actions .btn-back:hover,
+.fruits-veggies-header .header-actions .item-btn-back:hover {
   background: rgba(248, 249, 250, 0.1);
   border-color: #6c757d;
   color: #1a1a1a;
   transform: translateX(-2px);
 }
-.salads-header .header-actions .btn-back i,
+.salads-header .header-actions .btn-back i, .salads-header .header-actions .item-btn-back i, .item-header .header-actions .btn-back i, .item-header .header-actions .item-btn-back i,
 .drinks-header .header-actions .btn-back i,
+.drinks-header .header-actions .item-btn-back i,
 .menus-header .header-actions .btn-back i,
-.fruits-veggies-header .header-actions .btn-back i {
+.menus-header .header-actions .item-btn-back i,
+.fruits-veggies-header .header-actions .btn-back i,
+.fruits-veggies-header .header-actions .item-btn-back i {
   font-size: 0.8rem;
 }
-.salads-header .header-actions .btn-add,
+.salads-header .header-actions .btn-add, .salads-header .header-actions .item-btn-add, .item-header .header-actions .btn-add, .item-header .header-actions .item-btn-add,
 .drinks-header .header-actions .btn-add,
+.drinks-header .header-actions .item-btn-add,
 .menus-header .header-actions .btn-add,
-.fruits-veggies-header .header-actions .btn-add {
+.menus-header .header-actions .item-btn-add,
+.fruits-veggies-header .header-actions .btn-add,
+.fruits-veggies-header .header-actions .item-btn-add {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -1550,38 +1571,53 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.salads-header .header-actions .btn-add:hover,
+.salads-header .header-actions .btn-add:hover, .salads-header .header-actions .item-btn-add:hover, .item-header .header-actions .btn-add:hover, .item-header .header-actions .item-btn-add:hover,
 .drinks-header .header-actions .btn-add:hover,
+.drinks-header .header-actions .item-btn-add:hover,
 .menus-header .header-actions .btn-add:hover,
-.fruits-veggies-header .header-actions .btn-add:hover {
+.menus-header .header-actions .item-btn-add:hover,
+.fruits-veggies-header .header-actions .btn-add:hover,
+.fruits-veggies-header .header-actions .item-btn-add:hover {
   background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
-.salads-header .header-actions .btn-add:active,
+.salads-header .header-actions .btn-add:active, .salads-header .header-actions .item-btn-add:active, .item-header .header-actions .btn-add:active, .item-header .header-actions .item-btn-add:active,
 .drinks-header .header-actions .btn-add:active,
+.drinks-header .header-actions .item-btn-add:active,
 .menus-header .header-actions .btn-add:active,
-.fruits-veggies-header .header-actions .btn-add:active {
+.menus-header .header-actions .item-btn-add:active,
+.fruits-veggies-header .header-actions .btn-add:active,
+.fruits-veggies-header .header-actions .item-btn-add:active {
   transform: translateY(0);
 }
-.salads-header .header-actions .btn-add i,
+.salads-header .header-actions .btn-add i, .salads-header .header-actions .item-btn-add i, .item-header .header-actions .btn-add i, .item-header .header-actions .item-btn-add i,
 .drinks-header .header-actions .btn-add i,
+.drinks-header .header-actions .item-btn-add i,
 .menus-header .header-actions .btn-add i,
-.fruits-veggies-header .header-actions .btn-add i {
+.menus-header .header-actions .item-btn-add i,
+.fruits-veggies-header .header-actions .btn-add i,
+.fruits-veggies-header .header-actions .item-btn-add i {
   font-size: 0.8rem;
 }
-.salads-header .header-actions .btn-add.disabled,
+.salads-header .header-actions .btn-add.disabled, .salads-header .header-actions .disabled.item-btn-add, .item-header .header-actions .btn-add.disabled, .item-header .header-actions .disabled.item-btn-add,
 .drinks-header .header-actions .btn-add.disabled,
+.drinks-header .header-actions .disabled.item-btn-add,
 .menus-header .header-actions .btn-add.disabled,
-.fruits-veggies-header .header-actions .btn-add.disabled {
+.menus-header .header-actions .disabled.item-btn-add,
+.fruits-veggies-header .header-actions .btn-add.disabled,
+.fruits-veggies-header .header-actions .disabled.item-btn-add {
   background: #6c757d;
   cursor: not-allowed;
   opacity: 0.6;
 }
-.salads-header .header-actions .btn-add.disabled:hover,
+.salads-header .header-actions .btn-add.disabled:hover, .salads-header .header-actions .disabled.item-btn-add:hover, .item-header .header-actions .btn-add.disabled:hover, .item-header .header-actions .disabled.item-btn-add:hover,
 .drinks-header .header-actions .btn-add.disabled:hover,
+.drinks-header .header-actions .disabled.item-btn-add:hover,
 .menus-header .header-actions .btn-add.disabled:hover,
-.fruits-veggies-header .header-actions .btn-add.disabled:hover {
+.menus-header .header-actions .disabled.item-btn-add:hover,
+.fruits-veggies-header .header-actions .btn-add.disabled:hover,
+.fruits-veggies-header .header-actions .disabled.item-btn-add:hover {
   transform: none;
 }
 
@@ -1609,39 +1645,39 @@
 }
 
 /* Statistiques */
-.salads-stats, .menus-stats {
+.salads-stats, .item-stats, .menus-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
   margin-bottom: 2rem;
 }
 @media (max-width: 480px) {
-  .salads-stats, .menus-stats {
+  .salads-stats, .item-stats, .menus-stats {
     grid-template-columns: 1fr;
     gap: 0.75rem;
   }
 }
-.salads-stats .stat-card, .menus-stats .stat-card {
+.salads-stats .stat-card, .item-stats .stat-card, .menus-stats .stat-card {
   text-align: center;
 }
-.salads-stats .stat-card header, .menus-stats .stat-card header {
+.salads-stats .stat-card header, .item-stats .stat-card header, .menus-stats .stat-card header {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
   margin-bottom: 1rem;
 }
-.salads-stats .stat-card header i, .menus-stats .stat-card header i {
+.salads-stats .stat-card header i, .item-stats .stat-card header i, .menus-stats .stat-card header i {
   font-size: 1.5rem;
   color: #e91e63;
 }
-.salads-stats .stat-card header h3, .menus-stats .stat-card header h3 {
+.salads-stats .stat-card header h3, .item-stats .stat-card header h3, .menus-stats .stat-card header h3 {
   font-size: 0.9rem;
   font-weight: 600;
   color: #495057;
   margin: 0;
 }
-.salads-stats .stat-card .stat-number, .menus-stats .stat-card .stat-number {
+.salads-stats .stat-card .stat-number, .item-stats .stat-card .stat-number, .menus-stats .stat-card .stat-number {
   font-size: 2rem;
   font-weight: 700;
   color: #1a1a1a;
@@ -1649,28 +1685,28 @@
 }
 
 /* Liste des produits */
-.salads-list, .menus-list {
+.salads-list, .item-list, .menus-list {
   margin-top: 2rem;
 }
 
 /* Grille des produits */
-.salads-grid, .admin-container .menus-grid {
+.salads-grid, .item-grid, .admin-container .menus-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
 }
 @media (min-width: 600px) {
-  .salads-grid, .admin-container .menus-grid {
+  .salads-grid, .item-grid, .admin-container .menus-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (min-width: 768px) {
-  .salads-grid, .admin-container .menus-grid {
+  .salads-grid, .item-grid, .admin-container .menus-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 @media (max-width: 480px) {
-  .salads-grid, .admin-container .menus-grid {
+  .salads-grid, .item-grid, .admin-container .menus-grid {
     gap: 1rem;
   }
 }
@@ -1721,36 +1757,36 @@
   margin: 0 auto;
 }
 
-.salad-card .salad-header, .menu-card .salad-header, .menu-card .menu-header {
+.salad-card .salad-header, .item-card .salad-header, .menu-card .salad-header, .menu-card .menu-header {
   position: relative;
 }
-.salad-card .salad-header .salad-image, .salad-card .salad-header .menu-card .menu-image, .menu-card .salad-header .salad-image, .menu-card .salad-header .menu-image, .menu-card .menu-header .salad-image, .menu-card .menu-header .menu-image {
+.salad-card .salad-header .salad-image, .salad-card .salad-header .item-image, .item-card .salad-header .salad-image, .item-card .salad-header .item-image, .salad-card .salad-header .menu-card .menu-image, .item-card .salad-header .menu-card .menu-image, .menu-card .salad-header .salad-image, .menu-card .salad-header .item-image, .menu-card .salad-header .menu-image, .menu-card .menu-header .salad-image, .menu-card .menu-header .item-image, .menu-card .menu-header .menu-image {
   width: 100%;
   height: 200px;
   overflow: hidden;
   margin: 0;
 }
-.salad-card .salad-header .salad-image img, .salad-card .salad-header .menu-card .menu-image img, .menu-card .salad-header .salad-image img, .menu-card .salad-header .menu-image img, .menu-card .menu-header .salad-image img, .menu-card .menu-header .menu-image img {
+.salad-card .salad-header .salad-image img, .salad-card .salad-header .item-image img, .item-card .salad-header .salad-image img, .item-card .salad-header .item-image img, .salad-card .salad-header .menu-card .menu-image img, .item-card .salad-header .menu-card .menu-image img, .menu-card .salad-header .salad-image img, .menu-card .salad-header .item-image img, .menu-card .salad-header .menu-image img, .menu-card .menu-header .salad-image img, .menu-card .menu-header .item-image img, .menu-card .menu-header .menu-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.salad-card .salad-header .salad-image.placeholder, .salad-card .salad-header .menu-card .placeholder.menu-image, .menu-card .salad-header .salad-image.placeholder, .menu-card .salad-header .placeholder.menu-image, .menu-card .menu-header .salad-image.placeholder, .menu-card .menu-header .placeholder.menu-image {
+.salad-card .salad-header .salad-image.placeholder, .salad-card .salad-header .placeholder.item-image, .item-card .salad-header .salad-image.placeholder, .item-card .salad-header .placeholder.item-image, .salad-card .salad-header .menu-card .placeholder.menu-image, .item-card .salad-header .menu-card .placeholder.menu-image, .menu-card .salad-header .salad-image.placeholder, .menu-card .salad-header .placeholder.item-image, .menu-card .salad-header .placeholder.menu-image, .menu-card .menu-header .salad-image.placeholder, .menu-card .menu-header .placeholder.item-image, .menu-card .menu-header .placeholder.menu-image {
   background: linear-gradient(135deg, #e91e63, #4caf50);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.salad-card .salad-header .salad-image.placeholder i, .salad-card .salad-header .menu-card .placeholder.menu-image i, .menu-card .salad-header .salad-image.placeholder i, .menu-card .salad-header .placeholder.menu-image i, .menu-card .menu-header .salad-image.placeholder i, .menu-card .menu-header .placeholder.menu-image i {
+.salad-card .salad-header .salad-image.placeholder i, .salad-card .salad-header .placeholder.item-image i, .item-card .salad-header .salad-image.placeholder i, .item-card .salad-header .placeholder.item-image i, .salad-card .salad-header .menu-card .placeholder.menu-image i, .item-card .salad-header .menu-card .placeholder.menu-image i, .menu-card .salad-header .salad-image.placeholder i, .menu-card .salad-header .placeholder.item-image i, .menu-card .salad-header .placeholder.menu-image i, .menu-card .menu-header .salad-image.placeholder i, .menu-card .menu-header .placeholder.item-image i, .menu-card .menu-header .placeholder.menu-image i {
   font-size: 3rem;
   color: #ffffff;
 }
-.salad-card .salad-header .salad-status, .menu-card .salad-header .salad-status, .menu-card .menu-header .salad-status {
+.salad-card .salad-header .salad-status, .salad-card .salad-header .item-status, .item-card .salad-header .salad-status, .item-card .salad-header .item-status, .menu-card .salad-header .salad-status, .menu-card .salad-header .item-status, .menu-card .menu-header .salad-status, .menu-card .menu-header .item-status {
   position: absolute;
   top: 1rem;
   right: 1rem;
 }
-.salad-card .salad-header .salad-status .status-badge, .menu-card .salad-header .salad-status .status-badge, .menu-card .menu-header .salad-status .status-badge {
+.salad-card .salad-header .salad-status .status-badge, .salad-card .salad-header .item-status .status-badge, .item-card .salad-header .salad-status .status-badge, .item-card .salad-header .item-status .status-badge, .menu-card .salad-header .salad-status .status-badge, .menu-card .salad-header .item-status .status-badge, .menu-card .menu-header .salad-status .status-badge, .menu-card .menu-header .item-status .status-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -1759,55 +1795,76 @@
   font-size: 0.8rem;
   font-weight: 600;
 }
-.salad-card .salad-header .salad-status .status-badge.available, .menu-card .salad-header .salad-status .status-badge.available, .menu-card .menu-header .salad-status .status-badge.available {
+.salad-card .salad-header .salad-status .status-badge.available, .salad-card .salad-header .item-status .status-badge.available, .item-card .salad-header .salad-status .status-badge.available, .item-card .salad-header .item-status .status-badge.available, .menu-card .salad-header .salad-status .status-badge.available, .menu-card .salad-header .item-status .status-badge.available, .menu-card .menu-header .salad-status .status-badge.available, .menu-card .menu-header .item-status .status-badge.available {
   background: rgba(22, 163, 74, 0.9);
   color: #ffffff;
 }
-.salad-card .salad-header .salad-status .status-badge.unavailable, .menu-card .salad-header .salad-status .status-badge.unavailable, .menu-card .menu-header .salad-status .status-badge.unavailable {
+.salad-card .salad-header .salad-status .status-badge.unavailable, .salad-card .salad-header .item-status .status-badge.unavailable, .item-card .salad-header .salad-status .status-badge.unavailable, .item-card .salad-header .item-status .status-badge.unavailable, .menu-card .salad-header .salad-status .status-badge.unavailable, .menu-card .salad-header .item-status .status-badge.unavailable, .menu-card .menu-header .salad-status .status-badge.unavailable, .menu-card .menu-header .item-status .status-badge.unavailable {
   background: rgba(220, 38, 38, 0.9);
   color: #ffffff;
 }
-.salad-card .salad-content, .menu-card .salad-content, .menu-card .menu-content,
+.salad-card .salad-content, .salad-card .item-content, .item-card .salad-content, .item-card .item-content, .menu-card .salad-content, .menu-card .item-content, .menu-card .menu-content,
 .salad-card .card-body,
+.item-card .card-body,
 .menu-card .card-body {
   padding: 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-.salad-card .salad-content .salad-name, .salad-card .salad-content .menu-card .menu-name, .menu-card .salad-content .salad-name, .menu-card .salad-content .menu-name, .menu-card .menu-content .salad-name, .menu-card .menu-content .menu-name,
+.salad-card .salad-content .salad-name, .salad-card .salad-content .item-name, .salad-card .item-content .salad-name, .salad-card .item-content .item-name, .item-card .salad-content .salad-name, .item-card .salad-content .item-name, .item-card .item-content .salad-name, .item-card .item-content .item-name, .salad-card .salad-content .menu-card .menu-name, .salad-card .item-content .menu-card .menu-name, .item-card .salad-content .menu-card .menu-name, .item-card .item-content .menu-card .menu-name, .menu-card .salad-content .salad-name, .menu-card .salad-content .item-name, .menu-card .item-content .salad-name, .menu-card .item-content .item-name, .menu-card .salad-content .menu-name, .menu-card .item-content .menu-name, .menu-card .menu-content .salad-name, .menu-card .menu-content .item-name, .menu-card .menu-content .menu-name,
 .salad-card .card-body .salad-name,
+.salad-card .card-body .item-name,
+.item-card .card-body .salad-name,
+.item-card .card-body .item-name,
 .salad-card .card-body .menu-card .menu-name,
+.item-card .card-body .menu-card .menu-name,
 .menu-card .card-body .salad-name,
+.menu-card .card-body .item-name,
 .menu-card .card-body .menu-name {
   font-size: 1.2rem;
   font-weight: 600;
   color: #1a1a1a;
   margin: 0 0 0.75rem 0;
 }
-.salad-card .salad-content .salad-description, .salad-card .salad-content .menu-card .menu-description, .menu-card .salad-content .salad-description, .menu-card .salad-content .menu-description, .menu-card .menu-content .salad-description, .menu-card .menu-content .menu-description,
+.salad-card .salad-content .salad-description, .salad-card .salad-content .item-description, .salad-card .item-content .salad-description, .salad-card .item-content .item-description, .item-card .salad-content .salad-description, .item-card .salad-content .item-description, .item-card .item-content .salad-description, .item-card .item-content .item-description, .salad-card .salad-content .menu-card .menu-description, .salad-card .item-content .menu-card .menu-description, .item-card .salad-content .menu-card .menu-description, .item-card .item-content .menu-card .menu-description, .menu-card .salad-content .salad-description, .menu-card .salad-content .item-description, .menu-card .item-content .salad-description, .menu-card .item-content .item-description, .menu-card .salad-content .menu-description, .menu-card .item-content .menu-description, .menu-card .menu-content .salad-description, .menu-card .menu-content .item-description, .menu-card .menu-content .menu-description,
 .salad-card .card-body .salad-description,
+.salad-card .card-body .item-description,
+.item-card .card-body .salad-description,
+.item-card .card-body .item-description,
 .salad-card .card-body .menu-card .menu-description,
+.item-card .card-body .menu-card .menu-description,
 .menu-card .card-body .salad-description,
+.menu-card .card-body .item-description,
 .menu-card .card-body .menu-description {
   color: #6c757d;
   line-height: 1.5;
   margin-bottom: 1rem;
   flex: 1;
 }
-.salad-card .salad-content .salad-details, .salad-card .salad-content .menu-card .menu-details, .menu-card .salad-content .salad-details, .menu-card .salad-content .menu-details, .menu-card .menu-content .salad-details, .menu-card .menu-content .menu-details,
+.salad-card .salad-content .salad-details, .salad-card .salad-content .item-details, .salad-card .item-content .salad-details, .salad-card .item-content .item-details, .item-card .salad-content .salad-details, .item-card .salad-content .item-details, .item-card .item-content .salad-details, .item-card .item-content .item-details, .salad-card .salad-content .menu-card .menu-details, .salad-card .item-content .menu-card .menu-details, .item-card .salad-content .menu-card .menu-details, .item-card .item-content .menu-card .menu-details, .menu-card .salad-content .salad-details, .menu-card .salad-content .item-details, .menu-card .item-content .salad-details, .menu-card .item-content .item-details, .menu-card .salad-content .menu-details, .menu-card .item-content .menu-details, .menu-card .menu-content .salad-details, .menu-card .menu-content .item-details, .menu-card .menu-content .menu-details,
 .salad-card .card-body .salad-details,
+.salad-card .card-body .item-details,
+.item-card .card-body .salad-details,
+.item-card .card-body .item-details,
 .salad-card .card-body .menu-card .menu-details,
+.item-card .card-body .menu-card .menu-details,
 .menu-card .card-body .salad-details,
+.menu-card .card-body .item-details,
 .menu-card .card-body .menu-details {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-.salad-card .salad-content .salad-details .detail-item, .salad-card .salad-content .menu-card .menu-details .detail-item, .menu-card .salad-content .salad-details .detail-item, .menu-card .salad-content .menu-details .detail-item, .menu-card .menu-content .salad-details .detail-item, .menu-card .menu-content .menu-details .detail-item,
+.salad-card .salad-content .salad-details .detail-item, .salad-card .salad-content .item-details .detail-item, .salad-card .item-content .salad-details .detail-item, .salad-card .item-content .item-details .detail-item, .item-card .salad-content .salad-details .detail-item, .item-card .salad-content .item-details .detail-item, .item-card .item-content .salad-details .detail-item, .item-card .item-content .item-details .detail-item, .salad-card .salad-content .menu-card .menu-details .detail-item, .salad-card .item-content .menu-card .menu-details .detail-item, .item-card .salad-content .menu-card .menu-details .detail-item, .item-card .item-content .menu-card .menu-details .detail-item, .menu-card .salad-content .salad-details .detail-item, .menu-card .salad-content .item-details .detail-item, .menu-card .item-content .salad-details .detail-item, .menu-card .item-content .item-details .detail-item, .menu-card .salad-content .menu-details .detail-item, .menu-card .item-content .menu-details .detail-item, .menu-card .menu-content .salad-details .detail-item, .menu-card .menu-content .item-details .detail-item, .menu-card .menu-content .menu-details .detail-item,
 .salad-card .card-body .salad-details .detail-item,
+.salad-card .card-body .item-details .detail-item,
+.item-card .card-body .salad-details .detail-item,
+.item-card .card-body .item-details .detail-item,
 .salad-card .card-body .menu-card .menu-details .detail-item,
+.item-card .card-body .menu-card .menu-details .detail-item,
 .menu-card .card-body .salad-details .detail-item,
+.menu-card .card-body .item-details .detail-item,
 .menu-card .card-body .menu-details .detail-item {
   display: flex;
   align-items: center;
@@ -1815,38 +1872,59 @@
   color: #495057;
   font-size: 0.9rem;
 }
-.salad-card .salad-content .salad-details .detail-item i, .salad-card .salad-content .menu-card .menu-details .detail-item i, .menu-card .salad-content .salad-details .detail-item i, .menu-card .salad-content .menu-details .detail-item i, .menu-card .menu-content .salad-details .detail-item i, .menu-card .menu-content .menu-details .detail-item i,
+.salad-card .salad-content .salad-details .detail-item i, .salad-card .salad-content .item-details .detail-item i, .salad-card .item-content .salad-details .detail-item i, .salad-card .item-content .item-details .detail-item i, .item-card .salad-content .salad-details .detail-item i, .item-card .salad-content .item-details .detail-item i, .item-card .item-content .salad-details .detail-item i, .item-card .item-content .item-details .detail-item i, .salad-card .salad-content .menu-card .menu-details .detail-item i, .salad-card .item-content .menu-card .menu-details .detail-item i, .item-card .salad-content .menu-card .menu-details .detail-item i, .item-card .item-content .menu-card .menu-details .detail-item i, .menu-card .salad-content .salad-details .detail-item i, .menu-card .salad-content .item-details .detail-item i, .menu-card .item-content .salad-details .detail-item i, .menu-card .item-content .item-details .detail-item i, .menu-card .salad-content .menu-details .detail-item i, .menu-card .item-content .menu-details .detail-item i, .menu-card .menu-content .salad-details .detail-item i, .menu-card .menu-content .item-details .detail-item i, .menu-card .menu-content .menu-details .detail-item i,
 .salad-card .card-body .salad-details .detail-item i,
+.salad-card .card-body .item-details .detail-item i,
+.item-card .card-body .salad-details .detail-item i,
+.item-card .card-body .item-details .detail-item i,
 .salad-card .card-body .menu-card .menu-details .detail-item i,
+.item-card .card-body .menu-card .menu-details .detail-item i,
 .menu-card .card-body .salad-details .detail-item i,
+.menu-card .card-body .item-details .detail-item i,
 .menu-card .card-body .menu-details .detail-item i {
   color: #e91e63;
   width: 16px;
 }
-.salad-card .salad-content .salad-details .detail-item .price, .salad-card .salad-content .menu-card .menu-details .detail-item .price, .menu-card .salad-content .salad-details .detail-item .price, .menu-card .salad-content .menu-details .detail-item .price, .menu-card .menu-content .salad-details .detail-item .price, .menu-card .menu-content .menu-details .detail-item .price,
+.salad-card .salad-content .salad-details .detail-item .price, .salad-card .salad-content .item-details .detail-item .price, .salad-card .item-content .salad-details .detail-item .price, .salad-card .item-content .item-details .detail-item .price, .item-card .salad-content .salad-details .detail-item .price, .item-card .salad-content .item-details .detail-item .price, .item-card .item-content .salad-details .detail-item .price, .item-card .item-content .item-details .detail-item .price, .salad-card .salad-content .menu-card .menu-details .detail-item .price, .salad-card .item-content .menu-card .menu-details .detail-item .price, .item-card .salad-content .menu-card .menu-details .detail-item .price, .item-card .item-content .menu-card .menu-details .detail-item .price, .menu-card .salad-content .salad-details .detail-item .price, .menu-card .salad-content .item-details .detail-item .price, .menu-card .item-content .salad-details .detail-item .price, .menu-card .item-content .item-details .detail-item .price, .menu-card .salad-content .menu-details .detail-item .price, .menu-card .item-content .menu-details .detail-item .price, .menu-card .menu-content .salad-details .detail-item .price, .menu-card .menu-content .item-details .detail-item .price, .menu-card .menu-content .menu-details .detail-item .price,
 .salad-card .card-body .salad-details .detail-item .price,
+.salad-card .card-body .item-details .detail-item .price,
+.item-card .card-body .salad-details .detail-item .price,
+.item-card .card-body .item-details .detail-item .price,
 .salad-card .card-body .menu-card .menu-details .detail-item .price,
+.item-card .card-body .menu-card .menu-details .detail-item .price,
 .menu-card .card-body .salad-details .detail-item .price,
+.menu-card .card-body .item-details .detail-item .price,
 .menu-card .card-body .menu-details .detail-item .price {
   font-weight: 600;
   color: #4caf50;
 }
-.salad-card .salad-content .salad-details .detail-item .stock.available, .salad-card .salad-content .menu-card .menu-details .detail-item .stock.available, .menu-card .salad-content .salad-details .detail-item .stock.available, .menu-card .salad-content .menu-details .detail-item .stock.available, .menu-card .menu-content .salad-details .detail-item .stock.available, .menu-card .menu-content .menu-details .detail-item .stock.available,
+.salad-card .salad-content .salad-details .detail-item .stock.available, .salad-card .salad-content .item-details .detail-item .stock.available, .salad-card .item-content .salad-details .detail-item .stock.available, .salad-card .item-content .item-details .detail-item .stock.available, .item-card .salad-content .salad-details .detail-item .stock.available, .item-card .salad-content .item-details .detail-item .stock.available, .item-card .item-content .salad-details .detail-item .stock.available, .item-card .item-content .item-details .detail-item .stock.available, .salad-card .salad-content .menu-card .menu-details .detail-item .stock.available, .salad-card .item-content .menu-card .menu-details .detail-item .stock.available, .item-card .salad-content .menu-card .menu-details .detail-item .stock.available, .item-card .item-content .menu-card .menu-details .detail-item .stock.available, .menu-card .salad-content .salad-details .detail-item .stock.available, .menu-card .salad-content .item-details .detail-item .stock.available, .menu-card .item-content .salad-details .detail-item .stock.available, .menu-card .item-content .item-details .detail-item .stock.available, .menu-card .salad-content .menu-details .detail-item .stock.available, .menu-card .item-content .menu-details .detail-item .stock.available, .menu-card .menu-content .salad-details .detail-item .stock.available, .menu-card .menu-content .item-details .detail-item .stock.available, .menu-card .menu-content .menu-details .detail-item .stock.available,
 .salad-card .card-body .salad-details .detail-item .stock.available,
+.salad-card .card-body .item-details .detail-item .stock.available,
+.item-card .card-body .salad-details .detail-item .stock.available,
+.item-card .card-body .item-details .detail-item .stock.available,
 .salad-card .card-body .menu-card .menu-details .detail-item .stock.available,
+.item-card .card-body .menu-card .menu-details .detail-item .stock.available,
 .menu-card .card-body .salad-details .detail-item .stock.available,
+.menu-card .card-body .item-details .detail-item .stock.available,
 .menu-card .card-body .menu-details .detail-item .stock.available {
   color: #16a34a;
 }
-.salad-card .salad-content .salad-details .detail-item .stock.unavailable, .salad-card .salad-content .menu-card .menu-details .detail-item .stock.unavailable, .menu-card .salad-content .salad-details .detail-item .stock.unavailable, .menu-card .salad-content .menu-details .detail-item .stock.unavailable, .menu-card .menu-content .salad-details .detail-item .stock.unavailable, .menu-card .menu-content .menu-details .detail-item .stock.unavailable,
+.salad-card .salad-content .salad-details .detail-item .stock.unavailable, .salad-card .salad-content .item-details .detail-item .stock.unavailable, .salad-card .item-content .salad-details .detail-item .stock.unavailable, .salad-card .item-content .item-details .detail-item .stock.unavailable, .item-card .salad-content .salad-details .detail-item .stock.unavailable, .item-card .salad-content .item-details .detail-item .stock.unavailable, .item-card .item-content .salad-details .detail-item .stock.unavailable, .item-card .item-content .item-details .detail-item .stock.unavailable, .salad-card .salad-content .menu-card .menu-details .detail-item .stock.unavailable, .salad-card .item-content .menu-card .menu-details .detail-item .stock.unavailable, .item-card .salad-content .menu-card .menu-details .detail-item .stock.unavailable, .item-card .item-content .menu-card .menu-details .detail-item .stock.unavailable, .menu-card .salad-content .salad-details .detail-item .stock.unavailable, .menu-card .salad-content .item-details .detail-item .stock.unavailable, .menu-card .item-content .salad-details .detail-item .stock.unavailable, .menu-card .item-content .item-details .detail-item .stock.unavailable, .menu-card .salad-content .menu-details .detail-item .stock.unavailable, .menu-card .item-content .menu-details .detail-item .stock.unavailable, .menu-card .menu-content .salad-details .detail-item .stock.unavailable, .menu-card .menu-content .item-details .detail-item .stock.unavailable, .menu-card .menu-content .menu-details .detail-item .stock.unavailable,
 .salad-card .card-body .salad-details .detail-item .stock.unavailable,
+.salad-card .card-body .item-details .detail-item .stock.unavailable,
+.item-card .card-body .salad-details .detail-item .stock.unavailable,
+.item-card .card-body .item-details .detail-item .stock.unavailable,
 .salad-card .card-body .menu-card .menu-details .detail-item .stock.unavailable,
+.item-card .card-body .menu-card .menu-details .detail-item .stock.unavailable,
 .menu-card .card-body .salad-details .detail-item .stock.unavailable,
+.menu-card .card-body .item-details .detail-item .stock.unavailable,
 .menu-card .card-body .menu-details .detail-item .stock.unavailable {
   color: #dc2626;
 }
-.salad-card .salad-actions, .menu-card .salad-actions, .menu-card .menu-actions,
+.salad-card .salad-actions, .salad-card .item-actions, .item-card .salad-actions, .item-card .item-actions, .menu-card .salad-actions, .menu-card .item-actions, .menu-card .menu-actions,
 .salad-card .card-actions,
+.item-card .card-actions,
 .menu-card .card-actions {
   padding: 1rem 1.5rem;
   background: rgba(248, 249, 250, 0.3);
@@ -1856,21 +1934,41 @@
   flex-shrink: 0;
 }
 @media (max-width: 480px) {
-  .salad-card .salad-actions, .menu-card .salad-actions, .menu-card .menu-actions,
+  .salad-card .salad-actions, .salad-card .item-actions, .item-card .salad-actions, .item-card .item-actions, .menu-card .salad-actions, .menu-card .item-actions, .menu-card .menu-actions,
   .salad-card .card-actions,
+  .item-card .card-actions,
   .menu-card .card-actions {
     flex-direction: column;
     padding: 1rem;
   }
 }
-.salad-card .salad-actions .btn-edit, .menu-card .salad-actions .btn-edit, .menu-card .menu-actions .btn-edit,
+.salad-card .salad-actions .btn-edit, .salad-card .salad-actions .item-btn-edit, .salad-card .item-actions .btn-edit, .salad-card .item-actions .item-btn-edit, .item-card .salad-actions .btn-edit, .item-card .salad-actions .item-btn-edit, .item-card .item-actions .btn-edit, .item-card .item-actions .item-btn-edit, .menu-card .salad-actions .btn-edit, .menu-card .salad-actions .item-btn-edit, .menu-card .item-actions .btn-edit, .menu-card .item-actions .item-btn-edit, .menu-card .menu-actions .btn-edit, .menu-card .menu-actions .item-btn-edit,
 .salad-card .salad-actions .btn-delete,
+.salad-card .salad-actions .item-btn-delete,
+.salad-card .item-actions .btn-delete,
+.salad-card .item-actions .item-btn-delete,
+.item-card .salad-actions .btn-delete,
+.item-card .salad-actions .item-btn-delete,
+.item-card .item-actions .btn-delete,
+.item-card .item-actions .item-btn-delete,
 .menu-card .salad-actions .btn-delete,
+.menu-card .salad-actions .item-btn-delete,
+.menu-card .item-actions .btn-delete,
+.menu-card .item-actions .item-btn-delete,
 .menu-card .menu-actions .btn-delete,
+.menu-card .menu-actions .item-btn-delete,
 .salad-card .card-actions .btn-edit,
+.salad-card .card-actions .item-btn-edit,
+.item-card .card-actions .btn-edit,
+.item-card .card-actions .item-btn-edit,
 .menu-card .card-actions .btn-edit,
+.menu-card .card-actions .item-btn-edit,
 .salad-card .card-actions .btn-delete,
-.menu-card .card-actions .btn-delete {
+.salad-card .card-actions .item-btn-delete,
+.item-card .card-actions .btn-delete,
+.item-card .card-actions .item-btn-delete,
+.menu-card .card-actions .btn-delete,
+.menu-card .card-actions .item-btn-delete {
   flex: 1;
   display: inline-flex;
   align-items: center;
@@ -1886,63 +1984,39 @@
   cursor: pointer;
 }
 @media (max-width: 480px) {
-  .salad-card .salad-actions .btn-edit, .menu-card .salad-actions .btn-edit, .menu-card .menu-actions .btn-edit,
+  .salad-card .salad-actions .btn-edit, .salad-card .salad-actions .item-btn-edit, .salad-card .item-actions .btn-edit, .salad-card .item-actions .item-btn-edit, .item-card .salad-actions .btn-edit, .item-card .salad-actions .item-btn-edit, .item-card .item-actions .btn-edit, .item-card .item-actions .item-btn-edit, .menu-card .salad-actions .btn-edit, .menu-card .salad-actions .item-btn-edit, .menu-card .item-actions .btn-edit, .menu-card .item-actions .item-btn-edit, .menu-card .menu-actions .btn-edit, .menu-card .menu-actions .item-btn-edit,
   .salad-card .salad-actions .btn-delete,
+  .salad-card .salad-actions .item-btn-delete,
+  .salad-card .item-actions .btn-delete,
+  .salad-card .item-actions .item-btn-delete,
+  .item-card .salad-actions .btn-delete,
+  .item-card .salad-actions .item-btn-delete,
+  .item-card .item-actions .btn-delete,
+  .item-card .item-actions .item-btn-delete,
   .menu-card .salad-actions .btn-delete,
+  .menu-card .salad-actions .item-btn-delete,
+  .menu-card .item-actions .btn-delete,
+  .menu-card .item-actions .item-btn-delete,
   .menu-card .menu-actions .btn-delete,
+  .menu-card .menu-actions .item-btn-delete,
   .salad-card .card-actions .btn-edit,
+  .salad-card .card-actions .item-btn-edit,
+  .item-card .card-actions .btn-edit,
+  .item-card .card-actions .item-btn-edit,
   .menu-card .card-actions .btn-edit,
+  .menu-card .card-actions .item-btn-edit,
   .salad-card .card-actions .btn-delete,
-  .menu-card .card-actions .btn-delete {
+  .salad-card .card-actions .item-btn-delete,
+  .item-card .card-actions .btn-delete,
+  .item-card .card-actions .item-btn-delete,
+  .menu-card .card-actions .btn-delete,
+  .menu-card .card-actions .item-btn-delete {
     width: 100%;
   }
 }
 
 .drink-card .drink-header {
   position: relative;
-}
-.drink-card .drink-header .drink-image {
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-  margin: 0;
-}
-.drink-card .drink-header .drink-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.drink-card .drink-header .drink-image.placeholder {
-  background: linear-gradient(135deg, #e91e63, #4caf50);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.drink-card .drink-header .drink-image.placeholder i {
-  font-size: 3rem;
-  color: #ffffff;
-}
-.drink-card .drink-header .drink-status {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-}
-.drink-card .drink-header .drink-status .status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-.drink-card .drink-header .drink-status .status-badge.available {
-  background: rgba(22, 163, 74, 0.9);
-  color: #ffffff;
-}
-.drink-card .drink-header .drink-status .status-badge.unavailable {
-  background: rgba(220, 38, 38, 0.9);
-  color: #ffffff;
 }
 .drink-card .drink-content,
 .drink-card .card-body {
@@ -2017,49 +2091,6 @@
 .fruit-veggie-card .fruit-veggie-header {
   position: relative;
 }
-.fruit-veggie-card .fruit-veggie-header .fruit-veggie-image {
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-  margin: 0;
-}
-.fruit-veggie-card .fruit-veggie-header .fruit-veggie-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.fruit-veggie-card .fruit-veggie-header .fruit-veggie-image.placeholder {
-  background: linear-gradient(135deg, #4caf50, #e91e63);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.fruit-veggie-card .fruit-veggie-header .fruit-veggie-image.placeholder i {
-  font-size: 3rem;
-  color: #ffffff;
-}
-.fruit-veggie-card .fruit-veggie-header .fruit-veggie-status {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-}
-.fruit-veggie-card .fruit-veggie-header .fruit-veggie-status .status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-.fruit-veggie-card .fruit-veggie-header .fruit-veggie-status .status-badge.available {
-  background: rgba(22, 163, 74, 0.9);
-  color: #ffffff;
-}
-.fruit-veggie-card .fruit-veggie-header .fruit-veggie-status .status-badge.unavailable {
-  background: rgba(220, 38, 38, 0.9);
-  color: #ffffff;
-}
 .fruit-veggie-card .fruit-veggie-content,
 .fruit-veggie-card .card-body {
   padding: 1.5rem;
@@ -2130,7 +2161,7 @@
   }
 }
 
-.salads-grid, .admin-container .menus-grid,
+.salads-grid, .item-grid, .admin-container .menus-grid,
 .drinks-grid,
 .fruits-veggies-grid {
   display: grid;
@@ -2139,7 +2170,7 @@
   margin-top: 2rem;
 }
 @media (max-width: 768px) {
-  .salads-grid, .admin-container .menus-grid,
+  .salads-grid, .item-grid, .admin-container .menus-grid,
   .drinks-grid,
   .fruits-veggies-grid {
     grid-template-columns: 1fr;
@@ -2147,14 +2178,14 @@
   }
 }
 @media (max-width: 480px) {
-  .salads-grid, .admin-container .menus-grid,
+  .salads-grid, .item-grid, .admin-container .menus-grid,
   .drinks-grid,
   .fruits-veggies-grid {
     gap: 1rem;
   }
 }
 
-.salads-header, .menus-header,
+.salads-header, .item-header, .menus-header,
 .drinks-header,
 .fruits-veggies-header {
   display: flex;
@@ -2165,19 +2196,19 @@
   gap: 1rem;
 }
 @media (max-width: 768px) {
-  .salads-header, .menus-header,
+  .salads-header, .item-header, .menus-header,
   .drinks-header,
   .fruits-veggies-header {
     flex-direction: column;
     align-items: stretch;
   }
 }
-.salads-header header, .menus-header header,
+.salads-header header, .item-header header, .menus-header header,
 .drinks-header header,
 .fruits-veggies-header header {
   flex: 1;
 }
-.salads-header header h2, .menus-header header h2,
+.salads-header header h2, .item-header header h2, .menus-header header h2,
 .drinks-header header h2,
 .fruits-veggies-header header h2 {
   font-size: 1.75rem;
@@ -2185,13 +2216,13 @@
   color: #e91e63;
   margin-bottom: 0.5rem;
 }
-.salads-header header p, .menus-header header p,
+.salads-header header p, .item-header header p, .menus-header header p,
 .drinks-header header p,
 .fruits-veggies-header header p {
   color: #6c757d;
   font-size: 1rem;
 }
-.salads-header .header-actions, .menus-header .header-actions,
+.salads-header .header-actions, .item-header .header-actions, .menus-header .header-actions,
 .drinks-header .header-actions,
 .fruits-veggies-header .header-actions {
   display: flex;
@@ -2199,13 +2230,13 @@
   align-items: center;
 }
 @media (max-width: 480px) {
-  .salads-header .header-actions, .menus-header .header-actions,
+  .salads-header .header-actions, .item-header .header-actions, .menus-header .header-actions,
   .drinks-header .header-actions,
   .fruits-veggies-header .header-actions {
     flex-direction: column;
     width: 100%;
   }
-  .salads-header .header-actions a, .menus-header .header-actions a,
+  .salads-header .header-actions a, .item-header .header-actions a, .menus-header .header-actions a,
   .drinks-header .header-actions a,
   .fruits-veggies-header .header-actions a {
     width: 100%;
@@ -2213,7 +2244,7 @@
   }
 }
 
-.salads-stats, .menus-stats,
+.salads-stats, .item-stats, .menus-stats,
 .drinks-stats,
 .fruits-veggies-stats {
   display: grid;
@@ -2222,14 +2253,14 @@
   margin-bottom: 2rem;
 }
 @media (max-width: 480px) {
-  .salads-stats, .menus-stats,
+  .salads-stats, .item-stats, .menus-stats,
   .drinks-stats,
   .fruits-veggies-stats {
     grid-template-columns: 1fr;
     gap: 0.75rem;
   }
 }
-.salads-stats .stat-card, .menus-stats .stat-card,
+.salads-stats .stat-card, .item-stats .stat-card, .menus-stats .stat-card,
 .drinks-stats .stat-card,
 .fruits-veggies-stats .stat-card {
   background: white;
@@ -2240,7 +2271,7 @@
   align-items: center;
   gap: 1rem;
 }
-.salads-stats .stat-card .stat-icon, .menus-stats .stat-card .stat-icon,
+.salads-stats .stat-card .stat-icon, .item-stats .stat-card .stat-icon, .menus-stats .stat-card .stat-icon,
 .drinks-stats .stat-card .stat-icon,
 .fruits-veggies-stats .stat-card .stat-icon {
   width: 3rem;
@@ -2253,7 +2284,7 @@
   color: white;
   font-size: 1.25rem;
 }
-.salads-stats .stat-card .stat-content h3, .menus-stats .stat-card .stat-content h3,
+.salads-stats .stat-card .stat-content h3, .item-stats .stat-card .stat-content h3, .menus-stats .stat-card .stat-content h3,
 .drinks-stats .stat-card .stat-content h3,
 .fruits-veggies-stats .stat-card .stat-content h3 {
   font-size: 2rem;
@@ -2261,7 +2292,7 @@
   color: #e91e63;
   margin: 0;
 }
-.salads-stats .stat-card .stat-content p, .menus-stats .stat-card .stat-content p,
+.salads-stats .stat-card .stat-content p, .item-stats .stat-card .stat-content p, .menus-stats .stat-card .stat-content p,
 .drinks-stats .stat-card .stat-content p,
 .fruits-veggies-stats .stat-card .stat-content p {
   color: #6c757d;
@@ -2272,8 +2303,9 @@
 /* ========================================
    BOUTONS D'ACTION COMMUNS
    ======================================== */
-.btn-edit,
-.btn-delete {
+.btn-edit, .item-btn-edit,
+.btn-delete,
+.item-btn-delete {
   flex: 1;
   display: inline-flex;
   align-items: center;
@@ -2289,32 +2321,33 @@
   cursor: pointer;
 }
 @media (max-width: 480px) {
-  .btn-edit,
-  .btn-delete {
+  .btn-edit, .item-btn-edit,
+  .btn-delete,
+  .item-btn-delete {
     width: 100%;
   }
 }
 
-.btn-edit {
+.btn-edit, .item-btn-edit {
   background: #4caf50;
   color: #ffffff;
 }
-.btn-edit:hover {
+.btn-edit:hover, .item-btn-edit:hover {
   background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
   transform: translateY(-1px);
 }
 
-.btn-delete {
+.btn-delete, .item-btn-delete {
   background: #dc2626;
   color: #ffffff;
 }
-.btn-delete:hover {
+.btn-delete:hover, .item-btn-delete:hover {
   background: #b91c1c;
   transform: translateY(-1px);
 }
 
 /* Boutons de formulaire */
-.btn-save {
+.btn-save, .item-btn-save {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -2329,19 +2362,19 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.btn-save:hover {
+.btn-save:hover, .item-btn-save:hover {
   background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
-.btn-save:active {
+.btn-save:active, .item-btn-save:active {
   transform: translateY(0);
 }
-.btn-save i {
+.btn-save i, .item-btn-save i {
   font-size: 0.8rem;
 }
 
-.btn-cancel {
+.btn-cancel, .item-btn-cancel {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -2356,34 +2389,34 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.btn-cancel:hover {
+.btn-cancel:hover, .item-btn-cancel:hover {
   background: #f8f9fa;
   border-color: #6c757d;
   transform: translateY(-1px);
 }
-.btn-cancel:active {
+.btn-cancel:active, .item-btn-cancel:active {
   transform: translateY(0);
 }
-.btn-cancel i {
+.btn-cancel i, .item-btn-cancel i {
   font-size: 0.8rem;
 }
 
 /* ========================================
    FORMULAIRES DES PRODUITS
    ======================================== */
-.salad-form,
+.salad-form, .item-form,
 .drink-form,
 .fruit-veggie-form,
 .menu-form {
   /* Aperçu d'image actuelle */
 }
-.salad-form .form-group,
+.salad-form .form-group, .item-form .form-group,
 .drink-form .form-group,
 .fruit-veggie-form .form-group,
 .menu-form .form-group {
   margin-bottom: 1.5rem;
 }
-.salad-form .form-group .form-label,
+.salad-form .form-group .form-label, .item-form .form-group .form-label,
 .drink-form .form-group .form-label,
 .fruit-veggie-form .form-group .form-label,
 .menu-form .form-group .form-label {
@@ -2393,22 +2426,23 @@
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
 }
-.salad-form .form-group .form-label.required::after,
+.salad-form .form-group .form-label.required::after, .item-form .form-group .form-label.required::after,
 .drink-form .form-group .form-label.required::after,
 .fruit-veggie-form .form-group .form-label.required::after,
 .menu-form .form-group .form-label.required::after {
   content: " *";
   color: #dc2626;
 }
-.salad-form .form-group .form-label i,
+.salad-form .form-group .form-label i, .item-form .form-group .form-label i,
 .drink-form .form-group .form-label i,
 .fruit-veggie-form .form-group .form-label i,
 .menu-form .form-group .form-label i {
   margin-right: 0.5rem;
   color: #e91e63;
 }
-.salad-form .form-group .form-input,
+.salad-form .form-group .form-input, .item-form .form-group .form-input,
 .salad-form .form-group .form-textarea,
+.item-form .form-group .form-textarea,
 .drink-form .form-group .form-input,
 .drink-form .form-group .form-textarea,
 .fruit-veggie-form .form-group .form-input,
@@ -2417,13 +2451,14 @@
 .menu-form .form-group .form-textarea {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 2px solid rgba(248, 249, 250, 0.5);
+  border: 2px solid rgba(210, 215, 221, 0.5);
   border-radius: 0.5rem;
   font-size: 1rem;
   transition: all 0.3s ease;
 }
-.salad-form .form-group .form-input:focus,
+.salad-form .form-group .form-input:focus, .item-form .form-group .form-input:focus,
 .salad-form .form-group .form-textarea:focus,
+.item-form .form-group .form-textarea:focus,
 .drink-form .form-group .form-input:focus,
 .drink-form .form-group .form-textarea:focus,
 .fruit-veggie-form .form-group .form-input:focus,
@@ -2434,14 +2469,14 @@
   border-color: #e91e63;
   box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
 }
-.salad-form .form-group .form-textarea,
+.salad-form .form-group .form-textarea, .item-form .form-group .form-textarea,
 .drink-form .form-group .form-textarea,
 .fruit-veggie-form .form-group .form-textarea,
 .menu-form .form-group .form-textarea {
   resize: vertical;
   min-height: 100px;
 }
-.salad-form .form-group .form-help,
+.salad-form .form-group .form-help, .item-form .form-group .form-help,
 .drink-form .form-group .form-help,
 .fruit-veggie-form .form-group .form-help,
 .menu-form .form-group .form-help {
@@ -2450,7 +2485,7 @@
   color: #6c757d;
   margin-top: 0.25rem;
 }
-.salad-form .form-row,
+.salad-form .form-row, .item-form .form-row,
 .drink-form .form-row,
 .fruit-veggie-form .form-row,
 .menu-form .form-row {
@@ -2459,14 +2494,14 @@
   gap: 1rem;
 }
 @media (min-width: 600px) {
-  .salad-form .form-row,
+  .salad-form .form-row, .item-form .form-row,
   .drink-form .form-row,
   .fruit-veggie-form .form-row,
   .menu-form .form-row {
     grid-template-columns: 1fr 1fr;
   }
 }
-.salad-form .form-checkbox-group .checkbox-label,
+.salad-form .form-checkbox-group .checkbox-label, .item-form .form-checkbox-group .checkbox-label,
 .drink-form .form-checkbox-group .checkbox-label,
 .fruit-veggie-form .form-checkbox-group .checkbox-label,
 .menu-form .form-checkbox-group .checkbox-label {
@@ -2475,13 +2510,13 @@
   gap: 0.75rem;
   cursor: pointer;
 }
-.salad-form .form-checkbox-group .checkbox-label input[type=checkbox],
+.salad-form .form-checkbox-group .checkbox-label input[type=checkbox], .item-form .form-checkbox-group .checkbox-label input[type=checkbox],
 .drink-form .form-checkbox-group .checkbox-label input[type=checkbox],
 .fruit-veggie-form .form-checkbox-group .checkbox-label input[type=checkbox],
 .menu-form .form-checkbox-group .checkbox-label input[type=checkbox] {
   display: none;
 }
-.salad-form .form-checkbox-group .checkbox-label .checkbox-custom,
+.salad-form .form-checkbox-group .checkbox-label .checkbox-custom, .item-form .form-checkbox-group .checkbox-label .checkbox-custom,
 .drink-form .form-checkbox-group .checkbox-label .checkbox-custom,
 .fruit-veggie-form .form-checkbox-group .checkbox-label .checkbox-custom,
 .menu-form .form-checkbox-group .checkbox-label .checkbox-custom {
@@ -2492,7 +2527,7 @@
   position: relative;
   transition: all 0.3s ease;
 }
-.salad-form .form-checkbox-group .checkbox-label .checkbox-custom::after,
+.salad-form .form-checkbox-group .checkbox-label .checkbox-custom::after, .item-form .form-checkbox-group .checkbox-label .checkbox-custom::after,
 .drink-form .form-checkbox-group .checkbox-label .checkbox-custom::after,
 .fruit-veggie-form .form-checkbox-group .checkbox-label .checkbox-custom::after,
 .menu-form .form-checkbox-group .checkbox-label .checkbox-custom::after {
@@ -2508,41 +2543,41 @@
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-.salad-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom,
+.salad-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom, .item-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom,
 .drink-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom,
 .fruit-veggie-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom,
 .menu-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom {
   background: #e91e63;
   border-color: #e91e63;
 }
-.salad-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom::after,
+.salad-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom::after, .item-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom::after,
 .drink-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom::after,
 .fruit-veggie-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom::after,
 .menu-form .form-checkbox-group .checkbox-label input[type=checkbox]:checked + .checkbox-custom::after {
   opacity: 1;
 }
-.salad-form .form-checkbox-group .checkbox-label .checkbox-text,
+.salad-form .form-checkbox-group .checkbox-label .checkbox-text, .item-form .form-checkbox-group .checkbox-label .checkbox-text,
 .drink-form .form-checkbox-group .checkbox-label .checkbox-text,
 .fruit-veggie-form .form-checkbox-group .checkbox-label .checkbox-text,
 .menu-form .form-checkbox-group .checkbox-label .checkbox-text {
   font-weight: 500;
   color: #1a1a1a;
 }
-.salad-form .current-image-preview,
+.salad-form .current-image-preview, .item-form .current-image-preview,
 .drink-form .current-image-preview,
 .fruit-veggie-form .current-image-preview,
 .menu-form .current-image-preview {
   text-align: center;
   margin-bottom: 1rem;
 }
-.salad-form .current-image-preview img,
+.salad-form .current-image-preview img, .item-form .current-image-preview img,
 .drink-form .current-image-preview img,
 .fruit-veggie-form .current-image-preview img,
 .menu-form .current-image-preview img {
   border-radius: 0.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.salad-form .current-image-preview .current-image-text,
+.salad-form .current-image-preview .current-image-text, .item-form .current-image-preview .current-image-text,
 .drink-form .current-image-preview .current-image-text,
 .fruit-veggie-form .current-image-preview .current-image-text,
 .menu-form .current-image-preview .current-image-text {
@@ -2550,7 +2585,7 @@
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
-.salad-form .form-actions,
+.salad-form .form-actions, .item-form .form-actions,
 .drink-form .form-actions,
 .fruit-veggie-form .form-actions,
 .menu-form .form-actions {
@@ -2563,21 +2598,30 @@
   flex-wrap: wrap;
 }
 @media (max-width: 480px) {
-  .salad-form .form-actions,
+  .salad-form .form-actions, .item-form .form-actions,
   .drink-form .form-actions,
   .fruit-veggie-form .form-actions,
   .menu-form .form-actions {
     flex-direction: column;
     gap: 0.75rem;
   }
-  .salad-form .form-actions .btn-save,
+  .salad-form .form-actions .btn-save, .salad-form .form-actions .item-btn-save, .item-form .form-actions .btn-save, .item-form .form-actions .item-btn-save,
   .salad-form .form-actions .btn-cancel,
+  .salad-form .form-actions .item-btn-cancel,
+  .item-form .form-actions .btn-cancel,
+  .item-form .form-actions .item-btn-cancel,
   .drink-form .form-actions .btn-save,
+  .drink-form .form-actions .item-btn-save,
   .drink-form .form-actions .btn-cancel,
+  .drink-form .form-actions .item-btn-cancel,
   .fruit-veggie-form .form-actions .btn-save,
+  .fruit-veggie-form .form-actions .item-btn-save,
   .fruit-veggie-form .form-actions .btn-cancel,
+  .fruit-veggie-form .form-actions .item-btn-cancel,
   .menu-form .form-actions .btn-save,
-  .menu-form .form-actions .btn-cancel {
+  .menu-form .form-actions .item-btn-save,
+  .menu-form .form-actions .btn-cancel,
+  .menu-form .form-actions .item-btn-cancel {
     width: 100%;
     justify-content: center;
   }
@@ -2774,7 +2818,7 @@
 }
 
 /* Carte admin de base */
-.admin-card, .card-with-actions, .catalogue-card, .salad-card, .menu-card, .drink-card, .fruit-veggie-card, .salads-stats .stat-card, .menus-stats .stat-card, .form-container {
+.admin-card, .card-with-actions, .catalogue-card, .salad-card, .item-card, .menu-card, .drink-card, .fruit-veggie-card, .salads-stats .stat-card, .item-stats .stat-card, .menus-stats .stat-card, .form-container {
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -2783,15 +2827,16 @@
 }
 
 /* Carte avec boutons alignés (factorisé) */
-.card-with-actions, .catalogue-card, .salad-card, .menu-card, .drink-card, .fruit-veggie-card {
+.card-with-actions, .catalogue-card, .salad-card, .item-card, .menu-card, .drink-card, .fruit-veggie-card {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-.card-with-actions .card-content, .catalogue-card .card-content, .salad-card .card-content, .menu-card .card-content, .drink-card .card-content, .fruit-veggie-card .card-content,
+.card-with-actions .card-content, .catalogue-card .card-content, .salad-card .card-content, .item-card .card-content, .menu-card .card-content, .drink-card .card-content, .fruit-veggie-card .card-content,
 .card-with-actions .card-body,
 .catalogue-card .card-body,
 .salad-card .card-body,
+.item-card .card-body,
 .menu-card .card-body,
 .drink-card .card-body,
 .fruit-veggie-card .card-body {
@@ -2799,17 +2844,18 @@
   display: flex;
   flex-direction: column;
 }
-.card-with-actions .card-footer, .catalogue-card .card-footer, .salad-card .card-footer, .menu-card .card-footer, .drink-card .card-footer, .fruit-veggie-card .card-footer,
+.card-with-actions .card-footer, .catalogue-card .card-footer, .salad-card .card-footer, .item-card .card-footer, .menu-card .card-footer, .drink-card .card-footer, .fruit-veggie-card .card-footer,
 .card-with-actions .card-actions,
 .catalogue-card .card-actions,
 .salad-card .card-actions,
+.item-card .card-actions,
 .menu-card .card-actions,
 .drink-card .card-actions,
 .fruit-veggie-card .card-actions {
   margin-top: auto;
   flex-shrink: 0;
 }
-.card-with-actions:hover, .catalogue-card:hover, .salad-card:hover, .menu-card:hover, .drink-card:hover, .fruit-veggie-card:hover {
+.card-with-actions:hover, .catalogue-card:hover, .salad-card:hover, .item-card:hover, .menu-card:hover, .drink-card:hover, .fruit-veggie-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
@@ -3169,455 +3215,64 @@
    Classes communes pour tous les types de contenu
    (salads, drinks, fruits_legumes, menus)
    ======================================== */
-/* Pages génériques */
-.item-page {
-  min-height: 100vh;
-  background: #f8f9fa;
-}
-
-/* En-têtes génériques */
-.item-header {
-  background: #ffffff;
-  padding: 2rem 1.5rem;
-  border-bottom: 1px solid rgba(248, 249, 250, 0.5);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.item-header header {
-  flex: 1;
-  min-width: 250px;
-}
-.item-header header h2 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 0.5rem;
-}
-.item-header header p {
-  color: #6c757d;
-  font-size: 1rem;
-}
-.item-header .header-actions {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-}
-@media (max-width: 480px) {
-  .item-header .header-actions {
-    width: 100%;
-    justify-content: stretch;
-  }
-  .item-header .header-actions .item-btn-back,
-  .item-header .header-actions .item-btn-add {
-    flex: 1;
-    justify-content: center;
-  }
-}
-
-/* Statistiques génériques */
-.item-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem 1.5rem;
-  background: #ffffff;
-  margin-bottom: 1.5rem;
-}
-.item-stats .stat-card {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: #f8f9fa;
-  border-radius: 0.75rem;
-  transition: all 0.3s ease;
-}
-.item-stats .stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-.item-stats .stat-card .stat-icon {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #e91e63, #ff6b35);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.item-stats .stat-card .stat-icon i {
-  font-size: 1.25rem;
-  color: #ffffff;
-}
-.item-stats .stat-card .stat-content h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 0.25rem;
-}
-.item-stats .stat-card .stat-content p {
-  color: #6c757d;
-  font-size: 0.9rem;
-  margin: 0;
-}
-
-/* Listes génériques */
-.item-list {
-  padding: 0 1.5rem 2rem;
-}
-
-/* Grilles génériques */
-.item-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-@media (max-width: 480px) {
-  .item-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-}
-
-/* Cartes génériques */
-.item-card {
-  background: #ffffff;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-.item-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-}
+/* Héritage des styles existants pour les classes génériques */
+/* Images génériques héritant des styles existants */
+/* Styles spécifiques pour les éléments des cartes génériques */
 .item-card .item-header {
   position: relative;
   padding: 0;
   border: none;
   background: transparent;
 }
-.item-card .item-header .item-image {
-  position: relative;
+.item-card .item-image {
+  width: 100%;
   height: 200px;
   overflow: hidden;
+  margin: 0;
 }
-.item-card .item-header .item-image img {
+.item-card .item-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
 }
-.item-card .item-header .item-image.placeholder {
+.item-card .item-image.placeholder {
+  background: linear-gradient(135deg, #e91e63, #4caf50);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #e91e63, #ff6b35);
 }
-.item-card .item-header .item-image.placeholder i {
+.item-card .item-image.placeholder i {
   font-size: 3rem;
   color: #ffffff;
 }
-.item-card .item-header .item-status {
+.item-card .item-status {
   position: absolute;
   top: 1rem;
   right: 1rem;
 }
-.item-card .item-header .item-status .status-badge {
+.item-card .item-status .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 2rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-.item-card .item-header .item-status .status-badge.available {
-  background: rgba(76, 175, 80, 0.1);
-  color: #4caf50;
-}
-.item-card .item-header .item-status .status-badge.unavailable {
-  background: rgba(220, 38, 38, 0.1);
-  color: #dc2626;
-}
-.item-card .item-content {
-  flex: 1;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-}
-.item-card .item-content .item-name {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 0.75rem;
-  line-height: 1.3;
-}
-.item-card .item-content .item-description {
-  color: #6c757d;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-  font-size: 0.95rem;
-  flex: 1;
-}
-.item-card .item-content .item-details {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-.item-card .item-content .item-details .detail-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: #495057;
-}
-.item-card .item-content .item-details .detail-item i {
-  color: #e91e63;
-  width: 16px;
-  text-align: center;
-}
-.item-card .item-actions {
-  display: flex;
-  gap: 0.75rem;
-  padding: 1rem 1.5rem;
-  background: rgba(248, 249, 250, 0.3);
-  margin-top: auto;
-  flex-shrink: 0;
-}
-@media (max-width: 480px) {
-  .item-card .item-actions {
-    flex-direction: column;
-    padding: 1rem;
-  }
-}
-
-/* Formulaires génériques */
-.item-form .form-group {
-  margin-bottom: 1.5rem;
-}
-.item-form .form-group .form-label {
-  display: block;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
-}
-.item-form .form-group .form-label.required::after {
-  content: " *";
-  color: #dc2626;
-}
-.item-form .form-group .form-label i {
-  margin-right: 0.5rem;
-  color: #e91e63;
-}
-.item-form .form-group .form-input,
-.item-form .form-group .form-textarea {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 2px solid rgba(248, 249, 250, 0.5);
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-.item-form .form-group .form-input:focus,
-.item-form .form-group .form-textarea:focus {
-  outline: none;
-  border-color: #e91e63;
-  box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
-}
-.item-form .form-group .form-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-.item-form .form-group .form-help {
-  display: block;
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  color: #6c757d;
-}
-.item-form .form-actions {
-  display: flex;
-  gap: 1rem;
-  padding: 2rem 0;
-  border-top: 1px solid rgba(248, 249, 250, 0.5);
-  margin-top: 2rem;
-}
-@media (max-width: 480px) {
-  .item-form .form-actions {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  .item-form .form-actions .item-btn-save,
-  .item-form .form-actions .item-btn-cancel {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* Boutons génériques */
-.item-btn-edit,
-.item-btn-delete {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
-}
-@media (max-width: 480px) {
-  .item-btn-edit,
-  .item-btn-delete {
-    width: 100%;
-  }
-}
-
-.item-btn-edit {
-  background: #4caf50;
-  color: #ffffff;
-}
-.item-btn-edit:hover {
-  background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
-  transform: translateY(-1px);
-}
-
-.item-btn-delete {
-  background: #dc2626;
-  color: #ffffff;
-}
-.item-btn-delete:hover {
-  background: #b91c1c;
-  transform: translateY(-1px);
-}
-
-.item-btn-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  border: 2px solid rgba(248, 249, 250, 0.5);
-  background: #ffffff;
-  color: #495057;
-}
-.item-btn-back:hover {
-  background: rgba(248, 249, 250, 0.1);
-  border-color: #6c757d;
-  color: #1a1a1a;
-  transform: translateX(-2px);
-}
-.item-btn-back i {
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
   font-size: 0.8rem;
+  font-weight: 600;
 }
-
-.item-btn-add {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: #4caf50;
+.item-card .item-status .status-badge.available {
+  background: rgba(22, 163, 74, 0.9);
   color: #ffffff;
-  border: none;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
-.item-btn-add:hover {
-  background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-}
-.item-btn-add:active {
-  transform: translateY(0);
-}
-.item-btn-add i {
-  font-size: 0.8rem;
-}
-.item-btn-add.disabled {
-  background: #6c757d;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-.item-btn-add.disabled:hover {
-  transform: none;
-}
-
-.item-btn-save {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: #4caf50;
+.item-card .item-status .status-badge.unavailable {
+  background: rgba(220, 38, 38, 0.9);
   color: #ffffff;
-  border: none;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.item-btn-save:hover {
-  background: rgb(60.5577689243, 139.4422310757, 63.7450199203);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-}
-.item-btn-save:active {
-  transform: translateY(0);
-}
-.item-btn-save i {
-  font-size: 0.8rem;
 }
 
-.item-btn-cancel {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: #ffffff;
-  color: #495057;
-  border: 2px solid rgba(248, 249, 250, 0.5);
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.item-btn-cancel:hover {
+/* Boutons génériques héritant des styles existants */
+/* Page générique */
+.item-page {
+  min-height: 100vh;
   background: #f8f9fa;
-  border-color: #6c757d;
-  transform: translateY(-1px);
-}
-.item-btn-cancel:active {
-  transform: translateY(0);
-}
-.item-btn-cancel i {
-  font-size: 0.8rem;
 }
 
 /* ========================================
