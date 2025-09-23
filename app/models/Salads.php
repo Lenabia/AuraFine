@@ -124,11 +124,11 @@ class Salads extends Database {
     }
     
     /**
-     * Supprime une salade (soft delete - désactive au lieu de supprimer)
+     * Supprime définitivement une salade de la base de données
      * 
      * @param int $id L'ID de la salade à supprimer
      * @return bool True si la suppression a réussi
-     * @security Soft delete pour préserver l'intégrité des commandes existantes
+     * @security Suppression définitive - attention aux données liées
      */
     public function delete($id) {
         // Vérifier que la salade existe
@@ -136,13 +136,35 @@ class Salads extends Database {
             throw new \InvalidArgumentException("Salade non trouvée");
         }
         
-        // Soft delete : marquer comme non disponible au lieu de supprimer
+        // Suppression définitive de la base de données
+        $sql = "DELETE FROM salads WHERE id = :id";
+        return $this->execute($sql, ['id' => (int)$id]) !== false;
+    }
+    
+    /**
+     * Bascule la disponibilité d'une salade (disponible ↔ indisponible)
+     * 
+     * @param int $id L'ID de la salade
+     * @return bool True si la modification a réussi
+     * @security Alternative au soft delete pour gérer la disponibilité
+     */
+    public function toggleAvailability($id) {
+        // Vérifier que la salade existe
+        $salad = $this->findById($id);
+        if (!$salad) {
+            throw new \InvalidArgumentException("Salade non trouvée");
+        }
+        
+        // Bascule la disponibilité (1 ↔ 0)
+        $newAvailability = $salad['is_available'] ? 0 : 1;
+        
         $sql = "UPDATE salads 
-                SET is_available = 0, updated_at = :updated_at 
+                SET is_available = :is_available, updated_at = :updated_at 
                 WHERE id = :id";
         
         return $this->execute($sql, [
             'id' => (int)$id,
+            'is_available' => $newAvailability,
             'updated_at' => date('Y-m-d H:i:s')
         ]) !== false;
     }

@@ -36,10 +36,10 @@
         
         <?php if (isset($_SESSION['user']) && (strtolower($_SESSION['user']['role']) === 'user' || $_SESSION['user']['role'] == 'user')): ?>
           <!-- Utilisateur connecté avec rôle user -->
-          <a href="index.php?action=logout" class="btn-login" aria-label="Se déconnecter">
+          <button type="button" class="btn-login" aria-label="Se déconnecter" onclick="showLogoutModal()">
             <i class="fas fa-sign-out-alt"></i>
             <span>Déconnexion</span>
-          </a>
+          </button>
           
           <!-- Bouton Profil avec menu déroulant -->
           <div class="user-profile-dropdown">
@@ -111,11 +111,11 @@
     <!-- Menu horizontal desktop -->
     <nav id="main-nav" class="main-nav">
       <ul>
-        <li><a href="index.php?action=home" class="nav-link active">Accueil</a></li>
-        <li><a href="index.php?action=menus" class="nav-link">Menus</a></li>
-        <li><a href="index.php?action=salads" class="nav-link">Salades</a></li>
-        <li><a href="index.php?action=drinks" class="nav-link">Boissons</a></li>
-        <li><a href="index.php?action=fruits-veggies" class="nav-link">Fruits et légumes</a></li>
+        <li><a href="index.php?action=home" class="nav-link <?= ($_GET['action'] ?? 'home') === 'home' ? 'active' : '' ?>">Accueil</a></li>
+        <li><a href="index.php?action=menus" class="nav-link <?= ($_GET['action'] ?? '') === 'menus' ? 'active' : '' ?>">Menus</a></li>
+        <li><a href="index.php?action=salads" class="nav-link <?= ($_GET['action'] ?? '') === 'salads' ? 'active' : '' ?>">Salades</a></li>
+        <li><a href="index.php?action=drinks" class="nav-link <?= ($_GET['action'] ?? '') === 'drinks' ? 'active' : '' ?>">Boissons</a></li>
+        <li><a href="index.php?action=fruits-veggies" class="nav-link <?= ($_GET['action'] ?? '') === 'fruits-veggies' ? 'active' : '' ?>">Fruits et légumes</a></li>
         <li><a href="#" class="nav-link">Décoration et traiteur</a></li>
         <li><a href="#" class="nav-link">Conseils</a></li>
       </ul>
@@ -134,11 +134,11 @@
     <?php endif; ?>
     
     <ul>
-     <li><a href="index.php?action=home" class="nav-link active">Accueil</a></li>
-        <li><a href="index.php?action=menus" class="nav-link">Menus</a></li>
-        <li><a href="index.php?action=salads" class="nav-link">Salades</a></li>
-        <li><a href="index.php?action=drinks" class="nav-link">Boissons</a></li>
-        <li><a href="index.php?action=fruits-veggies" class="nav-link">Fruits et légumes</a></li>
+     <li><a href="index.php?action=home" class="nav-link <?= ($_GET['action'] ?? 'home') === 'home' ? 'active' : '' ?>">Accueil</a></li>
+        <li><a href="index.php?action=menus" class="nav-link <?= ($_GET['action'] ?? '') === 'menus' ? 'active' : '' ?>">Menus</a></li>
+        <li><a href="index.php?action=salads" class="nav-link <?= ($_GET['action'] ?? '') === 'salads' ? 'active' : '' ?>">Salades</a></li>
+        <li><a href="index.php?action=drinks" class="nav-link <?= ($_GET['action'] ?? '') === 'drinks' ? 'active' : '' ?>">Boissons</a></li>
+        <li><a href="index.php?action=fruits-veggies" class="nav-link <?= ($_GET['action'] ?? '') === 'fruits-veggies' ? 'active' : '' ?>">Fruits et légumes</a></li>
         <li><a href="#" class="nav-link">Décoration et traiteur</a></li>
         <li><a href="#" class="nav-link">Conseils</a></li>
         
@@ -205,12 +205,46 @@
     </section>
 </footer>
 
+<!-- Modales -->
+<div id="deleteModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="modal-icon">🗑️</div>
+      <h3 class="modal-title">Supprimer</h3>
+    </div>
+    <div class="modal-body">
+      <p class="modal-message"></p>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="modal-btn modal-btn-cancel" onclick="closeModal()">Annuler</button>
+      <button type="button" class="modal-btn modal-btn-confirm">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<div id="logoutModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="modal-icon">🚪</div>
+      <h3 class="modal-title">Déconnexion</h3>
+    </div>
+    <div class="modal-body">
+      <p class="modal-message">Êtes-vous sûr de vouloir vous déconnecter ?</p>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="modal-btn modal-btn-cancel" onclick="closeModal()">Annuler</button>
+      <a href="index.php?action=logout" class="modal-btn modal-btn-logout">Déconnexion</a>
+    </div>
+  </div>
+</div>
+
 <!-- Scripts -->
 <script src="/app/public/js/card.js" defer></script>
 <script src="/app/public/js/script.js" defer></script>
 <script src="/app/public/js/salad.js" defer></script>
 <script src="/app/public/js/login.js" defer></script>
 <script src="/app/public/js/menus.js" defer></script>
+<script src="/app/public/js/modal.js"></script>
 
 </body>
 </html>

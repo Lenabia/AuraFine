@@ -161,11 +161,11 @@ class Menus extends Database {
     }
     
     /**
-     * Supprime un menu (soft delete - désactive au lieu de supprimer)
+     * Supprime définitivement un menu de la base de données
      * 
      * @param int $id L'ID du menu à supprimer
      * @return bool True si la suppression a réussi
-     * @security Soft delete pour préserver l'intégrité des commandes existantes
+     * @security Suppression définitive - attention aux données liées
      */
     public function delete($id) {
         // Vérifier que le menu existe
@@ -173,13 +173,35 @@ class Menus extends Database {
             throw new \InvalidArgumentException("Menu non trouvé");
         }
         
-        // Soft delete : marquer comme non disponible au lieu de supprimer
+        // Suppression définitive de la base de données
+        $sql = "DELETE FROM menus WHERE id = :id";
+        return $this->execute($sql, ['id' => (int)$id]) !== false;
+    }
+    
+    /**
+     * Bascule la disponibilité d'un menu (disponible ↔ indisponible)
+     * 
+     * @param int $id L'ID du menu
+     * @return bool True si la modification a réussi
+     * @security Alternative au soft delete pour gérer la disponibilité
+     */
+    public function toggleAvailability($id) {
+        // Vérifier que le menu existe
+        $menu = $this->findById($id);
+        if (!$menu) {
+            throw new \InvalidArgumentException("Menu non trouvé");
+        }
+        
+        // Bascule la disponibilité (1 ↔ 0)
+        $newAvailability = $menu['is_available'] ? 0 : 1;
+        
         $sql = "UPDATE menus 
-                SET is_available = 0, updated_at = :updated_at 
+                SET is_available = :is_available, updated_at = :updated_at 
                 WHERE id = :id";
         
         return $this->execute($sql, [
             'id' => (int)$id,
+            'is_available' => $newAvailability,
             'updated_at' => date('Y-m-d H:i:s')
         ]) !== false;
     }

@@ -147,11 +147,11 @@ class FruitsVeggies extends Database {
     }
     
     /**
-     * Supprime un fruit/légume
+     * Supprime définitivement un fruit/légume de la base de données
      *
      * @param int $id L'ID du fruit/légume à supprimer
      * @return bool True si la suppression a réussi
-     * @security Vérification de l'existence du fruit/légume avant suppression
+     * @security Suppression définitive - attention aux données liées
      */
     public function delete($id) {
         // Vérifier que le fruit/légume existe
@@ -161,5 +161,33 @@ class FruitsVeggies extends Database {
         
         $sql = "DELETE FROM fruits_veggies WHERE id = :id";
         return $this->execute($sql, ['id' => (int)$id]) !== false;
+    }
+    
+    /**
+     * Bascule la disponibilité d'un fruit/légume (disponible ↔ indisponible)
+     * 
+     * @param int $id L'ID du fruit/légume
+     * @return bool True si la modification a réussi
+     * @security Alternative au soft delete pour gérer la disponibilité
+     */
+    public function toggleAvailability($id) {
+        // Vérifier que le fruit/légume existe
+        $fruitVeggie = $this->findById($id);
+        if (!$fruitVeggie) {
+            throw new \InvalidArgumentException("Fruit/légume non trouvé");
+        }
+        
+        // Bascule la disponibilité (1 ↔ 0)
+        $newAvailability = $fruitVeggie['is_available'] ? 0 : 1;
+        
+        $sql = "UPDATE fruits_veggies 
+                SET is_available = :is_available, updated_at = :updated_at 
+                WHERE id = :id";
+        
+        return $this->execute($sql, [
+            'id' => (int)$id,
+            'is_available' => $newAvailability,
+            'updated_at' => date('Y-m-d H:i:s')
+        ]) !== false;
     }
 }

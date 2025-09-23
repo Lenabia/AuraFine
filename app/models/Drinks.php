@@ -147,11 +147,11 @@ class Drinks extends Database {
     }
     
     /**
-     * Supprime une boisson
+     * Supprime définitivement une boisson de la base de données
      *
      * @param int $id L'ID de la boisson à supprimer
      * @return bool True si la suppression a réussi
-     * @security Vérification de l'existence de la boisson avant suppression
+     * @security Suppression définitive - attention aux données liées
      */
     public function delete($id) {
         // Vérifier que la boisson existe
@@ -161,5 +161,33 @@ class Drinks extends Database {
         
         $sql = "DELETE FROM drinks WHERE id = :id";
         return $this->execute($sql, ['id' => (int)$id]) !== false;
+    }
+    
+    /**
+     * Bascule la disponibilité d'une boisson (disponible ↔ indisponible)
+     * 
+     * @param int $id L'ID de la boisson
+     * @return bool True si la modification a réussi
+     * @security Alternative au soft delete pour gérer la disponibilité
+     */
+    public function toggleAvailability($id) {
+        // Vérifier que la boisson existe
+        $drink = $this->findById($id);
+        if (!$drink) {
+            throw new \InvalidArgumentException("Boisson non trouvée");
+        }
+        
+        // Bascule la disponibilité (1 ↔ 0)
+        $newAvailability = $drink['is_available'] ? 0 : 1;
+        
+        $sql = "UPDATE drinks 
+                SET is_available = :is_available, updated_at = :updated_at 
+                WHERE id = :id";
+        
+        return $this->execute($sql, [
+            'id' => (int)$id,
+            'is_available' => $newAvailability,
+            'updated_at' => date('Y-m-d H:i:s')
+        ]) !== false;
     }
 }

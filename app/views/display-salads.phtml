@@ -135,10 +135,12 @@ PAGE GESTION DES SALADES - LISTE ET ACTIONS
                         
                         <form method="POST" action="index.php?action=admin-salads-delete&id=<?= $salad['id'] ?>" 
                               class="delete-form" 
-                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette salade ?')">
+                              id="deleteForm<?= $salad['id'] ?>">
                             <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
                             <!-- refactor: utilisation de la classe générique .item-btn-delete -->
-                            <button type="submit" class="item-btn-delete" title="Supprimer">
+                            <button type="button" class="item-btn-delete" 
+                                    title="Supprimer définitivement"
+                                    onclick="showDeleteModal('<?= htmlspecialchars($salad['name']) ?>', 'cette salade', 'deleteForm<?= $salad['id'] ?>')">
                                 <i class="fas fa-trash"></i>
                                 Supprimer
                             </button>

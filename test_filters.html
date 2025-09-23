@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Filtres</title>
+    <link href="app/public/css/main.css" rel="stylesheet" />
+  </head>
+  <body>
+    <h1>Test des Filtres</h1>
+
+    <!-- Test Filtres Menus -->
+    <section class="menus-filters">
+      <h2>Filtres Menus</h2>
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-category="all">Tous</button>
+        <button class="filter-btn" data-category="1">Petit-déjeuners</button>
+        <button class="filter-btn" data-category="2">Déjeuner & Diner</button>
+        <button class="filter-btn" data-category="3">Entrées & Desserts</button>
+      </div>
+    </section>
+
+    <div class="item-grid" id="menus-grid">
+      <article class="item-card" data-category="1">
+        <h3>Menu Petit-déjeuner 1</h3>
+      </article>
+      <article class="item-card" data-category="2">
+        <h3>Menu Déjeuner 1</h3>
+      </article>
+      <article class="item-card" data-category="3">
+        <h3>Menu Dessert 1</h3>
+      </article>
+    </div>
+
+    <p>Compteur: <span id="filtered-count">3</span> menus</p>
+
+    <script src="app/public/js/menus.js"></script>
+  </body>
+</html>
+

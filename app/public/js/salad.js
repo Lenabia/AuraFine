@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // FILTRES ET RECHERCHE
   // ========================================
 
-  const filterButtons = document.querySelectorAll(".filter-btn");
+  const filterButtons = document.querySelectorAll(".salad-page .filter-btn");
   const searchInput = document.querySelector(".search-input");
   const saladCards = document.querySelectorAll(".salad-card");
 

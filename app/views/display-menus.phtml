@@ -136,10 +136,12 @@ PAGE GESTION DES MENUS - LISTE ET ACTIONS
                         
                         <form method="POST" action="index.php?action=admin-menus-delete&id=<?= $menu['id'] ?>" 
                               class="delete-form" 
-                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce menu ?')">
+                              id="deleteForm<?= $menu['id'] ?>">
                             <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
                             <!-- refactor: utilisation de la classe générique .item-btn-delete -->
-                            <button type="submit" class="item-btn-delete" title="Supprimer">
+                            <button type="button" class="item-btn-delete" 
+                                    title="Supprimer définitivement"
+                                    onclick="showDeleteModal('<?= htmlspecialchars($menu['name']) ?>', 'ce menu', 'deleteForm<?= $menu['id'] ?>')">
                                 <i class="fas fa-trash"></i>
                                 Supprimer
                             </button>

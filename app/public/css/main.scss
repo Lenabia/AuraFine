@@ -3,6 +3,7 @@
 @use "./color" as *;
 @use "./login" as *;
 @use "./admin" as *;
+@use "./modal" as *;
 
 /* ========================================
    MIXINS
@@ -46,7 +47,7 @@ $bp: (
   xxxl: 1440px,
   // desktop XL
   uhd: 1600px
-    // très grands écrans,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+    // très grands écrans,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 );
 @mixin up($key) {
   @media (min-width: map.get($bp, $key)) {
@@ -1667,7 +1668,7 @@ body {
   .profile-menu-content {
     position: absolute;
     top: 100%;
-    right: 0;
+    left: 50%;
     background: $color-white;
     border-radius: 1rem;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);

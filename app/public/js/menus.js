@@ -7,9 +7,9 @@
  */
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Éléments DOM
-  const filterButtons = document.querySelectorAll(".filter-btn");
-  const menuCards = document.querySelectorAll(".menu-card");
+  // Éléments DOM - Sélecteurs spécifiques aux menus
+  const filterButtons = document.querySelectorAll(".menus-filters .filter-btn");
+  const menuCards = document.querySelectorAll(".item-card");
   const filteredCount = document.getElementById("filtered-count");
   const addToCartButtons = document.querySelectorAll(".btn-add-to-cart");
 

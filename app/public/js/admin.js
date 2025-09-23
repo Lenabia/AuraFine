@@ -49,15 +49,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // ========================================
   // GESTION DE LA DÉCONNEXION
   // ========================================
-
-  const logoutBtn = document.getElementById("logout-btn");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", function () {
-      if (confirm("Êtes-vous sûr de vouloir vous déconnecter ?")) {
-        window.location.href = "index.php?action=logout";
-      }
-    });
-  }
+  // Note: La déconnexion est gérée par modal.js avec showLogoutModal()
+  // L'event listener est géré par l'attribut onclick dans le HTML
 
   // ========================================
   // GESTION DES MÉTRIQUES (ANIMATIONS)

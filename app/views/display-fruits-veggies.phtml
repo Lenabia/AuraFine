@@ -152,12 +152,15 @@ PAGE GESTION DES FRUITS & LÉGUMES - LISTE ET ACTIONS
                         <i class="fas fa-edit"></i>
                         Modifier
                     </a>
+                    
                     <form method="POST" action="index.php?action=admin-fruits-legumes-delete&id=<?= $fruitVeggie['id'] ?>" 
                           class="delete-form"
-                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce fruit/légume ?')">
+                          id="deleteForm<?= $fruitVeggie['id'] ?>">
                         <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
                         <!-- refactor: utilisation de la classe générique .item-btn-delete -->
-                        <button type="submit" class="item-btn-delete">
+                        <button type="button" class="item-btn-delete" 
+                                title="Supprimer définitivement"
+                                onclick="showDeleteModal('<?= htmlspecialchars($fruitVeggie['name']) ?>', 'ce fruit/légume', 'deleteForm<?= $fruitVeggie['id'] ?>')">
                             <i class="fas fa-trash"></i>
                             Supprimer
                         </button>

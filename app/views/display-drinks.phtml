@@ -152,12 +152,15 @@ PAGE GESTION DES BOISSONS - LISTE ET ACTIONS
                         <i class="fas fa-edit"></i>
                         Modifier
                     </a>
+                    
                     <form method="POST" action="index.php?action=admin-drinks-delete&id=<?= $drink['id'] ?>" 
                           class="delete-form"
-                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette boisson ?')">
+                          id="deleteForm<?= $drink['id'] ?>">
                         <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
                         <!-- refactor: utilisation de la classe générique .item-btn-delete -->
-                        <button type="submit" class="item-btn-delete">
+                        <button type="button" class="item-btn-delete" 
+                                title="Supprimer définitivement"
+                                onclick="showDeleteModal('<?= htmlspecialchars($drink['name']) ?>', 'cette boisson', 'deleteForm<?= $drink['id'] ?>')">
                             <i class="fas fa-trash"></i>
                             Supprimer
                         </button>
