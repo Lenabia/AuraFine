@@ -71,11 +71,92 @@
           </div>
           <div class="resume-line">
             <span>Livraison</span>
-            <span>Gratuite</span>
+            <span id="delivery-fee">
+              <?php if (isset($deliveryFee) && $deliveryFee > 0): ?>
+                <?= number_format($deliveryFee, 0, ',', ' ') ?> FCFA
+              <?php else: ?>
+                À définir
+              <?php endif; ?>
+            </span>
           </div>
+          <?php if (isset($deliveryFee) && $deliveryFee > 0): ?>
+          <div class="resume-line">
+            <span>Adresse</span>
+            <span><?= htmlspecialchars($userDeliveryInfo['address_line'] ?? 'Non renseignée') ?></span>
+          </div>
+          <div class="resume-line">
+            <span>Zone</span>
+            <span>
+              <?php 
+              $zoneName = '';
+              foreach ($deliveryZones as $zone) {
+                if ($zone['id'] == ($userDeliveryInfo['delivery_zones_id'] ?? null)) { $zoneName = $zone['code']; break; }
+              }
+              echo htmlspecialchars($zoneName ?: '—');
+              ?>
+            </span>
+          </div>
+          <?php else: ?>
+          <div class="resume-line" style="display:block; width:100%;">
+            <form id="delivery-choice-form" style="display:grid; gap:8px;">
+              <div class="form-group">
+                <label for="cities_id">Ville *</label>
+                <select name="cities_id" id="cities_id" required 
+                        data-user-zone-id="<?= $userDeliveryInfo['delivery_zones_id'] ?? '' ?>"
+                        data-user-neighborhood-id="<?= $userDeliveryInfo['neighborhoods_id'] ?? '' ?>">
+                  <option value="">Sélectionnez une ville</option>
+                  <?php foreach ($cities as $city): ?>
+                    <option value="<?= $city['id'] ?>" <?= (isset($userDeliveryInfo['cities_id']) && $userDeliveryInfo['cities_id'] == $city['id']) ? 'selected' : '' ?>>
+                      <?= htmlspecialchars($city['name']) ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="delivery_zones_id">Zone de livraison *</label>
+                <select name="delivery_zones_id" id="delivery_zones_id" required>
+                  <option value="">Sélectionnez d'abord une ville</option>
+                  <?php if (!empty($deliveryZones)): ?>
+                    <?php foreach ($deliveryZones as $zone): ?>
+                      <option value="<?= $zone['id'] ?>" data-fee="<?= $zone['fee'] ?>" <?= (isset($userDeliveryInfo['delivery_zones_id']) && $userDeliveryInfo['delivery_zones_id'] == $zone['id']) ? 'selected' : '' ?>>
+                        Zone <?= htmlspecialchars($zone['code']) ?> - <?= number_format($zone['fee'], 0, ',', ' ') ?> FCFA
+                      </option>
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="neighborhoods_id">Quartier (optionnel)</label>
+                <select name="neighborhoods_id" id="neighborhoods_id">
+                  <option value="">Sélectionnez un quartier</option>
+                  <?php if (!empty($neighborhoods)): ?>
+                    <?php foreach ($neighborhoods as $neighborhood): ?>
+                      <option value="<?= $neighborhood['id'] ?>" <?= (isset($userDeliveryInfo['neighborhoods_id']) && $userDeliveryInfo['neighborhoods_id'] == $neighborhood['id']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($neighborhood['name']) ?>
+                      </option>
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="address_line">Adresse complète</label>
+                <textarea name="address_line" id="address_line" rows="2" placeholder="Rue, numéro, détails..."><?= htmlspecialchars($userDeliveryInfo['address_line'] ?? '') ?></textarea>
+              </div>
+              <div class="form-group">
+                <label for="delivery_comment">Complément d'adresse ou autres informations</label>
+                <textarea name="delivery_comment" id="delivery_comment" rows="2" placeholder="Complément d'adresse ou autres informations"><?= htmlspecialchars($userDeliveryInfo['delivery_comment'] ?? '') ?></textarea>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn-save-delivery">
+                  <i class="fas fa-save"></i> Enregistrer l'adresse
+                </button>
+              </div>
+            </form>
+          </div>
+          <?php endif; ?>
           <div class="resume-line total">
             <span>Total</span>
-            <span id="total-commande"><?= isset($cartTotal) ? number_format($cartTotal, 0, ',', ' ') . ' FCFA' : '0 FCFA' ?></span>
+            <span id="total-commande"><?= isset($grandTotal) ? number_format($grandTotal, 0, ',', ' ') . ' FCFA' : (isset($cartTotal) ? number_format($cartTotal, 0, ',', ' ') . ' FCFA' : '0 FCFA') ?></span>
           </div>
         </div>
 
@@ -96,6 +177,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </section>
 

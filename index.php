@@ -391,6 +391,21 @@ if(array_key_exists('action', $_GET)):
     $controller->getCartCount();
     break;
 
+    case 'panier-set-delivery':
+    $controller = new \app\controllers\PanierController();
+    $controller->setDeliveryChoice();
+    break;
+
+    case 'panier-zones':
+    $controller = new \app\controllers\PanierController();
+    $controller->getDeliveryZones();
+    break;
+
+    case 'panier-neighborhoods':
+    $controller = new \app\controllers\PanierController();
+    $controller->getNeighborhoods();
+    break;
+
     //accès refusé
     case 'accesDenied':
     include 'app/views/accesDenied.php';
