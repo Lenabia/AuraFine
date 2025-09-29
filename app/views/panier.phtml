@@ -6,29 +6,56 @@
       <p>Vérifiez vos articles avant de commander</p>
     </header>
   </div>
+  
 </section>
 
 <!-- Section Panier Principal -->
 <section id="panier-main" class="panier-main">
   <div class="panier-container">
-    
+    <?php if (!empty($loginRequired)): ?>
+    <div class="alert alert-error" role="alert" style="margin-bottom:1rem;">
+      <i class="fas fa-exclamation-triangle"></i>
+      Vous devez être connecté pour voir votre panier. <a class="link" href="index.php?action=login">Se connecter</a>
+    </div>
+    <?php endif; ?>
+
     <!-- Liste des articles -->
     <div class="panier-articles">
       <h2>Articles dans votre panier</h2>
-      
-      <!-- Conteneur pour les articles (sera rempli par JavaScript) -->
-      <div id="panier-articles-container">
-        <!-- Les articles seront injectés ici via JavaScript -->
-      </div>
 
-      <!-- Message panier vide (caché par défaut) -->
-      <div id="panier-vide" class="panier-vide" style="display: none;">
-        <div class="empty-cart">
-          <i class="fas fa-shopping-basket"></i>
-          <h3>Votre panier est vide</h3>
-          <p>Ajoutez des articles pour commencer vos achats</p>
-          <a href="index.php?action=home" class="btn-continuer">Continuer mes achats</a>
-        </div>
+      <!-- Rendu côté serveur avec if/else -->
+      <div id="panier-articles-container" data-items='<?= json_encode($cartItems ?? []) ?>'>
+        <?php if (!empty($cartItems)): ?>
+          <!-- Panier avec articles -->
+          <?php foreach ($cartItems as $it): ?>
+            <div class="panier-item" data-type="<?= htmlspecialchars($it['product_type']) ?>" data-id="<?= (int)$it['product_id'] ?>">
+              <div class="item-info" style="display:flex;align-items:center;gap:12px;">
+                <img src="<?= htmlspecialchars($it['image'] ?? '/app/public/images/placeholder.png') ?>" alt="<?= htmlspecialchars($it['name'] ?? 'Produit') ?>" width="72" height="72" style="border-radius:8px;object-fit:cover;">
+                <div>
+                  <h4><?= htmlspecialchars($it['name'] ?? 'Produit') ?></h4>
+                  <div class="price"><?= number_format((float)($it['price'] ?? 0), 0, ',', ' ') ?> FCFA</div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="qty-btn minus" aria-label="Diminuer">-</button>
+                <span class="quantity"><?= (int)($it['quantity'] ?? 1) ?></span>
+                <button class="qty-btn plus" aria-label="Augmenter">+</button>
+                <div class="subtotal"><?= number_format((float)($it['subtotal'] ?? 0), 0, ',', ' ') ?> FCFA</div>
+                <button class="remove-btn" aria-label="Supprimer">Supprimer</button>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <!-- Panier vide -->
+          <div id="panier-vide" class="panier-vide">
+            <div class="empty-cart">
+              <i class="fas fa-shopping-basket"></i>
+              <h3>Votre panier est vide</h3>
+              <p>Ajoutez des articles pour commencer vos achats</p>
+              <a href="index.php?action=home" class="btn-continuer">Continuer mes achats</a>
+            </div>
+          </div>
+        <?php endif; ?>
       </div>
     </div>
 
@@ -36,11 +63,11 @@
     <div class="panier-resume">
       <div class="resume-card">
         <h3>Résumé de votre commande</h3>
-        
+
         <div class="resume-details">
           <div class="resume-line">
             <span>Sous-total</span>
-            <span id="sous-total">0,00 €</span>
+            <span id="sous-total"><?= isset($cartTotal) ? number_format($cartTotal, 0, ',', ' ') . ' FCFA' : '0 FCFA' ?></span>
           </div>
           <div class="resume-line">
             <span>Livraison</span>
@@ -48,7 +75,7 @@
           </div>
           <div class="resume-line total">
             <span>Total</span>
-            <span id="total-commande">0,00 €</span>
+            <span id="total-commande"><?= isset($cartTotal) ? number_format($cartTotal, 0, ',', ' ') . ' FCFA' : '0 FCFA' ?></span>
           </div>
         </div>
 
@@ -77,7 +104,8 @@
   <div class="recommandations-container">
     <h2>Vous aimerez aussi</h2>
     <div class="recommandations-grid">
-      <!-- Les recommandations seront injectées ici via JavaScript -->
+      <!-- Recommandations (optionnelles) -->
     </div>
   </div>
 </section>
+

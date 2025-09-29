@@ -79,7 +79,7 @@ PAGE DES BOISSONS - PRÉPARÉE POUR INTÉGRATION PHP
         </section>
         <footer class="card-footer">
           <section class="price-quantity">
-            <span class="price">€<?php echo isset($boisson['prix']) ? number_format($boisson['prix'], 2) : '4.50'; ?></span>
+            <span class="price"><?php echo isset($boisson['prix']) ? number_format($boisson['prix'], 0, ',', ' ') : '2,700'; ?> FCFA</span>
             <nav class="quantity-controls">
               <button class="qty-btn minus" data-action="decrease">-</button>
               <span class="quantity">1</span>

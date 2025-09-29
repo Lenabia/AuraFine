@@ -112,11 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Cette section est conservée pour la compatibilité mais les événements sont dans card.js
 
   // ========================================
-  // AJOUT AU PANIER (UTILISE CARD.JS)
-  // ========================================
-
-  // L'ajout au panier est maintenant géré par card.js
-  // Cette section est conservée pour la compatibilité mais les événements sont dans card.js
+  // Note: L'ajout au panier est géré par panier.js
 
   // ========================================
   // ANIMATIONS AU SCROLL (OPTIMISÉ)
@@ -185,31 +181,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // card.innerHTML = `...`;
 
     return card;
-  }
-
-  // PHP FUTURE: Fonction pour ajouter au panier via serveur
-  function addToCartServer(saladId, quantity) {
-    // PHP FUTURE: Appel AJAX vers le serveur
-    /*
-    fetch('/api/cart/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        salad_id: saladId,
-        quantity: quantity
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        showNotification('Salade ajoutée au panier');
-        updateCartCount(data.cart_count);
-      }
-    })
-    .catch(error => console.error('Erreur:', error));
-    */
   }
 
   console.log("Page des salades initialisée avec succès !");

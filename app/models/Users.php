@@ -1,9 +1,7 @@
 <?php
 namespace app\Models;
 
-use app\Models\Database;
-
-class User {
+class Users extends Database {
     // Propriétés correspondant exactement à la table users
     private $id;
     private $first_name;
@@ -22,12 +20,7 @@ class User {
     private $created_at;
     private $updated_at;
 
-    // Instance de la base de données
-    private $db;
-
-    public function __construct() {
-        $this->db = new Database();
-    }
+    // Hérite de Database: $this->bdd, findAll, findOne, execute, getConnection
 
     /**
      * Créer un nouvel utilisateur
@@ -56,7 +49,7 @@ class User {
 
             $sql = "INSERT INTO users ($fieldList) VALUES ($placeholders)";
             
-            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt = $this->getConnection()->prepare($sql);
             
             // Exécution avec les données
             foreach ($data as $key => $value) {
@@ -66,7 +59,7 @@ class User {
             $result = $stmt->execute();
             
             if ($result) {
-                $this->id = $this->db->getConnection()->lastInsertId();
+                $this->id = $this->getConnection()->lastInsertId();
                 return $this->id;
             }
             
@@ -83,7 +76,7 @@ class User {
     public function findByEmail($email) {
         try {
             $sql = "SELECT * FROM users WHERE email = :email AND is_active = 1";
-            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt = $this->getConnection()->prepare($sql);
             $stmt->bindValue(':email', $email);
             $stmt->execute();
             
@@ -124,7 +117,7 @@ class User {
             
             $sql = "UPDATE users SET $setClause WHERE id = :id";
             
-            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt = $this->getConnection()->prepare($sql);
             
             // Binding des paramètres
             foreach ($data as $key => $value) {
@@ -152,7 +145,7 @@ class User {
                 $params[':id'] = $excludeId;
             }
             
-            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt = $this->getConnection()->prepare($sql);
             $stmt->execute($params);
             
             return $stmt->fetchColumn() > 0;
@@ -175,7 +168,7 @@ class User {
                 $params[':id'] = $excludeId;
             }
             
-            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt = $this->getConnection()->prepare($sql);
             $stmt->execute($params);
             
             return $stmt->fetchColumn() > 0;
@@ -186,29 +179,12 @@ class User {
     }
 
     /**
-     * Trouver un utilisateur par code de parrainage
-     */
-    public function findByReferralCode($referralCode) {
-        try {
-            $sql = "SELECT id, first_name, last_name FROM users WHERE referral_code = :referral_code AND is_active = 1";
-            $stmt = $this->db->getConnection()->prepare($sql);
-            $stmt->bindValue(':referral_code', $referralCode);
-            $stmt->execute();
-            
-            return $stmt->fetch(\PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
-            error_log("Erreur recherche par code parrainage: " . $e->getMessage());
-            return false;
-        }
-    }
-
-    /**
      * Récupérer les données géographiques pour les formulaires
      */
     public function getCities() {
         try {
             $sql = "SELECT id, name FROM cities ORDER BY name";
-            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt = $this->getConnection()->prepare($sql);
             $stmt->execute();
             
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -230,7 +206,7 @@ class User {
             
             $sql .= " ORDER BY code";
             
-            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt = $this->getConnection()->prepare($sql);
             $stmt->execute($params);
             
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -262,7 +238,7 @@ class User {
             
             $sql .= " ORDER BY name";
             
-            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt = $this->getConnection()->prepare($sql);
             $stmt->execute($params);
             
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);

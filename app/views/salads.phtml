@@ -46,7 +46,7 @@
                             
                             <div class="salad-details">
                                 <div class="salad-price">
-                                    <span class="price-amount"><?= number_format($salad['price'], 2) ?>€</span>
+                                    <span class="price-amount"><?= number_format($salad['price'], 0, ',', ' ') ?> FCFA</span>
                                 </div>
                                 
                                 <div class="salad-stock">
@@ -62,6 +62,12 @@
                                         </span>
                                     <?php endif; ?>
                                 </div>
+                            </div>
+                            <div class="menu-actions">
+                                <button class="btn-add-to-cart" data-salad-id="<?= $salad['id'] ?>">
+                                    <i class="fas fa-plus"></i>
+                                    Ajouter au panier
+                                </button>
                             </div>
                         </div>
                     </article>

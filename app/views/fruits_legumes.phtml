@@ -79,7 +79,7 @@ PAGE DES FRUITS & LÉGUMES - PRÉPARÉE POUR INTÉGRATION PHP
         </section>
         <footer class="card-footer">
           <section class="price-quantity">
-            <span class="price">€<?php echo isset($item['prix']) ? number_format($item['prix'], 2) : '2.50'; ?></span>
+            <span class="price"><?php echo isset($item['prix']) ? number_format($item['prix'], 0, ',', ' ') : '1,500'; ?> FCFA</span>
             <nav class="quantity-controls">
               <button class="qty-btn minus" data-action="decrease">-</button>
               <span class="quantity">1</span>

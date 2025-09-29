@@ -1,0 +1,48 @@
+<!-- Liste des villes -->
+<section class="salads-header item-header">
+    <header>
+        <h2>Livraison - Villes</h2>
+        <p>Gérez les villes desservies</p>
+    </header>
+    <div class="header-actions">
+        <a href="index.php?action=admin-deliveries-create" class="btn-add"><i class="fas fa-plus"></i> Ajouter une ville</a>
+    </div>
+ </section>
+
+<?php if (!empty($_SESSION['error_message'])): ?>
+<div class="alert alert-error"><?= htmlspecialchars($_SESSION['error_message']); unset($_SESSION['error_message']); ?></div>
+<?php endif; ?>
+<?php if (!empty($_SESSION['success_message'])): ?>
+<div class="alert alert-success"><?= htmlspecialchars($_SESSION['success_message']); unset($_SESSION['success_message']); ?></div>
+<?php endif; ?>
+
+<section class="salads-list item-list">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Ville</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($cities)): foreach ($cities as $city): ?>
+            <tr>
+                <td><?= (int)$city['id'] ?></td>
+                <td><a href="index.php?action=admin-deliveries-show&id=<?= (int)$city['id'] ?>" class="link"><?= htmlspecialchars($city['name']) ?></a></td>
+                <td class="table-actions">
+                    <a href="index.php?action=admin-deliveries-edit&id=<?= (int)$city['id'] ?>" class="btn-edit"><i class="fas fa-edit"></i> Modifier</a>
+                    <form id="delete-city-<?= (int)$city['id'] ?>" action="index.php?action=admin-deliveries-delete&id=<?= (int)$city['id'] ?>" method="POST" class="inline-form">
+                        <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                        <button type="button" class="btn-delete" onclick="showDeleteModal('<?= htmlspecialchars($city['name']) ?>','cette ville','delete-city-<?= (int)$city['id'] ?>')"><i class="fas fa-trash"></i> Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            <?php endforeach; else: ?>
+            <tr><td colspan="3">Aucune ville enregistrée</td></tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</section>
+
+

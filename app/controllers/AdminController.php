@@ -1,7 +1,6 @@
 <?php
 namespace app\controllers;
 
-use app\Models\User;
 use app\middleware\Middleware;
 
 

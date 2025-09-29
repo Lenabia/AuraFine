@@ -40,7 +40,7 @@ class Database {
    * @error-handling Log les erreurs techniques et redirige l'utilisateur
    * @performance Optimisé avec PDO::FETCH_ASSOC pour la mémoire
    */
-  public function findALl(string $req, array $params = []){
+  public function findAll(string $req, array $params = []){
     try{
       // Préparer la requête pour éviter l'injection SQL
       $query = $this->bdd->prepare($req);

@@ -11,13 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const filterButtons = document.querySelectorAll(".menus-filters .filter-btn");
   const menuCards = document.querySelectorAll(".item-card");
   const filteredCount = document.getElementById("filtered-count");
-  const addToCartButtons = document.querySelectorAll(".btn-add-to-cart");
-
   // Initialisation des filtres
   initFilters();
-
-  // Initialisation des boutons d'ajout au panier
-  initAddToCartButtons();
 
   /**
    * Initialise le système de filtrage des menus
@@ -73,53 +68,5 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  /**
-   * Initialise les boutons d'ajout au panier
-   */
-  function initAddToCartButtons() {
-    if (addToCartButtons.length === 0) return;
-
-    addToCartButtons.forEach((button) => {
-      button.addEventListener("click", function () {
-        const menuId = this.dataset.menuId;
-        handleAddToCart(this, menuId);
-      });
-    });
-  }
-
-  /**
-   * Gère l'ajout d'un menu au panier
-   * @param {HTMLElement} button - Bouton cliqué
-   * @param {string} menuId - ID du menu à ajouter
-   */
-  function handleAddToCart(button, menuId) {
-    // Animation de feedback
-    showAddToCartFeedback(button);
-
-    // TODO: Implémenter la logique d'ajout au panier
-    console.log("Ajouter au panier menu ID:", menuId);
-
-    // Réinitialiser le bouton après 2 secondes
-    setTimeout(() => {
-      resetAddToCartButton(button);
-    }, 2000);
-  }
-
-  /**
-   * Affiche le feedback d'ajout au panier
-   * @param {HTMLElement} button - Bouton à modifier
-   */
-  function showAddToCartFeedback(button) {
-    button.innerHTML = '<i class="fas fa-check"></i> Ajouté !';
-    button.classList.add("added");
-  }
-
-  /**
-   * Remet le bouton dans son état initial
-   * @param {HTMLElement} button - Bouton à réinitialiser
-   */
-  function resetAddToCartButton(button) {
-    button.innerHTML = '<i class="fas fa-plus"></i> Ajouter au panier';
-    button.classList.remove("added");
-  }
+  // Note: L'ajout au panier est géré par panier.js
 });

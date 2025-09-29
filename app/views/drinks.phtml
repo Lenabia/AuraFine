@@ -46,7 +46,7 @@
                             
                             <div class="drink-details">
                                 <div class="drink-price">
-                                    <span class="price-amount"><?= number_format($drink['price'], 2) ?>€</span>
+                                    <span class="price-amount"><?= number_format($drink['price'], 0, ',', ' ') ?> FCFA</span>
                                 </div>
                                 
                                 <div class="drink-stock">
@@ -62,6 +62,12 @@
                                         </span>
                                     <?php endif; ?>
                                 </div>
+                            </div>
+                            <div class="menu-actions">
+                                <button class="btn-add-to-cart" data-drink-id="<?= $drink['id'] ?>">
+                                    <i class="fas fa-plus"></i>
+                                    Ajouter au panier
+                                </button>
                             </div>
                         </div>
                     </article>

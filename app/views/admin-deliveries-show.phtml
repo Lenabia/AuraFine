@@ -1,0 +1,137 @@
+<!-- Détail d'une ville: Zones + Quartiers -->
+<section class="salads-header item-header">
+    <header>
+        <h2>Ville: <?= htmlspecialchars($city['name']) ?></h2>
+        <p>Gérez les zones et quartiers</p>
+    </header>
+    <div class="header-actions">
+        <a href="index.php?action=admin-deliveries" class="btn-back"><i class="fas fa-arrow-left"></i> Retour</a>
+    </div>
+</section>
+
+<?php if (!empty($_SESSION['error_message'])): ?>
+<div class="alert alert-error"><?= htmlspecialchars($_SESSION['error_message']); unset($_SESSION['error_message']); ?></div>
+<?php endif; ?>
+<?php if (!empty($_SESSION['success_message'])): ?>
+<div class="alert alert-success"><?= htmlspecialchars($_SESSION['success_message']); unset($_SESSION['success_message']); ?></div>
+<?php endif; ?>
+
+<section class="admin-two-columns">
+    <!-- Zones -->
+    <article class="admin-card">
+        <header class="card-title">
+            <h3><i class="fas fa-map-marked-alt"></i> Zones de livraison</h3>
+        </header>
+        <section class="card-body">
+            <form class="form-inline" method="POST" action="index.php?action=admin-delivery-zones-store&city=<?= (int)$city['id'] ?>">
+                <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                <select name="code" class="form-input" required>
+                    <option value="">Code</option>
+                    <?php foreach (['A','B','C'] as $c): ?>
+                        <option value="<?= $c ?>"><?= $c ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <input type="number" step="0.01" min="0.01" name="fee" class="form-input" placeholder="Frais (FCFA)" required>
+                <label class="checkbox"><input type="checkbox" name="is_active" value="1" checked> Active</label>
+                <button type="submit" class="btn-save"><i class="fas fa-plus"></i> Ajouter Zone</button>
+            </form>
+
+            <table class="admin-table mt-1">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Frais</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($zones)): foreach ($zones as $z): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($z['code']) ?></td>
+                        <td><?= number_format((float)$z['fee'], 0, ',', ' ') ?> FCFA</td>
+                        <td><?= ((int)$z['is_active'] === 1) ? 'Active' : 'Inactive' ?></td>
+                        <td class="table-actions">
+                            <form method="POST" action="index.php?action=admin-delivery-zones-update&city=<?= (int)$city['id'] ?>&id=<?= (int)$z['id'] ?>" class="inline-form">
+                                <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                                <select name="code" class="form-input small" required>
+                                    <?php foreach (['A','B','C'] as $c): ?>
+                                        <option value="<?= $c ?>" <?= $z['code']===$c?'selected':'' ?>><?= $c ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <input type="number" step="0.01" min="0.01" name="fee" class="form-input small" value="<?= htmlspecialchars($z['fee']) ?>" required>
+                                <label class="checkbox"><input type="checkbox" name="is_active" value="1" <?= ((int)$z['is_active']===1)?'checked':'' ?>> Active</label>
+                                <button type="submit" class="btn-edit"><i class="fas fa-save"></i></button>
+                            </form>
+                            <form id="delete-zone-<?= (int)$z['id'] ?>" method="POST" action="index.php?action=admin-delivery-zones-delete&city=<?= (int)$city['id'] ?>&id=<?= (int)$z['id'] ?>" class="inline-form">
+                                <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                                <button type="button" class="btn-delete" title="Supprimer" onclick="showDeleteModal('Zone <?= htmlspecialchars($z['code']) ?>','cette zone','delete-zone-<?= (int)$z['id'] ?>')"><i class="fas fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    <?php endforeach; else: ?>
+                    <tr><td colspan="4">Aucune zone</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </section>
+    </article>
+
+    <!-- Quartiers -->
+    <article class="admin-card">
+        <header class="card-title">
+            <h3><i class="fas fa-city"></i> Quartiers</h3>
+        </header>
+        <section class="card-body">
+            <form class="form-inline" method="POST" action="index.php?action=admin-neighborhoods-store&city=<?= (int)$city['id'] ?>">
+                <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                <input type="text" name="name" class="form-input" placeholder="Nom du quartier" required maxlength="120">
+                <select name="delivery_zones_id" class="form-input" required>
+                    <option value="">Zone</option>
+                    <?php foreach ($zones as $z): ?>
+                        <option value="<?= (int)$z['id'] ?>"><?= htmlspecialchars($z['code']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <button type="submit" class="btn-save"><i class="fas fa-plus"></i> Ajouter Quartier</button>
+            </form>
+
+            <table class="admin-table mt-1">
+                <thead>
+                    <tr>
+                        <th>Quartier</th>
+                        <th>Zone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($neighborhoods)): foreach ($neighborhoods as $n): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($n['name']) ?></td>
+                        <td><?= htmlspecialchars($n['zone_code']) ?></td>
+                        <td class="table-actions">
+                            <form method="POST" action="index.php?action=admin-neighborhoods-update&city=<?= (int)$city['id'] ?>&id=<?= (int)$n['id'] ?>" class="inline-form">
+                                <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                                <input type="text" name="name" class="form-input small" value="<?= htmlspecialchars($n['name']) ?>" required maxlength="120">
+                                <select name="delivery_zones_id" class="form-input small" required>
+                                    <?php foreach ($zones as $z): ?>
+                                        <option value="<?= (int)$z['id'] ?>" <?= ((int)$z['id'] === (int)$n['delivery_zones_id'])?'selected':'' ?>><?= htmlspecialchars($z['code']) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button type="submit" class="btn-edit"><i class="fas fa-save"></i></button>
+                            </form>
+                            <form id="delete-neighborhood-<?= (int)$n['id'] ?>" method="POST" action="index.php?action=admin-neighborhoods-delete&city=<?= (int)$city['id'] ?>&id=<?= (int)$n['id'] ?>" class="inline-form">
+                                <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                                <button type="button" class="btn-delete" title="Supprimer" onclick="showDeleteModal('<?= htmlspecialchars($n['name']) ?>','ce quartier','delete-neighborhood-<?= (int)$n['id'] ?>')"><i class="fas fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    <?php endforeach; else: ?>
+                    <tr><td colspan="3">Aucun quartier</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </section>
+    </article>
+</section>
+
+

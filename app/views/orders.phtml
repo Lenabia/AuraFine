@@ -1,0 +1,280 @@
+<!-- ========================================
+PAGE COMMANDES - ADMIN
+======================================== -->
+
+<!-- Métriques principales -->
+<section class="admin-metrics">
+    <!-- Commandes en attente -->
+    <article class="metric-card orders">
+        <header class="metric-header">
+            <figure class="metric-icon orders">
+                <i class="fas fa-clock"></i>
+            </figure>
+            <aside class="metric-trend positive">
+                <i class="fas fa-exclamation-circle"></i> En attente
+            </aside>
+        </header>
+        <h3 class="metric-title">Commandes en attente</h3>
+        <p class="metric-value"><?= $metrics['pending_orders'] ?></p>
+        <p class="metric-subtitle">En cours de traitement</p>
+    </article>
+    
+    <!-- Revenu total -->
+    <article class="metric-card revenue">
+        <header class="metric-header">
+            <figure class="metric-icon revenue">
+                <i class="fas fa-chart-line"></i>
+            </figure>
+            <aside class="metric-trend positive">
+                <i class="fas fa-arrow-up"></i> Total
+            </aside>
+        </header>
+        <h3 class="metric-title">Revenu total</h3>
+        <p class="metric-value"><?= number_format($metrics['total_revenue'], 0, ',', ' ') ?> FCFA</p>
+        <p class="metric-subtitle">Toutes commandes</p>
+    </article>
+    
+    <!-- Total commandes -->
+    <article class="metric-card popular">
+        <header class="metric-header">
+            <figure class="metric-icon popular">
+                <i class="fas fa-shopping-bag"></i>
+            </figure>
+            <aside class="metric-trend positive">
+                <i class="fas fa-list"></i> Total
+            </aside>
+        </header>
+        <h3 class="metric-title">Total commandes</h3>
+        <p class="metric-value"><?= $metrics['total_orders'] ?></p>
+        <p class="metric-subtitle">Toutes commandes</p>
+    </article>
+    
+    <!-- Panier moyen -->
+    <article class="metric-card revenue">
+        <header class="metric-header">
+            <figure class="metric-icon revenue">
+                <i class="fas fa-calculator"></i>
+            </figure>
+            <aside class="metric-trend positive">
+                <i class="fas fa-chart-bar"></i> Moyenne
+            </aside>
+        </header>
+        <h3 class="metric-title">Panier moyen</h3>
+        <p class="metric-value"><?= number_format($metrics['avg_basket'], 0, ',', ' ') ?> FCFA</p>
+        <p class="metric-subtitle">Par commande</p>
+    </article>
+</section>
+
+<!-- Filtres et recherche -->
+<section class="orders-filters">
+    <form method="GET" action="index.php?action=admin-orders" class="filters-form">
+        <div class="filters-row">
+            <!-- Recherche -->
+            <div class="filter-group">
+                <label for="search" class="filter-label">
+                    <i class="fas fa-search"></i>
+                    Rechercher
+                </label>
+                <input type="text" 
+                       id="search" 
+                       name="search" 
+                       value="<?= htmlspecialchars($filters['search']) ?>" 
+                       placeholder="Nom ou prénom du client"
+                       class="filter-input">
+            </div>
+
+            <!-- Statut -->
+            <div class="filter-group">
+                <label for="status" class="filter-label">
+                    <i class="fas fa-filter"></i>
+                    Statut
+                </label>
+                <select id="status" name="status" class="filter-select">
+                    <option value="">Tous les statuts</option>
+                    <option value="En attente" <?= $filters['status'] === 'En attente' ? 'selected' : '' ?>>En attente</option>
+                    <option value="En preparation" <?= $filters['status'] === 'En preparation' ? 'selected' : '' ?>>En préparation</option>
+                    <option value="Livraison en cours" <?= $filters['status'] === 'Livraison en cours' ? 'selected' : '' ?>>Livraison en cours</option>
+                    <option value="Livrée" <?= $filters['status'] === 'Livrée' ? 'selected' : '' ?>>Livrée</option>
+                    <option value="annulée" <?= $filters['status'] === 'annulée' ? 'selected' : '' ?>>Annulée</option>
+                </select>
+            </div>
+
+            <!-- Date de début -->
+            <div class="filter-group">
+                <label for="date_from" class="filter-label">
+                    <i class="fas fa-calendar-alt"></i>
+                    Du
+                </label>
+                <input type="date" 
+                       id="date_from" 
+                       name="date_from" 
+                       value="<?= htmlspecialchars($filters['date_from']) ?>"
+                       class="filter-input">
+            </div>
+
+            <!-- Date de fin -->
+            <div class="filter-group">
+                <label for="date_to" class="filter-label">
+                    <i class="fas fa-calendar-alt"></i>
+                    Au
+                </label>
+                <input type="date" 
+                       id="date_to" 
+                       name="date_to" 
+                       value="<?= htmlspecialchars($filters['date_to']) ?>"
+                       class="filter-input">
+            </div>
+
+            <!-- Boutons -->
+            <div class="filter-actions">
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-search"></i>
+                    Filtrer
+                </button>
+                <a href="index.php?action=admin-orders" class="btn-secondary">
+                    <i class="fas fa-times"></i>
+                    Effacer
+                </a>
+            </div>
+        </div>
+    </form>
+</section>
+
+<!-- Liste des commandes -->
+<section class="orders-list">
+    <div class="orders-header">
+        <h2>
+            <i class="fas fa-shopping-bag"></i>
+            Liste des commandes
+        </h2>
+        <p><?= count($orders) ?> commande(s) trouvée(s)</p>
+    </div>
+
+    <?php if (!empty($_SESSION['error_message'])): ?>
+    <div class="alert alert-error">
+        <i class="fas fa-exclamation-circle"></i>
+        <?= htmlspecialchars($_SESSION['error_message']); unset($_SESSION['error_message']); ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if (!empty($_SESSION['success_message'])): ?>
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i>
+        <?= htmlspecialchars($_SESSION['success_message']); unset($_SESSION['success_message']); ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if (!empty($orders)): ?>
+    <div class="orders-table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Date</th>
+                    <th>Téléphone</th>
+                    <th>Ville</th>
+                    <th>Statut</th>
+                    <th class="sortable" data-sort="total_amount">
+                        Montant total
+                        <i class="fas fa-sort<?= $filters['sort'] === 'total_amount' ? ($filters['direction'] === 'ASC' ? '-up' : '-down') : '' ?>"></i>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($orders as $order): ?>
+                <tr>
+                    <td>
+                        <a href="index.php?action=admin-orders-details&id=<?= (int)$order['id'] ?>" 
+                           class="order-client-link">
+                            <strong><?= htmlspecialchars($order['first_name'] . ' ' . $order['last_name']) ?></strong>
+                        </a>
+                    </td>
+                    <td>
+                        <time datetime="<?= htmlspecialchars($order['order_date']) ?>">
+                            <?= date('d/m/Y H:i', strtotime($order['order_date'])) ?>
+                        </time>
+                    </td>
+                    <td><?= htmlspecialchars($order['phone'] ?? 'N/A') ?></td>
+                    <td>
+                        <?= htmlspecialchars($order['city_name'] ?? 'N/A') ?>
+                        <?php if (!empty($order['neighborhood_name'])): ?>
+                        <br><small><?= htmlspecialchars($order['neighborhood_name']) ?></small>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <span class="status-badge status-<?= strtolower(str_replace(' ', '-', $order['status'])) ?>">
+                            <?= htmlspecialchars($order['status']) ?>
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        <strong><?= number_format($order['total_amount'], 0, ',', ' ') ?> FCFA</strong>
+                        <?php if ($order['delivery_fee'] > 0): ?>
+                        <br><small>+ <?= number_format($order['delivery_fee'], 0, ',', ' ') ?> FCFA livraison</small>
+                        <?php endif; ?>
+                    </td>
+                    <td class="table-actions">
+                        <a href="index.php?action=admin-orders-details&id=<?= (int)$order['id'] ?>" 
+                           class="btn-edit" title="Voir le détail">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php else: ?>
+    <div class="empty-state">
+        <div class="empty-icon">
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+        <h3>Aucune commande trouvée</h3>
+        <p>Il n'y a actuellement aucune commande correspondant à vos critères de recherche.</p>
+    </div>
+    <?php endif; ?>
+</section>
+
+<!-- Statistiques par statut -->
+<?php if (!empty($statusStats)): ?>
+<section class="orders-stats">
+    <h3>
+        <i class="fas fa-chart-pie"></i>
+        Répartition par statut
+    </h3>
+    <div class="stats-grid">
+        <?php foreach ($statusStats as $stat): ?>
+        <div class="stat-item">
+            <span class="stat-label"><?= htmlspecialchars($stat['status']) ?></span>
+            <span class="stat-value"><?= (int)$stat['count'] ?> commande(s)</span>
+            <span class="stat-revenue"><?= number_format($stat['revenue'], 0, ',', ' ') ?> FCFA</span>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</section>
+<?php endif; ?>
+
+<script>
+// Tri des colonnes
+document.addEventListener('DOMContentLoaded', function() {
+    const sortableHeaders = document.querySelectorAll('.sortable');
+    
+    sortableHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            const sortField = this.dataset.sort;
+            const currentSort = '<?= $filters['sort'] ?>';
+            const currentDirection = '<?= $filters['direction'] ?>';
+            
+            let newDirection = 'ASC';
+            if (sortField === currentSort && currentDirection === 'ASC') {
+                newDirection = 'DESC';
+            }
+            
+            const url = new URL(window.location);
+            url.searchParams.set('sort', sortField);
+            url.searchParams.set('direction', newDirection);
+            window.location.href = url.toString();
+        });
+    });
+});
+</script>

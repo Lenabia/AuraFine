@@ -270,16 +270,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // ANIMATIONS CSS ADDITIONNELLES
 // ========================================
 document.addEventListener("DOMContentLoaded", function () {
-  // Ajouter l'animation pulse pour le panier
-  const style = document.createElement("style");
-  style.textContent = `
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-  `;
-  document.head.appendChild(style);
+  // Note: Les animations CSS du panier sont dans panier.css
 });
 
 /* ========================================

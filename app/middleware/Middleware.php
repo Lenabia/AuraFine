@@ -33,9 +33,21 @@ public function createdSession($data) {
         if (!empty($data)) {
             extract($data);
         }
+        // Définir le chemin du template pour l'inclusion dans le layout
+        $template = "app/views/" . $template;
         
         // Inclure le layout qui inclura ensuite le template
         include "app/views/$layout";
+    }
+
+    /**
+     * Réponse JSON standardisée et terminaison
+     */
+    protected function json(array $payload, int $status = 200): void {
+        http_response_code($status);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($payload);
+        exit;
     }
        
     

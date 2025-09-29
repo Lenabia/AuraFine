@@ -1,0 +1,60 @@
+<?php if (!empty($_SESSION['error_message'])): ?>
+<div class="alert alert-error"><?= htmlspecialchars($_SESSION['error_message']); unset($_SESSION['error_message']); ?></div>
+<?php endif; ?>
+<?php if (!empty($_SESSION['success_message'])): ?>
+<div class="alert alert-success"><?= htmlspecialchars($_SESSION['success_message']); unset($_SESSION['success_message']); ?></div>
+<?php endif; ?>
+
+<section class="users-table-container">
+    <div class="table-responsive">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Nom & prénom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>
+                        <a href="index.php?action=admin-users&search=<?= urlencode($filters['search'] ?? '') ?>&sort=loyalty_points&direction=<?= ($filters['direction'] ?? 'DESC')==='DESC'?'ASC':'DESC' ?>&page=<?= (int)($filters['page'] ?? 1) ?>" class="sort-link" data-sort="loyalty_points">Points fidélité</a>
+                    </th>
+                    <th>
+                        <a href="index.php?action=admin-users&search=<?= urlencode($filters['search'] ?? '') ?>&sort=affiliates_count&direction=<?= ($filters['direction'] ?? 'DESC')==='DESC'?'ASC':'DESC' ?>&page=<?= (int)($filters['page'] ?? 1) ?>" class="sort-link" data-sort="affiliates_count">Affiliés</a>
+                    </th>
+                    <th>
+                        <a href="index.php?action=admin-users&search=<?= urlencode($filters['search'] ?? '') ?>&sort=orders_count&direction=<?= ($filters['direction'] ?? 'DESC')==='DESC'?'ASC':'DESC' ?>&page=<?= (int)($filters['page'] ?? 1) ?>" class="sort-link" data-sort="orders_count">Commandes</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($users)): foreach ($users as $u): ?>
+                <tr>
+                    <td><a href="#" class="link"><?= htmlspecialchars($u['full_name']) ?></a></td>
+                    <td><?= htmlspecialchars($u['email']) ?></td>
+                    <td><?= htmlspecialchars($u['phone']) ?></td>
+                    <td>
+                        <?= (int)$u['loyalty_points'] ?>
+                        <form method="POST" action="index.php?action=admin-users-add-points" class="inline-form small" style="display:inline-flex; gap:0.5rem; align-items:center; margin-left:0.5rem;">
+                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>" />
+                            <input type="hidden" name="user_id" value="<?= (int)$u['id'] ?>" />
+                            <input id="lp-input-<?= (int)$u['id'] ?>" type="number" name="points" min="1" value="1" style="width:4.5rem;" disabled />
+                            <button id="lp-edit-<?= (int)$u['id'] ?>" type="button" class="btn-save" onclick="(function(){var id='<?= (int)$u['id'] ?>';var inp=document.getElementById('lp-input-'+id);var sub=document.getElementById('lp-submit-'+id);var edt=document.getElementById('lp-edit-'+id);var cancel=document.getElementById('lp-cancel-'+id);inp.removeAttribute('disabled');sub.style.display='inline-block';cancel.style.display='inline-block';edt.style.display='none';inp.focus();})();">Modifier</button>
+                            <button id="lp-submit-<?= (int)$u['id'] ?>" type="submit" class="btn-save" style="display:none;">Ajouter</button>
+                            <button id="lp-cancel-<?= (int)$u['id'] ?>" type="button" class="btn-save" style="display:none;" onclick="(function(){var id='<?= (int)$u['id'] ?>';var inp=document.getElementById('lp-input-'+id);var sub=document.getElementById('lp-submit-'+id);var edt=document.getElementById('lp-edit-'+id);var cancel=document.getElementById('lp-cancel-'+id);inp.value='1';inp.setAttribute('disabled','disabled');sub.style.display='none';cancel.style.display='none';edt.style.display='inline-block';})();">Annuler</button>
+                        </form>
+                    </td>
+                    <td><?= (int)$u['affiliates_count'] ?></td>
+                    <td><?= (int)$u['orders_count'] ?></td>
+                </tr>
+                <?php endforeach; else: ?>
+                <tr><td colspan="6">Aucun utilisateur</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <nav class="pagination">
+        <?php $page = (int)($filters['page'] ?? 1); $prev = max(1, $page-1); $next = $page+1; ?>
+        <a class="btn-back" href="index.php?action=admin-users&search=<?= urlencode($filters['search'] ?? '') ?>&sort=<?= urlencode($filters['sort'] ?? 'orders_count') ?>&direction=<?= urlencode($filters['direction'] ?? 'DESC') ?>&page=<?= $prev ?>" data-page="<?= $prev ?>">Précédent</a>
+        <span class="page-indicator">Page <?= $page ?></span>
+        <a class="btn-back" href="index.php?action=admin-users&search=<?= urlencode($filters['search'] ?? '') ?>&sort=<?= urlencode($filters['sort'] ?? 'orders_count') ?>&direction=<?= urlencode($filters['direction'] ?? 'DESC') ?>&page=<?= $next ?>" data-page="<?= $next ?>">Suivant</a>
+    </nav>
+</section>

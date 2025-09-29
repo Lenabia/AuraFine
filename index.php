@@ -85,6 +85,17 @@ if(array_key_exists('action', $_GET)):
     $controller->displayCatalogue();
     break;
 
+    // admin utilisateurs
+    case 'admin-users':
+    $controller = new \app\controllers\AdminUsersController();
+    $controller->listUsers();
+    break;
+
+    case 'admin-users-add-points':
+    $controller = new \app\controllers\AdminUsersController();
+    $controller->addLoyaltyPoints();
+    break;
+
     //gestion des salades
     case 'admin-salads':
     $controller = new \app\controllers\SaladsController();
@@ -153,6 +164,112 @@ if(array_key_exists('action', $_GET)):
     $controller = new \app\controllers\DrinksController();
     $controller->delete($id);
     break;
+
+    // gestion des livraisons
+    case 'admin-delivery': // alias vers la liste
+    case 'admin-deliveries':
+    $controller = new \app\controllers\DeliveryController();
+    $controller->index();
+    break;
+
+    case 'admin-deliveries-create':
+    $controller = new \app\controllers\DeliveryController();
+    $controller->formCity();
+    break;
+
+    case 'admin-deliveries-edit':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\DeliveryController();
+    $controller->formCity((int)$id);
+    break;
+
+    case 'admin-deliveries-store':
+    $controller = new \app\controllers\DeliveryController();
+    $controller->storeCity();
+    break;
+
+    case 'admin-deliveries-update':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\DeliveryController();
+    $controller->updateCity((int)$id);
+    break;
+
+    case 'admin-deliveries-delete':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\DeliveryController();
+    $controller->deleteCity((int)$id);
+    break;
+
+    case 'admin-deliveries-show':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\DeliveryController();
+    $controller->showCity((int)$id);
+    break;
+
+    // zones
+    case 'admin-delivery-zones-store':
+    $city = (int)($_GET['city'] ?? 0);
+    $controller = new \app\controllers\DeliveryController();
+    $controller->storeZone($city);
+    break;
+
+    case 'admin-delivery-zones-update':
+    $city = (int)($_GET['city'] ?? 0);
+    $id = (int)($_GET['id'] ?? 0);
+    $controller = new \app\controllers\DeliveryController();
+    $controller->updateZone($city, $id);
+    break;
+
+    case 'admin-delivery-zones-delete':
+    $city = (int)($_GET['city'] ?? 0);
+    $id = (int)($_GET['id'] ?? 0);
+    $controller = new \app\controllers\DeliveryController();
+    $controller->deleteZone($city, $id);
+    break;
+
+    // neighborhoods
+    case 'admin-neighborhoods-store':
+    $city = (int)($_GET['city'] ?? 0);
+    $controller = new \app\controllers\DeliveryController();
+    $controller->storeNeighborhood($city);
+    break;
+
+    case 'admin-neighborhoods-update':
+    $city = (int)($_GET['city'] ?? 0);
+    $id = (int)($_GET['id'] ?? 0);
+    $controller = new \app\controllers\DeliveryController();
+    $controller->updateNeighborhood($city, $id);
+    break;
+
+    case 'admin-neighborhoods-delete':
+    $city = (int)($_GET['city'] ?? 0);
+    $id = (int)($_GET['id'] ?? 0);
+    $controller = new \app\controllers\DeliveryController();
+    $controller->deleteNeighborhood($city, $id);
+    break;
+
+    //gestion des commandes
+    case 'admin-orders':
+    $controller = new \app\controllers\OrdersController();
+    $controller->listOrders();
+    break;
+
+    case 'admin-orders-details':
+    $id = (int)($_GET['id'] ?? 0);
+    $controller = new \app\controllers\OrdersController();
+    $controller->viewOrdersDetail($id);
+    break;
+
+    case 'admin-orders-update-status':
+    $controller = new \app\controllers\OrdersController();
+    $controller->updateOrderStatus();
+    break;
+
+    case 'admin-orders-cancel':
+    $controller = new \app\controllers\OrdersController();
+    $controller->cancelOrder();
+    break;
+
 
     //gestion des menus
     case 'admin-menus':
@@ -247,6 +364,31 @@ if(array_key_exists('action', $_GET)):
     case 'menus':
     $controller = new \app\controllers\MenusController();
     $controller->publicIndex();
+    break;
+    // panier (site public)
+    case 'panier':
+    $controller = new \app\controllers\PanierController();
+    $controller->showCart();
+    break;
+
+    case 'panier-add':
+    $controller = new \app\controllers\PanierController();
+    $controller->addProduct();
+    break;
+
+    case 'panier-update':
+    $controller = new \app\controllers\PanierController();
+    $controller->updateQuantity();
+    break;
+
+    case 'panier-remove':
+    $controller = new \app\controllers\PanierController();
+    $controller->removeProduct();
+    break;
+
+    case 'panier-count':
+    $controller = new \app\controllers\PanierController();
+    $controller->getCartCount();
     break;
 
     //accès refusé

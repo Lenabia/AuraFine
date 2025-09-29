@@ -1,0 +1,100 @@
+@charset "UTF-8";
+/* ========================================
+   VARIABLES DE COULEURS - AURAFINE
+   ======================================== */
+/* Couleurs principales */
+/* Couleurs de gris */
+/* Couleurs d'accent */
+/* ========================================
+   NOUVELLES COULEURS POUR L'AUTHENTIFICATION
+   ======================================== */
+/* Couleurs rouges (Erreurs) */
+/* Couleurs vertes (Succès) */
+/* Couleurs jaunes/oranges (Avertissements) */
+/* Couleurs d'information (utilisant les couleurs existantes) */
+/* Couleurs de bienvenue (utilisant les couleurs existantes) */
+/* Couleurs de focus et validation */
+/* ========================================
+   PAGE PANIER - STYLES POUR LES ARTICLES
+   ======================================== */
+#panier-main .panier-articles .panier-item {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  #panier-main .panier-articles .panier-item {
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+  }
+}
+#panier-main .panier-articles .panier-item:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+#panier-main .panier-articles .panier-item .item-info h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+#panier-main .panier-articles .panier-item .item-info .price {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #e91e63;
+}
+#panier-main .panier-articles .panier-item .item-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+#panier-main .panier-articles .panier-item .item-actions .qty-btn {
+  background: #e91e63;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+#panier-main .panier-articles .panier-item .item-actions .qty-btn:hover {
+  background: rgb(193.1174089069, 18.8825910931, 78.1052631579);
+  transform: scale(1.1);
+}
+#panier-main .panier-articles .panier-item .item-actions .quantity {
+  font-weight: 600;
+  font-size: 1.1rem;
+  min-width: 2rem;
+  text-align: center;
+}
+#panier-main .panier-articles .panier-item .item-actions .subtotal {
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 1.1rem;
+}
+#panier-main .panier-articles .panier-item .item-actions .remove-btn {
+  background: #e74c3c;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+#panier-main .panier-articles .panier-item .item-actions .remove-btn:hover {
+  background: rgb(213.698630137, 43.8356164384, 26.301369863);
+}
+
+/*# sourceMappingURL=panier.css.map */

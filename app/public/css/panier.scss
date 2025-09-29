@@ -1,0 +1,101 @@
+@use "sass:color";
+@use "./color" as *;
+
+/* ========================================
+   PAGE PANIER - STYLES POUR LES ARTICLES
+   ======================================== */
+
+#panier-main {
+  .panier-articles {
+    .panier-item {
+      background: $color-white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      align-items: center;
+
+      @media (min-width: 768px) {
+        grid-template-columns: 1fr auto;
+        gap: 1.5rem;
+      }
+
+      &:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+      }
+
+      .item-info {
+        h4 {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: $color-black;
+          margin-bottom: 0.5rem;
+        }
+
+        .price {
+          font-size: 1rem;
+          font-weight: 500;
+          color: $color-rose;
+        }
+      }
+
+      .item-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+
+        .qty-btn {
+          background: $color-rose;
+          color: $color-white;
+          border: none;
+          border-radius: 50%;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background: color.adjust($color-rose, $lightness: -10%);
+            transform: scale(1.1);
+          }
+        }
+
+        .quantity {
+          font-weight: 600;
+          font-size: 1.1rem;
+          min-width: 2rem;
+          text-align: center;
+        }
+
+        .subtotal {
+          font-weight: 600;
+          color: $color-black;
+          font-size: 1.1rem;
+        }
+
+        .remove-btn {
+          background: #e74c3c;
+          color: $color-white;
+          border: none;
+          border-radius: 0.5rem;
+          padding: 0.5rem 1rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background: color.adjust(#e74c3c, $lightness: -10%);
+          }
+        }
+      }
+    }
+  }
+}

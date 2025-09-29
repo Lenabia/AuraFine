@@ -1,0 +1,37 @@
+<!-- Formulaire Ville -->
+<section class="salads-header item-header">
+    <header>
+        <h2><?= $isEdit ? 'Modifier la ville' : 'Nouvelle ville' ?></h2>
+        <p>Définissez le nom de la ville</p>
+    </header>
+    <div class="header-actions">
+        <a href="index.php?action=admin-deliveries" class="btn-back"><i class="fas fa-arrow-left"></i> Retour</a>
+    </div>
+</section>
+
+<?php if (!empty($_SESSION['error_message'])): ?>
+<div class="alert alert-error"><?= htmlspecialchars($_SESSION['error_message']); unset($_SESSION['error_message']); ?></div>
+<?php endif; ?>
+<?php if (!empty($_SESSION['validation_errors']['name'])): ?>
+<div class="alert alert-error"><?= htmlspecialchars($_SESSION['validation_errors']['name']); unset($_SESSION['validation_errors']); ?></div>
+<?php endif; ?>
+
+<section class="form-container">
+    <form method="POST" action="<?= $isEdit ? 'index.php?action=admin-deliveries-update&id=' . (int)$city['id'] : 'index.php?action=admin-deliveries-store' ?>" class="item-form" novalidate>
+        <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+
+        <div class="form-group">
+            <label for="name" class="form-label required">Nom de la ville</label>
+            <input type="text" id="name" name="name" class="form-input" required maxlength="100"
+                   value="<?= htmlspecialchars($city['name'] ?? ($_SESSION['old_input']['name'] ?? '')) ?>" />
+        </div>
+
+        <div class="form-actions">
+            <a href="index.php?action=admin-deliveries" class="btn-cancel"><i class="fas fa-times"></i> Annuler</a>
+            <button type="submit" class="btn-save"><i class="fas fa-save"></i> <?= $isEdit ? 'Mettre à jour' : 'Enregistrer' ?></button>
+        </div>
+    </form>
+</section>
+
+
+

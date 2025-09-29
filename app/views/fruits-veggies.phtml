@@ -46,7 +46,7 @@
                             
                             <div class="fruit-veggie-details">
                                 <div class="fruit-veggie-price">
-                                    <span class="price-amount"><?= number_format($fruitVeggie['price'], 2) ?>€</span>
+                                    <span class="price-amount"><?= number_format($fruitVeggie['price'], 0, ',', ' ') ?> FCFA</span>
                                 </div>
                                 
                                 <div class="fruit-veggie-stock">
@@ -62,6 +62,12 @@
                                         </span>
                                     <?php endif; ?>
                                 </div>
+                            </div>
+                            <div class="menu-actions">
+                                <button class="add-to-cart-btn" data-item-id="<?= $fruitVeggie['id'] ?>">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Ajouter
+                                </button>
                             </div>
                         </div>
                     </article>
