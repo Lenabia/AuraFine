@@ -3,6 +3,10 @@ namespace app\middleware;
 
 class Middleware {
 
+    public function __construct() {
+        $this->enforceSessionActivity();
+    }
+
 /**
  * Nettoie la session utilisateur en supprimant les données sensibles
  * 
@@ -19,6 +23,8 @@ public function createdSession($data) {
     
     // Ajouter un timestamp de création pour la gestion de l'expiration
     $_SESSION['session_created'] = time();
+    $_SESSION['last_activity'] = time();
+    $_SESSION['last_regen'] = time();
 }
 
     /**
@@ -71,8 +77,8 @@ public function createdSession($data) {
             return false;
         }
         
-        // Vérifier l'expiration de session (8 heures par défaut)
-        $sessionLifetime = 8 * 3600; // 8 heures en secondes
+        // Vérifier l'expiration de session (basé sur config SESSION_LIFETIME)
+        $sessionLifetime = defined('SESSION_LIFETIME') ? (int)SESSION_LIFETIME : (8 * 3600);
         if (isset($_SESSION['session_created']) && 
             (time() - $_SESSION['session_created']) > $sessionLifetime) {
             
@@ -82,6 +88,32 @@ public function createdSession($data) {
         }
         
         return true;
+    }
+
+    /**
+     * Applique l'expiration par inactivité et régénération périodique d'ID
+     */
+    protected function enforceSessionActivity(): void {
+        if (!isset($_SESSION['connected']) || $_SESSION['connected'] !== true) {
+            return;
+        }
+        $now = time();
+        $lifetime = defined('SESSION_LIFETIME') ? (int)SESSION_LIFETIME : (8 * 3600);
+        $lastActivity = (int)($_SESSION['last_activity'] ?? $_SESSION['session_created'] ?? $now);
+        if (($now - $lastActivity) > $lifetime) {
+            // Expiration par inactivité
+            $this->destroySession();
+            header('Location: index.php?action=login');
+            exit;
+        }
+        // Sliding expiration
+        $_SESSION['last_activity'] = $now;
+        // Régénération périodique d'ID (toutes les 5 minutes)
+        $lastRegen = (int)($_SESSION['last_regen'] ?? 0);
+        if ($now - $lastRegen >= 300) {
+            session_regenerate_id(true);
+            $_SESSION['last_regen'] = $now;
+        }
     }
 
     /**

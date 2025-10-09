@@ -28,6 +28,32 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // ========================================
+// COPIE DE LIEN (Parrainage)
+// ========================================
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".referral-copy-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var targetSel = btn.getAttribute("data-copy-target");
+      var input = targetSel ? document.querySelector(targetSel) : null;
+      if (!input || !(input instanceof HTMLInputElement)) return;
+      input.select();
+      input.setSelectionRange(0, 99999);
+      try {
+        var ok = document.execCommand("copy");
+        if (ok) {
+          if (
+            window["AuraFineUtils"] &&
+            window["AuraFineUtils"].showNotification
+          ) {
+            window["AuraFineUtils"].showNotification("Lien copié !");
+          }
+        }
+      } catch (e) {}
+    });
+  });
+});
+
+// ========================================
 // ANIMATIONS AU SCROLL OPTIMISÉES
 // ========================================
 document.addEventListener("DOMContentLoaded", function () {

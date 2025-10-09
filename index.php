@@ -66,6 +66,12 @@ if(array_key_exists('action', $_GET)):
     $controller->showRegister();
     break;
 
+    // parrainage (profil)
+    case 'referral':
+    $controller = new \app\controllers\UsersController();
+    $controller->referral();
+    break;
+
     //déconnexion
     case 'logout':
     $controller = new \app\controllers\UsersController();

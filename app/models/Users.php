@@ -31,10 +31,9 @@ class Users extends Database {
             $data['password_hash'] = $this->hashPassword($data['password']);
             unset($data['password']); // Supprimer le mot de passe en clair
 
-            // Génération automatique du code de parrainage
-            if (empty($data['referral_code'])) {
-                $data['referral_code'] = $this->generateReferralCode();
-            }
+            // Génération automatique du code de parrainage (toujours généré côté serveur)
+            // Ignorer toute valeur fournie depuis l'extérieur pour éviter les collisions/modifications
+            $data['referral_code'] = $this->generateReferralCode();
 
             // Valeurs par défaut
             $data['loyalty_points'] = 0;
@@ -106,6 +105,11 @@ class Users extends Database {
     public function update($id, $data) {
         try {
             $data['updated_at'] = date('Y-m-d H:i:s');
+
+            // Empêcher toute modification du code de parrainage par mise à jour
+            if (array_key_exists('referral_code', $data)) {
+                unset($data['referral_code']);
+            }
             
             $fields = array_keys($data);
             $setClause = '';
@@ -152,6 +156,50 @@ class Users extends Database {
         } catch (\PDOException $e) {
             error_log("Erreur vérification email: " . $e->getMessage());
             return false;
+        }
+    }
+
+    /**
+     * Trouve un utilisateur par son code de parrainage
+     * 
+     * @param string $code Code de parrainage (ex: A1B2C3D4)
+     * @return array|null Utilisateur ou null si introuvable
+     */
+    public function findByReferralCode(string $code): ?array {
+        $normalized = strtolower(trim($code));
+        if ($normalized === '') {
+            return null;
+        }
+        try {
+            $sql = "SELECT id, first_name, last_name, email, referral_code FROM users WHERE referral_code = :code LIMIT 1";
+            $stmt = $this->getConnection()->prepare($sql);
+            $stmt->bindValue(':code', $normalized);
+            $stmt->execute();
+            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+            return $row ?: null;
+        } catch (\PDOException $e) {
+            error_log("Erreur findByReferralCode: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Récupère les filleuls d'un utilisateur
+     * 
+     * @param int $userId ID du parrain
+     * @return array Liste des filleuls (first_name, email, created_at)
+     */
+    public function getReferralsByUserId(int $userId): array {
+        if ($userId <= 0) return [];
+        try {
+            $sql = "SELECT first_name, email, created_at FROM users WHERE referred_by_users_id = :uid ORDER BY created_at DESC";
+            $stmt = $this->getConnection()->prepare($sql);
+            $stmt->bindValue(':uid', $userId, \PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+        } catch (\PDOException $e) {
+            error_log("Erreur getReferralsByUserId: " . $e->getMessage());
+            return [];
         }
     }
 
@@ -238,20 +286,9 @@ class Users extends Database {
         return password_verify($password, $hash);
     }
 
-    private function generateReferralCode($length = 8) {
-        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $code = '';
-        
-        for ($i = 0; $i < $length; $i++) {
-            $code .= $characters[rand(0, strlen($characters) - 1)];
-        }
-        
-        // Vérifier que le code n'existe pas déjà
-        while ($this->referralCodeExists($code)) {
-            $code = $this->generateReferralCode($length);
-        }
-        
-        return $code;
+    private function generateReferralCode(): string {
+        // 24 caractères hex (96 bits d'entropie), minuscules
+        return bin2hex(random_bytes(12));
     }
 
     /**

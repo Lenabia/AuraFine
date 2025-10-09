@@ -1,0 +1,51 @@
+<section class="profile-referrals">
+  <div class="container">
+    <header class="profile-header">
+      <h1><i class="fas fa-gift"></i> Parrainage</h1>
+      <p>Partagez votre lien pour inviter des amis et gagner des avantages.</p>
+    </header>
+
+    <div class="referral-card">
+      <label for="referral-link" class="referral-label">Votre lien de parrainage</label>
+      <div class="referral-row">
+        <input type="text" id="referral-link" class="referral-input" value="<?= htmlspecialchars($referralLink ?? '') ?>" readonly>
+        <button type="button" class="referral-copy-btn" data-copy-target="#referral-link">
+          <i class="fas fa-copy"></i> Copier
+        </button>
+      </div>
+    </div>
+
+    <div class="referrals-list">
+      <h2>Vos filleuls</h2>
+      <?php if (!empty($referrals)): ?>
+      <div class="table-responsive">
+        <table class="table-profile">
+          <thead>
+            <tr>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th>Inscrit le</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($referrals as $child): ?>
+              <tr>
+                <td><?= htmlspecialchars($child['first_name'] ?? '') ?></td>
+                <td><?= htmlspecialchars($child['email'] ?? '') ?></td>
+                <td><?= htmlspecialchars($child['created_at'] ?? '') ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+      <?php else: ?>
+        <div class="empty-state">
+          <div class="empty-icon"><i class="fas fa-users"></i></div>
+          <h3>Pas encore de filleuls</h3>
+          <p>Partagez votre lien pour commencer à parrainer.</p>
+        </div>
+      <?php endif; ?>
+    </div>
+  </div>
+</section>
+

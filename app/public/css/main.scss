@@ -67,7 +67,7 @@ $bp: (
   xxxl: 1440px,
   // desktop XL
   uhd: 1600px
-    // très grands écrans,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+    // très grands écrans,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 );
 @mixin up($key) {
   @media (min-width: map.get($bp, $key)) {
@@ -1747,6 +1747,91 @@ body {
     &:hover {
       background: rgba($color-white, 0.1);
       transform: none;
+    }
+  }
+}
+
+/* ========================================
+   PAGE PARRAINAGE (réutilise styles existants)
+   ======================================== */
+.profile-referrals {
+  padding: 2rem 0;
+  .profile-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    h1 {
+      font-size: clamp(1.3rem, 2.5vw + 0.5rem, 1.8rem);
+      font-weight: 600;
+      color: $color-black;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      i {
+        color: $color-rose;
+      }
+    }
+    p {
+      color: $color-gray-dark;
+    }
+  }
+  .referral-card {
+    background: $color-white;
+    border-radius: 1rem;
+    padding: 1rem;
+    @include shadow-soft;
+    margin-bottom: 1.5rem;
+    .referral-label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .referral-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      .referral-input {
+        flex: 1 1 280px;
+        padding: 0.75rem 1rem;
+        border: 1px solid $color-gray-light;
+        border-radius: 0.5rem;
+      }
+      .referral-copy-btn {
+        background: $color-green;
+        color: $color-white;
+        border: none;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        @include transition;
+        &:hover {
+          background: color.adjust($color-green, $lightness: -10%);
+        }
+      }
+    }
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+  .table-profile {
+    width: 100%;
+    border-collapse: collapse;
+    background: $color-white;
+    border-radius: 1rem;
+    overflow: hidden;
+    @include shadow-soft;
+    th,
+    td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid $color-gray-light;
+    }
+    thead th {
+      background: $color-gray-light;
+      font-weight: 700;
+    }
+    tbody tr:hover {
+      background: rgba($color-rose, 0.03);
     }
   }
 }

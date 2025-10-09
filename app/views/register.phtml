@@ -24,6 +24,20 @@
         <?php endif; ?>
 
         <form action="index.php?action=register" method="post" class="auth-form" novalidate>
+          <!-- Code de parrainage -->
+          <div class="auth-field">
+            <label for="auth-referral" class="auth-label">Code de parrainage</label>
+            <input 
+              type="text" 
+              id="auth-referral" 
+              name="referral_code" 
+              class="auth-input" 
+              placeholder="Ex: N4X4TALI" 
+              value="<?= htmlspecialchars($referral_code ?? ($old['referral_code'] ?? '')) ?>"
+              <?= !empty($referral_code ?? '') ? 'readonly' : '' ?>
+            >
+            <div class="auth-error" aria-live="polite"><?= $errors['referral_code'] ?? '' ?></div>
+          </div>
           <!-- CSRF côté serveur -->
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
 
