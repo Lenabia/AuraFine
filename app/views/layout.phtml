@@ -21,7 +21,7 @@
     <meta name="csrf-token" content="<?= htmlspecialchars($_SESSION['csrf_token']) ?>" />
 
 </head>
-<body>
+<body data-is-guest="<?= isset($_SESSION['user']) && $_SESSION['user']['role'] === 'user' ? '0' : '1' ?>">
 
 <header id="navbar">
   <!-- Top bar avec informations de contact et actions -->
@@ -221,6 +221,22 @@
     <div class="modal-actions">
       <button type="button" class="modal-btn modal-btn-cancel" onclick="closeModal()">Annuler</button>
       <button type="button" class="modal-btn modal-btn-confirm">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<div id="loginPromptModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="modal-icon">🔐</div>
+      <h3 class="modal-title">Connexion requise</h3>
+    </div>
+    <div class="modal-body">
+      <p class="modal-message">Veuillez vous connecter pour finaliser vos achats et cumuler des points de fidélité.</p>
+    </div>
+    <div class="modal-actions">
+      <a href="index.php?action=login" class="modal-btn modal-btn-confirm">Se connecter</a>
+      <a href="index.php?action=panier" class="modal-btn modal-btn-cancel">Continuer sans se connecter</a>
     </div>
   </div>
 </div>

@@ -396,14 +396,20 @@ if(array_key_exists('action', $_GET)):
     $controller->setDeliveryChoice();
     break;
 
-    case 'panier-zones':
-    $controller = new \app\controllers\PanierController();
-    $controller->getDeliveryZones();
+
+    case 'register-neighborhoods':
+    $controller = new \app\controllers\UsersController();
+    $controller->getNeighborhoodsByCity();
     break;
 
-    case 'panier-neighborhoods':
+    case 'neighborhoods':
     $controller = new \app\controllers\PanierController();
     $controller->getNeighborhoods();
+    break;
+
+    case 'create-order':
+    $controller = new \app\controllers\PanierController();
+    $controller->createOrder();
     break;
 
     //accès refusé

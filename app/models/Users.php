@@ -194,27 +194,6 @@ class Users extends Database {
         }
     }
 
-    public function getDeliveryZones($cityId = null) {
-        try {
-            $sql = "SELECT id, cities_id, code, fee FROM delivery_zones WHERE is_active = 1";
-            $params = [];
-            
-            if ($cityId) {
-                $sql .= " AND cities_id = :city_id";
-                $params[':city_id'] = $cityId;
-            }
-            
-            $sql .= " ORDER BY code";
-            
-            $stmt = $this->getConnection()->prepare($sql);
-            $stmt->execute($params);
-            
-            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
-            error_log("Erreur récupération zones livraison: " . $e->getMessage());
-            return [];
-        }
-    }
 
     public function getNeighborhoods($cityId = null, $zoneId = null) {
         try {

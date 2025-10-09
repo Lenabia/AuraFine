@@ -90,4 +90,19 @@ class OrdersDetail extends Database {
         
         return $result;
     }
+
+    /**
+     * Crée un détail de commande
+     * 
+     * @param array $detailData Données du détail
+     * @return int|false ID du détail créé ou false en cas d'erreur
+     */
+    public function createOrderDetail(array $detailData): int|false {
+        $sql = "INSERT INTO order_details (orders_id, quantity, unit_price, item_label,
+                salads_id, drinks_id, desserts_id, fruits_veggies_id, menus_id, order_custom_salads_id) 
+                VALUES (:orders_id, :quantity, :unit_price, :item_label,
+                :salads_id, :drinks_id, :desserts_id, :fruits_veggies_id, :menus_id, :order_custom_salads_id)";
+        
+        return $this->execute($sql, $detailData);
+    }
 }

@@ -60,22 +60,9 @@
             </div>
           </div>
 
-          <!-- Adresse -->
-          <div class="auth-field">
-            <label for="auth-address" class="auth-label">Adresse</label>
-            <textarea 
-              id="auth-address" 
-              name="address_line" 
-              class="auth-textarea" 
-              placeholder="Votre adresse complète" 
-              rows="3"
-            ><?= htmlspecialchars($old['address_line'] ?? '') ?></textarea>
-            <div class="auth-error" aria-live="polite"><?= $errors['address_line'] ?? '' ?></div>
-          </div>
-
           <!-- Ville -->
           <div class="auth-field">
-            <label for="auth-city" class="auth-label">Ville</label>
+            <label for="auth-city" class="auth-label">Ville *</label>
             <select id="auth-city" name="cities_id" class="auth-select" required>
               <option value="">Sélectionnez une ville</option>
               <?php if (isset($cities) && is_array($cities)): ?>
@@ -87,6 +74,35 @@
               <?php endif; ?>
             </select>
             <div class="auth-error" aria-live="polite"><?= $errors['cities_id'] ?? '' ?></div>
+          </div>
+
+          <!-- Quartier -->
+          <div class="auth-field">
+            <label for="auth-neighborhood" class="auth-label">Quartier *</label>
+            <select id="auth-neighborhood" name="neighborhoods_id" class="auth-select" required>
+              <option value="">Sélectionnez un quartier</option>
+              <?php if (isset($neighborhoods) && is_array($neighborhoods)): ?>
+                <?php foreach ($neighborhoods as $neighborhood): ?>
+                  <option value="<?= $neighborhood['id'] ?>" <?= ($old['neighborhoods_id'] ?? '') == $neighborhood['id'] ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($neighborhood['name']) ?>
+                  </option>
+                <?php endforeach; ?>
+              <?php endif; ?>
+            </select>
+            <div class="auth-error" aria-live="polite"><?= $errors['neighborhoods_id'] ?? '' ?></div>
+          </div>
+
+          <!-- Adresse -->
+          <div class="auth-field">
+            <label for="auth-address" class="auth-label">Adresse</label>
+            <textarea 
+              id="auth-address" 
+              name="address_line" 
+              class="auth-textarea" 
+              placeholder="Votre adresse complète" 
+              rows="3"
+            ><?= htmlspecialchars($old['address_line'] ?? '') ?></textarea>
+            <div class="auth-error" aria-live="polite"><?= $errors['address_line'] ?? '' ?></div>
           </div>
 
           <!-- Email -->
@@ -119,38 +135,6 @@
               required
             >
             <div class="auth-error" aria-live="polite"><?= $errors['phone'] ?? '' ?></div>
-          </div>
-
-          <!-- Zone de livraison -->
-          <div class="auth-field">
-            <label for="auth-delivery-zone" class="auth-label">Zone de livraison</label>
-            <select id="auth-delivery-zone" name="delivery_zones_id" class="auth-select">
-              <option value="">Sélectionnez une zone</option>
-              <?php if (isset($delivery_zones) && is_array($delivery_zones)): ?>
-                <?php foreach ($delivery_zones as $zone): ?>
-                  <option value="<?= $zone['id'] ?>" <?= ($old['delivery_zones_id'] ?? '') == $zone['id'] ? 'selected' : '' ?>>
-                    Zone <?= htmlspecialchars($zone['code']) ?> - <?= htmlspecialchars($zone['fee']) ?> FCFA
-                  </option>
-                <?php endforeach; ?>
-              <?php endif; ?>
-            </select>
-            <div class="auth-error" aria-live="polite"><?= $errors['delivery_zones_id'] ?? '' ?></div>
-          </div>
-
-          <!-- Quartier -->
-          <div class="auth-field">
-            <label for="auth-neighborhood" class="auth-label">Quartier</label>
-            <select id="auth-neighborhood" name="neighborhoods_id" class="auth-select">
-              <option value="">Sélectionnez un quartier</option>
-              <?php if (isset($neighborhoods) && is_array($neighborhoods)): ?>
-                <?php foreach ($neighborhoods as $neighborhood): ?>
-                  <option value="<?= $neighborhood['id'] ?>" <?= ($old['neighborhoods_id'] ?? '') == $neighborhood['id'] ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($neighborhood['name']) ?>
-                  </option>
-                <?php endforeach; ?>
-              <?php endif; ?>
-            </select>
-            <div class="auth-error" aria-live="polite"><?= $errors['neighborhoods_id'] ?? '' ?></div>
           </div>
 
           <!-- Mot de passe -->
@@ -192,3 +176,47 @@
     </div>
   </div>
 </section>
+
+<script>
+// Chargement dynamique des quartiers
+document.addEventListener('DOMContentLoaded', function() {
+    const citySelect = document.getElementById('auth-city');
+    const neighborhoodSelect = document.getElementById('auth-neighborhood');
+    
+    if (citySelect && neighborhoodSelect) {
+        citySelect.addEventListener('change', function() {
+            const cityId = this.value;
+            
+            // Vider les quartiers
+            neighborhoodSelect.innerHTML = '<option value="">Sélectionnez un quartier</option>';
+            
+            if (cityId) {
+                // Afficher un indicateur de chargement
+                neighborhoodSelect.innerHTML = '<option value="">Chargement...</option>';
+                
+                // Charger les quartiers via AJAX
+                fetch('index.php?action=register-neighborhoods&city_id=' + cityId)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.neighborhoods) {
+                            // Vider et remplir les quartiers
+                            neighborhoodSelect.innerHTML = '<option value="">Sélectionnez un quartier</option>';
+                            data.neighborhoods.forEach(function(neighborhood) {
+                                const option = document.createElement('option');
+                                option.value = neighborhood.id;
+                                option.textContent = neighborhood.name;
+                                neighborhoodSelect.appendChild(option);
+                            });
+                        } else {
+                            neighborhoodSelect.innerHTML = '<option value="">Aucun quartier disponible</option>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors du chargement des quartiers:', error);
+                        neighborhoodSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+                    });
+            }
+        });
+    }
+});
+</script>

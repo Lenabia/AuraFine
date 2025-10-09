@@ -11,6 +11,107 @@
   }
   var cartCountEl = document.querySelector(".cart-count");
 
+  // Messages d'erreur centralisés
+  function getErrorMessage(errorCode) {
+    var errorMessages = {
+      EMPTY_CART: "Votre panier est vide",
+      LOGIN_REQUIRED: "Vous devez être connecté pour effectuer cette action",
+      INVALID_CSRF: "Erreur de sécurité, veuillez réessayer",
+      ORDER_CREATION_FAILED: "Erreur lors de la création de la commande",
+      INVALID_CITY: "Veuillez sélectionner une ville",
+      INVALID_ZONE: "Zone de livraison invalide",
+      INVALID_NEIGHBORHOOD: "Quartier invalide",
+      OPERATION_FAILED: "Opération échouée",
+      INVALID_DATA: "Données invalides",
+      UPDATE_FAILED: "Échec de la mise à jour",
+    };
+    return errorMessages[errorCode] || null;
+  }
+
+  // Validation du formulaire de livraison
+  function validateDeliveryForm() {
+    var isValid = true;
+
+    // Réinitialiser les messages d'erreur
+    clearErrorMessages();
+
+    // Valider la ville
+    var citySelect = document.getElementById("cities_id");
+    if (!citySelect || !citySelect.value) {
+      showFieldError("cities_id", "Veuillez sélectionner une ville");
+      isValid = false;
+    }
+
+    // Valider le quartier
+    var neighborhoodSelect = document.getElementById("neighborhoods_id");
+    if (!neighborhoodSelect || !neighborhoodSelect.value) {
+      showFieldError("neighborhoods_id", "Veuillez sélectionner un quartier");
+      isValid = false;
+    }
+
+    // Validation invités si les champs existent
+    var fn = document.getElementById("first_name");
+    var ln = document.getElementById("last_name");
+    var ph = document.getElementById("phone");
+    var em = document.getElementById("email");
+    var addr = document.getElementById("address_line");
+
+    var nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,50}$/;
+    var phoneRegex = /^[0-9 +().-]{7,20}$/;
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (fn && !nameRegex.test(fn.value.trim())) {
+      showFieldError("first_name", "Prénom invalide");
+      isValid = false;
+    }
+    if (ln && !nameRegex.test(ln.value.trim())) {
+      showFieldError("last_name", "Nom invalide");
+      isValid = false;
+    }
+    if (ph && !phoneRegex.test(ph.value.trim())) {
+      showFieldError("phone", "Téléphone invalide");
+      isValid = false;
+    }
+    if (em) {
+      var ev = (em.value || "").trim();
+      if (!ev) {
+        showFieldError("email", "Email requis");
+        isValid = false;
+      } else if (!emailRegex.test(ev)) {
+        showFieldError("email", "Email invalide");
+        isValid = false;
+      }
+    }
+
+    if (addr) {
+      var av = (addr.value || "").trim();
+      if (!av || av.length < 5) {
+        showFieldError("address_line", "Adresse complète requise");
+        isValid = false;
+      }
+    }
+
+    return isValid;
+  }
+
+  // Afficher un message d'erreur pour un champ
+  function showFieldError(fieldId, message) {
+    var errorEl = document.getElementById(fieldId + "-error");
+    if (errorEl) {
+      errorEl.textContent = message;
+      errorEl.style.display = "block";
+    }
+  }
+
+  // Effacer tous les messages d'erreur
+  function clearErrorMessages() {
+    var errorElements = document.querySelectorAll(".error-message");
+    errorElements.forEach(function (el) {
+      el.style.display = "none";
+      el.textContent = "";
+    });
+  }
+
   function post(url, data) {
     var form = new URLSearchParams();
     Object.keys(data).forEach(function (k) {
@@ -296,34 +397,22 @@
         // @ts-ignore
         var cityId = this.value;
         if (cityId) {
-          loadDeliveryZones(cityId);
+          loadNeighborhoods(cityId);
         } else {
-          clearDeliveryZones();
+          clearNeighborhoods();
         }
       });
     }
 
-    // Gestion du changement de zone
-    var zoneSelect = document.getElementById("delivery_zones_id");
-    if (zoneSelect && zoneSelect.tagName === "SELECT") {
-      zoneSelect.addEventListener("change", function () {
+    // Gestion du changement de quartier
+    var neighborhoodSelect = document.getElementById("neighborhoods_id");
+    if (neighborhoodSelect && neighborhoodSelect.tagName === "SELECT") {
+      neighborhoodSelect.addEventListener("change", function () {
         // @ts-ignore
-        var selectedOption = this.options[this.selectedIndex];
-        if (selectedOption && selectedOption.dataset.fee) {
-          updateDeliveryFee(parseFloat(selectedOption.dataset.fee));
-
-          // Charger les quartiers pour cette zone
-          var citySelectEl = document.getElementById("cities_id");
-          // @ts-ignore
-          var cityId =
-            citySelectEl && citySelectEl.tagName === "SELECT"
-              ? citySelectEl.value
-              : "";
-          // @ts-ignore
-          var zoneId = this.value;
-          if (cityId && zoneId) {
-            loadNeighborhoods(cityId, zoneId);
-          }
+        var neighborhoodId = this.value;
+        if (neighborhoodId) {
+          // Récupérer les frais de livraison via AJAX
+          updateDeliveryFeeFromNeighborhood(neighborhoodId);
         }
       });
     }
@@ -335,99 +424,20 @@
     });
   }
 
-  // Charger les zones de livraison pour une ville
-  function loadDeliveryZones(cityId) {
-    var zoneSelect = document.getElementById("delivery_zones_id");
-    if (!zoneSelect || !zoneSelect.innerHTML) return;
-
-    // Afficher un indicateur de chargement
-    zoneSelect.innerHTML = '<option value="">Chargement...</option>';
-
-    fetch("index.php?action=panier-zones&city_id=" + cityId, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        if (data && data.success && data.zones && zoneSelect) {
-          // Vider et remplir les zones
-          zoneSelect.innerHTML =
-            '<option value="">Sélectionnez une zone</option>';
-          data.zones.forEach(function (zone) {
-            var option = document.createElement("option");
-            option.value = zone.id;
-            option.dataset.fee = zone.fee;
-            option.textContent =
-              "Zone " + zone.code + " - " + Math.round(zone.fee) + " FCFA";
-            // @ts-ignore
-            zoneSelect.appendChild(option);
-          });
-
-          // Pré-sélectionner la zone de l'utilisateur s'il en a une
-          var citySelectEl = document.getElementById("cities_id");
-          var userZoneId = citySelectEl
-            ? citySelectEl.getAttribute("data-user-zone-id")
-            : null;
-          if (userZoneId && zoneSelect && zoneSelect.tagName === "SELECT") {
-            // @ts-ignore
-            zoneSelect.value = userZoneId;
-            // Déclencher le changement pour mettre à jour les frais
-            var event = new Event("change");
-            if (zoneSelect) {
-              zoneSelect.dispatchEvent(event);
-            }
-          }
-        } else if (zoneSelect) {
-          zoneSelect.innerHTML =
-            '<option value="">Aucune zone disponible</option>';
-        }
-        // Réinitialiser les quartiers
-        clearNeighborhoods();
-      })
-      .catch(function (error) {
-        console.error("Erreur lors du chargement des zones:", error);
-        if (zoneSelect) {
-          zoneSelect.innerHTML =
-            '<option value="">Erreur de chargement</option>';
-        }
-        clearNeighborhoods();
-      });
-  }
-
-  // Vider les zones de livraison
-  function clearDeliveryZones() {
-    var zoneSelect = document.getElementById("delivery_zones_id");
-    if (zoneSelect) {
-      zoneSelect.innerHTML =
-        '<option value="">Sélectionnez d\'abord une ville</option>';
-    }
-    clearNeighborhoods();
-  }
-
-  // Charger les quartiers pour une ville et zone
-  function loadNeighborhoods(cityId, zoneId) {
+  // Charger les quartiers pour une ville
+  function loadNeighborhoods(cityId) {
     var neighborhoodSelect = document.getElementById("neighborhoods_id");
     if (!neighborhoodSelect || !neighborhoodSelect.innerHTML) return;
 
     // Afficher un indicateur de chargement
     neighborhoodSelect.innerHTML = '<option value="">Chargement...</option>';
 
-    fetch(
-      "index.php?action=panier-neighborhoods&city_id=" +
-        cityId +
-        "&zone_id=" +
-        zoneId,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    fetch("index.php?action=neighborhoods&city_id=" + cityId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then(function (response) {
         return response.json();
       })
@@ -456,6 +466,11 @@
           ) {
             // @ts-ignore
             neighborhoodSelect.value = userNeighborhoodId;
+            // Déclencher le changement pour mettre à jour les frais
+            var event = new Event("change");
+            if (neighborhoodSelect) {
+              neighborhoodSelect.dispatchEvent(event);
+            }
           }
         } else if (neighborhoodSelect) {
           neighborhoodSelect.innerHTML =
@@ -471,12 +486,39 @@
       });
   }
 
+  // Mettre à jour les frais de livraison depuis le quartier
+  function updateDeliveryFeeFromNeighborhood(neighborhoodId) {
+    // Récupérer les frais via AJAX
+    fetch("index.php?action=neighborhoods&neighborhood_id=" + neighborhoodId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        if (data && data.success && data.delivery_fee !== undefined) {
+          updateDeliveryFee(parseFloat(data.delivery_fee));
+        }
+      })
+      .catch(function (error) {
+        console.error("Erreur lors de la récupération des frais:", error);
+      });
+  }
+
   // Vider les quartiers
   function clearNeighborhoods() {
     var neighborhoodSelect = document.getElementById("neighborhoods_id");
     if (neighborhoodSelect) {
       neighborhoodSelect.innerHTML =
         '<option value="">Sélectionnez un quartier</option>';
+    }
+    // Réinitialiser les frais
+    var deliveryFeeEl = document.getElementById("delivery-fee");
+    if (deliveryFeeEl) {
+      deliveryFeeEl.textContent = "À définir";
     }
   }
 
@@ -507,9 +549,20 @@
     var form = document.getElementById("delivery-choice-form");
     if (!form || form.tagName !== "FORM") return;
 
+    // Valider les champs avant d'envoyer (affiche les erreurs sous les inputs)
+    if (!validateDeliveryForm()) {
+      if (window["AuraFineUtils"] && window["AuraFineUtils"].showNotification) {
+        window["AuraFineUtils"].showNotification(
+          "Veuillez corriger les champs en erreur",
+          "error"
+        );
+      }
+      return;
+    }
+
     // @ts-ignore
     var formData = new FormData(form);
-    formData.append("csrf_token", csrf);
+    // Le token CSRF est déjà dans le formulaire, pas besoin de l'ajouter
 
     fetch("index.php?action=panier-set-delivery", {
       method: "POST",
@@ -520,6 +573,12 @@
       })
       .then(function (data) {
         if (data.success) {
+          // Marquer l'adresse comme enregistrée (mode invité)
+          window["guestDeliverySaved"] = true;
+          var orderButton = document.querySelector(".btn-commander");
+          if (orderButton) {
+            orderButton.disabled = false;
+          }
           // Mettre à jour l'affichage des frais
           var deliveryFeeEl = document.getElementById("delivery-fee");
           var totalEl = document.getElementById("total-commande");
@@ -570,9 +629,187 @@
       });
   }
 
+  // Gestion de la commande
+  function initOrderButton() {
+    var orderButton = document.querySelector(".btn-commander");
+    if (!orderButton) return;
+
+    // Si mode invité (présence des champs) et non encore enregistré, désactiver
+    var isGuestMode = !!document.getElementById("first_name");
+    if (isGuestMode && !window["guestDeliverySaved"]) {
+      orderButton.disabled = true;
+    }
+
+    orderButton.addEventListener("click", function (e) {
+      e.preventDefault();
+      createOrder();
+    });
+  }
+
+  function createOrder() {
+    // Valider les champs obligatoires avant l'envoi
+    if (!validateDeliveryForm()) {
+      return;
+    }
+
+    // Collecter les données du formulaire de livraison
+    var formData = new FormData();
+    formData.append("csrf_token", csrf);
+
+    // Récupérer les frais de livraison
+    var deliveryFeeEl = document.getElementById("delivery-fee");
+    var deliveryFee = 0;
+    if (deliveryFeeEl) {
+      var feeText = deliveryFeeEl.textContent.replace(/[^\d]/g, "");
+      deliveryFee = parseInt(feeText) || 0;
+    }
+    formData.append("delivery_fee", deliveryFee.toString());
+
+    // Récupérer les informations de livraison
+    var addressLine = document.getElementById("address_line");
+    if (addressLine) formData.append("address_line", addressLine.value);
+
+    var deliveryComment = document.getElementById("delivery_comment");
+    if (deliveryComment)
+      formData.append("delivery_comment", deliveryComment.value);
+
+    var citiesId = document.getElementById("cities_id");
+    if (citiesId) formData.append("cities_id", citiesId.value);
+
+    var neighborhoodsId = document.getElementById("neighborhoods_id");
+    if (neighborhoodsId)
+      formData.append("neighborhoods_id", neighborhoodsId.value);
+
+    // Champs invités (si présents)
+    var firstName = document.getElementById("first_name");
+    if (firstName) formData.append("first_name", firstName.value);
+    var lastName = document.getElementById("last_name");
+    if (lastName) formData.append("last_name", lastName.value);
+    var phone = document.getElementById("phone");
+    if (phone) formData.append("phone", phone.value);
+    var email = document.getElementById("email");
+    if (email && email.value) formData.append("email", email.value);
+
+    // Désactiver le bouton pendant la requête
+    var orderButton = document.querySelector(".btn-commander");
+    if (orderButton) {
+      orderButton.disabled = true;
+      orderButton.innerHTML =
+        '<i class="fas fa-spinner fa-spin"></i> Traitement...';
+    }
+
+    // Envoyer la requête
+    fetch("index.php?action=create-order", {
+      method: "POST",
+      body: formData,
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        if (data.success) {
+          // Afficher le message de succès
+          if (
+            window["AuraFineUtils"] &&
+            window["AuraFineUtils"].showNotification
+          ) {
+            window["AuraFineUtils"].showNotification(
+              "Commande validée avec succès",
+              "success"
+            );
+          }
+
+          // Vider le panier visuellement
+          var articlesContainer = document.getElementById(
+            "panier-articles-container"
+          );
+          if (articlesContainer) {
+            articlesContainer.innerHTML = `
+            <div id="panier-vide" class="panier-vide">
+              <div class="empty-cart">
+                <i class="fas fa-shopping-basket"></i>
+                <h3>Votre panier est vide</h3>
+                <p>Ajoutez des articles pour commencer vos achats</p>
+                <a href="index.php?action=home" class="btn-continuer">Continuer mes achats</a>
+              </div>
+            </div>
+          `;
+          }
+
+          // Mettre à jour les totaux
+          var sousTotalEl = document.getElementById("sous-total");
+          if (sousTotalEl) sousTotalEl.textContent = "0 FCFA";
+
+          var totalCommandeEl = document.getElementById("total-commande");
+          if (totalCommandeEl) totalCommandeEl.textContent = "0 FCFA";
+
+          // Mettre à jour le badge du panier
+          updateBadge(0);
+
+          // Masquer le bouton commander
+          if (orderButton) {
+            orderButton.style.display = "none";
+          }
+        } else {
+          // Afficher l'erreur - utiliser le message du serveur ou le code d'erreur
+          var errorMessage =
+            data.message ||
+            getErrorMessage(data.error_code) ||
+            "Erreur lors de la création de la commande";
+
+          if (
+            window["AuraFineUtils"] &&
+            window["AuraFineUtils"].showNotification
+          ) {
+            window["AuraFineUtils"].showNotification(errorMessage, "error");
+          }
+        }
+      })
+      .catch(function (error) {
+        console.error("Erreur:", error);
+        if (
+          window["AuraFineUtils"] &&
+          window["AuraFineUtils"].showNotification
+        ) {
+          window["AuraFineUtils"].showNotification(
+            "Erreur de connexion",
+            "error"
+          );
+        }
+      })
+      .finally(function () {
+        // Réactiver le bouton
+        if (orderButton) {
+          orderButton.disabled = false;
+          orderButton.innerHTML =
+            '<i class="fas fa-credit-card"></i> Commander maintenant';
+        }
+      });
+  }
+
+  // Validation en temps réel des champs de livraison
+  function initDeliveryValidation() {
+    var citySelect = document.getElementById("cities_id");
+    var neighborhoodSelect = document.getElementById("neighborhoods_id");
+
+    if (citySelect) {
+      citySelect.addEventListener("change", function () {
+        clearErrorMessages();
+      });
+    }
+
+    if (neighborhoodSelect) {
+      neighborhoodSelect.addEventListener("change", function () {
+        clearErrorMessages();
+      });
+    }
+  }
+
   // Init
   bindAddToCart();
   initCartPage();
   initBadge();
   initDeliveryForm();
+  initOrderButton();
+  initDeliveryValidation();
 })();

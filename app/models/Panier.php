@@ -150,6 +150,59 @@ class Panier extends Database {
         }
         return $output;
     }
+
+    /**
+     * Vide complètement le panier d'un utilisateur
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @return bool Succès de la suppression
+     */
+    public function clearCart(int $userId): bool {
+        if ($userId <= 0) return false;
+        
+        try {
+            $sql = "DELETE FROM cart_items WHERE users_id = :uid";
+            $stmt = $this->getConnection()->prepare($sql);
+            $stmt->bindValue(':uid', $userId, \PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            error_log('Panier::clearCart SQL error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Retourne les infos produit minimales (name, price, image) selon le type/id
+     * Strictement SQL (pas de logique métier ici)
+     */
+    public function getProductBasic(string $productType, int $productId): ?array {
+        if ($productId <= 0) return null;
+        $map = [
+            'menu' => 'menus',
+            'salad' => 'salads',
+            'drink' => 'drinks',
+            'fruit' => 'fruits_veggies'
+        ];
+        if (!isset($map[$productType])) return null;
+        $table = $map[$productType];
+        try {
+            $sql = "SELECT id, name, price, image FROM {$table} WHERE id = :id";
+            $stmt = $this->getConnection()->prepare($sql);
+            $stmt->bindValue(':id', $productId, \PDO::PARAM_INT);
+            $stmt->execute();
+            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+            if (!$row) return null;
+            return [
+                'id' => (int)($row['id'] ?? 0),
+                'name' => $row['name'] ?? '',
+                'price' => (float)($row['price'] ?? 0),
+                'image' => $row['image'] ?? null
+            ];
+        } catch (\PDOException $e) {
+            error_log('Panier::getProductBasic SQL error: ' . $e->getMessage());
+            return null;
+        }
+    }
 }
 
 

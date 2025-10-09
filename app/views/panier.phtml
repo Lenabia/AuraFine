@@ -9,6 +9,9 @@
   
 </section>
 
+<!-- Token CSRF pour les requêtes AJAX -->
+<meta name="csrf-token" content="<?= htmlspecialchars($csrf_token ?? '') ?>">
+
 <!-- Section Panier Principal -->
 <section id="panier-main" class="panier-main">
   <div class="panier-container">
@@ -79,30 +82,58 @@
               <?php endif; ?>
             </span>
           </div>
-          <?php if (isset($deliveryFee) && $deliveryFee > 0): ?>
+          <?php if (isset($userDeliveryInfo['address_line']) && !empty($userDeliveryInfo['address_line'])): ?>
           <div class="resume-line">
             <span>Adresse</span>
-            <span><?= htmlspecialchars($userDeliveryInfo['address_line'] ?? 'Non renseignée') ?></span>
+            <span><?= htmlspecialchars($userDeliveryInfo['address_line']) ?></span>
           </div>
           <div class="resume-line">
             <span>Zone</span>
             <span>
               <?php 
-              $zoneName = '';
-              foreach ($deliveryZones as $zone) {
-                if ($zone['id'] == ($userDeliveryInfo['delivery_zones_id'] ?? null)) { $zoneName = $zone['code']; break; }
+              // Récupérer le nom de la zone depuis la base de données
+              $zoneName = '—';
+              if (isset($userDeliveryInfo['delivery_zones_id']) && $userDeliveryInfo['delivery_zones_id']) {
+                // Utiliser le modèle Delivery pour récupérer la zone
+                $deliveryModel = new \app\Models\Delivery();
+                $zone = $deliveryModel->findZoneById((int)$userDeliveryInfo['delivery_zones_id']);
+                if ($zone) {
+                  $zoneName = $zone['code'];
+                }
               }
-              echo htmlspecialchars($zoneName ?: '—');
+              echo htmlspecialchars($zoneName);
               ?>
             </span>
           </div>
           <?php else: ?>
           <div class="resume-line" style="display:block; width:100%;">
-            <form id="delivery-choice-form" style="display:grid; gap:8px;">
+            <form id="delivery-choice-form" action="index.php?action=panier-set-delivery" method="POST" style="display:grid; gap:8px;">
+              <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
+              <?php if (!empty($isGuest)): ?>
+              <div class="form-group">
+                <label for="first_name">Prénom *</label>
+                <input type="text" name="first_name" id="first_name" value="<?= htmlspecialchars($userDeliveryInfo['first_name'] ?? '') ?>" required>
+                <div class="error-message" id="first_name-error" style="color: red; font-size: 0.875rem; margin-top: 4px; display: none;"></div>
+              </div>
+              <div class="form-group">
+                <label for="last_name">Nom *</label>
+                <input type="text" name="last_name" id="last_name" value="<?= htmlspecialchars($userDeliveryInfo['last_name'] ?? '') ?>" required>
+                <div class="error-message" id="last_name-error" style="color: red; font-size: 0.875rem; margin-top: 4px; display: none;"></div>
+              </div>
+              <div class="form-group">
+                <label for="phone">Téléphone *</label>
+                <input type="text" name="phone" id="phone" value="<?= htmlspecialchars($userDeliveryInfo['phone'] ?? '') ?>" required>
+                <div class="error-message" id="phone-error" style="color: red; font-size: 0.875rem; margin-top: 4px; display:  none;"></div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" value="<?= htmlspecialchars($userDeliveryInfo['email'] ?? '') ?>" placeholder="ex: nom@domaine.com" required>
+                <div class="error-message" id="email-error" style="color: red; font-size: 0.875rem; margin-top: 4px; display: none;"></div>
+              </div>
+              <?php endif; ?>
               <div class="form-group">
                 <label for="cities_id">Ville *</label>
                 <select name="cities_id" id="cities_id" required 
-                        data-user-zone-id="<?= $userDeliveryInfo['delivery_zones_id'] ?? '' ?>"
                         data-user-neighborhood-id="<?= $userDeliveryInfo['neighborhoods_id'] ?? '' ?>">
                   <option value="">Sélectionnez une ville</option>
                   <?php foreach ($cities as $city): ?>
@@ -111,23 +142,11 @@
                     </option>
                   <?php endforeach; ?>
                 </select>
+                <div class="error-message" id="cities_id-error" style="color: red; font-size: 0.875rem; margin-top: 4px; display: none;"></div>
               </div>
               <div class="form-group">
-                <label for="delivery_zones_id">Zone de livraison *</label>
-                <select name="delivery_zones_id" id="delivery_zones_id" required>
-                  <option value="">Sélectionnez d'abord une ville</option>
-                  <?php if (!empty($deliveryZones)): ?>
-                    <?php foreach ($deliveryZones as $zone): ?>
-                      <option value="<?= $zone['id'] ?>" data-fee="<?= $zone['fee'] ?>" <?= (isset($userDeliveryInfo['delivery_zones_id']) && $userDeliveryInfo['delivery_zones_id'] == $zone['id']) ? 'selected' : '' ?>>
-                        Zone <?= htmlspecialchars($zone['code']) ?> - <?= number_format($zone['fee'], 0, ',', ' ') ?> FCFA
-                      </option>
-                    <?php endforeach; ?>
-                  <?php endif; ?>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="neighborhoods_id">Quartier (optionnel)</label>
-                <select name="neighborhoods_id" id="neighborhoods_id">
+                <label for="neighborhoods_id">Quartier *</label>
+                <select name="neighborhoods_id" id="neighborhoods_id" required>
                   <option value="">Sélectionnez un quartier</option>
                   <?php if (!empty($neighborhoods)): ?>
                     <?php foreach ($neighborhoods as $neighborhood): ?>
@@ -137,10 +156,12 @@
                     <?php endforeach; ?>
                   <?php endif; ?>
                 </select>
+                <div class="error-message" id="neighborhoods_id-error" style="color: red; font-size: 0.875rem; margin-top: 4px; display: none;"></div>
               </div>
               <div class="form-group">
                 <label for="address_line">Adresse complète</label>
-                <textarea name="address_line" id="address_line" rows="2" placeholder="Rue, numéro, détails..."><?= htmlspecialchars($userDeliveryInfo['address_line'] ?? '') ?></textarea>
+                <textarea name="address_line" id="address_line" rows="2" placeholder="Renseignez votre adresse exacte pour le livreur" required><?= htmlspecialchars($userDeliveryInfo['address_line'] ?? '') ?></textarea>
+                <div class="error-message" id="address_line-error" style="color: red; font-size: 0.875rem; margin-top: 4px; display: none;"></div>
               </div>
               <div class="form-group">
                 <label for="delivery_comment">Complément d'adresse ou autres informations</label>

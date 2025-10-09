@@ -121,4 +121,26 @@ document.addEventListener("DOMContentLoaded", function () {
       closeModal();
     }
   });
+
+  // Ouvrir la modale de connexion si invité et clic sur panier dans le header
+  try {
+    var isGuest = document.body.getAttribute("data-is-guest") === "1";
+    var cartLink = document.querySelector("header .cart-icon");
+    if (isGuest && cartLink) {
+      cartLink.addEventListener("click", function (evt) {
+        // Si on veut juste afficher une modale au lieu d'aller direct panier
+        evt.preventDefault();
+        var modal = document.getElementById("loginPromptModal");
+        if (modal) {
+          modal.classList.add("active");
+          document.body.style.overflow = "hidden";
+        } else {
+          // Fallback vers panier si la modale n'existe pas
+          window.location.href = "index.php?action=panier";
+        }
+      });
+    }
+  } catch (err) {
+    console.warn("Init modal invité panier: ", err);
+  }
 });

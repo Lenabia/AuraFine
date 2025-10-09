@@ -32,7 +32,10 @@ class Orders extends Database {
      */
     public function getOrders(array $filters = []): array {
         $sql = "SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_fee,
-                       u.first_name, u.last_name, u.phone,
+                       COALESCE(u.first_name, o.customer_first_name) AS first_name,
+                       COALESCE(u.last_name, o.customer_last_name) AS last_name,
+                       COALESCE(u.phone, o.customer_phone) AS phone,
+                       COALESCE(u.email, o.customer_email) AS email,
                        c.name AS city_name, n.name AS neighborhood_name
                 FROM orders o
                 LEFT JOIN users u ON u.id = o.users_id
@@ -103,8 +106,12 @@ class Orders extends Database {
      * @return array|null Commande avec infos utilisateur, ville, quartier
      */
     public function getOrderById(int $id): ?array {
-        $sql = "SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_address, o.delivery_fee,
-                       u.first_name, u.last_name, u.email, u.phone,
+        $sql = "SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_address, o.delivery_comment, o.delivery_fee,
+                       o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
+                       COALESCE(u.first_name, o.customer_first_name) AS first_name,
+                       COALESCE(u.last_name, o.customer_last_name) AS last_name,
+                       COALESCE(u.phone, o.customer_phone) AS phone,
+                       COALESCE(u.email, o.customer_email) AS email,
                        c.name AS city_name, n.name AS neighborhood_name, dz.code AS zone_code
                 FROM orders o
                 LEFT JOIN users u ON u.id = o.users_id
@@ -127,6 +134,21 @@ class Orders extends Database {
     public function updateStatus(int $id, string $status): bool {
         $sql = "UPDATE orders SET status = :status WHERE id = :id";
         return $this->execute($sql, ['id' => $id, 'status' => $status]) !== false;
+    }
+
+    /**
+     * Crée une nouvelle commande
+     * 
+     * @param array $orderData Données de la commande
+     * @return int|false ID de la commande créée ou false en cas d'erreur
+     */
+    public function createOrder(array $orderData): int|false {
+        $sql = "INSERT INTO orders (users_id, customer_first_name, customer_last_name, customer_phone, customer_email, status, order_date, total_amount, delivery_fee, 
+                delivery_address, delivery_comment, cities_id, neighborhoods_id, delivery_zones_id) 
+                VALUES (:users_id, :customer_first_name, :customer_last_name, :customer_phone, :customer_email, :status, :order_date, :total_amount, :delivery_fee, 
+                :delivery_address, :delivery_comment, :cities_id, :neighborhoods_id, :delivery_zones_id)";
+        
+        return $this->execute($sql, $orderData);
     }
 
 }

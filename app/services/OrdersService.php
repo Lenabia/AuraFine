@@ -121,4 +121,72 @@ class OrdersService {
     public function getCustomSaladsForOrder(int $orderId): array {
         return $this->ordersDetailModel->getCustomSaladsForOrder($orderId);
     }
+
+    /**
+     * Récupère le modèle Orders (pour les transactions)
+     * 
+     * @return Orders Modèle Orders
+     */
+    public function getOrdersModel(): Orders {
+        return $this->ordersModel;
+    }
+
+    /**
+     * Récupère le modèle OrdersDetail (pour les transactions)
+     * 
+     * @return OrdersDetail Modèle OrdersDetail
+     */
+    public function getOrdersDetailModel(): OrdersDetail {
+        return $this->ordersDetailModel;
+    }
+
+    /**
+     * Crée une commande avec transaction (rollback en cas d'échec)
+     * 
+     * @param array $orderData Données de la commande
+     * @param array $cartItems Articles du panier
+     * @return int|false ID de la commande créée ou false en cas d'erreur
+     */
+    public function createOrderWithTransaction(array $orderData, array $cartItems): int|false {
+        try {
+            // Démarrer la transaction
+            $this->ordersModel->getConnection()->beginTransaction();
+
+            // Créer la commande
+            $orderId = $this->ordersModel->createOrder($orderData);
+            if (!$orderId) {
+                throw new \Exception('Échec de création de la commande');
+            }
+
+            // Créer les détails de commande
+            foreach ($cartItems as $item) {
+                $detailData = [
+                    'orders_id' => $orderId,
+                    'quantity' => (int)($item['quantity'] ?? 1),
+                    'unit_price' => (float)($item['price'] ?? 0),
+                    'item_label' => $item['name'] ?? '',
+                    'salads_id' => $item['product_type'] === 'salad' ? (int)$item['product_id'] : null,
+                    'drinks_id' => $item['product_type'] === 'drink' ? (int)$item['product_id'] : null,
+                    'menus_id' => $item['product_type'] === 'menu' ? (int)$item['product_id'] : null,
+                    'fruits_veggies_id' => $item['product_type'] === 'fruit' ? (int)$item['product_id'] : null,
+                    'desserts_id' => null,
+                    'order_custom_salads_id' => null
+                ];
+
+                if (!$this->ordersDetailModel->createOrderDetail($detailData)) {
+                    throw new \Exception('Échec de création des détails de commande');
+                }
+            }
+
+            // Valider la transaction
+            $this->ordersModel->getConnection()->commit();
+            return $orderId;
+
+        } catch (\Exception $e) {
+            // Rollback en cas d'erreur
+            $this->ordersModel->getConnection()->rollBack();
+            error_log('Erreur création commande: ' . $e->getMessage());
+            return false;
+        }
+    }
 }

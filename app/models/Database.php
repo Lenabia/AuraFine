@@ -2,17 +2,28 @@
 namespace app\Models;
 
 class Database {
+  /**
+   * Connexion PDO partagée entre toutes les instances de modèles
+   */
+  protected static $sharedBdd = null;
   protected $bdd;
 
   public function __construct(){
     try{
-            $this->bdd = new \PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS, [
+            // Réutiliser la connexion partagée si elle existe
+            if (self::$sharedBdd instanceof \PDO) {
+                $this->bdd = self::$sharedBdd;
+                return;
+            }
+
+            // Créer et mémoriser la connexion partagée
+            self::$sharedBdd = new \PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS, [
                  \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,    // retourne un tableau indexé par le nom de la colonne
                 \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION           // lance PDOExeptions
             ]);
-            
-            $this->bdd->exec("SET CHARACTER SET utf8mb4");
-                  
+            self::$sharedBdd->exec("SET CHARACTER SET utf8mb4");
+
+            $this->bdd = self::$sharedBdd;
         } catch(\PDOException $e) {
             header( 'Location: index.php?action=error');              // mettre la page d'erreur 404
             exit;
@@ -100,35 +111,24 @@ class Database {
      * @return int|false L'ID de la dernière insertion ou false en cas d'erreur
      * 
      * @security Requêtes préparées pour éviter l'injection SQL
-     * @transaction Gestion des transactions pour la cohérence des données
+     * @note Les transactions sont gérées par les services, pas ici
      */
     protected function execute($sql, $data = []) {
         try {
-            // Démarrer une transaction pour la cohérence
-            $this->bdd->beginTransaction();
-            
             $query = $this->bdd->prepare($sql);
             $query->execute($data);
             
             // Récupérer l'ID de la dernière insertion
-            $lastInsertId = $this->bdd->lastInsertId();
-            
-            // Valider la transaction
-            $this->bdd->commit();
-            
-            return $lastInsertId;
+            return $this->bdd->lastInsertId();
             
         } catch(\PDOException $e) {
-            // Annuler la transaction en cas d'erreur
-            $this->bdd->rollBack();
-            
             // Log détaillé pour le debugging
             error_log("Database EXECUTE error: " . $e->getMessage() . 
                       " | SQL: " . $sql . 
                       " | Data: " . json_encode($data));
             
-            header('Location: index.php?action=error');
-            exit;
+            // Relancer l'exception pour que le service puisse gérer
+            throw $e;
         }
     }
     
@@ -166,7 +166,7 @@ class Database {
      * @security Fermeture propre pour éviter les fuites de connexions
      */
     public function __destruct() {
-        // Fermer la connexion PDO
+        // Ne pas fermer la connexion partagée ici pour éviter de casser d'autres modèles
         $this->bdd = null;
     }
 }
