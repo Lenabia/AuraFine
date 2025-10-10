@@ -305,6 +305,85 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Gestion du menu déroulant profil
 document.addEventListener("DOMContentLoaded", function () {
+  // Toggle formulaire de livraison (édition adresse)
+  const editBtn = document.getElementById("edit-delivery-btn");
+  const formContainer = document.getElementById("delivery-form-container");
+  const deliveryForm = document.getElementById("delivery-choice-form");
+  const deliveryFlash = document.getElementById("delivery-flash");
+  const summaryAddress = document.getElementById("summary-address");
+  const summaryZone = document.getElementById("summary-zone");
+  if (editBtn && formContainer) {
+    editBtn.addEventListener("click", function () {
+      const isVisible = formContainer.style.display === "block";
+      formContainer.style.display = isVisible ? "none" : "block";
+    });
+  }
+  if (deliveryForm) {
+    deliveryForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(deliveryForm);
+      fetch("index.php?action=panier-set-delivery", {
+        method: "POST",
+        body: formData,
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+        },
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          if (!json || json.success !== true) {
+            throw new Error(
+              json && json.message ? json.message : "Erreur d'enregistrement"
+            );
+          }
+          // Mettre à jour résumé
+          const addressTextarea = document.getElementById("address_line");
+          if (summaryAddress && addressTextarea) {
+            summaryAddress.textContent = addressTextarea.value;
+          }
+          const deliveryFeeEl = document.getElementById("delivery-fee");
+          const totalCommandeEl = document.getElementById("total-commande");
+          if (deliveryFeeEl && typeof json.deliveryFee !== "undefined") {
+            deliveryFeeEl.textContent =
+              new Intl.NumberFormat("fr-FR").format(
+                Math.round(json.deliveryFee)
+              ) + " FCFA";
+          }
+          if (totalCommandeEl && typeof json.grandTotal !== "undefined") {
+            totalCommandeEl.textContent =
+              new Intl.NumberFormat("fr-FR").format(
+                Math.round(json.grandTotal)
+              ) + " FCFA";
+          }
+          // Feedback visuel + refermer le formulaire
+          if (deliveryFlash) {
+            deliveryFlash.style.color = "#0a7a0a";
+            deliveryFlash.textContent = "Adresse enregistrée";
+            deliveryFlash.style.display = "block";
+            setTimeout(() => {
+              deliveryFlash.style.display = "none";
+            }, 2000);
+          }
+          if (formContainer) {
+            formContainer.style.display = "none";
+          }
+        })
+        .catch((err) => {
+          if (deliveryFlash) {
+            deliveryFlash.style.color = "#b00020";
+            deliveryFlash.textContent =
+              err && err.message
+                ? err.message
+                : "Erreur lors de l'enregistrement";
+            deliveryFlash.style.display = "block";
+            setTimeout(() => {
+              deliveryFlash.style.display = "none";
+              deliveryFlash.style.color = "#0a7a0a";
+            }, 2500);
+          }
+        });
+    });
+  }
   const profileDropdown = document.querySelector(".user-profile-dropdown");
 
   if (profileDropdown) {
@@ -360,7 +439,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const loyaltyPoints = document.getElementById("loyalty-points");
 
   if (loyaltyPoints) {
-    const currentPoints = parseInt(loyaltyPoints.dataset.points) || 0;
+    const currentAmount = parseInt(loyaltyPoints.dataset.amount || "0") || 0;
 
     // Animation des points fidélité
     loyaltyPoints.addEventListener("click", function () {
@@ -371,7 +450,255 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Log pour debug (à retirer en production)
-    console.log("Points fidélité actuels:", currentPoints);
+    console.log("Solde fidélité (FCFA):", currentAmount);
+  }
+});
+
+// ========================================
+// GESTION DES COMMANDES UTILISATEUR
+// ========================================
+
+// Variables globales pour le suivi des commandes
+let orderUpdateInterval = null;
+let isOrderPage = false;
+
+// Vérifier si on est sur la page des commandes
+document.addEventListener("DOMContentLoaded", function () {
+  const orderPage = document.querySelector(".user-orders-page");
+  if (orderPage) {
+    isOrderPage = true;
+    initOrderTracking();
+  }
+});
+
+/**
+ * Initialise le suivi des commandes en temps réel
+ */
+function initOrderTracking() {
+  if (!isOrderPage) return;
+
+  const activeOrderCard = document.getElementById("active-order-card");
+  if (!activeOrderCard) return;
+
+  // Démarrer le polling pour les mises à jour
+  startOrderPolling();
+
+  // Arrêter le polling quand l'utilisateur quitte la page
+  window.addEventListener("beforeunload", stopOrderPolling);
+}
+
+/**
+ * Démarre le polling pour vérifier les mises à jour de commande
+ */
+function startOrderPolling() {
+  // Vérifier toutes les 30 secondes
+  orderUpdateInterval = setInterval(checkOrderStatus, 30000);
+
+  // Vérifier immédiatement au chargement
+  setTimeout(checkOrderStatus, 2000);
+}
+
+/**
+ * Arrête le polling
+ */
+function stopOrderPolling() {
+  if (orderUpdateInterval) {
+    clearInterval(orderUpdateInterval);
+    orderUpdateInterval = null;
+  }
+}
+
+/**
+ * Vérifie le statut de la commande active
+ */
+async function checkOrderStatus() {
+  if (!isOrderPage) return;
+
+  try {
+    const response = await fetch("index.php?action=check-order-status", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      body: JSON.stringify({
+        csrf_token: document.getElementById("csrf-token")?.value || "",
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur réseau");
+    }
+
+    const data = await response.json();
+
+    if (data.success && data.order) {
+      updateOrderDisplay(data.order);
+    } else if (data.success && !data.order) {
+      // Plus de commande active, recharger la page
+      location.reload();
+    }
+  } catch (error) {
+    console.error("Erreur lors de la vérification du statut:", error);
+  }
+}
+
+/**
+ * Met à jour l'affichage de la commande
+ */
+function updateOrderDisplay(order) {
+  const activeOrderCard = document.getElementById("active-order-card");
+  if (!activeOrderCard) return;
+
+  // Mettre à jour le statut actuel
+  const currentStatusElement = activeOrderCard.querySelector(
+    ".current-status strong"
+  );
+  if (currentStatusElement) {
+    currentStatusElement.textContent = order.status;
+  }
+
+  // Mettre à jour la dernière mise à jour
+  const lastUpdateElement = activeOrderCard.querySelector(".last-update");
+  if (lastUpdateElement) {
+    const updateDate = new Date(order.updated_at);
+    lastUpdateElement.textContent = `Dernière mise à jour : ${updateDate.toLocaleDateString(
+      "fr-FR"
+    )} à ${updateDate.toLocaleTimeString("fr-FR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
+  }
+
+  // Mettre à jour le workflow visuel
+  updateWorkflowSteps(order.status);
+}
+
+/**
+ * Met à jour les étapes du workflow visuel
+ */
+function updateWorkflowSteps(currentStatus) {
+  const steps = document.querySelectorAll(".workflow-step");
+  if (!steps.length) return;
+
+  // Réinitialiser toutes les étapes
+  steps.forEach((step) => {
+    step.classList.remove("active", "completed");
+  });
+
+  // Définir les statuts et leurs positions
+  const statusMap = {
+    "En attente": 0,
+    "En preparation": 1,
+    "Livraison en cours": 2,
+    Livrée: 3,
+  };
+
+  const currentStepIndex = statusMap[currentStatus];
+  if (currentStepIndex === undefined) return;
+
+  // Marquer les étapes précédentes comme terminées
+  for (let i = 0; i < currentStepIndex; i++) {
+    if (steps[i]) {
+      steps[i].classList.add("completed");
+    }
+  }
+
+  // Marquer l'étape actuelle comme active
+  if (steps[currentStepIndex]) {
+    steps[currentStepIndex].classList.add("active");
+  }
+
+  // Si la commande est livrée, marquer toutes les étapes comme terminées
+  if (currentStatus === "Livrée") {
+    steps.forEach((step) => {
+      step.classList.remove("active");
+      step.classList.add("completed");
+    });
+  }
+}
+
+/**
+ * Affiche les détails d'une commande dans une modal
+ */
+function showOrderDetails(orderId) {
+  if (!orderId) return;
+
+  // Afficher la modal
+  const modal = document.getElementById("orderDetailsModal");
+  if (modal) {
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  }
+
+  // Charger les détails de la commande
+  loadOrderDetails(orderId);
+}
+
+/**
+ * Charge les détails d'une commande via AJAX
+ */
+async function loadOrderDetails(orderId) {
+  const contentElement = document.getElementById("orderDetailsContent");
+  if (!contentElement) return;
+
+  // Afficher un indicateur de chargement
+  contentElement.innerHTML =
+    '<div class="loading-spinner">Chargement des détails...</div>';
+
+  try {
+    const response = await fetch(
+      `index.php?action=order-details&id=${orderId}`,
+      {
+        method: "GET",
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Erreur réseau");
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      contentElement.innerHTML = data.html;
+    } else {
+      contentElement.innerHTML =
+        '<div class="error-message">Erreur lors du chargement des détails</div>';
+    }
+  } catch (error) {
+    console.error("Erreur lors du chargement des détails:", error);
+    contentElement.innerHTML =
+      '<div class="error-message">Erreur lors du chargement des détails</div>';
+  }
+}
+
+/**
+ * Ferme la modal des détails de commande
+ */
+function closeOrderDetailsModal() {
+  const modal = document.getElementById("orderDetailsModal");
+  if (modal) {
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+}
+
+// Fermer la modal en cliquant à l'extérieur
+document.addEventListener("click", function (event) {
+  const modal = document.getElementById("orderDetailsModal");
+  if (modal && event.target === modal) {
+    closeOrderDetailsModal();
+  }
+});
+
+// Fermer la modal avec la touche Échap
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    closeOrderDetailsModal();
   }
 });
 

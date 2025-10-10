@@ -347,8 +347,21 @@ if(array_key_exists('action', $_GET)):
 
     //mes commandes
     case 'my-orders':
-    $controller = new \app\controllers\UsersController();
-    $controller->showMyOrders();
+    $controller = new \app\controllers\OrdersController();
+    $controller->showUserOrders();
+    break;
+
+    //vérification statut commande (AJAX)
+    case 'check-order-status':
+    $controller = new \app\controllers\OrdersController();
+    $controller->checkOrderStatus();
+    break;
+
+    //détails commande (AJAX)
+    case 'order-details':
+    $id = $_GET['id'] ?? null;
+    $controller = new \app\controllers\OrdersController();
+    $controller->getOrderDetails($id);
     break;
 
     //pages publiques des produits
@@ -423,7 +436,7 @@ if(array_key_exists('action', $_GET)):
     include 'app/views/accesDenied.php';
     break;
 
-//si pas de route on redirige vers l'accueil
+    //si pas de route on redirige vers l'accueil
     default:
     header('Location: index.php?action=home');
     exit;

@@ -1,0 +1,85 @@
+[10-Oct-2025 06:14:19 UTC] PHP Fatal error:  Uncaught Error: Class "app\Models\OrdersDetail" not found in /Applications/MAMP/htdocs/AuraFine/app/services/OrdersService.php:20
+Stack trace:
+#0 /Applications/MAMP/htdocs/AuraFine/test_redirection_debug.php(97): app\services\OrdersService->__construct()
+#1 {main}
+  thrown in /Applications/MAMP/htdocs/AuraFine/app/services/OrdersService.php on line 20
+[10-Oct-2025 06:14:20 UTC] PHP Fatal error:  Uncaught Error: Class "app\Models\OrdersDetail" not found in /Applications/MAMP/htdocs/AuraFine/app/services/OrdersService.php:20
+Stack trace:
+#0 /Applications/MAMP/htdocs/AuraFine/test_redirection_debug.php(97): app\services\OrdersService->__construct()
+#1 {main}
+  thrown in /Applications/MAMP/htdocs/AuraFine/app/services/OrdersService.php on line 20
+[10-Oct-2025 06:14:34 UTC] Database SELECT ONE error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'o.updated_at' in 'field list' | Query: SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_fee, o.updated_at,
+                       o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
+                       o.delivery_address, o.delivery_comment,
+                       c.name AS city_name, n.name AS neighborhood_name
+                FROM orders o
+                LEFT JOIN cities c ON c.id = o.cities_id
+                LEFT JOIN neighborhoods n ON n.id = o.neighborhoods_id
+                WHERE o.users_id = :user_id 
+                AND o.status NOT IN ('Livrée', 'annulée')
+                ORDER BY o.order_date DESC
+                LIMIT 1 | Params: {"user_id":999}
+[10-Oct-2025 06:14:34 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /Applications/MAMP/htdocs/AuraFine/test_redirection_debug.php:13) in /Applications/MAMP/htdocs/AuraFine/app/models/Database.php on line 100
+[10-Oct-2025 06:15:27 UTC] [2025-10-10 06:15:27] DEBUG: === DÉBUT DU TEST MY-ORDERS ===
+[10-Oct-2025 06:15:27 UTC] [2025-10-10 06:15:27] DEBUG: 1. Vérification de la session | Data: {"connected":"NON D\u00c9FINI","user_exists":false,"user_role":"NON D\u00c9FINI","user_id":"NON D\u00c9FINI"}
+[10-Oct-2025 06:15:27 UTC] [2025-10-10 06:15:27] DEBUG: 2. Simulation du constructeur Middleware
+[10-Oct-2025 06:15:27 UTC] [2025-10-10 06:15:27] DEBUG: 2.1. Appel de enforceSessionActivity()
+[10-Oct-2025 06:15:27 UTC] [2025-10-10 06:15:27] DEBUG: 2.2. Session non connectée - enforceSessionActivity() retourne sans rien faire
+[10-Oct-2025 06:15:27 UTC] [2025-10-10 06:15:27] DEBUG: 3. Simulation de showUserOrders()
+[10-Oct-2025 06:15:27 UTC] [2025-10-10 06:15:27] DEBUG: 3.1. Utilisateur non connecté ou rôle incorrect - Redirection vers login
+[10-Oct-2025 06:15:27 UTC] [2025-10-10 06:15:27] DEBUG: 3.2. REDIRECTION VERS: index.php?action=login
+[10-Oct-2025 06:15:27 UTC] [2025-10-10 06:15:27] DEBUG: 4. Test des requêtes de base de données
+[10-Oct-2025 06:15:27 UTC] [2025-10-10 06:15:27] DEBUG: 4.1. OrdersService instancié avec succès
+[10-Oct-2025 06:15:27 UTC] [2025-10-10 06:15:27] DEBUG: 4.1. Pas d'ID utilisateur - Impossible de tester les requêtes
+[10-Oct-2025 06:15:27 UTC] [2025-10-10 06:15:27] DEBUG: === FIN DU TEST MY-ORDERS ===
+[10-Oct-2025 06:15:59 UTC] Database SELECT ONE error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'o.updated_at' in 'field list' | Query: SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_fee, o.updated_at,
+                       o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
+                       o.delivery_address, o.delivery_comment,
+                       c.name AS city_name, n.name AS neighborhood_name
+                FROM orders o
+                LEFT JOIN cities c ON c.id = o.cities_id
+                LEFT JOIN neighborhoods n ON n.id = o.neighborhoods_id
+                WHERE o.users_id = :user_id 
+                AND o.status NOT IN ('Livrée', 'annulée')
+                ORDER BY o.order_date DESC
+                LIMIT 1 | Params: {"user_id":1}
+[10-Oct-2025 06:15:59 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /Applications/MAMP/htdocs/AuraFine/test_connection_flow.php:13) in /Applications/MAMP/htdocs/AuraFine/app/models/Database.php on line 100
+[10-Oct-2025 06:17:50 Africa/Dakar] Database SELECT ONE error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'o.updated_at' in 'field list' | Query: SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_fee, o.updated_at,
+                       o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
+                       o.delivery_address, o.delivery_comment,
+                       c.name AS city_name, n.name AS neighborhood_name
+                FROM orders o
+                LEFT JOIN cities c ON c.id = o.cities_id
+                LEFT JOIN neighborhoods n ON n.id = o.neighborhoods_id
+                WHERE o.users_id = :user_id 
+                AND o.status NOT IN ('Livrée', 'annulée')
+                ORDER BY o.order_date DESC
+                LIMIT 1 | Params: {"user_id":4}
+[10-Oct-2025 06:20:09 UTC] PHP Fatal error:  Uncaught Error: Call to protected method app\Models\Database::findOne() from global scope in /Applications/MAMP/htdocs/AuraFine/debug_database_queries.php:72
+Stack trace:
+#0 {main}
+  thrown in /Applications/MAMP/htdocs/AuraFine/debug_database_queries.php on line 72
+[10-Oct-2025 06:20:28 UTC] Database SELECT ONE error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'o.updated_at' in 'field list' | Query: SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_fee, o.updated_at,
+                       o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
+                       o.delivery_address, o.delivery_comment,
+                       c.name AS city_name, n.name AS neighborhood_name
+                FROM orders o
+                LEFT JOIN cities c ON c.id = o.cities_id
+                LEFT JOIN neighborhoods n ON n.id = o.neighborhoods_id
+                WHERE o.users_id = :user_id 
+                AND o.status NOT IN ('Livrée', 'annulée')
+                ORDER BY o.order_date DESC
+                LIMIT 1 | Params: {"user_id":1}
+[10-Oct-2025 06:20:28 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /Applications/MAMP/htdocs/AuraFine/debug_database_queries.php:13) in /Applications/MAMP/htdocs/AuraFine/app/models/Database.php on line 100
+[10-Oct-2025 06:21:04 UTC] Database SELECT ONE error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'o.updated_at' in 'field list' | Query: SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_fee, o.updated_at,
+                       o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
+                       o.delivery_address, o.delivery_comment,
+                       c.name AS city_name, n.name AS neighborhood_name
+                FROM orders o
+                LEFT JOIN cities c ON c.id = o.cities_id
+                LEFT JOIN neighborhoods n ON n.id = o.neighborhoods_id
+                WHERE o.users_id = :user_id 
+                AND o.status NOT IN ('Livrée', 'annulée')
+                ORDER BY o.order_date DESC
+                LIMIT 1 | Params: {"user_id":1}
+[10-Oct-2025 06:21:04 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /Applications/MAMP/htdocs/AuraFine/test_orders_controller_real.php:12) in /Applications/MAMP/htdocs/AuraFine/app/models/Database.php on line 100

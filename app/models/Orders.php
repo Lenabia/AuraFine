@@ -106,7 +106,7 @@ class Orders extends Database {
      * @return array|null Commande avec infos utilisateur, ville, quartier
      */
     public function getOrderById(int $id): ?array {
-        $sql = "SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_address, o.delivery_comment, o.delivery_fee,
+        $sql = "SELECT o.id, o.users_id, o.status, o.order_date, o.total_amount, o.delivery_address, o.delivery_comment, o.delivery_fee,
                        o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
                        COALESCE(u.first_name, o.customer_first_name) AS first_name,
                        COALESCE(u.last_name, o.customer_last_name) AS last_name,
@@ -149,6 +149,50 @@ class Orders extends Database {
                 :delivery_address, :delivery_comment, :cities_id, :neighborhoods_id, :delivery_zones_id)";
         
         return $this->execute($sql, $orderData);
+    }
+
+    /**
+     * Récupère une commande active par utilisateur
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @return array|null Commande active ou null
+     */
+    public function getActiveOrderByUserId(int $userId): ?array {
+        $sql = "SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_fee,
+                       o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
+                       o.delivery_address, o.delivery_comment,
+                       c.name AS city_name, n.name AS neighborhood_name
+                FROM orders o
+                LEFT JOIN cities c ON c.id = o.cities_id
+                LEFT JOIN neighborhoods n ON n.id = o.neighborhoods_id
+                WHERE o.users_id = :user_id 
+                AND o.status NOT IN ('Livrée', 'annulée')
+                ORDER BY o.order_date DESC
+                LIMIT 1";
+
+        $result = $this->findOne($sql, ['user_id' => $userId]);
+        return $result === false ? null : $result;
+    }
+
+    /**
+     * Récupère l'historique des commandes d'un utilisateur
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @return array Commandes passées
+     */
+    public function getPastOrdersByUserId(int $userId): array {
+        $sql = "SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_fee,
+                       o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
+                       o.delivery_address, o.delivery_comment,
+                       c.name AS city_name, n.name AS neighborhood_name
+                FROM orders o
+                LEFT JOIN cities c ON c.id = o.cities_id
+                LEFT JOIN neighborhoods n ON n.id = o.neighborhoods_id
+                WHERE o.users_id = :user_id 
+                AND o.status IN ('Livrée', 'annulée')
+                ORDER BY o.order_date DESC";
+
+        return $this->findAll($sql, ['user_id' => $userId]);
     }
 
 }

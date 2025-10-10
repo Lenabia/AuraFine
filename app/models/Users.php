@@ -176,6 +176,13 @@ class Users extends Database {
             $stmt->bindValue(':code', $normalized);
             $stmt->execute();
             $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+            // Surveillance des tentatives de parrainage
+            $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+            $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
+            $result = $row ? 'SUCCESS' : 'NOT_FOUND';
+            error_log("Tentative parrainage: code={$normalized} result={$result} IP={$ip} User-Agent={$userAgent}");
+            
             return $row ?: null;
         } catch (\PDOException $e) {
             error_log("Erreur findByReferralCode: " . $e->getMessage());
@@ -287,8 +294,8 @@ class Users extends Database {
     }
 
     private function generateReferralCode(): string {
-        // 24 caractères hex (96 bits d'entropie), minuscules
-        return bin2hex(random_bytes(12));
+        // 8 caractères hex (32 bits d'entropie), minuscules
+        return bin2hex(random_bytes(4));
     }
 
     /**

@@ -68,11 +68,12 @@
             </div>
           </div>
           
-          <!-- Points Fidélité (remplace le téléphone) -->
-          <span class="loyalty-points" id="loyalty-points" data-points="<?= (int)($_SESSION['user']['loyalty_points'] ?? 0) ?>">
+          <!-- Solde fidélité (FCFA) -->
+          <?php $lpAmount = (int)($_SESSION['user']['loyalty_points'] ?? 0); ?>
+          <span class="loyalty-points" id="loyalty-points" data-amount="<?= $lpAmount ?>">
             <i class="fas fa-star"></i>
-            <span class="loyalty-text">Pts Fidélité :</span>
-            <span class="loyalty-number"><?= (int)($_SESSION['user']['loyalty_points'] ?? 0) ?></span>
+            <span class="loyalty-text">Solde fidélité :</span>
+            <span class="loyalty-number"><?= number_format($lpAmount, 0, ',', ' ') ?> FCFA</span>
           </span>
           
         <?php else: ?>

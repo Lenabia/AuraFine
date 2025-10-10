@@ -58,8 +58,19 @@ class OrdersService {
         if (!$this->isValidStatus($status)) {
             return false;
         }
-
-        return $this->ordersModel->updateStatus($id, $status);
+        $ok = $this->ordersModel->updateStatus($id, $status);
+        if ($ok && $status === 'Livrée') {
+            // Sécuriser: recharger la commande depuis la DB et appliquer les points
+            try {
+                $order = $this->getOrderById($id);
+                if ($order) {
+                    $this->applyLoyaltyPoints($order);
+                }
+            } catch (\Throwable $e) {
+                error_log('updateOrderStatus/applyLoyaltyPoints error: ' . $e->getMessage());
+            }
+        }
+        return $ok;
     }
 
     /**
@@ -188,5 +199,154 @@ class OrdersService {
             error_log('Erreur création commande: ' . $e->getMessage());
             return false;
         }
+    }
+
+    /**
+     * Applique les points de fidélité (cashback) au prorata pour une commande livrée
+     * - Client: 5% du montant total en FCFA (arrondi)
+     * - Parrain: 2.5% du montant total en FCFA (arrondi) si présent
+     * - Évite les doublons via vérification préalable dans loyalty_points_history
+     *
+     * @param array $order Tableau associatif: id, users_id, total_amount, status
+     */
+    public function applyLoyaltyPoints(array $order): void {
+        // Conditions minimales
+        $orderId = (int)($order['id'] ?? 0);
+        $userId = (int)($order['users_id'] ?? 0);
+        $status = (string)($order['status'] ?? '');
+        $totalAmount = (float)($order['total_amount'] ?? 0);
+        // Base d'éligibilité aux points: total des produits
+        $eligibleAmount = max(0, $totalAmount);
+
+        if ($orderId <= 0 || $userId <= 0) {
+            return; // commande invitée ou invalide
+        }
+        if ($status !== 'Livrée') {
+            return; // on ne crédite qu'une commande livrée
+        }
+        if ($eligibleAmount <= 0) {
+            return; // rien à créditer
+        }
+
+        $pdo = $this->ordersModel->getConnection();
+
+        // Calculs arrondis au FCFA
+        $clientAmount = (int)round($eligibleAmount * 0.05);   // 5% sur produits
+        $refAmount = (int)round($eligibleAmount * 0.025);     // 2.5% sur produits
+
+        try {
+            $pdo->beginTransaction();
+
+            // Crédit Client si pas déjà crédité
+            if ($clientAmount > 0 && !$this->historyExists($pdo, $userId, $orderId, 'order_5pct')) {
+                $this->creditUserAndLog($pdo, $userId, $orderId, $clientAmount, 'order_5pct',
+                    sprintf('5%% de %s FCFA = %s FCFA', number_format($eligibleAmount, 0, ',', ' '), number_format($clientAmount, 0, ',', ' '))
+                );
+
+                // Mettre à jour la session si l'utilisateur courant est concerné
+                if (isset($_SESSION['user']['id']) && (int)$_SESSION['user']['id'] === $userId) {
+                    $_SESSION['user']['loyalty_points'] = (int)($_SESSION['user']['loyalty_points'] ?? 0) + $clientAmount;
+                }
+            }
+
+            // Chercher le parrain
+            $referrerId = $this->getReferrerId($pdo, $userId);
+            if ($referrerId > 0 && $refAmount > 0 && !$this->historyExists($pdo, $referrerId, $orderId, 'referral_5pct')) {
+                $this->creditUserAndLog($pdo, $referrerId, $orderId, $refAmount, 'referral_5pct',
+                    sprintf('2.5%% de %s FCFA = %s FCFA (parrainage)', number_format($eligibleAmount, 0, ',', ' '), number_format($refAmount, 0, ',', ' '))
+                );
+
+                // Mettre à jour la session si l'utilisateur courant est le parrain
+                if (isset($_SESSION['user']['id']) && (int)$_SESSION['user']['id'] === $referrerId) {
+                    $_SESSION['user']['loyalty_points'] = (int)($_SESSION['user']['loyalty_points'] ?? 0) + $refAmount;
+                }
+            }
+
+            $pdo->commit();
+        } catch (\Throwable $e) {
+            $pdo->rollBack();
+            error_log('applyLoyaltyPoints error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Vérifie l'existence d'un enregistrement d'historique (anti-doublon)
+     */
+    private function historyExists(\PDO $pdo, int $userId, int $orderId, string $reason): bool {
+        $sql = 'SELECT id FROM loyalty_points_history WHERE users_id = :uid AND orders_id = :oid AND reason = :reason LIMIT 1';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':uid', $userId, \PDO::PARAM_INT);
+        $stmt->bindValue(':oid', $orderId, \PDO::PARAM_INT);
+        $stmt->bindValue(':reason', $reason);
+        $stmt->execute();
+        return (bool)$stmt->fetchColumn();
+    }
+
+    /**
+     * Retourne l'id du parrain si présent, sinon 0
+     */
+    private function getReferrerId(\PDO $pdo, int $userId): int {
+        $sql = 'SELECT COALESCE(referred_by_users_id, 0) AS ref_id FROM users WHERE id = :id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $userId, \PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return (int)($row['ref_id'] ?? 0);
+    }
+
+    /**
+     * Effectue l'UPDATE du solde utilisateur et insère l'historique
+     */
+    private function creditUserAndLog(\PDO $pdo, int $userId, int $orderId, int $amount, string $reason, string $note = ''): void {
+        // Mettre à jour le solde
+        $sqlUpdate = 'UPDATE users SET loyalty_points = COALESCE(loyalty_points, 0) + :amount WHERE id = :id';
+        $stmt = $pdo->prepare($sqlUpdate);
+        $stmt->bindValue(':amount', $amount, \PDO::PARAM_INT);
+        $stmt->bindValue(':id', $userId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Insérer l'historique
+        $sqlInsert = 'INSERT INTO loyalty_points_history (users_id, orders_id, points, reason, note, created_at) VALUES (:uid, :oid, :points, :reason, :note, NOW())';
+        $stmt2 = $pdo->prepare($sqlInsert);
+        $stmt2->bindValue(':uid', $userId, \PDO::PARAM_INT);
+        $stmt2->bindValue(':oid', $orderId, \PDO::PARAM_INT);
+        $stmt2->bindValue(':points', $amount, \PDO::PARAM_INT);
+        $stmt2->bindValue(':reason', $reason);
+        $stmt2->bindValue(':note', $note);
+        $stmt2->execute();
+    }
+
+    /**
+     * Récupère la commande active d'un utilisateur (en cours)
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @return array|null Commande active avec détails
+     */
+    public function getActiveOrderByUserId(int $userId): ?array {
+        $order = $this->ordersModel->getActiveOrderByUserId($userId);
+        
+        if ($order) {
+            // Récupérer les détails de la commande
+            $order['details'] = $this->getOrderDetails($order['id']);
+        }
+        
+        return $order;
+    }
+
+    /**
+     * Récupère l'historique des commandes d'un utilisateur (terminées)
+     * 
+     * @param int $userId ID de l'utilisateur
+     * @return array Commandes passées avec détails
+     */
+    public function getPastOrdersByUserId(int $userId): array {
+        $orders = $this->ordersModel->getPastOrdersByUserId($userId);
+        
+        // Récupérer les détails pour chaque commande
+        foreach ($orders as &$order) {
+            $order['details'] = $this->getOrderDetails($order['id']);
+        }
+        
+        return $orders;
     }
 }

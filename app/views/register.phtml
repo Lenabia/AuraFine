@@ -34,7 +34,7 @@
               class="auth-input" 
               placeholder="Ex: N4X4TALI" 
               value="<?= htmlspecialchars($referral_code ?? ($old['referral_code'] ?? '')) ?>"
-              <?= !empty($referral_code ?? '') ? 'readonly' : '' ?>
+              <?= (!empty($referral_code) || !empty($old['referral_code'])) ? 'readonly' : '' ?>
             >
             <div class="auth-error" aria-live="polite"><?= $errors['referral_code'] ?? '' ?></div>
           </div>
@@ -198,39 +198,49 @@ document.addEventListener('DOMContentLoaded', function() {
     const neighborhoodSelect = document.getElementById('auth-neighborhood');
     
     if (citySelect && neighborhoodSelect) {
-        citySelect.addEventListener('change', function() {
-            const cityId = this.value;
-            
-            // Vider les quartiers
-            neighborhoodSelect.innerHTML = '<option value="">Sélectionnez un quartier</option>';
-            
-            if (cityId) {
-                // Afficher un indicateur de chargement
-                neighborhoodSelect.innerHTML = '<option value="">Chargement...</option>';
-                
-                // Charger les quartiers via AJAX
-                fetch('index.php?action=register-neighborhoods&city_id=' + cityId)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success && data.neighborhoods) {
-                            // Vider et remplir les quartiers
-                            neighborhoodSelect.innerHTML = '<option value="">Sélectionnez un quartier</option>';
-                            data.neighborhoods.forEach(function(neighborhood) {
-                                const option = document.createElement('option');
-                                option.value = neighborhood.id;
-                                option.textContent = neighborhood.name;
-                                neighborhoodSelect.appendChild(option);
-                            });
-                        } else {
-                            neighborhoodSelect.innerHTML = '<option value="">Aucun quartier disponible</option>';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erreur lors du chargement des quartiers:', error);
-                        neighborhoodSelect.innerHTML = '<option value="">Erreur de chargement</option>';
-                    });
+        // Fonction pour charger les quartiers
+        function loadNeighborhoods(cityId) {
+            if (!cityId) {
+                neighborhoodSelect.innerHTML = '<option value="">Sélectionnez un quartier</option>';
+                return;
             }
+            
+            // Afficher un indicateur de chargement
+            neighborhoodSelect.innerHTML = '<option value="">Chargement...</option>';
+            
+            // Charger les quartiers via AJAX
+            fetch('index.php?action=register-neighborhoods&city_id=' + cityId)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.neighborhoods) {
+                        // Vider et remplir les quartiers
+                        neighborhoodSelect.innerHTML = '<option value="">Sélectionnez un quartier</option>';
+                        data.neighborhoods.forEach(function(neighborhood) {
+                            const option = document.createElement('option');
+                            option.value = neighborhood.id;
+                            option.textContent = neighborhood.name;
+                            neighborhoodSelect.appendChild(option);
+                        });
+                    } else {
+                        neighborhoodSelect.innerHTML = '<option value="">Aucun quartier disponible</option>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des quartiers:', error);
+                    neighborhoodSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+                });
+        }
+        
+        // Événement de changement de ville
+        citySelect.addEventListener('change', function() {
+            loadNeighborhoods(this.value);
         });
+        
+        // Si une ville est déjà sélectionnée (après erreur), charger ses quartiers
+        const selectedCityId = citySelect.value;
+        if (selectedCityId) {
+            loadNeighborhoods(selectedCityId);
+        }
     }
 });
 </script>

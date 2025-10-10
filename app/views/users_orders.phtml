@@ -1,0 +1,202 @@
+<!-- Page Mes commandes -->
+<section class="user-orders-page">
+    <div class="container">
+        <!-- En-tête de la page -->
+        <header class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-shopping-bag"></i>
+                Mes commandes
+            </h1>
+            <p class="page-subtitle">Suivez vos commandes et consultez votre historique</p>
+        </header>
+
+        <!-- Bloc commande en cours -->
+        <section class="active-order-section">
+            <h2 class="section-title">
+                <i class="fas fa-clock"></i>
+                Commande en cours
+            </h2>
+            
+            <?php if ($activeOrder): ?>
+                <div class="active-order-card" id="active-order-card">
+                    <!-- Informations de la commande -->
+                    <div class="order-info">
+                        <div class="order-header">
+                            <h3 class="order-number">Commande #<?= (int)$activeOrder['id'] ?></h3>
+                            <span class="order-date"><?= date('d/m/Y à H:i', strtotime($activeOrder['order_date'])) ?></span>
+                        </div>
+                        
+                        <div class="order-summary">
+                            <div class="order-amount">
+                                <span class="amount-label">Montant total :</span>
+                                <span class="amount-value"><?= number_format($activeOrder['total_amount'], 0, ',', ' ') ?> FCFA</span>
+                            </div>
+                            <div class="order-items">
+                                <span class="items-label">Articles :</span>
+                                <span class="items-count"><?= count($activeOrder['details']) ?> article(s)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Workflow des statuts -->
+                    <div class="order-workflow">
+                        <div class="workflow-steps">
+                            <div class="workflow-step <?= $activeOrder['status'] === 'En attente' ? 'active' : ($activeOrder['status'] === 'En preparation' || $activeOrder['status'] === 'Livraison en cours' || $activeOrder['status'] === 'Livrée' ? 'completed' : '') ?>">
+                                <div class="step-icon">
+                                    <i class="fas fa-hourglass-half"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4 class="step-title">En attente</h4>
+                                    <p class="step-description">Votre commande a été reçue</p>
+                                </div>
+                            </div>
+                            
+                            <div class="workflow-step <?= $activeOrder['status'] === 'En preparation' ? 'active' : ($activeOrder['status'] === 'Livraison en cours' || $activeOrder['status'] === 'Livrée' ? 'completed' : '') ?>">
+                                <div class="step-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4 class="step-title">En préparation</h4>
+                                    <p class="step-description">Vos plats sont en cours de préparation</p>
+                                </div>
+                            </div>
+                            
+                            <div class="workflow-step <?= $activeOrder['status'] === 'Livraison en cours' ? 'active' : ($activeOrder['status'] === 'Livrée' ? 'completed' : '') ?>">
+                                <div class="step-icon">
+                                    <i class="fas fa-truck"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4 class="step-title">En livraison</h4>
+                                    <p class="step-description">Votre commande est en route</p>
+                                </div>
+                            </div>
+                            
+                            <div class="workflow-step <?= $activeOrder['status'] === 'Livrée' ? 'active completed' : '' ?>">
+                                <div class="step-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4 class="step-title">Livrée</h4>
+                                    <p class="step-description">Commande livrée avec succès</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="workflow-status">
+                            <span class="current-status">Statut actuel : <strong><?= htmlspecialchars($activeOrder['status']) ?></strong></span>
+                            <span class="last-update">Dernière mise à jour : <?= date('d/m/Y à H:i', strtotime($activeOrder['updated_at'])) ?></span>
+                        </div>
+                    </div>
+
+                    <!-- Détails de la commande -->
+                    <div class="order-details">
+                        <h4 class="details-title">Détails de la commande</h4>
+                        <div class="details-list">
+                            <?php foreach ($activeOrder['details'] as $detail): ?>
+                                <div class="detail-item">
+                                    <span class="item-name"><?= htmlspecialchars($detail['item_label']) ?></span>
+                                    <span class="item-quantity">x<?= (int)$detail['quantity'] ?></span>
+                                    <span class="item-price"><?= number_format($detail['subtotal'], 0, ',', ' ') ?> FCFA</span>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="no-active-order">
+                    <div class="no-order-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Aucune commande en cours</h3>
+                    <p>Vous n'avez actuellement aucune commande en cours de traitement.</p>
+                    <a href="index.php?action=menus" class="btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Commander maintenant
+                    </a>
+                </div>
+            <?php endif; ?>
+        </section>
+
+        <!-- Bloc historique des commandes -->
+        <section class="orders-history-section">
+            <h2 class="section-title">
+                <i class="fas fa-history"></i>
+                Historique des commandes
+            </h2>
+            
+            <?php if (!empty($pastOrders)): ?>
+                <div class="orders-table-container">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Articles</th>
+                                <th>Montant</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($pastOrders as $order): ?>
+                                <tr class="order-row">
+                                    <td class="order-date">
+                                        <?= date('d/m/Y', strtotime($order['order_date'])) ?>
+                                        <small><?= date('H:i', strtotime($order['order_date'])) ?></small>
+                                    </td>
+                                    <td class="order-items">
+                                        <?= count($order['details']) ?> article(s)
+                                        <small>
+                                            <?php 
+                                            $items = array_slice($order['details'], 0, 2);
+                                            $itemNames = array_map(function($item) { return $item['item_label']; }, $items);
+                                            echo htmlspecialchars(implode(', ', $itemNames));
+                                            if (count($order['details']) > 2) {
+                                                echo '...';
+                                            }
+                                            ?>
+                                        </small>
+                                    </td>
+                                    <td class="order-amount">
+                                        <?= number_format($order['total_amount'], 0, ',', ' ') ?> FCFA
+                                    </td>
+                                    <td class="order-status">
+                                        <span class="status-badge status-<?= strtolower(str_replace(' ', '-', $order['status'])) ?>">
+                                            <?= htmlspecialchars($order['status']) ?>
+                                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else: ?>
+                <div class="no-orders">
+                    <div class="no-orders-icon">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <h3>Aucune commande passée</h3>
+                    <p>Vous n'avez pas encore passé de commande.</p>
+                    <a href="index.php?action=menus" class="btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Découvrir nos menus
+                    </a>
+                </div>
+            <?php endif; ?>
+        </section>
+    </div>
+</section>
+
+<!-- Modal pour les détails de commande -->
+<div id="orderDetailsModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 class="modal-title">Détails de la commande</h3>
+            <button class="modal-close" onclick="closeOrderDetailsModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="orderDetailsContent">
+            <!-- Contenu chargé dynamiquement -->
+        </div>
+    </div>
+</div>
+
+<!-- Token CSRF pour les requêtes AJAX -->
+<input type="hidden" id="csrf-token" value="<?= htmlspecialchars($csrfToken) ?>">

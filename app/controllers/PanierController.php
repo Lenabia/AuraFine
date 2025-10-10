@@ -467,6 +467,7 @@ class PanierController extends Middleware {
             $userId = (int)$_SESSION['user']['id'];
             $orderData = [
                 'users_id' => $userId,
+                // On fige l'adresse utilisée dans la commande, tout en autorisant l'édition
                 'customer_first_name' => null,
                 'customer_last_name' => null,
                 'customer_phone' => null,
@@ -481,6 +482,20 @@ class PanierController extends Middleware {
                 'neighborhoods_id' => $deliveryInfo['data']['neighborhoods_id'],
                 'delivery_zones_id' => $deliveryInfo['data']['delivery_zones_id']
             ];
+            // Mettre à jour le profil utilisateur et la session si l'adresse change via POST
+            if (!empty($_POST)) {
+                $updateData = [
+                    'address_line' => $deliveryInfo['data']['address_line'],
+                    'cities_id' => $deliveryInfo['data']['cities_id'],
+                    'neighborhoods_id' => $deliveryInfo['data']['neighborhoods_id'],
+                    'delivery_zones_id' => $deliveryInfo['data']['delivery_zones_id']
+                ];
+                $this->userModel->update($userId, $updateData);
+                $_SESSION['user']['address_line'] = $updateData['address_line'];
+                $_SESSION['user']['cities_id'] = $updateData['cities_id'];
+                $_SESSION['user']['neighborhoods_id'] = $updateData['neighborhoods_id'];
+                $_SESSION['user']['delivery_zones_id'] = $updateData['delivery_zones_id'];
+            }
         }
 
         // Créer la commande avec transaction via le service
@@ -504,10 +519,14 @@ class PanierController extends Middleware {
      * Valide les informations de livraison
      */
     private function validateDeliveryInfo(array $postData): array {
-        $addressLine = trim($postData['address_line'] ?? '');
+        // Fallback pour utilisateur connecté: si POST vide, reprendre la session
+        $isGuest = $this->isGuest();
+        $sessionUser = $_SESSION['user'] ?? [];
+
+        $addressLine = trim($postData['address_line'] ?? ($isGuest ? '' : ($sessionUser['address_line'] ?? '')));
         $deliveryComment = trim($postData['delivery_comment'] ?? '');
-        $citiesId = (int)($postData['cities_id'] ?? 0);
-        $neighborhoodsId = (int)($postData['neighborhoods_id'] ?? 0);
+        $citiesId = (int)($postData['cities_id'] ?? ($isGuest ? 0 : (int)($sessionUser['cities_id'] ?? 0)));
+        $neighborhoodsId = (int)($postData['neighborhoods_id'] ?? ($isGuest ? 0 : (int)($sessionUser['neighborhoods_id'] ?? 0)));
 
         // Validation des champs obligatoires
         if ($citiesId <= 0) {
