@@ -256,6 +256,37 @@ class OrdersController extends Middleware {
     }
 
     /**
+     * Réactive une commande annulée
+     * 
+     * @route POST /orders-reactivate
+     */
+    public function reactivateOrder(): void {
+        $this->checkAdmin();
+
+        if (!$this->checkCSRFToken()) {
+            $_SESSION['error_message'] = 'Erreur de sécurité';
+            $this->redirectTo('admin-orders');
+        }
+
+        $orderId = (int)($_POST['order_id'] ?? 0);
+
+        if ($orderId <= 0) {
+            $_SESSION['error_message'] = 'ID de commande invalide';
+            $this->redirectTo('admin-orders');
+        }
+
+        $success = $this->ordersService->reactivateOrder($orderId);
+        
+        if ($success) {
+            $_SESSION['success_message'] = 'Commande réactivée avec succès';
+        } else {
+            $_SESSION['error_message'] = 'Erreur lors de la réactivation de la commande';
+        }
+
+        $this->redirectTo('admin-orders-details&id=' . $orderId);
+    }
+
+    /**
      * Affiche les commandes de l'utilisateur connecté
      * 
      * @route GET /my-orders

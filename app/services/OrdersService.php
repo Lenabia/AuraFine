@@ -32,6 +32,17 @@ class OrdersService {
     }
 
     /**
+     * Valide un statut précédent (tous les statuts sauf 'annulée')
+     * 
+     * @param string $status Statut précédent à valider
+     * @return bool Valide ou non
+     */
+    public function isValidPreviousStatus(string $status): bool {
+        $validPreviousStatuses = ['En attente', 'En preparation', 'Livraison en cours', 'Livrée'];
+        return in_array($status, $validPreviousStatuses, true);
+    }
+
+    /**
      * Récupère les métriques formatées
      * 
      * @return array Métriques formatées
@@ -52,13 +63,14 @@ class OrdersService {
      * 
      * @param int $id ID de la commande
      * @param string $status Nouveau statut
+     * @param string|null $previousStatus Statut précédent (pour annulation)
      * @return bool Succès de la mise à jour
      */
-    public function updateOrderStatus(int $id, string $status): bool {
+    public function updateOrderStatus(int $id, string $status, ?string $previousStatus = null): bool {
         if (!$this->isValidStatus($status)) {
             return false;
         }
-        $ok = $this->ordersModel->updateStatus($id, $status);
+        $ok = $this->ordersModel->updateStatus($id, $status, $previousStatus);
         if ($ok && $status === 'Livrée') {
             // Sécuriser: recharger la commande depuis la DB et appliquer les points
             try {
@@ -80,7 +92,84 @@ class OrdersService {
      * @return bool Succès de l'annulation
      */
     public function cancelOrder(int $id): bool {
-        return $this->updateOrderStatus($id, 'annulée');
+        // Récupérer le statut actuel avant annulation
+        $order = $this->getOrderById($id);
+        if (!$order) {
+            error_log("cancelOrder: Commande introuvable: {$id}");
+            return false;
+        }
+        
+        $currentStatus = $order['status'];
+        
+        // Vérifier que la commande n'est pas déjà annulée
+        if ($currentStatus === 'annulée') {
+            error_log("cancelOrder: Commande déjà annulée: {$id}");
+            return false;
+        }
+        
+        // Vérifier que le statut actuel est valide pour l'annulation
+        if (!$this->isValidPreviousStatus($currentStatus)) {
+            error_log("cancelOrder: Statut actuel invalide pour annulation: {$currentStatus} (commande {$id})");
+            return false;
+        }
+        
+        return $this->updateOrderStatus($id, 'annulée', $currentStatus);
+    }
+
+    /**
+     * Réactive une commande annulée
+     * 
+     * @param int $id ID de la commande
+     * @return bool Succès de la réactivation
+     */
+    public function reactivateOrder(int $id): bool {
+        // Récupérer la commande pour obtenir le statut précédent
+        $order = $this->getOrderById($id);
+        if (!$order) {
+            error_log("reactivateOrder: Commande introuvable: {$id}");
+            return false;
+        }
+        
+        if ($order['status'] !== 'annulée') {
+            error_log("reactivateOrder: Commande non annulée: {$id} (statut: {$order['status']})");
+            return false;
+        }
+        
+        if (!$order['previous_status']) {
+            error_log("reactivateOrder: Aucun statut précédent trouvé: {$id}");
+            return false;
+        }
+        
+        // Valider le statut précédent
+        $previousStatus = $order['previous_status'];
+        if (!$this->isValidPreviousStatus($previousStatus)) {
+            error_log("reactivateOrder: Statut précédent invalide: {$previousStatus} (commande {$id})");
+            return false;
+        }
+        
+        // Vérifier que le statut précédent est différent du statut actuel
+        if ($previousStatus === $order['status']) {
+            error_log("reactivateOrder: Statut précédent identique au statut actuel: {$previousStatus} (commande {$id})");
+            return false;
+        }
+        
+        // Restaurer le statut précédent et effacer previous_status
+        $ok = $this->ordersModel->updateStatus($id, $previousStatus, null);
+        
+        // Si la commande est maintenant livrée, appliquer les points de fidélité
+        if ($ok && $previousStatus === 'Livrée') {
+            try {
+                // Recharger la commande mise à jour pour appliquer les points
+                $updatedOrder = $this->getOrderById($id);
+                if ($updatedOrder) {
+                    $this->applyLoyaltyPoints($updatedOrder);
+                }
+            } catch (\Throwable $e) {
+                error_log('reactivateOrder/applyLoyaltyPoints error: ' . $e->getMessage());
+            }
+        }
+        
+        return $ok;
     }
 
 

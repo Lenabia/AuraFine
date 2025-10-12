@@ -16,9 +16,9 @@ class Orders extends Database {
     public function getMetrics(): array {
         $sql = "SELECT 
                     (SELECT COUNT(*) FROM orders WHERE status = 'En attente') AS pending_orders,
-                    COALESCE(SUM(total_amount), 0) AS total_revenue,
+                    COALESCE(SUM(CASE WHEN status != 'annulée' THEN total_amount ELSE 0 END), 0) AS total_revenue,
                     COUNT(*) AS total_orders,
-                    COALESCE(AVG(total_amount), 0) AS avg_basket
+                    COALESCE(AVG(CASE WHEN status != 'annulée' THEN total_amount ELSE NULL END), 0) AS avg_basket
                 FROM orders";
 
         return $this->findOne($sql);
@@ -31,7 +31,7 @@ class Orders extends Database {
      * @return array Données brutes de la DB
      */
     public function getOrders(array $filters = []): array {
-        $sql = "SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_fee,
+        $sql = "SELECT o.id, o.status, o.previous_status, o.order_date, o.total_amount, o.delivery_fee,
                        COALESCE(u.first_name, o.customer_first_name) AS first_name,
                        COALESCE(u.last_name, o.customer_last_name) AS last_name,
                        COALESCE(u.phone, o.customer_phone) AS phone,
@@ -100,6 +100,7 @@ class Orders extends Database {
         return $this->findAll($sql);
     }
 
+
     /**
      * Récupère une commande par ID avec toutes ses informations
      * 
@@ -107,7 +108,7 @@ class Orders extends Database {
      * @return array|null Commande avec infos utilisateur, ville, quartier
      */
     public function getOrderById(int $id): ?array {
-        $sql = "SELECT o.id, o.users_id, o.status, o.order_date, o.total_amount, o.delivery_address, o.delivery_comment, o.delivery_fee,
+        $sql = "SELECT o.id, o.users_id, o.status, o.previous_status, o.order_date, o.total_amount, o.delivery_address, o.delivery_comment, o.delivery_fee,
                        o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
                        COALESCE(u.first_name, o.customer_first_name) AS first_name,
                        COALESCE(u.last_name, o.customer_last_name) AS last_name,
@@ -136,11 +137,19 @@ class Orders extends Database {
      * 
      * @param int $id ID de la commande
      * @param string $status Nouveau statut
+     * @param string|null $previousStatus Statut précédent (pour annulation)
      * @return bool Succès de la mise à jour
      */
-    public function updateStatus(int $id, string $status): bool {
-        $sql = "UPDATE orders SET status = :status WHERE id = :id";
-        return $this->execute($sql, ['id' => $id, 'status' => $status]) !== false;
+    public function updateStatus(int $id, string $status, ?string $previousStatus = null): bool {
+        if ($previousStatus !== null) {
+            // Mise à jour avec sauvegarde du statut précédent
+            $sql = "UPDATE orders SET status = :status, previous_status = :previous_status WHERE id = :id";
+            return $this->execute($sql, ['id' => $id, 'status' => $status, 'previous_status' => $previousStatus]) !== false;
+        } else {
+            // Mise à jour simple ou effacement de previous_status
+            $sql = "UPDATE orders SET status = :status, previous_status = NULL WHERE id = :id";
+            return $this->execute($sql, ['id' => $id, 'status' => $status]) !== false;
+        }
     }
 
     /**

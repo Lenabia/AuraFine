@@ -5,6 +5,8 @@
 
 // Variables globales pour les modales
 let currentDeleteForm = null;
+let currentCancelOrderId = null;
+let currentReactivateOrderId = null;
 
 /**
  * Affiche la modale de suppression
@@ -66,6 +68,62 @@ function showLogoutModal() {
 }
 
 /**
+ * Affiche la modale d'annulation de commande
+ * @param {number} orderId - ID de la commande à annuler
+ */
+function showCancelOrderModal(orderId) {
+  console.log("showCancelOrderModal appelée avec orderId:", orderId);
+
+  const modal = document.getElementById("cancelOrderModal");
+
+  if (!modal) {
+    console.error("Modale d'annulation de commande non trouvée");
+    return;
+  }
+
+  // Stocker l'ID de la commande
+  currentCancelOrderId = orderId;
+
+  // Afficher la modale
+  modal.classList.add("active");
+  document.body.style.overflow = "hidden";
+
+  // Focus sur le bouton d'annulation pour l'accessibilité
+  const cancelBtn = modal.querySelector(".modal-btn-cancel");
+  if (cancelBtn) {
+    cancelBtn.focus();
+  }
+}
+
+/**
+ * Affiche la modale de réactivation de commande
+ * @param {number} orderId - ID de la commande à réactiver
+ */
+function showReactivateOrderModal(orderId) {
+  console.log("showReactivateOrderModal appelée avec orderId:", orderId);
+
+  const modal = document.getElementById("reactivateOrderModal");
+
+  if (!modal) {
+    console.error("Modale de réactivation de commande non trouvée");
+    return;
+  }
+
+  // Stocker l'ID de la commande
+  currentReactivateOrderId = orderId;
+
+  // Afficher la modale
+  modal.classList.add("active");
+  document.body.style.overflow = "hidden";
+
+  // Focus sur le bouton d'annulation pour l'accessibilité
+  const cancelBtn = modal.querySelector(".modal-btn-cancel");
+  if (cancelBtn) {
+    cancelBtn.focus();
+  }
+}
+
+/**
  * Ferme toutes les modales
  */
 function closeModal() {
@@ -78,6 +136,8 @@ function closeModal() {
 
   document.body.style.overflow = "auto";
   currentDeleteForm = null;
+  currentCancelOrderId = null;
+  currentReactivateOrderId = null;
 }
 
 /**
@@ -98,14 +158,69 @@ function confirmDelete() {
   closeModal();
 }
 
+/**
+ * Confirme l'annulation de commande et soumet le formulaire
+ */
+function confirmCancelOrder() {
+  console.log("confirmCancelOrder appelée, orderId:", currentCancelOrderId);
+
+  if (currentCancelOrderId) {
+    const form = document.getElementById("cancelOrderForm");
+    if (form) {
+      form.submit();
+    } else {
+      console.error("Formulaire d'annulation de commande non trouvé");
+    }
+  }
+
+  closeModal();
+}
+
+/**
+ * Confirme la réactivation de commande et soumet le formulaire
+ */
+function confirmReactivateOrder() {
+  console.log(
+    "confirmReactivateOrder appelée, orderId:",
+    currentReactivateOrderId
+  );
+
+  if (currentReactivateOrderId) {
+    const form = document.getElementById("reactivateOrderForm");
+    if (form) {
+      form.submit();
+    } else {
+      console.error("Formulaire de réactivation de commande non trouvé");
+    }
+  }
+
+  closeModal();
+}
+
 // Initialisation quand le DOM est chargé
 document.addEventListener("DOMContentLoaded", function () {
   console.log("Modal.js chargé correctement");
 
   // Gestion des boutons de confirmation de suppression
-  const confirmBtn = document.querySelector(".modal-btn-confirm");
+  const confirmBtn = document.querySelector("#deleteModal .modal-btn-confirm");
   if (confirmBtn) {
     confirmBtn.addEventListener("click", confirmDelete);
+  }
+
+  // Gestion des boutons de confirmation d'annulation de commande
+  const cancelOrderBtn = document.querySelector(
+    "#cancelOrderModal .modal-btn-confirm"
+  );
+  if (cancelOrderBtn) {
+    cancelOrderBtn.addEventListener("click", confirmCancelOrder);
+  }
+
+  // Gestion des boutons de confirmation de réactivation de commande
+  const reactivateOrderBtn = document.querySelector(
+    "#reactivateOrderModal .modal-btn-confirm"
+  );
+  if (reactivateOrderBtn) {
+    reactivateOrderBtn.addEventListener("click", confirmReactivateOrder);
   }
 
   // Gestion de la fermeture avec Escape

@@ -104,9 +104,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (!empty($neighborhoods)): foreach ($neighborhoods as $n): ?>
+                    <?php if (!empty($neighborhoods)): 
+                        // Séparer les quartiers actifs et désactivés
+                        $activeNeighborhoods = array_filter($neighborhoods, function($n) { return ($n['is_active'] ?? 1) == 1; });
+                        $inactiveNeighborhoods = array_filter($neighborhoods, function($n) { return ($n['is_active'] ?? 1) == 0; });
+                    ?>
+                    
+                    <!-- Quartiers actifs -->
+                    <?php foreach ($activeNeighborhoods as $n): ?>
                     <tr>
-                        <td><?= htmlspecialchars($n['name']) ?></td>
+                        <td>
+                            <span class="neighborhood-name"><?= htmlspecialchars($n['name']) ?></span>
+                            <span class="status-badge status-active">Actif</span>
+                        </td>
                         <td><?= htmlspecialchars($n['zone_code']) ?></td>
                         <td class="table-actions">
                             <form method="POST" action="index.php?action=admin-neighborhoods-update&city=<?= (int)$city['id'] ?>&id=<?= (int)$n['id'] ?>" class="inline-form">
@@ -121,11 +131,54 @@
                             </form>
                             <form id="delete-neighborhood-<?= (int)$n['id'] ?>" method="POST" action="index.php?action=admin-neighborhoods-delete&city=<?= (int)$city['id'] ?>&id=<?= (int)$n['id'] ?>" class="inline-form">
                                 <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
-                                <button type="button" class="btn-delete" title="Supprimer" onclick="showDeleteModal('<?= htmlspecialchars($n['name']) ?>','ce quartier','delete-neighborhood-<?= (int)$n['id'] ?>')"><i class="fas fa-trash"></i></button>
+                                <button type="button" class="btn-delete" title="Supprimer" onclick="checkNeighborhoodReferences(<?= (int)$n['id'] ?>, '<?= htmlspecialchars($n['name']) ?>', <?= (int)$city['id'] ?>)"><i class="fas fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>
-                    <?php endforeach; else: ?>
+                    <?php endforeach; ?>
+                    
+                    <!-- Quartiers désactivés -->
+                    <?php if (!empty($inactiveNeighborhoods)): ?>
+                    <tr class="section-separator">
+                        <td colspan="3" class="section-title">
+                            <i class="fas fa-eye-slash"></i> Quartiers désactivés
+                        </td>
+                    </tr>
+                    <?php foreach ($inactiveNeighborhoods as $n): ?>
+                    <tr class="inactive-row">
+                        <td>
+                            <span class="neighborhood-name inactive"><?= htmlspecialchars($n['name']) ?></span>
+                            <span class="status-badge status-inactive">Désactivé</span>
+                            <?php if (isset($n['deleted_at']) && $n['deleted_at']): ?>
+                            <small class="deleted-date">Supprimé le <?= date('d/m/Y à H:i', strtotime($n['deleted_at'])) ?></small>
+                            <?php endif; ?>
+                        </td>
+                        <td><?= htmlspecialchars($n['zone_code']) ?></td>
+                        <td class="table-actions">
+                            <form method="POST" action="index.php?action=admin-neighborhoods-update&city=<?= (int)$city['id'] ?>&id=<?= (int)$n['id'] ?>" class="inline-form">
+                                <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                                <input type="text" name="name" class="form-input small" value="<?= htmlspecialchars($n['name']) ?>" required maxlength="120">
+                                <select name="delivery_zones_id" class="form-input small" required>
+                                    <?php foreach ($zones as $z): ?>
+                                        <option value="<?= (int)$z['id'] ?>" <?= ((int)$z['id'] === (int)$n['delivery_zones_id'])?'selected':'' ?>><?= htmlspecialchars($z['code']) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button type="submit" class="btn-edit"><i class="fas fa-save"></i></button>
+                            </form>
+                            <form id="reactivate-neighborhood-<?= (int)$n['id'] ?>" method="POST" action="index.php?action=admin-neighborhoods-reactivate&city=<?= (int)$city['id'] ?>&id=<?= (int)$n['id'] ?>" class="inline-form">
+                                <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                                <button type="button" class="btn-save" title="Réactiver" onclick="showReactivateModal('<?= htmlspecialchars($n['name']) ?>','ce quartier','reactivate-neighborhood-<?= (int)$n['id'] ?>')"><i class="fas fa-undo"></i></button>
+                            </form>
+                            <form id="delete-neighborhood-<?= (int)$n['id'] ?>" method="POST" action="index.php?action=admin-neighborhoods-delete&city=<?= (int)$city['id'] ?>&id=<?= (int)$n['id'] ?>" class="inline-form">
+                                <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                                <button type="button" class="btn-delete" title="Supprimer définitivement" onclick="checkNeighborhoodReferences(<?= (int)$n['id'] ?>, '<?= htmlspecialchars($n['name']) ?>', <?= (int)$city['id'] ?>)"><i class="fas fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                    
+                    <?php else: ?>
                     <tr><td colspan="3">Aucun quartier</td></tr>
                     <?php endif; ?>
                 </tbody>
@@ -133,5 +186,167 @@
         </section>
     </article>
 </section>
+
+<!-- Modal pour la suppression de quartier avec références -->
+<div id="neighborhoodDeleteModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-icon">⚠️</div>
+            <h3>Impossible de supprimer ce quartier</h3>
+        </div>
+        <div class="modal-body">
+            <p>Le quartier <strong id="neighborhoodName"></strong> est référencé par :</p>
+            <ul id="referencesList"></ul>
+            <p>Que souhaitez-vous faire ?</p>
+        </div>
+        <div class="modal-actions">
+            <button type="button" class="modal-btn modal-btn-cancel" onclick="closeNeighborhoodModal()">Annuler</button>
+            <button type="button" class="modal-btn modal-btn-warning" onclick="deactivateNeighborhood()">
+                <i class="fas fa-eye-slash"></i> Désactiver
+            </button>
+            <button type="button" class="modal-btn modal-btn-primary" onclick="editNeighborhood()">
+                <i class="fas fa-edit"></i> Modifier
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentNeighborhoodId = null;
+let currentCityId = null;
+
+function checkNeighborhoodReferences(neighborhoodId, neighborhoodName, cityId) {
+    currentNeighborhoodId = neighborhoodId;
+    currentCityId = cityId;
+    
+    // Récupérer le token CSRF
+    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : '';
+    
+    if (!csrfToken) {
+        console.error('Token CSRF non trouvé');
+        // Fallback: procéder à la suppression normale
+        showDeleteModal(neighborhoodName, 'ce quartier', `delete-neighborhood-${neighborhoodId}`);
+        return;
+    }
+    
+    // Faire une requête AJAX pour vérifier les références
+    fetch(`index.php?action=admin-neighborhoods-delete&city=${cityId}&id=${neighborhoodId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `csrf_token=${csrfToken}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.has_references) {
+            showNeighborhoodDeleteModal(neighborhoodName, data.references);
+        } else {
+            // Pas de références, procéder à la suppression normale
+            showDeleteModal(neighborhoodName, 'ce quartier', `delete-neighborhood-${neighborhoodId}`);
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        // En cas d'erreur, procéder à la suppression normale
+        showDeleteModal(neighborhoodName, 'ce quartier', `delete-neighborhood-${neighborhoodId}`);
+    });
+}
+
+function showNeighborhoodDeleteModal(neighborhoodName, references) {
+    const modal = document.getElementById('neighborhoodDeleteModal');
+    const nameEl = document.getElementById('neighborhoodName');
+    const listEl = document.getElementById('referencesList');
+    
+    nameEl.textContent = neighborhoodName;
+    listEl.innerHTML = '';
+    
+    if (references.orders) {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${references.orders}</strong> commande(s)`;
+        listEl.appendChild(li);
+    }
+    
+    if (references.users) {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${references.users}</strong> utilisateur(s)`;
+        listEl.appendChild(li);
+    }
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeNeighborhoodModal() {
+    const modal = document.getElementById('neighborhoodDeleteModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    currentNeighborhoodId = null;
+    currentCityId = null;
+}
+
+function deactivateNeighborhood() {
+    if (currentNeighborhoodId && currentCityId) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `index.php?action=admin-neighborhoods-deactivate&city=${currentCityId}&id=${currentNeighborhoodId}`;
+        
+        const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+        const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : '';
+        
+        if (csrfToken) {
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrf_token';
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
+function editNeighborhood() {
+    // Trouver le formulaire d'édition correspondant
+    const editForm = document.querySelector(`form[id^="edit-neighborhood-${currentNeighborhoodId}"]`);
+    if (editForm) {
+        // Focuser sur le champ de nom
+        const nameInput = editForm.querySelector('input[name="name"]');
+        if (nameInput) {
+            nameInput.focus();
+            nameInput.select();
+        }
+    }
+    closeNeighborhoodModal();
+}
+
+// Variables globales pour la modale de réactivation
+let currentReactivateNeighborhoodFormId = null;
+
+function showReactivateModal(neighborhoodName, type, formId) {
+    currentReactivateNeighborhoodFormId = formId;
+    document.getElementById('reactivateNeighborhoodMessage').textContent = 
+        `Êtes-vous sûr de vouloir réactiver ${type} "${neighborhoodName}" ?`;
+    const modal = document.getElementById('reactivateNeighborhoodModal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function confirmReactivateNeighborhood() {
+    if (currentReactivateNeighborhoodFormId) {
+        document.getElementById(currentReactivateNeighborhoodFormId).submit();
+    }
+}
+
+function closeReactivateNeighborhoodModal() {
+    const modal = document.getElementById('reactivateNeighborhoodModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    currentReactivateNeighborhoodFormId = null;
+}
+</script>
 
 

@@ -104,7 +104,7 @@ class DeliveryController extends Middleware {
         $city = $this->model->findCityById((int)$id);
         if (!$city) { $_SESSION['error_message'] = 'Ville introuvable'; $this->redirectTo('admin-deliveries'); }
         $zones = $this->model->getZonesByCity((int)$id);
-        $neighborhoods = $this->model->getNeighborhoodsByCity((int)$id);
+        $neighborhoods = $this->model->getNeighborhoodsByCity((int)$id, true); // Inclure les quartiers désactivés
         $csrfToken = $this->generateCSRFToken();
         $this->render('admin-deliveries-show.phtml', 'admin-layout.phtml', [
             'pageTitle' => 'Livraison - '.htmlspecialchars($city['name']),
@@ -187,10 +187,91 @@ class DeliveryController extends Middleware {
 
     public function deleteNeighborhood($cityId, $neighborhoodId) {
         $this->checkAdmin();
-        if (!$this->checkCSRFToken()) { $_SESSION['error_message'] = 'Erreur de sécurité'; header('Location: index.php?action=admin-deliveries-show&id='.(int)$cityId); exit; }
-        $this->model->deleteNeighborhood((int)$neighborhoodId);
-        $_SESSION['success_message'] = 'Quartier supprimé';
-        header('Location: index.php?action=admin-deliveries-show&id='.(int)$cityId); exit;
+        if (!$this->checkCSRFToken()) { 
+            $_SESSION['error_message'] = 'Erreur de sécurité'; 
+            header('Location: index.php?action=admin-deliveries-show&id='.(int)$cityId); 
+            exit; 
+        }
+        
+        // Vérifier s'il y a des références
+        $references = $this->model->hasActiveReferences((int)$neighborhoodId);
+        if (!empty($references)) {
+            // Vérifier si c'est une requête AJAX
+            if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+                // Retourner les informations pour la modal
+                $this->json([
+                    'success' => false,
+                    'has_references' => true,
+                    'references' => $references,
+                    'neighborhood_id' => (int)$neighborhoodId,
+                    'neighborhood_name' => $this->getNeighborhoodName((int)$neighborhoodId)
+                ]);
+            } else {
+                // Requête normale, afficher message d'erreur
+                $_SESSION['error_message'] = 'Impossible de supprimer ce quartier car il est référencé par des commandes ou utilisateurs.';
+                header('Location: index.php?action=admin-deliveries-show&id='.(int)$cityId); 
+                exit;
+            }
+        }
+        
+        $success = $this->model->deleteNeighborhood((int)$neighborhoodId);
+        if ($success) {
+            $_SESSION['success_message'] = 'Quartier supprimé';
+        } else {
+            $_SESSION['error_message'] = 'Erreur lors de la suppression du quartier';
+        }
+        header('Location: index.php?action=admin-deliveries-show&id='.(int)$cityId); 
+        exit;
+    }
+
+    /**
+     * Désactive un quartier
+     */
+    public function deactivateNeighborhood($cityId, $neighborhoodId) {
+        $this->checkAdmin();
+        if (!$this->checkCSRFToken()) { 
+            $_SESSION['error_message'] = 'Erreur de sécurité'; 
+            header('Location: index.php?action=admin-deliveries-show&id='.(int)$cityId); 
+            exit; 
+        }
+        
+        $success = $this->model->deactivateNeighborhood((int)$neighborhoodId);
+        if ($success) {
+            $_SESSION['success_message'] = 'Quartier désactivé avec succès';
+        } else {
+            $_SESSION['error_message'] = 'Erreur lors de la désactivation du quartier';
+        }
+        header('Location: index.php?action=admin-deliveries-show&id='.(int)$cityId); 
+        exit;
+    }
+
+    /**
+     * Réactive un quartier
+     */
+    public function reactivateNeighborhood($cityId, $neighborhoodId) {
+        $this->checkAdmin();
+        if (!$this->checkCSRFToken()) { 
+            $_SESSION['error_message'] = 'Erreur de sécurité'; 
+            header('Location: index.php?action=admin-deliveries-show&id='.(int)$cityId); 
+            exit; 
+        }
+        
+        $success = $this->model->reactivateNeighborhood((int)$neighborhoodId);
+        if ($success) {
+            $_SESSION['success_message'] = 'Quartier réactivé avec succès';
+        } else {
+            $_SESSION['error_message'] = 'Erreur lors de la réactivation du quartier';
+        }
+        header('Location: index.php?action=admin-deliveries-show&id='.(int)$cityId); 
+        exit;
+    }
+
+    /**
+     * Récupère le nom d'un quartier
+     */
+    private function getNeighborhoodName(int $neighborhoodId): string {
+        $neighborhood = $this->model->findNeighborhoodById($neighborhoodId);
+        return $neighborhood['name'] ?? 'Quartier inconnu';
     }
 
     /* =========================

@@ -31,6 +31,88 @@ DÉTAIL COMMANDE - ADMIN
     </div>
 </section>
 
+<!-- Actions sur la commande -->
+<section class="order-actions-section">
+    <div class="actions-header">
+        <h3>
+            <i class="fas fa-cogs"></i>
+            Actions
+        </h3>
+    </div>
+    
+    <div class="actions-grid">
+        <!-- Changement de statut -->
+        <form method="POST" action="index.php?action=admin-orders-update-status" class="action-form">
+            <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+            <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
+            
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-edit"></i>
+                    Changer le statut
+                </label>
+                <div class="status-tabs">
+                    <button type="button" class="status-tab <?= $order['status'] === 'En attente' ? 'active' : '' ?>" data-status="En attente">En attente</button>
+                    <button type="button" class="status-tab <?= $order['status'] === 'En preparation' ? 'active' : '' ?>" data-status="En preparation">En préparation</button>
+                    <button type="button" class="status-tab <?= $order['status'] === 'Livraison en cours' ? 'active' : '' ?>" data-status="Livraison en cours">Livraison</button>
+                    <button type="button" class="status-tab <?= $order['status'] === 'Livrée' ? 'active' : '' ?>" data-status="Livrée">Livrée</button>
+                    <button type="button" class="status-tab <?= $order['status'] === 'annulée' ? 'active' : '' ?>" data-status="annulée">Annulée</button>
+                </div>
+                <!-- Champ caché pour le statut sélectionné -->
+                <input type="hidden" id="status" name="status" value="<?= htmlspecialchars($order['status']) ?>" required>
+            </div>
+            
+            <button type="submit" class="btn-save">
+                <i class="fas fa-save"></i>
+                Mettre à jour
+            </button>
+        </form>
+
+        <!-- Annulation/Réactivation -->
+        <?php if ($order['status'] === 'annulée'): ?>
+        <!-- Réactivation pour commande annulée -->
+        <form method="POST" action="index.php?action=admin-orders-reactivate" class="action-form" id="reactivateOrderForm">
+            <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+            <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
+            
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-undo"></i>
+                    Réactiver la commande
+                </label>
+                <p class="form-help">Restaurera le statut précédent : <?= htmlspecialchars($order['previous_status'] ?? 'Inconnu') ?></p>
+            </div>
+            
+            <button type="button" class="btn-save" 
+                    onclick="showReactivateOrderModal(<?= (int)$order['id'] ?>)">
+                <i class="fas fa-undo"></i>
+                Réactiver
+            </button>
+        </form>
+        <?php elseif ($order['status'] !== 'Livrée'): ?>
+        <!-- Annulation pour commande non livrée -->
+        <form method="POST" action="index.php?action=admin-orders-cancel" class="action-form" id="cancelOrderForm">
+            <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+            <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
+            
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-times-circle"></i>
+                    Annuler la commande
+                </label>
+                <p class="form-help">Cette action ne peut pas être annulée.</p>
+            </div>
+            
+            <button type="button" class="btn-delete" 
+                    onclick="showCancelOrderModal(<?= (int)$order['id'] ?>)">
+                <i class="fas fa-ban"></i>
+                Annuler
+            </button>
+        </form>
+        <?php endif; ?>
+    </div>
+</section>
+
 <!-- Informations client -->
 <section class="order-details-grid">
     <article class="admin-card">
@@ -178,67 +260,6 @@ DÉTAIL COMMANDE - ADMIN
         <p>Cette commande ne contient aucun article.</p>
     </div>
     <?php endif; ?>
-</section>
-
-<!-- Actions sur la commande -->
-<section class="order-actions-section">
-    <div class="actions-header">
-        <h3>
-            <i class="fas fa-cogs"></i>
-            Actions
-        </h3>
-    </div>
-    
-    <div class="actions-grid">
-        <!-- Changement de statut -->
-        <form method="POST" action="index.php?action=admin-orders-update-status" class="action-form">
-            <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
-            <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
-            
-            <div class="form-group">
-                <label class="form-label">
-                    <i class="fas fa-edit"></i>
-                    Changer le statut
-                </label>
-                <div class="status-tabs">
-                    <button type="button" class="status-tab <?= $order['status'] === 'En attente' ? 'active' : '' ?>" data-status="En attente">En attente</button>
-                    <button type="button" class="status-tab <?= $order['status'] === 'En preparation' ? 'active' : '' ?>" data-status="En preparation">En préparation</button>
-                    <button type="button" class="status-tab <?= $order['status'] === 'Livraison en cours' ? 'active' : '' ?>" data-status="Livraison en cours">Livraison</button>
-                    <button type="button" class="status-tab <?= $order['status'] === 'Livrée' ? 'active' : '' ?>" data-status="Livrée">Livrée</button>
-                    <button type="button" class="status-tab <?= $order['status'] === 'annulée' ? 'active' : '' ?>" data-status="annulée">Annulée</button>
-                </div>
-                <!-- Champ caché pour le statut sélectionné -->
-                <input type="hidden" id="status" name="status" value="<?= htmlspecialchars($order['status']) ?>" required>
-            </div>
-            
-            <button type="submit" class="btn-save">
-                <i class="fas fa-save"></i>
-                Mettre à jour
-            </button>
-        </form>
-
-        <!-- Annulation -->
-        <?php if ($order['status'] !== 'annulée' && $order['status'] !== 'Livrée'): ?>
-        <form method="POST" action="index.php?action=admin-orders-cancel" class="action-form">
-            <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
-            <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
-            
-            <div class="form-group">
-                <label class="form-label">
-                    <i class="fas fa-times-circle"></i>
-                    Annuler la commande
-                </label>
-                <p class="form-help">Cette action ne peut pas être annulée.</p>
-            </div>
-            
-            <button type="submit" class="btn-delete" 
-                    onclick="return confirm('Êtes-vous sûr de vouloir annuler cette commande ?')">
-                <i class="fas fa-ban"></i>
-                Annuler
-            </button>
-        </form>
-        <?php endif; ?>
-    </div>
 </section>
 
 <script>

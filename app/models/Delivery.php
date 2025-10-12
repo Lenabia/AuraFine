@@ -91,18 +91,23 @@ class Delivery extends Database {
        NEIGHBORHOODS
        ========================= */
 
-    public function getNeighborhoodsByCity(int $cityId): array {
-        $sql = "SELECT n.id, n.cities_id, n.delivery_zones_id, n.name,
+    public function getNeighborhoodsByCity(int $cityId, bool $includeInactive = false): array {
+        $sql = "SELECT n.id, n.cities_id, n.delivery_zones_id, n.name, n.is_active, n.deleted_at,
                        dz.code AS zone_code
                 FROM neighborhoods n
                 JOIN delivery_zones dz ON dz.id = n.delivery_zones_id
-                WHERE n.cities_id = :city
-                ORDER BY n.name ASC";
+                WHERE n.cities_id = :city";
+        
+        if (!$includeInactive) {
+            $sql .= " AND n.is_active = 1";
+        }
+        
+        $sql .= " ORDER BY n.name ASC";
         return $this->findAll($sql, ['city' => $cityId]);
     }
 
     public function findNeighborhoodById(int $id) {
-        $sql = "SELECT id, cities_id, delivery_zones_id, name FROM neighborhoods WHERE id = :id";
+        $sql = "SELECT id, cities_id, delivery_zones_id, name, is_active, deleted_at FROM neighborhoods WHERE id = :id";
         return $this->findOne($sql, ['id' => $id]);
     }
 
@@ -130,8 +135,59 @@ class Delivery extends Database {
     }
 
     public function deleteNeighborhood(int $id): bool {
+        // Vérifier s'il y a des références actives
+        $references = $this->hasActiveReferences($id);
+        if (!empty($references)) {
+            return false; // Impossible de supprimer
+        }
+        
         $sql = "DELETE FROM neighborhoods WHERE id = :id";
         return $this->execute($sql, ['id' => $id]) !== false;
+    }
+
+    /**
+     * Désactive un quartier au lieu de le supprimer
+     */
+    public function deactivateNeighborhood(int $id): bool {
+        $sql = "UPDATE neighborhoods SET is_active = 0, deleted_at = NOW() WHERE id = :id";
+        return $this->execute($sql, ['id' => $id]) !== false;
+    }
+
+    /**
+     * Réactive un quartier désactivé
+     */
+    public function reactivateNeighborhood(int $id): bool {
+        $sql = "UPDATE neighborhoods SET is_active = 1, deleted_at = NULL WHERE id = :id";
+        return $this->execute($sql, ['id' => $id]) !== false;
+    }
+
+    /**
+     * Vérifie s'il y a des références actives vers ce quartier
+     */
+    public function hasActiveReferences(int $neighborhoodId): array {
+        $references = [];
+        
+        // Vérifier les commandes
+        $sql = "SELECT COUNT(*) as count FROM orders WHERE neighborhoods_id = :id";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->execute(['id' => $neighborhoodId]);
+        $ordersCount = $stmt->fetch(\PDO::FETCH_ASSOC)['count'];
+        
+        if ($ordersCount > 0) {
+            $references['orders'] = (int)$ordersCount;
+        }
+        
+        // Vérifier les utilisateurs
+        $sql = "SELECT COUNT(*) as count FROM users WHERE neighborhoods_id = :id";
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->execute(['id' => $neighborhoodId]);
+        $usersCount = $stmt->fetch(\PDO::FETCH_ASSOC)['count'];
+        
+        if ($usersCount > 0) {
+            $references['users'] = (int)$usersCount;
+        }
+        
+        return $references;
     }
 
     /* =========================

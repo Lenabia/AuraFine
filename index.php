@@ -254,6 +254,20 @@ if(array_key_exists('action', $_GET)):
     $controller->deleteNeighborhood($city, $id);
     break;
 
+    case 'admin-neighborhoods-deactivate':
+    $city = (int)($_GET['city'] ?? 0);
+    $id = (int)($_GET['id'] ?? 0);
+    $controller = new \app\controllers\DeliveryController();
+    $controller->deactivateNeighborhood($city, $id);
+    break;
+
+    case 'admin-neighborhoods-reactivate':
+    $city = (int)($_GET['city'] ?? 0);
+    $id = (int)($_GET['id'] ?? 0);
+    $controller = new \app\controllers\DeliveryController();
+    $controller->reactivateNeighborhood($city, $id);
+    break;
+
     //gestion des commandes
     case 'admin-orders':
     error_log('DEBUG: Route admin-orders détectée');
@@ -275,6 +289,11 @@ if(array_key_exists('action', $_GET)):
     case 'admin-orders-cancel':
     $controller = new \app\controllers\OrdersController();
     $controller->cancelOrder();
+    break;
+
+    case 'admin-orders-reactivate':
+    $controller = new \app\controllers\OrdersController();
+    $controller->reactivateOrder();
     break;
 
     case 'admin-orders-ticket':

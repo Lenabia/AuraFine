@@ -768,3 +768,474 @@ Stack trace:
 [12-Oct-2025 16:13:39 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
 [12-Oct-2025 16:13:39 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
 [12-Oct-2025 16:13:39 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:24:15 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:24:15 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:24:15 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: Filtres reçus: {"status":"En attente","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:24:20 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:24:30 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:24:30 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:24:30 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:25:12 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:25:12 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:25:12 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:25:12 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:25:12 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:25:12 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:25:12 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:25:20 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:25:20 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:25:20 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:25:20 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:25:20 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:25:20 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:25:20 Africa/Dakar] DEBUG: Filtres reçus: {"status":"En attente","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:25:27 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:25:27 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:25:27 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:25:27 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:25:27 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:25:27 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:25:27 Africa/Dakar] DEBUG: Filtres reçus: {"status":"En preparation","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:25:28 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:25:28 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:25:28 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:25:28 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:25:28 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:25:28 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:25:28 Africa/Dakar] DEBUG: Filtres reçus: {"status":"Livraison en cours","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:25:37 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:25:37 Africa/Dakar] DEBUG: listOrders() appelé - Session user: NON
+[12-Oct-2025 16:25:37 Africa/Dakar] DEBUG: checkAdmin() - Session user: NON
+[12-Oct-2025 16:25:37 Africa/Dakar] DEBUG: checkAdmin() - Redirection vers accesDenied
+[12-Oct-2025 16:25:56 Africa/Dakar] Security Event: {"timestamp":"2025-10-12 16:25:56","event":"user_login","ip":"::1","user_agent":"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/141.0.0.0 Safari\/537.36","data":{"user_id":1,"email":"lena@test.com","role":"admin"}}
+[12-Oct-2025 16:26:00 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:26:00 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:26:00 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:26:00 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:26:00 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:26:00 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:26:00 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:26:02 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[12-Oct-2025 16:26:02 Africa/Dakar] DEBUG: checkAdmin() - Session user: Array
+(
+    [id] => 1
+    [email] => lena@test.com
+    [first_name] => Lena
+    [last_name] => Test
+    [role] => admin
+    [is_logged_in] => 1
+    [login_time] => 1760286356
+    [address_line] => Parcelles
+    [cities_id] => 1
+    [delivery_zones_id] => 
+    [neighborhoods_id] => 
+    [loyalty_points] => 0
+)
+
+[12-Oct-2025 16:26:02 Africa/Dakar] DEBUG: checkAdmin() - OK, utilisateur admin
+[12-Oct-2025 16:26:32 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[12-Oct-2025 16:26:32 Africa/Dakar] DEBUG: checkAdmin() - Session user: Array
+(
+    [id] => 1
+    [email] => lena@test.com
+    [first_name] => Lena
+    [last_name] => Test
+    [role] => admin
+    [is_logged_in] => 1
+    [login_time] => 1760286356
+    [address_line] => Parcelles
+    [cities_id] => 1
+    [delivery_zones_id] => 
+    [neighborhoods_id] => 
+    [loyalty_points] => 0
+)
+
+[12-Oct-2025 16:26:32 Africa/Dakar] DEBUG: checkAdmin() - OK, utilisateur admin
+[12-Oct-2025 16:26:38 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[12-Oct-2025 16:26:38 Africa/Dakar] DEBUG: checkAdmin() - Session user: Array
+(
+    [id] => 1
+    [email] => lena@test.com
+    [first_name] => Lena
+    [last_name] => Test
+    [role] => admin
+    [is_logged_in] => 1
+    [login_time] => 1760286356
+    [address_line] => Parcelles
+    [cities_id] => 1
+    [delivery_zones_id] => 
+    [neighborhoods_id] => 
+    [loyalty_points] => 0
+)
+
+[12-Oct-2025 16:26:38 Africa/Dakar] DEBUG: checkAdmin() - OK, utilisateur admin
+[12-Oct-2025 16:26:40 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[12-Oct-2025 16:26:40 Africa/Dakar] DEBUG: checkAdmin() - Session user: Array
+(
+    [id] => 1
+    [email] => lena@test.com
+    [first_name] => Lena
+    [last_name] => Test
+    [role] => admin
+    [is_logged_in] => 1
+    [login_time] => 1760286356
+    [address_line] => Parcelles
+    [cities_id] => 1
+    [delivery_zones_id] => 
+    [neighborhoods_id] => 
+    [loyalty_points] => 0
+)
+
+[12-Oct-2025 16:26:40 Africa/Dakar] DEBUG: checkAdmin() - OK, utilisateur admin
+[12-Oct-2025 16:26:43 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[12-Oct-2025 16:26:43 Africa/Dakar] DEBUG: checkAdmin() - Session user: Array
+(
+    [id] => 1
+    [email] => lena@test.com
+    [first_name] => Lena
+    [last_name] => Test
+    [role] => admin
+    [is_logged_in] => 1
+    [login_time] => 1760286356
+    [address_line] => Parcelles
+    [cities_id] => 1
+    [delivery_zones_id] => 
+    [neighborhoods_id] => 
+    [loyalty_points] => 0
+)
+
+[12-Oct-2025 16:26:43 Africa/Dakar] DEBUG: checkAdmin() - OK, utilisateur admin
+[12-Oct-2025 16:26:46 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:26:46 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:26:46 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:26:46 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:26:46 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:26:46 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:26:46 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:33:11 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:33:11 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:33:11 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:33:11 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:33:11 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:33:11 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:33:11 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC","page":1,"limit":15,"offset":0}
+[12-Oct-2025 16:43:03 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:43:03 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:43:03 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:43:03 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:03 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:03 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:03 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:43:06 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:43:06 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:43:06 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:43:06 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:06 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:06 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:06 Africa/Dakar] DEBUG: Filtres reçus: {"status":"En attente","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:43:15 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:43:15 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:43:15 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:43:15 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:15 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:15 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:15 Africa/Dakar] DEBUG: Filtres reçus: {"status":"En preparation","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:43:17 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:43:17 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:43:17 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:43:17 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:17 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:17 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:17 Africa/Dakar] DEBUG: Filtres reçus: {"status":"Livraison en cours","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:43:18 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:43:18 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:43:18 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:43:18 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:18 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:18 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:18 Africa/Dakar] DEBUG: Filtres reçus: {"status":"Livr\u00e9e","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:43:19 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:43:19 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:43:19 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:43:19 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:19 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:19 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:19 Africa/Dakar] DEBUG: Filtres reçus: {"status":"annul\u00e9e","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:43:20 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:43:20 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:43:20 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:43:20 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:20 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:20 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:20 Africa/Dakar] DEBUG: Filtres reçus: {"status":"En attente","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:43:23 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:23 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:23 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: Filtres reçus: {"status":"En preparation","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:26 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: Filtres reçus: {"status":"Livraison en cours","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:43:30 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:44:34 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:44:34 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:44:34 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:44:34 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:44:34 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:44:34 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:44:34 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:44:59 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:44:59 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:44:59 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:47:43 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:47:43 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:47:43 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: Filtres reçus: {"status":"En attente","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:52:35 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:52:55 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:52:55 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:52:55 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:53:08 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:53:08 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:53:08 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:53:08 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:53:08 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:53:08 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:53:08 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:53:16 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:53:16 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:53:16 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:53:21 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:53:21 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:53:21 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:53:21 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:53:21 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:53:21 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:53:21 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:53:21 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:53:21 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:53:21 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:53:39 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:53:39 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:53:39 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: Filtres reçus: {"status":"Livr\u00e9e","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:53:44 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:53:47 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 16:53:47 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 16:53:47 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 16:53:47 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 16:53:47 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 16:53:47 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 16:53:47 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 17:23:33 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 17:23:33 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 17:23:33 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 17:23:47 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 17:23:47 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 17:23:47 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: Filtres reçus: {"status":"En preparation","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 17:23:54 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 17:23:57 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 17:23:57 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 17:23:57 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 17:23:57 Africa/Dakar] Database EXECUTE error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'previous_status' in 'field list' | SQL: UPDATE orders SET status = :status, previous_status = :previous_status WHERE id = :id | Data: {"id":16,"status":"annul\u00e9e","previous_status":"En preparation"}
+[12-Oct-2025 17:23:57 Africa/Dakar] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'previous_status' in 'field list' in /Applications/MAMP/htdocs/AuraFine/app/Models/Database.php:119
+Stack trace:
+#0 /Applications/MAMP/htdocs/AuraFine/app/Models/Database.php(119): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/AuraFine/app/Models/Orders.php(146): app\Models\Database->execute('UPDATE orders S...', Array)
+#2 /Applications/MAMP/htdocs/AuraFine/app/services/OrdersService.php(62): app\Models\Orders->updateStatus(16, 'annul\xC3\xA9e', 'En preparation')
+#3 /Applications/MAMP/htdocs/AuraFine/app/services/OrdersService.php(88): app\services\OrdersService->updateOrderStatus(16, 'annul\xC3\xA9e', 'En preparation')
+#4 /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php(247): app\services\OrdersService->cancelOrder(16)
+#5 /Applications/MAMP/htdocs/auraFine/index.php(277): app\controllers\OrdersController->cancelOrder()
+#6 {main}
+  thrown in /Applications/MAMP/htdocs/AuraFine/app/Models/Database.php on line 119
+[12-Oct-2025 17:57:11 UTC] PHP Fatal error:  Uncaught Error: Class "app\Models\Orders" not found in /Applications/MAMP/htdocs/AuraFine/app/services/OrdersService.php:19
+Stack trace:
+#0 Command line code(6): app\services\OrdersService->__construct()
+#1 {main}
+  thrown in /Applications/MAMP/htdocs/AuraFine/app/services/OrdersService.php on line 19
+[12-Oct-2025 17:57:22 UTC] PHP Fatal error:  Uncaught Error: Class "app\Models\Database" not found in /Applications/MAMP/htdocs/AuraFine/app/models/Orders.php:9
+Stack trace:
+#0 Command line code(3): require()
+#1 {main}
+  thrown in /Applications/MAMP/htdocs/AuraFine/app/models/Orders.php on line 9
+[12-Oct-2025 17:57:58 UTC] reactivateOrder: Commande non annulée: 16 (statut: En preparation)
+[12-Oct-2025 17:57:58 UTC] cancelOrder: Commande introuvable: 99999
+[12-Oct-2025 17:57:58 UTC] reactivateOrder: Commande introuvable: 99999
+[12-Oct-2025 17:58:09 UTC] PHP Fatal error:  Uncaught Error: Class "app\Models\OrdersDetail" not found in /Applications/MAMP/htdocs/AuraFine/app/services/OrdersService.php:20
+Stack trace:
+#0 Command line code(8): app\services\OrdersService->__construct()
+#1 {main}
+  thrown in /Applications/MAMP/htdocs/AuraFine/app/services/OrdersService.php on line 20
+[12-Oct-2025 17:58:17 UTC] cancelOrder: Commande déjà annulée: 21
+[12-Oct-2025 17:58:50 UTC] reactivateOrder: Commande non annulée: 16 (statut: En preparation)
+[12-Oct-2025 18:00:17 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:17 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:17 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:00:20 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:20 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:20 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:00:29 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:29 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:29 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:00:29 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 18:00:29 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 18:00:29 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 18:00:29 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:29 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:29 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:00:29 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 18:00:34 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:34 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:34 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:00:45 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:45 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:45 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:00:45 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:45 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:45 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: Filtres reçus: {"status":"Livraison en cours","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:49 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:00:54 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:54 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:54 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:00:54 Africa/Dakar] DEBUG: Route admin-orders détectée
+[12-Oct-2025 18:00:54 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[12-Oct-2025 18:00:54 Africa/Dakar] DEBUG: Role utilisateur: admin
+[12-Oct-2025 18:00:54 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:54 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:54 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:00:54 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[12-Oct-2025 18:00:59 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:00:59 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:00:59 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:01:07 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[12-Oct-2025 18:01:07 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[12-Oct-2025 18:01:07 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[12-Oct-2025 18:01:17 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[12-Oct-2025 18:01:17 Africa/Dakar] DEBUG: checkAdmin() - Session user: Array
+(
+    [id] => 1
+    [email] => lena@test.com
+    [first_name] => Lena
+    [last_name] => Test
+    [role] => admin
+    [is_logged_in] => 1
+    [login_time] => 1760286356
+    [address_line] => Parcelles
+    [cities_id] => 1
+    [delivery_zones_id] => 
+    [neighborhoods_id] => 
+    [loyalty_points] => 0
+)
+
+[12-Oct-2025 18:01:17 Africa/Dakar] DEBUG: checkAdmin() - OK, utilisateur admin
+[12-Oct-2025 18:02:04 Africa/Dakar] Database EXECUTE error: SQLSTATE[23000]: Integrity constraint violation: 1451 Cannot delete or update a parent row: a foreign key constraint fails (`aura_fine`.`orders`, CONSTRAINT `fks_orders_neighborhoods` FOREIGN KEY (`neighborhoods_id`) REFERENCES `neighborhoods` (`id`)) | SQL: DELETE FROM neighborhoods WHERE id = :id | Data: {"id":5}
+[12-Oct-2025 18:02:04 Africa/Dakar] PHP Fatal error:  Uncaught PDOException: SQLSTATE[23000]: Integrity constraint violation: 1451 Cannot delete or update a parent row: a foreign key constraint fails (`aura_fine`.`orders`, CONSTRAINT `fks_orders_neighborhoods` FOREIGN KEY (`neighborhoods_id`) REFERENCES `neighborhoods` (`id`)) in /Applications/MAMP/htdocs/AuraFine/app/Models/Database.php:119
+Stack trace:
+#0 /Applications/MAMP/htdocs/AuraFine/app/Models/Database.php(119): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/AuraFine/app/Models/Delivery.php(134): app\Models\Database->execute('DELETE FROM nei...', Array)
+#2 /Applications/MAMP/htdocs/AuraFine/app/controllers/DeliveryController.php(191): app\Models\Delivery->deleteNeighborhood(5)
+#3 /Applications/MAMP/htdocs/auraFine/index.php(254): app\controllers\DeliveryController->deleteNeighborhood(1, 5)
+#4 {main}
+  thrown in /Applications/MAMP/htdocs/AuraFine/app/Models/Database.php on line 119
+[12-Oct-2025 18:19:04 UTC] PHP Fatal error:  Uncaught Error: Class "app\Models\PDO" not found in /Applications/MAMP/htdocs/AuraFine/app/models/Delivery.php:174
+Stack trace:
+#0 Command line code(13): app\Models\Delivery->hasActiveReferences(5)
+#1 {main}
+  thrown in /Applications/MAMP/htdocs/AuraFine/app/models/Delivery.php on line 174
+[12-Oct-2025 18:29:52 Africa/Dakar] Database EXECUTE error: SQLSTATE[23000]: Integrity constraint violation: 1451 Cannot delete or update a parent row: a foreign key constraint fails (`aura_fine`.`neighborhoods`, CONSTRAINT `fks_neighborhoods_delivery_zones` FOREIGN KEY (`delivery_zones_id`) REFERENCES `delivery_zones` (`id`)) | SQL: DELETE FROM delivery_zones WHERE id = :id | Data: {"id":1}
+[12-Oct-2025 18:29:52 Africa/Dakar] PHP Fatal error:  Uncaught PDOException: SQLSTATE[23000]: Integrity constraint violation: 1451 Cannot delete or update a parent row: a foreign key constraint fails (`aura_fine`.`neighborhoods`, CONSTRAINT `fks_neighborhoods_delivery_zones` FOREIGN KEY (`delivery_zones_id`) REFERENCES `delivery_zones` (`id`)) in /Applications/MAMP/htdocs/AuraFine/app/Models/Database.php:119
+Stack trace:
+#0 /Applications/MAMP/htdocs/AuraFine/app/Models/Database.php(119): PDOStatement->execute(Array)
+#1 /Applications/MAMP/htdocs/AuraFine/app/Models/Delivery.php(87): app\Models\Database->execute('DELETE FROM del...', Array)
+#2 /Applications/MAMP/htdocs/AuraFine/app/controllers/DeliveryController.php(156): app\Models\Delivery->deleteZone(1)
+#3 /Applications/MAMP/htdocs/auraFine/index.php(233): app\controllers\DeliveryController->deleteZone(1, 1)
+#4 {main}
+  thrown in /Applications/MAMP/htdocs/AuraFine/app/Models/Database.php on line 119
+[12-Oct-2025 18:30:47 UTC] PHP Fatal error:  Uncaught Error: Class "app\middleware\Middleware" not found in /Applications/MAMP/htdocs/AuraFine/app/controllers/DeliveryController.php:7
+Stack trace:
+#0 Command line code(5): require()
+#1 {main}
+  thrown in /Applications/MAMP/htdocs/AuraFine/app/controllers/DeliveryController.php on line 7
+[12-Oct-2025 18:30:59 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at Command line code:13) in /Applications/MAMP/htdocs/AuraFine/app/middleware/Middleware.php on line 85
+[12-Oct-2025 18:31:12 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method app\controllers\DeliveryController::show() in Command line code:21
+Stack trace:
+#0 {main}
+  thrown in Command line code on line 21

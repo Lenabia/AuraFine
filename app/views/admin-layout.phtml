@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<?= htmlspecialchars($csrfToken ?? '') ?>">
     <title>Administration - AuraFine</title>
 
     <!-- FontAwesome -->
@@ -153,6 +154,55 @@
     <div class="modal-actions">
       <button type="button" class="modal-btn modal-btn-cancel" onclick="closeModal()">Annuler</button>
       <a href="index.php?action=logout" class="modal-btn modal-btn-logout">Déconnexion</a>
+    </div>
+  </div>
+</div>
+
+<div id="cancelOrderModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="modal-icon">⚠️</div>
+      <h3 class="modal-title">Annuler la commande</h3>
+    </div>
+    <div class="modal-body">
+      <p class="modal-message">Êtes-vous sûr de vouloir annuler cette commande ? Cette action ne peut pas être annulée.</p>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="modal-btn modal-btn-cancel" onclick="closeModal()">Annuler</button>
+      <button type="button" class="modal-btn modal-btn-confirm">Confirmer l'annulation</button>
+    </div>
+  </div>
+</div>
+
+<div id="reactivateOrderModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="modal-icon">🔄</div>
+      <h3 class="modal-title">Réactiver la commande</h3>
+    </div>
+    <div class="modal-body">
+      <p class="modal-message">Êtes-vous sûr de vouloir réactiver cette commande ? Elle retrouvera son statut précédent.</p>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="modal-btn modal-btn-cancel" onclick="closeModal()">Annuler</button>
+      <button type="button" class="modal-btn modal-btn-confirm">Confirmer la réactivation</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modale de réactivation de quartier -->
+<div id="reactivateNeighborhoodModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="modal-icon">🏘️</div>
+      <h3 class="modal-title">Réactiver le quartier</h3>
+    </div>
+    <div class="modal-body">
+      <p id="reactivateNeighborhoodMessage">Êtes-vous sûr de vouloir réactiver ce quartier ?</p>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="modal-btn modal-btn-cancel" onclick="closeReactivateNeighborhoodModal()">Annuler</button>
+      <button type="button" class="modal-btn modal-btn-confirm" onclick="confirmReactivateNeighborhood()">Confirmer la réactivation</button>
     </div>
   </div>
 </div>
