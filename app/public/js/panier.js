@@ -652,6 +652,11 @@
       return;
     }
 
+    // Générer une idempotency key simple (client) pour anti double-soumission
+    var idem = Date.now().toString(36) + Math.random().toString(36).slice(2);
+    var idemInput = document.getElementById("idempotency_key");
+    if (idemInput) idemInput.value = idem;
+
     // Collecter les données du formulaire de livraison
     var formData = new FormData();
     formData.append("csrf_token", csrf);
@@ -689,6 +694,14 @@
     if (phone) formData.append("phone", phone.value);
     var email = document.getElementById("email");
     if (email && email.value) formData.append("email", email.value);
+
+    // Points de fidélité utilisés
+    var loyaltyUsedEl = document.getElementById("loyalty_points_used");
+    var loyaltyUsedVal = loyaltyUsedEl
+      ? parseInt(loyaltyUsedEl.value || "0", 10) || 0
+      : 0;
+    formData.append("loyalty_points_used", String(loyaltyUsedVal));
+    formData.append("idempotency_key", idem);
 
     // Désactiver le bouton pendant la requête
     var orderButton = document.querySelector(".btn-commander");
@@ -812,4 +825,71 @@
   initDeliveryForm();
   initOrderButton();
   initDeliveryValidation();
+
+  // Pré-check points fidélité côté serveur et recalcul UX
+  (function initLoyaltyUI() {
+    var input = document.getElementById("loyalty-points-input");
+    var usedHidden = document.getElementById("loyalty_points_used");
+    if (!input || !usedHidden) return;
+
+    function applyMax(maxUsable) {
+      input.max = String(maxUsable);
+      // Borne la valeur actuelle
+      var v = parseInt(input.value || "0", 10) || 0;
+      if (v > maxUsable) {
+        input.value = String(maxUsable);
+        v = maxUsable;
+      }
+      usedHidden.value = String(v);
+      updateDiscountDisplay(v);
+    }
+
+    function updateDiscountDisplay(v) {
+      var stEl = document.getElementById("sous-total");
+      var feeEl = document.getElementById("delivery-fee");
+      var totalEl = document.getElementById("total-commande");
+      var discountLine = document.querySelector(".loyalty-discount");
+      if (!stEl || !feeEl || !totalEl || !discountLine) return;
+      var st =
+        parseInt((stEl.textContent || "0").replace(/[^0-9]/g, ""), 10) || 0;
+      var fee =
+        parseInt((feeEl.textContent || "0").replace(/[^0-9]/g, ""), 10) || 0;
+      var maxAllowed = Math.min(v, st);
+      var newTotal = Math.max(0, st + fee - maxAllowed);
+      var discEl = document.getElementById("loyalty-discount");
+      if (discEl)
+        discEl.textContent = "-" + maxAllowed.toLocaleString() + " FCFA";
+      discountLine.style.display = maxAllowed > 0 ? "flex" : "none";
+      totalEl.textContent = newTotal.toLocaleString() + " FCFA";
+    }
+
+    function precheck() {
+      fetch("index.php?action=precheck-loyalty", {
+        headers: { "X-Requested-With": "XMLHttpRequest" },
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          if (!data || !data.success) return;
+          applyMax(parseInt(data.maxUsable || 0, 10) || 0);
+        })
+        .catch(function () {});
+    }
+
+    input.addEventListener("input", function () {
+      var v = parseInt(input.value || "0", 10) || 0;
+      // Borne localement au max courant
+      var max = parseInt(input.max || "0", 10) || 0;
+      if (v > max) {
+        v = max;
+        input.value = String(v);
+      }
+      usedHidden.value = String(v);
+      updateDiscountDisplay(v);
+    });
+
+    // Pré-check au chargement
+    precheck();
+  })();
 })();

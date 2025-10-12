@@ -202,6 +202,39 @@ class OrdersService {
     }
 
     /**
+     * Variante sans transaction interne (utilisée quand le contrôleur gère la transaction)
+     */
+    public function createOrderAndDetailsNoTx(array $orderData, array $cartItems): int|false {
+        try {
+            $orderId = $this->ordersModel->createOrder($orderData);
+            if (!$orderId) {
+                return false;
+            }
+            foreach ($cartItems as $item) {
+                $detailData = [
+                    'orders_id' => $orderId,
+                    'quantity' => (int)($item['quantity'] ?? 1),
+                    'unit_price' => (float)($item['price'] ?? 0),
+                    'item_label' => $item['name'] ?? ($item['item_label'] ?? ''),
+                    'salads_id' => $item['product_type'] === 'salad' ? (int)$item['product_id'] : null,
+                    'drinks_id' => $item['product_type'] === 'drink' ? (int)$item['product_id'] : null,
+                    'menus_id' => $item['product_type'] === 'menu' ? (int)$item['product_id'] : null,
+                    'fruits_veggies_id' => $item['product_type'] === 'fruit' ? (int)$item['product_id'] : null,
+                    'desserts_id' => null,
+                    'order_custom_salads_id' => null
+                ];
+                if (!$this->ordersDetailModel->createOrderDetail($detailData)) {
+                    return false;
+                }
+            }
+            return (int)$orderId;
+        } catch (\Throwable $e) {
+            error_log('createOrderAndDetailsNoTx error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Applique les points de fidélité (cashback) au prorata pour une commande livrée
      * - Client: 5% du montant total en FCFA (arrondi)
      * - Parrain: 2.5% du montant total en FCFA (arrondi) si présent
@@ -230,9 +263,9 @@ class OrdersService {
 
         $pdo = $this->ordersModel->getConnection();
 
-        // Calculs arrondis au FCFA
-        $clientAmount = (int)round($eligibleAmount * 0.05);   // 5% sur produits
-        $refAmount = (int)round($eligibleAmount * 0.025);     // 2.5% sur produits
+        // Calculs arrondis aux multiples de 5 FCFA
+        $clientAmount = $this->roundToNearest5($eligibleAmount * 0.05);   // 5% sur produits
+        $refAmount = $this->roundToNearest5($eligibleAmount * 0.025);     // 2.5% sur produits
 
         try {
             $pdo->beginTransaction();
@@ -348,5 +381,15 @@ class OrdersService {
         }
         
         return $orders;
+    }
+
+    /**
+     * Arrondit un montant au multiple de 5 FCFA le plus proche
+     * 
+     * @param float $amount Montant à arrondir
+     * @return int Montant arrondi aux multiples de 5
+     */
+    private function roundToNearest5(float $amount): int {
+        return (int)(round($amount / 5) * 5);
     }
 }

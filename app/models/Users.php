@@ -316,4 +316,76 @@ class Users extends Database {
     public function getIsActive() { return $this->is_active; }
     public function getCreatedAt() { return $this->created_at; }
     public function getUpdatedAt() { return $this->updated_at; }
+
+    /**
+     * Retourne le solde de points de fidélité d'un utilisateur
+     */
+    public function getLoyaltyPointsByUserId(int $userId): int {
+        $stmt = $this->getConnection()->prepare('SELECT COALESCE(loyalty_points,0) FROM users WHERE id = :id');
+        $stmt->bindValue(':id', $userId, \PDO::PARAM_INT);
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    }
+
+    /**
+     * Déduit des points (avec verrouillage pessimiste) et logue l'opération (reason=redeem)
+     */
+    public function deductLoyaltyPoints(int $userId, int $amount, int $orderId, ?string $idempotencyKey = null): bool {
+        if ($userId <= 0 || $amount <= 0) return false;
+        $pdo = $this->getConnection();
+        // NB: la transaction englobante est gérée par l'appelant (contrôleur)
+        try {
+            // Verrouiller la ligne utilisateur
+            $q = $pdo->prepare('SELECT loyalty_points FROM users WHERE id = :id FOR UPDATE');
+            $q->bindValue(':id', $userId, \PDO::PARAM_INT);
+            $q->execute();
+            $current = (int)$q->fetchColumn();
+            if ($current < $amount) {
+                return false;
+            }
+            // Déduction
+            $u = $pdo->prepare('UPDATE users SET loyalty_points = loyalty_points - :amt WHERE id = :id');
+            $u->bindValue(':amt', $amount, \PDO::PARAM_INT);
+            $u->bindValue(':id', $userId, \PDO::PARAM_INT);
+            $u->execute();
+            // Log historique (reason=redeem)
+            $h = $pdo->prepare('INSERT INTO loyalty_points_history (users_id, orders_id, points, reason, idempotency_key, note, created_at) VALUES (:uid, :oid, :pts, "redeem", :ikey, :note, NOW())');
+            $h->bindValue(':uid', $userId, \PDO::PARAM_INT);
+            $h->bindValue(':oid', $orderId, \PDO::PARAM_INT);
+            $h->bindValue(':pts', -$amount, \PDO::PARAM_INT);
+            $h->bindValue(':ikey', $idempotencyKey);
+            $h->bindValue(':note', 'Utilisation de points sur commande #' . $orderId);
+            $h->execute();
+            return true;
+        } catch (\PDOException $e) {
+            error_log('Users::deductLoyaltyPoints error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Ajoute des points (refund/adjust) et logue l'opération
+     */
+    public function addLoyaltyPoints(int $userId, int $amount, int $orderId, string $reason = 'adjust', string $note = ''): bool {
+        if ($userId <= 0 || $amount <= 0) return false;
+        $pdo = $this->getConnection();
+        try {
+            // L'appelant doit gérer la transaction si besoin
+            $u = $pdo->prepare('UPDATE users SET loyalty_points = COALESCE(loyalty_points,0) + :amt WHERE id = :id');
+            $u->bindValue(':amt', $amount, \PDO::PARAM_INT);
+            $u->bindValue(':id', $userId, \PDO::PARAM_INT);
+            $u->execute();
+            $h = $pdo->prepare('INSERT INTO loyalty_points_history (users_id, orders_id, points, reason, note, created_at) VALUES (:uid, :oid, :pts, :reason, :note, NOW())');
+            $h->bindValue(':uid', $userId, \PDO::PARAM_INT);
+            $h->bindValue(':oid', $orderId, \PDO::PARAM_INT);
+            $h->bindValue(':pts', $amount, \PDO::PARAM_INT);
+            $h->bindValue(':reason', $reason);
+            $h->bindValue(':note', $note);
+            $h->execute();
+            return true;
+        } catch (\PDOException $e) {
+            error_log('Users::addLoyaltyPoints error: ' . $e->getMessage());
+            return false;
+        }
+    }
 }

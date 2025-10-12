@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= htmlspecialchars($pageTitle ?? 'Ticket de commande') ?></title>
+    <style>
+        /* Reset et base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.2;
+            color: #000;
+            background: #fff;
+        }
+        
+        /* Styles pour l'écran */
+        .ticket-container {
+            max-width: 80mm;
+            margin: 0 auto;
+            padding: 10px;
+            background: #fff;
+        }
+        
+        .ticket-header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .ticket-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .ticket-company {
+            font-size: 10px;
+            margin-bottom: 2px;
+        }
+        
+        .ticket-order-info {
+            margin-bottom: 10px;
+        }
+        
+        .ticket-order-number {
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+        .ticket-customer {
+            margin-bottom: 10px;
+        }
+        
+        .ticket-customer h4 {
+            font-size: 12px;
+            margin-bottom: 4px;
+            border-bottom: 1px solid #000;
+        }
+        
+        .ticket-customer p {
+            margin-bottom: 2px;
+        }
+        
+        .ticket-items {
+            margin-bottom: 10px;
+        }
+        
+        .ticket-items h4 {
+            font-size: 12px;
+            margin-bottom: 4px;
+            border-bottom: 1px solid #000;
+        }
+        
+        .ticket-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2px;
+            font-size: 10px;
+        }
+        
+        .ticket-item-name {
+            flex: 1;
+        }
+        
+        .ticket-item-qty {
+            margin: 0 5px;
+        }
+        
+        .ticket-item-price {
+            text-align: right;
+            min-width: 50px;
+        }
+        
+        .ticket-totals {
+            border-top: 1px solid #000;
+            padding-top: 5px;
+            margin-top: 10px;
+        }
+        
+        .ticket-total-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2px;
+        }
+        
+        .ticket-total-line.total {
+            font-weight: bold;
+            font-size: 13px;
+            border-top: 1px solid #000;
+            padding-top: 3px;
+            margin-top: 5px;
+        }
+        
+        .ticket-footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 10px;
+        }
+        
+        .ticket-footer p {
+            margin-bottom: 2px;
+        }
+        
+        /* Styles pour l'impression */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            
+            .ticket-container {
+                max-width: 80mm;
+                width: 80mm;
+                margin: 0;
+                padding: 5mm;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+            
+            .print-button {
+                display: none !important;
+            }
+        }
+        
+        /* Bouton d'impression (masqué à l'impression) */
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 1000;
+        }
+        
+        .print-button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">
+        <i class="fas fa-print"></i> Imprimer
+    </button>
+    
+    <div class="ticket-container">
+        <?= $content ?? '' ?>
+    </div>
+    
+    <script>
+        // Auto-impression optionnelle (décommentez si souhaité)
+        // window.onload = function() {
+        //     setTimeout(function() {
+        //         window.print();
+        //     }, 500);
+        // };
+    </script>
+</body>
+</html>
+
+
+

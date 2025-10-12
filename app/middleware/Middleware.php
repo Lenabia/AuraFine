@@ -47,6 +47,28 @@ public function createdSession($data) {
     }
 
     /**
+     * Méthode spécialisée pour les tickets (avec capture de contenu)
+     * 
+     * @param string $template Le template principal à inclure
+     * @param string $layout Le layout à utiliser
+     * @param array $data Les données à passer à la vue
+     */
+    public function renderTicket($template, $layout, $data = []) {
+        // Extraire les données pour les rendre disponibles dans la vue
+        if (!empty($data)) {
+            extract($data);
+        }
+        
+        // Capturer le contenu du template dans $content
+        ob_start();
+        include "app/views/" . $template;
+        $content = ob_get_clean();
+        
+        // Inclure le layout qui affichera $content
+        include "app/views/$layout";
+    }
+
+    /**
      * Réponse JSON standardisée et terminaison
      */
     protected function json(array $payload, int $status = 200): void {

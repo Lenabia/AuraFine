@@ -161,5 +161,10 @@
 <script src="/app/public/js/modal.js"></script>
 <script src="/app/public/js/admin.js" defer></script>
 
+<!-- Scripts spécifiques aux pages -->
+<?php if (isset($currentPage) && $currentPage === 'admin-orders'): ?>
+<script src="/app/public/js/orders.js" defer></script>
+<?php endif; ?>
+
 </body>
 </html>

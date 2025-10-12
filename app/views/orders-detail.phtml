@@ -20,6 +20,10 @@ DÉTAIL COMMANDE - ADMIN
         </div>
     </div>
     <div class="order-actions">
+        <a href="index.php?action=admin-orders-ticket&id=<?= (int)$order['id'] ?>" class="btn-print" target="_blank">
+            <i class="fas fa-print"></i>
+            Imprimer Ticket
+        </a>
         <a href="index.php?action=admin-orders" class="btn-back">
             <i class="fas fa-arrow-left"></i>
             Retour à la liste
@@ -27,40 +31,8 @@ DÉTAIL COMMANDE - ADMIN
     </div>
 </section>
 
-<!-- Informations de la commande -->
+<!-- Informations client -->
 <section class="order-details-grid">
-    <!-- Informations commande -->
-    <article class="admin-card">
-        <header class="card-title">
-            <h3><i class="fas fa-receipt"></i> Informations de la commande</h3>
-        </header>
-        <div class="card-body">
-            <div class="detail-row">
-                <span class="detail-label">ID Commande:</span>
-                <span class="detail-value">#<?= (int)$order['id'] ?></span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Date:</span>
-                <span class="detail-value"><?= date('d/m/Y à H:i', strtotime($order['order_date'])) ?></span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Statut:</span>
-                <span class="status-badge status-<?= strtolower(str_replace(' ', '-', $order['status'])) ?>">
-                    <?= htmlspecialchars($order['status']) ?>
-                </span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Frais de livraison:</span>
-                <span class="detail-value"><?= number_format($order['delivery_fee'], 0, ',', ' ') ?> FCFA</span>
-            </div>
-            <div class="detail-row total-row">
-                <span class="detail-label">Total:</span>
-                <span class="detail-value total-amount"><?= number_format($order['total_amount'], 0, ',', ' ') ?> FCFA</span>
-            </div>
-        </div>
-    </article>
-
-    <!-- Informations client -->
     <article class="admin-card">
         <header class="card-title">
             <h3><i class="fas fa-user"></i> Informations client</h3>
@@ -102,13 +74,20 @@ DÉTAIL COMMANDE - ADMIN
     </article>
 </section>
 
-<!-- Contenu de la commande -->
+<!-- Détails de la commande -->
 <section class="order-content">
     <div class="order-items-header">
         <h3>
-            <i class="fas fa-list"></i>
-            Contenu de la commande
+            <i class="fas fa-receipt"></i>
+            Détails de la commande
         </h3>
+        <div class="order-meta-info">
+            <span class="order-id">Commande #<?= (int)$order['id'] ?></span>
+            <span class="order-date"><?= date('d/m/Y à H:i', strtotime($order['order_date'])) ?></span>
+            <span class="status-badge status-<?= strtolower(str_replace(' ', '-', $order['status'])) ?>">
+                <?= htmlspecialchars($order['status']) ?>
+            </span>
+        </div>
     </div>
 
     <?php if (!empty($orderDetails)): ?>
@@ -152,12 +131,27 @@ DÉTAIL COMMANDE - ADMIN
                 <?php endforeach; ?>
             </tbody>
             <tfoot>
+                <?php
+                // Calculer le sous-total des produits (somme de tous les items)
+                $productsSubtotal = 0;
+                foreach ($orderDetails as $item) {
+                    $productsSubtotal += $item['subtotal'];
+                }
+                ?>
                 <tr class="subtotal-row">
                     <td colspan="3"><strong>Sous-total produits:</strong></td>
                     <td class="text-right">
-                        <strong><?= number_format($order['total_amount'] - $order['delivery_fee'], 0, ',', ' ') ?> FCFA</strong>
+                        <strong><?= number_format($productsSubtotal, 0, ',', ' ') ?> FCFA</strong>
                     </td>
                 </tr>
+                <?php if ($order['loyalty_points_used'] > 0): ?>
+                <tr class="loyalty-row">
+                    <td colspan="3"><strong>Points utilisés:</strong></td>
+                    <td class="text-right">
+                        <strong>-<?= number_format($order['loyalty_points_used'], 0, ',', ' ') ?> FCFA</strong>
+                    </td>
+                </tr>
+                <?php endif; ?>
                 <?php if ($order['delivery_fee'] > 0): ?>
                 <tr class="delivery-row">
                     <td colspan="3"><strong>Frais de livraison:</strong></td>
@@ -169,7 +163,7 @@ DÉTAIL COMMANDE - ADMIN
                 <tr class="total-row">
                     <td colspan="3"><strong>Total:</strong></td>
                     <td class="text-right">
-                        <strong class="total-amount"><?= number_format($order['total_amount'], 0, ',', ' ') ?> FCFA</strong>
+                        <strong class="total-amount"><?= number_format($productsSubtotal - $order['loyalty_points_used'] + $order['delivery_fee'], 0, ',', ' ') ?> FCFA</strong>
                     </td>
                 </tr>
             </tfoot>
@@ -202,17 +196,19 @@ DÉTAIL COMMANDE - ADMIN
             <input type="hidden" name="order_id" value="<?= (int)$order['id'] ?>">
             
             <div class="form-group">
-                <label for="status" class="form-label">
+                <label class="form-label">
                     <i class="fas fa-edit"></i>
                     Changer le statut
                 </label>
-                <select id="status" name="status" class="form-input" required>
-                    <option value="En attente" <?= $order['status'] === 'En attente' ? 'selected' : '' ?>>En attente</option>
-                    <option value="En preparation" <?= $order['status'] === 'En preparation' ? 'selected' : '' ?>>En préparation</option>
-                    <option value="Livraison en cours" <?= $order['status'] === 'Livraison en cours' ? 'selected' : '' ?>>Livraison en cours</option>
-                    <option value="Livrée" <?= $order['status'] === 'Livrée' ? 'selected' : '' ?>>Livrée</option>
-                    <option value="annulée" <?= $order['status'] === 'annulée' ? 'selected' : '' ?>>Annulée</option>
-                </select>
+                <div class="status-tabs">
+                    <button type="button" class="status-tab <?= $order['status'] === 'En attente' ? 'active' : '' ?>" data-status="En attente">En attente</button>
+                    <button type="button" class="status-tab <?= $order['status'] === 'En preparation' ? 'active' : '' ?>" data-status="En preparation">En préparation</button>
+                    <button type="button" class="status-tab <?= $order['status'] === 'Livraison en cours' ? 'active' : '' ?>" data-status="Livraison en cours">Livraison</button>
+                    <button type="button" class="status-tab <?= $order['status'] === 'Livrée' ? 'active' : '' ?>" data-status="Livrée">Livrée</button>
+                    <button type="button" class="status-tab <?= $order['status'] === 'annulée' ? 'active' : '' ?>" data-status="annulée">Annulée</button>
+                </div>
+                <!-- Champ caché pour le statut sélectionné -->
+                <input type="hidden" id="status" name="status" value="<?= htmlspecialchars($order['status']) ?>" required>
             </div>
             
             <button type="submit" class="btn-save">
@@ -244,3 +240,27 @@ DÉTAIL COMMANDE - ADMIN
         <?php endif; ?>
     </div>
 </section>
+
+<script>
+// Gestion des onglets de statut avec soumission automatique
+document.addEventListener("DOMContentLoaded", function () {
+    const statusTabs = document.querySelectorAll(".status-tab");
+    const statusInput = document.getElementById("status");
+    const form = document.querySelector(".action-form");
+
+    statusTabs.forEach(tab => {
+        tab.addEventListener("click", function () {
+            // Retirer la classe active de tous les onglets
+            statusTabs.forEach(t => t.classList.remove("active"));
+            // Ajouter la classe active à l'onglet cliqué
+            this.classList.add("active");
+            
+            // Mettre à jour la valeur du champ caché
+            statusInput.value = this.dataset.status;
+            
+            // Soumettre automatiquement le formulaire
+            form.submit();
+        });
+    });
+});
+</script>

@@ -36,20 +36,21 @@ class Orders extends Database {
                        COALESCE(u.last_name, o.customer_last_name) AS last_name,
                        COALESCE(u.phone, o.customer_phone) AS phone,
                        COALESCE(u.email, o.customer_email) AS email,
-                       c.name AS city_name, n.name AS neighborhood_name
+                       c.name AS city_name, n.name AS neighborhood_name,
+                       COALESCE(lph.points_used, 0) AS loyalty_points_used
                 FROM orders o
                 LEFT JOIN users u ON u.id = o.users_id
                 LEFT JOIN cities c ON c.id = o.cities_id
                 LEFT JOIN neighborhoods n ON n.id = o.neighborhoods_id
+                LEFT JOIN (
+                    SELECT orders_id, ABS(points) AS points_used 
+                    FROM loyalty_points_history 
+                    WHERE reason = 'redeem'
+                ) lph ON lph.orders_id = o.id
                 WHERE 1=1";
 
         $params = [];
 
-        // Filtre par recherche (nom/prénom)
-        if (!empty($filters['search'])) {
-            $sql .= " AND (u.first_name LIKE :search OR u.last_name LIKE :search)";
-            $params['search'] = '%' . trim($filters['search']) . '%';
-        }
 
         // Filtre par statut
         if (!empty($filters['status'])) {
@@ -112,12 +113,18 @@ class Orders extends Database {
                        COALESCE(u.last_name, o.customer_last_name) AS last_name,
                        COALESCE(u.phone, o.customer_phone) AS phone,
                        COALESCE(u.email, o.customer_email) AS email,
-                       c.name AS city_name, n.name AS neighborhood_name, dz.code AS zone_code
+                       c.name AS city_name, n.name AS neighborhood_name, dz.code AS zone_code,
+                       COALESCE(lph.points_used, 0) AS loyalty_points_used
                 FROM orders o
                 LEFT JOIN users u ON u.id = o.users_id
                 LEFT JOIN cities c ON c.id = o.cities_id
                 LEFT JOIN neighborhoods n ON n.id = o.neighborhoods_id
                 LEFT JOIN delivery_zones dz ON dz.id = o.delivery_zones_id
+                LEFT JOIN (
+                    SELECT orders_id, ABS(points) AS points_used 
+                    FROM loyalty_points_history 
+                    WHERE reason = 'redeem'
+                ) lph ON lph.orders_id = o.id
                 WHERE o.id = :id";
 
         $result = $this->findOne($sql, ['id' => $id]);

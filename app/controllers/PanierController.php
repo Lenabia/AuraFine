@@ -123,7 +123,43 @@ class PanierController extends Middleware {
             'neighborhoods' => $neighborhoods,
             'userDeliveryInfo' => $userDeliveryInfo,
             'csrf_token' => $this->generateCSRFToken(),
-            'isGuest' => $isGuest
+            'isGuest' => $isGuest,
+            'userLoyaltyPoints' => (int)($_SESSION['user']['loyalty_points'] ?? 0)
+        ]);
+    }
+
+    public function precheckLoyalty(): void {
+        // Requête AJAX GET
+        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') {
+            http_response_code(400);
+            $this->json(['success' => false, 'message' => 'Requête invalide']);
+        }
+
+        // Uniquement utilisateurs connectés
+        if (!$this->requireUserRole()) {
+            http_response_code(401);
+            $this->json(['success' => false, 'message' => 'Non autorisé']);
+        }
+
+        $userId = (int)($_SESSION['user']['id'] ?? 0);
+        if ($userId <= 0) {
+            http_response_code(401);
+            $this->json(['success' => false, 'message' => 'Non autorisé']);
+        }
+
+        // Recalculer le panier serveur (source de vérité)
+        $items = $this->cartModel->getCartByUser($userId);
+        $cartTotal = array_reduce($items, function($acc, $it){ return $acc + ((float)($it['subtotal'] ?? 0)); }, 0.0);
+        $currentPoints = (int)($_SESSION['user']['loyalty_points'] ?? 0);
+
+        // Points utilisables plafonnés au sous-total produits
+        $maxUsable = (int)min($currentPoints, (int)round($cartTotal));
+
+        $this->json([
+            'success' => true,
+            'currentPoints' => (int)$currentPoints,
+            'cartSubtotal' => (int)round($cartTotal),
+            'maxUsable' => (int)$maxUsable
         ]);
     }
 
@@ -455,7 +491,7 @@ class PanierController extends Middleware {
                 'customer_email' => $email ?: null,
                 'status' => 'En attente',
                 'order_date' => date('Y-m-d H:i:s'),
-                'total_amount' => $total,
+                'total_amount' => $total + $deliveryInfo['data']['delivery_fee'] - $loyaltyUsed,
                 'delivery_fee' => $deliveryInfo['data']['delivery_fee'],
                 'delivery_address' => $deliveryInfo['data']['delivery_address'] ?? $addressLine ?? $deliveryInfo['data']['address_line'],
                 'delivery_comment' => $deliveryInfo['data']['delivery_comment'],
@@ -474,7 +510,7 @@ class PanierController extends Middleware {
                 'customer_email' => null,
                 'status' => 'En attente',
                 'order_date' => date('Y-m-d H:i:s'),
-                'total_amount' => $total,
+                'total_amount' => $total + $deliveryInfo['data']['delivery_fee'] - $loyaltyUsed,
                 'delivery_fee' => $deliveryInfo['data']['delivery_fee'],
                 'delivery_address' => $deliveryInfo['data']['delivery_address'] ?? $deliveryInfo['data']['address_line'],
                 'delivery_comment' => $deliveryInfo['data']['delivery_comment'],
@@ -498,21 +534,53 @@ class PanierController extends Middleware {
             }
         }
 
-        // Créer la commande avec transaction via le service
-        $orderId = $this->ordersService->createOrderWithTransaction($orderData, $cartItems);
-        
-        if (!$orderId) {
+        // Gestion points fidélité (utilisateurs uniquement)
+        $loyaltyUsed = 0;
+        $userId = (int)($_SESSION['user']['id'] ?? 0);
+        if (!$isGuest) {
+            $requested = (int)($_POST['loyalty_points_used'] ?? 0);
+            $userPoints = (int)($_SESSION['user']['loyalty_points'] ?? 0);
+            $loyaltyUsed = max(0, min($requested, (int)round($total), $userPoints));
+        }
+
+        // Créer la commande et déduire les points dans LA MÊME transaction
+        $pdo = $this->ordersService->getOrdersModel()->getConnection();
+        try {
+            $pdo->beginTransaction();
+
+            // Créer commande + détails sans transaction interne
+            $orderId = $this->ordersService->createOrderAndDetailsNoTx($orderData, $cartItems);
+            if (!$orderId) {
+                throw new \Exception('Échec création commande');
+            }
+
+            // Déduction des points si applicable
+            if ($loyaltyUsed > 0 && !$isGuest) {
+                // Verrouiller l'utilisateur et déduire
+                $usersModel = new \app\Models\Users();
+                $ok = $usersModel->deductLoyaltyPoints($userId, $loyaltyUsed, (int)$orderId, $_POST['idempotency_key'] ?? null);
+                if (!$ok) {
+                    throw new \Exception('Échec déduction points');
+                }
+                // Mettre à jour la session
+                $_SESSION['user']['loyalty_points'] = (int)max(0, ((int)($_SESSION['user']['loyalty_points'] ?? 0)) - $loyaltyUsed);
+            }
+
+            // Vider le panier
+            if ($isGuest) {
+                $this->setGuestCart([]);
+            } else {
+                $this->cartModel->clearCart($userId);
+            }
+
+            $pdo->commit();
+        } catch (\Throwable $e) {
+            $pdo->rollBack();
+            error_log('createOrder (with loyalty) error: ' . $e->getMessage());
             $this->json(['success' => false, 'error_code' => 'ORDER_CREATION_FAILED', 'message' => 'Erreur lors de la création de la commande']);
         }
 
-        // Vider le panier
-        if ($isGuest) {
-            $this->setGuestCart([]);
-        } else {
-            $this->cartModel->clearCart((int)$_SESSION['user']['id']);
-        }
-
-        $this->json(['success' => true, 'order_id' => $orderId, 'message' => 'Commande validée avec succès']);
+        $this->json(['success' => true, 'order_id' => $orderId, 'message' => 'Commande validée avec succès', 'loyalty_used' => (int)$loyaltyUsed]);
     }
 
     /**

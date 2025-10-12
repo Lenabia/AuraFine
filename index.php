@@ -256,6 +256,7 @@ if(array_key_exists('action', $_GET)):
 
     //gestion des commandes
     case 'admin-orders':
+    error_log('DEBUG: Route admin-orders détectée');
     $controller = new \app\controllers\OrdersController();
     $controller->listOrders();
     break;
@@ -274,6 +275,12 @@ if(array_key_exists('action', $_GET)):
     case 'admin-orders-cancel':
     $controller = new \app\controllers\OrdersController();
     $controller->cancelOrder();
+    break;
+
+    case 'admin-orders-ticket':
+    $id = (int)($_GET['id'] ?? 0);
+    $controller = new \app\controllers\OrdersController();
+    $controller->printTicket($id);
     break;
 
 
@@ -415,6 +422,11 @@ if(array_key_exists('action', $_GET)):
     $controller->setDeliveryChoice();
     break;
 
+    case 'precheck-loyalty':
+    $controller = new \app\controllers\PanierController();
+    $controller->precheckLoyalty();
+    break;
+
 
     case 'register-neighborhoods':
     $controller = new \app\controllers\UsersController();
@@ -438,6 +450,7 @@ if(array_key_exists('action', $_GET)):
 
     //si pas de route on redirige vers l'accueil
     default:
+    error_log('DEBUG: Action non reconnue: ' . ($action ?? 'NULL') . ' - IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
     header('Location: index.php?action=home');
     exit;
     break;
@@ -446,6 +459,7 @@ if(array_key_exists('action', $_GET)):
 
 //si absence de clé action par défaut 
 else:
+  error_log('DEBUG: Aucune action fournie - IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
   header('Location: index.php?action=home');
   exit;
 endif;

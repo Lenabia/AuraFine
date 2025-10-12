@@ -1,0 +1,82 @@
+<!-- Table des commandes -->
+<div class="orders-table-container">
+    <div class="orders-header">
+        <h2><i class="fas fa-shopping-bag"></i> Liste des commandes</h2>
+        <p><?= count($orders) ?> commande(s) trouvée(s)</p>
+    </div>
+
+    <div class="table-responsive">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Date</th>
+                    <th>Téléphone</th>
+                    <th>Ville</th>
+                    <th>Statut</th>
+                    <th class="sortable" data-sort="total_amount">
+                        Montant total
+                        <i class="fas fa-sort<?= $filters['sort'] === 'total_amount' ? ($filters['direction'] === 'ASC' ? '-up' : '-down') : '' ?>"></i>
+                    </th>
+                    <th>Points utilisés</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($orders)): ?>
+                <tr>
+                    <td colspan="8" class="text-center">
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>Aucune commande trouvée</p>
+                        </div>
+                    </td>
+                </tr>
+                <?php else: ?>
+                <?php foreach ($orders as $order): ?>
+                <tr>
+                    <td>
+                        <div class="client-info">
+                            <strong><?= htmlspecialchars($order['first_name'] . ' ' . $order['last_name']) ?></strong>
+                            <br><small><?= htmlspecialchars($order['email'] ?? 'N/A') ?></small>
+                        </div>
+                    </td>
+                    <td><?= date('d/m/Y à H:i', strtotime($order['order_date'])) ?></td>
+                    <td><?= htmlspecialchars($order['phone'] ?? 'N/A') ?></td>
+                    <td>
+                        <?= htmlspecialchars($order['city_name'] ?? 'N/A') ?>
+                        <?php if ($order['neighborhood_name']): ?>
+                        <br><small><?= htmlspecialchars($order['neighborhood_name']) ?></small>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <span class="status-badge status-<?= strtolower(str_replace(' ', '-', $order['status'])) ?>">
+                            <?= htmlspecialchars($order['status']) ?>
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        <strong><?= number_format($order['total_amount'], 0, ',', ' ') ?> FCFA</strong>
+                        <?php if ($order['delivery_fee'] > 0): ?>
+                        <br><small>+ <?= number_format($order['delivery_fee'], 0, ',', ' ') ?> FCFA livraison</small>
+                        <?php endif; ?>
+                    </td>
+                    <td class="text-right">
+                        <?php if ($order['loyalty_points_used'] > 0): ?>
+                            <strong><?= number_format($order['loyalty_points_used'], 0, ',', ' ') ?> FCFA</strong>
+                        <?php else: ?>
+                            <span class="text-muted">0 FCFA</span>
+                        <?php endif; ?>
+                    </td>
+                    <td class="table-actions">
+                        <a href="index.php?action=admin-orders-details&id=<?= (int)$order['id'] ?>" 
+                           class="btn-edit" title="Voir le détail">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

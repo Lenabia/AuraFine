@@ -21,9 +21,17 @@ class OrdersController extends Middleware {
      * Vérifie que l'utilisateur est admin
      */
     private function checkAdmin(): void {
+        error_log('DEBUG: checkAdmin() - Session user: ' . (isset($_SESSION['user']) ? 'OUI' : 'NON'));
+        if (isset($_SESSION['user'])) {
+            error_log('DEBUG: checkAdmin() - Role: ' . ($_SESSION['user']['role'] ?? 'NULL'));
+        }
+        
         if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'admin') {
+            error_log('DEBUG: checkAdmin() - Redirection vers accesDenied');
             $this->redirectTo('accesDenied');
         }
+        
+        error_log('DEBUG: checkAdmin() - Admin vérifié avec succès');
     }
 
     /**
@@ -32,17 +40,23 @@ class OrdersController extends Middleware {
      * @route GET /orders
      */
     public function listOrders(): void {
+        error_log('DEBUG: listOrders() appelé - Session user: ' . (isset($_SESSION['user']) ? 'OUI' : 'NON'));
+        if (isset($_SESSION['user'])) {
+            error_log('DEBUG: Role utilisateur: ' . ($_SESSION['user']['role'] ?? 'NULL'));
+        }
+        
         $this->checkAdmin();
 
         // Récupérer les filtres depuis GET
         $filters = [
-            'search' => trim($_GET['search'] ?? ''),
             'status' => trim($_GET['status'] ?? ''),
             'date_from' => trim($_GET['date_from'] ?? ''),
             'date_to' => trim($_GET['date_to'] ?? ''),
             'sort' => trim($_GET['sort'] ?? 'order_date'),
             'direction' => trim($_GET['direction'] ?? 'DESC')
         ];
+        
+        error_log('DEBUG: Filtres reçus: ' . json_encode($filters));
 
         // Récupérer les données via le service
         $metrics = $this->ordersService->getFormattedMetrics();
@@ -51,6 +65,18 @@ class OrdersController extends Middleware {
 
         // Générer le token CSRF
         $csrfToken = $this->generateCSRFToken();
+
+        // Si c'est une requête AJAX, retourner seulement la table
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+            // Extraire les données pour les rendre disponibles dans la vue
+            extract([
+                'orders' => $orders,
+                'filters' => $filters
+            ]);
+            // Inclure seulement le fichier partiel
+            include "app/views/orders-table.phtml";
+            return;
+        }
 
         $this->render('orders.phtml', 'admin-layout.phtml', [
             'pageTitle' => 'Gestion des commandes',
@@ -140,21 +166,49 @@ class OrdersController extends Middleware {
     public function updateOrderStatus(): void {
         $this->checkAdmin();
 
+        $orderId = (int)($_POST['order_id'] ?? 0);
+        
         if (!$this->checkCSRFToken()) {
             $_SESSION['error_message'] = 'Erreur de sécurité';
-            $this->redirectTo('admin-orders');
+            $this->redirectTo('admin-orders-details&id=' . $orderId);
         }
-
-        $orderId = (int)($_POST['order_id'] ?? 0);
         $status = trim($_POST['status'] ?? '');
 
         if ($orderId <= 0 || empty($status)) {
             $_SESSION['error_message'] = 'Paramètres invalides';
-            $this->redirectTo('admin-orders');
+            $this->redirectTo('admin-orders-details&id=' . $orderId);
         }
 
         $success = $this->ordersService->updateOrderStatus($orderId, $status);
         if ($success) {
+            // Si la commande est désormais annulée, recréditer les points utilisés (idempotent via unique key)
+            if ($status === 'annulée') {
+                try {
+                    $pdo = $this->ordersService->getOrdersModel()->getConnection();
+                    $pdo->beginTransaction();
+                    // Récupérer les dépenses de points pour cette commande
+                    $stmt = $pdo->prepare('SELECT users_id, ABS(points) AS amount FROM loyalty_points_history WHERE orders_id = :oid AND reason = "redeem"');
+                    $stmt->bindValue(':oid', $orderId, \PDO::PARAM_INT);
+                    $stmt->execute();
+                    $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+                    foreach ($rows as $r) {
+                        $uid = (int)($r['users_id'] ?? 0);
+                        $amt = (int)($r['amount'] ?? 0);
+                        if ($uid > 0 && $amt > 0) {
+                            // Créditer (reason=adjust) — unique (users_id, orders_id, reason) protège des doublons si on switch/revient
+                            $usersModel = new \app\Models\Users();
+                            $usersModel->addLoyaltyPoints($uid, $amt, $orderId, 'adjust', 'Refund points après annulation');
+                            if (isset($_SESSION['user']['id']) && (int)$_SESSION['user']['id'] === $uid) {
+                                $_SESSION['user']['loyalty_points'] = (int)($_SESSION['user']['loyalty_points'] ?? 0) + $amt;
+                            }
+                        }
+                    }
+                    $pdo->commit();
+                } catch (\Throwable $e) {
+                    if (isset($pdo)) $pdo->rollBack();
+                    error_log('Refund loyalty on cancel error: ' . $e->getMessage());
+                }
+            }
             // Si la commande est désormais livrée, appliquer les points de fidélité
             if ($status === 'Livrée') {
                 $order = $this->ordersService->getOrderById($orderId);
@@ -167,7 +221,7 @@ class OrdersController extends Middleware {
             $_SESSION['error_message'] = 'Statut invalide ou erreur lors de la mise à jour';
         }
 
-        $this->redirectTo('admin-orders');
+        $this->redirectTo('admin-orders-details&id=' . $orderId);
     }
 
     /**
@@ -375,6 +429,41 @@ class OrdersController extends Middleware {
         $html .= '</div>';
         
         return $html;
+    }
+
+    /**
+     * Affiche le ticket d'impression d'une commande
+     * 
+     * @route GET /admin-orders-ticket
+     * @param int $id ID de la commande
+     */
+    public function printTicket(int $id): void {
+        $this->checkAdmin();
+        
+        if ($id <= 0) {
+            $_SESSION['error_message'] = 'ID de commande invalide';
+            $this->redirectTo('admin-orders');
+        }
+        
+        $order = $this->ordersService->getOrderById($id);
+        if (!$order) {
+            $_SESSION['error_message'] = 'Commande introuvable';
+            $this->redirectTo('admin-orders');
+        }
+        
+        $orderDetails = $this->ordersService->getOrderDetails($id);
+        $productsSubtotal = array_sum(array_column($orderDetails, 'subtotal'));
+        $finalTotal = $productsSubtotal - $order['loyalty_points_used'] + $order['delivery_fee'];
+        
+        $this->renderTicket('order-ticket.phtml', 'ticket-layout.phtml', [
+            'order' => $order,
+            'orderDetails' => $orderDetails,
+            'productsSubtotal' => $productsSubtotal,
+            'finalTotal' => $finalTotal,
+            'companyName' => 'AuraFine',
+            'companyAddress' => '123 Rue de l\'Exemple, Dakar',
+            'companyPhone' => '+221 77 123 45 67'
+        ]);
     }
 
 

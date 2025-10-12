@@ -1,0 +1,84 @@
+<!-- En-tête du ticket -->
+<div class="ticket-header">
+    <div class="ticket-title"><?= htmlspecialchars($companyName ?? 'AuraFine') ?></div>
+    <div class="ticket-company"><?= htmlspecialchars($companyAddress ?? '') ?></div>
+    <div class="ticket-company"><?= htmlspecialchars($companyPhone ?? '') ?></div>
+</div>
+
+<!-- Numéro de commande -->
+<div class="ticket-order-info">
+    <div class="ticket-order-number">
+        COMMANDE N° <?= (int)$order['id'] ?>
+    </div>
+    <div style="text-align: center; font-size: 10px;">
+        <?= date('d/m/Y à H:i', strtotime($order['order_date'])) ?>
+    </div>
+</div>
+
+<!-- Informations client -->
+<div class="ticket-customer">
+    <h4>CLIENT</h4>
+    <p><strong>Nom :</strong> <?= htmlspecialchars($order['first_name'] . ' ' . $order['last_name']) ?></p>
+    <p><strong>Téléphone :</strong> <?= htmlspecialchars($order['phone'] ?? 'N/A') ?></p>
+    <p><strong>Email :</strong> <?= htmlspecialchars($order['email'] ?? 'N/A') ?></p>
+    <?php if (!empty($order['delivery_address'])): ?>
+    <p><strong>Adresse :</strong> <?= htmlspecialchars($order['delivery_address']) ?></p>
+    <?php endif; ?>
+    <?php if (!empty($order['city_name'])): ?>
+    <p><strong>Ville :</strong> <?= htmlspecialchars($order['city_name']) ?></p>
+    <?php endif; ?>
+    <?php if (!empty($order['neighborhood_name'])): ?>
+    <p><strong>Quartier :</strong> <?= htmlspecialchars($order['neighborhood_name']) ?></p>
+    <?php endif; ?>
+</div>
+
+<!-- Articles commandés -->
+<div class="ticket-items">
+    <h4>ARTICLES</h4>
+    <?php foreach ($orderDetails as $item): ?>
+    <div class="ticket-item">
+        <span class="ticket-item-name"><?= htmlspecialchars($item['item_label']) ?></span>
+        <span class="ticket-item-qty">x<?= (int)$item['quantity'] ?></span>
+        <span class="ticket-item-price"><?= number_format($item['subtotal'], 0, ',', ' ') ?> FCFA</span>
+    </div>
+    <?php endforeach; ?>
+</div>
+
+<!-- Totaux -->
+<div class="ticket-totals">
+    <div class="ticket-total-line">
+        <span>Sous-total produits :</span>
+        <span><?= number_format($productsSubtotal, 0, ',', ' ') ?> FCFA</span>
+    </div>
+    
+    <?php if ($order['loyalty_points_used'] > 0): ?>
+    <div class="ticket-total-line">
+        <span>Points utilisés :</span>
+        <span>-<?= number_format($order['loyalty_points_used'], 0, ',', ' ') ?> FCFA</span>
+    </div>
+    <?php endif; ?>
+    
+    <div class="ticket-total-line">
+        <span>Frais de livraison :</span>
+        <span><?= number_format($order['delivery_fee'], 0, ',', ' ') ?> FCFA</span>
+    </div>
+    
+    <div class="ticket-total-line total">
+        <span>TOTAL :</span>
+        <span><?= number_format($finalTotal, 0, ',', ' ') ?> FCFA</span>
+    </div>
+</div>
+
+<!-- Pied de page -->
+<div class="ticket-footer">
+    <p>Merci pour votre commande !</p>
+    <p>Statut : <?= htmlspecialchars($order['status']) ?></p>
+    <?php if (!empty($order['delivery_comment'])): ?>
+    <p><strong>Note :</strong> <?= htmlspecialchars($order['delivery_comment']) ?></p>
+    <?php endif; ?>
+    <p>---</p>
+    <p>Imprimé le <?= date('d/m/Y à H:i') ?></p>
+</div>
+
+
+

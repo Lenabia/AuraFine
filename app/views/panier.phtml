@@ -82,6 +82,24 @@
               <?php endif; ?>
             </span>
           </div>
+          <?php if (empty($isGuest) && ($userLoyaltyPoints ?? 0) > 0): ?>
+          <div class="resume-line loyalty-section" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+            <span>Points de fidélité</span>
+            <div class="loyalty-controls" style="display:flex;align-items:center;gap:8px;">
+              <input type="number" id="loyalty-points-input" min="0" max="<?= (int)min((int)$userLoyaltyPoints, (int)($cartTotal ?? 0)) ?>" value="0" style="width:120px;">
+              <small class="loyalty-max">(Max: <?= number_format((int)min((int)($userLoyaltyPoints ?? 0), (int)($cartTotal ?? 0)), 0, ',', ' ') ?> FCFA)</small>
+            </div>
+          </div>
+          <div class="resume-line loyalty-discount" style="display:none;align-items:center;justify-content:space-between;">
+            <span>Réduction</span>
+            <span id="loyalty-discount">-0 FCFA</span>
+          </div>
+          <?php else: ?>
+          <div class="resume-line loyalty-disabled" style="display:flex;align-items:center;justify-content:space-between;">
+            <span>Points de fidélité</span>
+            <span class="disabled-text">Solde insuffisant</span>
+          </div>
+          <?php endif; ?>
           <?php if (isset($userDeliveryInfo['address_line']) && !empty($userDeliveryInfo['address_line'])): ?>
           <div class="resume-line">
             <span>Adresse</span>
@@ -235,6 +253,8 @@
         </div>
 
         <div class="resume-actions">
+          <input type="hidden" id="loyalty_points_used" value="0">
+          <input type="hidden" id="idempotency_key" value="">
           <button class="btn-commander" aria-label="Commander">
             <i class="fas fa-credit-card"></i>
             Commander maintenant
