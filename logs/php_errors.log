@@ -236,3 +236,66 @@ Stack trace:
 [18-Oct-2025 04:30:09 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
 [18-Oct-2025 04:30:09 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
 [18-Oct-2025 04:30:09 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[18-Oct-2025 04:31:41 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:31:41 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:31:41 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:31:43 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:31:43 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:31:43 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:31:51 Africa/Dakar] DEBUG: Route admin-orders détectée
+[18-Oct-2025 04:31:51 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[18-Oct-2025 04:31:51 Africa/Dakar] DEBUG: Role utilisateur: admin
+[18-Oct-2025 04:31:51 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:31:51 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:31:51 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:31:51 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[18-Oct-2025 04:31:54 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:31:54 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:31:54 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:31:56 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:31:56 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:31:56 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:50:32 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:50:32 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:50:32 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: Route admin-orders détectée
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: Role utilisateur: admin
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: Filtres reçus: {"status":"Livraison en cours","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:50:37 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: Route admin-orders détectée
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: Role utilisateur: admin
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: Filtres reçus: {"status":"En preparation","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:50:39 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 05:07:23 Africa/Dakar] Security Event: {"timestamp":"2025-10-18 05:07:23","event":"user_logout","ip":"::1","user_agent":"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/141.0.0.0 Safari\/537.36","data":{"user_id":1,"email":"lena@test.com","role":"admin"}}
+[18-Oct-2025 05:07:50 Africa/Dakar] Security Event: {"timestamp":"2025-10-18 05:07:50","event":"user_login","ip":"::1","user_agent":"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/141.0.0.0 Safari\/537.36","data":{"user_id":2,"email":"user@gmail.com","role":"user"}}
+[18-Oct-2025 05:07:54 Africa/Dakar] PHP Warning:  Undefined array key "users_id" in /Applications/MAMP/htdocs/AuraFine/app/views/users_orders.phtml on line 25
+[18-Oct-2025 05:07:54 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/views/users_orders.phtml on line 87
+[18-Oct-2025 05:07:54 Africa/Dakar] PHP Deprecated:  strtotime(): Passing null to parameter #1 ($datetime) of type string is deprecated in /Applications/MAMP/htdocs/AuraFine/app/views/users_orders.phtml on line 87
+[18-Oct-2025 05:07:56 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
+[18-Oct-2025 05:08:24 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
+[18-Oct-2025 05:08:54 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
+[18-Oct-2025 05:09:24 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
+[18-Oct-2025 05:09:54 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
+[18-Oct-2025 05:10:24 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
+[18-Oct-2025 05:10:54 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
+[18-Oct-2025 05:11:24 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
+[18-Oct-2025 05:11:54 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
+[18-Oct-2025 05:12:05 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
