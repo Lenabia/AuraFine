@@ -7,6 +7,9 @@
 let currentDeleteForm = null;
 let currentCancelOrderId = null;
 let currentReactivateOrderId = null;
+let currentNeighborhoodId = null;
+let currentCityId = null;
+let currentReactivateNeighborhoodFormId = null;
 
 /**
  * Affiche la modale de suppression
@@ -18,10 +21,15 @@ function showDeleteModal(itemName, itemType, formId) {
   console.log("showDeleteModal appelée avec:", itemName, itemType, formId);
 
   const modal = document.getElementById("deleteModal");
+  if (!modal) {
+    console.error("Modale de suppression non trouvée");
+    return;
+  }
+
   const message = modal.querySelector(".modal-message");
   const confirmBtn = modal.querySelector(".modal-btn-confirm");
 
-  if (!modal || !message || !confirmBtn) {
+  if (!message || !confirmBtn) {
     console.error("Éléments de la modale de suppression non trouvés");
     return;
   }
@@ -38,7 +46,7 @@ function showDeleteModal(itemName, itemType, formId) {
 
   // Focus sur le bouton d'annulation pour l'accessibilité
   const cancelBtn = modal.querySelector(".modal-btn-cancel");
-  if (cancelBtn) {
+  if (cancelBtn && cancelBtn instanceof HTMLElement) {
     cancelBtn.focus();
   }
 }
@@ -62,7 +70,7 @@ function showLogoutModal() {
 
   // Focus sur le bouton d'annulation pour l'accessibilité
   const cancelBtn = modal.querySelector(".modal-btn-cancel");
-  if (cancelBtn) {
+  if (cancelBtn && cancelBtn instanceof HTMLElement) {
     cancelBtn.focus();
   }
 }
@@ -90,7 +98,7 @@ function showCancelOrderModal(orderId) {
 
   // Focus sur le bouton d'annulation pour l'accessibilité
   const cancelBtn = modal.querySelector(".modal-btn-cancel");
-  if (cancelBtn) {
+  if (cancelBtn && cancelBtn instanceof HTMLElement) {
     cancelBtn.focus();
   }
 }
@@ -118,7 +126,7 @@ function showReactivateOrderModal(orderId) {
 
   // Focus sur le bouton d'annulation pour l'accessibilité
   const cancelBtn = modal.querySelector(".modal-btn-cancel");
-  if (cancelBtn) {
+  if (cancelBtn && cancelBtn instanceof HTMLElement) {
     cancelBtn.focus();
   }
 }
@@ -148,7 +156,7 @@ function confirmDelete() {
 
   if (currentDeleteForm) {
     const form = document.getElementById(currentDeleteForm);
-    if (form) {
+    if (form && form instanceof HTMLFormElement) {
       form.submit();
     } else {
       console.error("Formulaire de suppression non trouvé:", currentDeleteForm);
@@ -166,7 +174,7 @@ function confirmCancelOrder() {
 
   if (currentCancelOrderId) {
     const form = document.getElementById("cancelOrderForm");
-    if (form) {
+    if (form && form instanceof HTMLFormElement) {
       form.submit();
     } else {
       console.error("Formulaire d'annulation de commande non trouvé");
@@ -187,7 +195,7 @@ function confirmReactivateOrder() {
 
   if (currentReactivateOrderId) {
     const form = document.getElementById("reactivateOrderForm");
-    if (form) {
+    if (form && form instanceof HTMLFormElement) {
       form.submit();
     } else {
       console.error("Formulaire de réactivation de commande non trouvé");
@@ -195,6 +203,49 @@ function confirmReactivateOrder() {
   }
 
   closeModal();
+}
+
+/**
+ * Affiche la modale de réactivation de quartier
+ * @param {string} neighborhoodName - Nom du quartier
+ * @param {string} type - Type d'élément
+ * @param {string} formId - ID du formulaire
+ */
+function showReactivateModal(neighborhoodName, type, formId) {
+  currentReactivateNeighborhoodFormId = formId;
+  const messageEl = document.getElementById("reactivateNeighborhoodMessage");
+  if (messageEl) {
+    messageEl.textContent = `Êtes-vous sûr de vouloir réactiver ${type} "${neighborhoodName}" ?`;
+  }
+  const modal = document.getElementById("reactivateNeighborhoodModal");
+  if (modal) {
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+}
+
+/**
+ * Confirme la réactivation du quartier
+ */
+function confirmReactivateNeighborhood() {
+  if (currentReactivateNeighborhoodFormId) {
+    const form = document.getElementById(currentReactivateNeighborhoodFormId);
+    if (form && form instanceof HTMLFormElement) {
+      form.submit();
+    }
+  }
+}
+
+/**
+ * Ferme la modale de réactivation de quartier
+ */
+function closeReactivateNeighborhoodModal() {
+  const modal = document.getElementById("reactivateNeighborhoodModal");
+  if (modal) {
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+  currentReactivateNeighborhoodFormId = null;
 }
 
 // Initialisation quand le DOM est chargé
@@ -223,6 +274,17 @@ document.addEventListener("DOMContentLoaded", function () {
     reactivateOrderBtn.addEventListener("click", confirmReactivateOrder);
   }
 
+  // Gestion des boutons de confirmation de réactivation de quartier
+  const reactivateNeighborhoodBtn = document.querySelector(
+    "#reactivateNeighborhoodModal .modal-btn-confirm"
+  );
+  if (reactivateNeighborhoodBtn) {
+    reactivateNeighborhoodBtn.addEventListener(
+      "click",
+      confirmReactivateNeighborhood
+    );
+  }
+
   // Gestion de la fermeture avec Escape
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
@@ -232,7 +294,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Gestion du clic sur l'overlay pour fermer
   document.addEventListener("click", function (e) {
-    if (e.target.classList.contains("modal-overlay")) {
+    if (
+      e.target &&
+      e.target instanceof HTMLElement &&
+      e.target.classList.contains("modal-overlay")
+    ) {
       closeModal();
     }
   });

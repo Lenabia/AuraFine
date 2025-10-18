@@ -29,8 +29,25 @@
   }
 
   // Validation du formulaire de livraison
+  // Fonction pour combiner le préfixe +221 avec le suffixe
+  function combinePhoneNumber() {
+    var phoneInputs = document.querySelectorAll('input[name="phone_suffix"]');
+    phoneInputs.forEach(function (input) {
+      var phoneFullInput = input.parentNode.querySelector(
+        'input[name="phone"]'
+      );
+      if (phoneFullInput) {
+        var suffix = input.value.trim();
+        phoneFullInput.value = "+221" + suffix;
+      }
+    });
+  }
+
   function validateDeliveryForm() {
     var isValid = true;
+
+    // Combiner les numéros de téléphone avant validation
+    combinePhoneNumber();
 
     // Réinitialiser les messages d'erreur
     clearErrorMessages();
@@ -53,11 +70,13 @@
     var fn = document.getElementById("first_name");
     var ln = document.getElementById("last_name");
     var ph = document.getElementById("phone");
+    var phSuffix = document.querySelector('input[name="phone_suffix"]');
     var em = document.getElementById("email");
     var addr = document.getElementById("address_line");
 
     var nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,50}$/;
-    var phoneRegex = /^[0-9 +().-]{7,20}$/;
+    var phoneRegex = /^\+221[0-9]{9}$/;
+    var phoneSuffixRegex = /^[0-9]{9}$/;
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (fn && !nameRegex.test(fn.value.trim())) {
@@ -68,16 +87,24 @@
       showFieldError("last_name", "Nom invalide");
       isValid = false;
     }
-    if (ph && !phoneRegex.test(ph.value.trim())) {
-      showFieldError("phone", "Téléphone invalide");
+    if (phSuffix) {
+      if (!phoneSuffixRegex.test(phSuffix.value.trim())) {
+        showFieldError(
+          "phone",
+          "Le numéro doit contenir exactement 9 chiffres (ex: 771234567)"
+        );
+        isValid = false;
+      }
+    } else if (ph && !phoneRegex.test(ph.value.trim())) {
+      showFieldError(
+        "phone",
+        "Le numéro doit commencer par +221 suivi de 9 chiffres (ex: +221771234567)"
+      );
       isValid = false;
     }
     if (em) {
       var ev = (em.value || "").trim();
-      if (!ev) {
-        showFieldError("email", "Email requis");
-        isValid = false;
-      } else if (!emailRegex.test(ev)) {
+      if (ev && !emailRegex.test(ev)) {
         showFieldError("email", "Email invalide");
         isValid = false;
       }
@@ -670,6 +697,9 @@
     }
     formData.append("delivery_fee", deliveryFee.toString());
 
+    // Combiner les numéros de téléphone avant envoi
+    combinePhoneNumber();
+
     // Récupérer les informations de livraison
     var addressLine = document.getElementById("address_line");
     if (addressLine) formData.append("address_line", addressLine.value);
@@ -691,7 +721,12 @@
     var lastName = document.getElementById("last_name");
     if (lastName) formData.append("last_name", lastName.value);
     var phone = document.getElementById("phone");
-    if (phone) formData.append("phone", phone.value);
+    var phoneFull = document.querySelector('input[name="phone"]');
+    if (phoneFull) {
+      formData.append("phone", phoneFull.value);
+    } else if (phone) {
+      formData.append("phone", phone.value);
+    }
     var email = document.getElementById("email");
     if (email && email.value) formData.append("email", email.value);
 
@@ -721,13 +756,16 @@
       })
       .then(function (data) {
         if (data.success) {
-          // Afficher le message de succès
+          // Afficher le message de succès avec le numéro de commande
           if (
             window["AuraFineUtils"] &&
             window["AuraFineUtils"].showNotification
           ) {
+            var orderNumber = data.order_number || "#" + data.order_id;
             window["AuraFineUtils"].showNotification(
-              "Commande validée avec succès",
+              "Commande validée ! Votre numéro de commande est : " +
+                orderNumber +
+                ". Gardez-le pour la livraison.",
               "success"
             );
           }

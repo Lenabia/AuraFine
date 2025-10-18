@@ -113,6 +113,29 @@ class PanierController extends Middleware {
             $neighborhoods = $this->deliveryModel->getNeighborhoodsByCity((int)$preCityId);
         }
 
+        // Récupérer les noms de ville et quartier pour l'affichage
+        $userCityName = '';
+        $userNeighborhoodName = '';
+        
+        // Pour les utilisateurs connectés, utiliser directement la session
+        if (!$isGuest) {
+            $citiesId = $_SESSION['user']['cities_id'] ?? null;
+            $neighborhoodsId = $_SESSION['user']['neighborhoods_id'] ?? null;
+        } else {
+            $citiesId = $userDeliveryInfo['cities_id'] ?? null;
+            $neighborhoodsId = $userDeliveryInfo['neighborhoods_id'] ?? null;
+        }
+        
+        if (!empty($citiesId)) {
+            $cityData = $this->deliveryModel->findCityById((int)$citiesId);
+            $userCityName = $cityData['name'] ?? '';
+        }
+        
+        if (!empty($neighborhoodsId)) {
+            $neighborhood = $this->deliveryModel->findNeighborhoodById((int)$neighborhoodsId);
+            $userNeighborhoodName = $neighborhood['name'] ?? '';
+        }
+
         $this->render('panier.phtml', 'layout.phtml', [
             'cartItems' => $items,
             'cartTotal' => $total,
@@ -122,6 +145,8 @@ class PanierController extends Middleware {
             'cities' => $cities,
             'neighborhoods' => $neighborhoods,
             'userDeliveryInfo' => $userDeliveryInfo,
+            'userCityName' => $userCityName,
+            'userNeighborhoodName' => $userNeighborhoodName,
             'csrf_token' => $this->generateCSRFToken(),
             'isGuest' => $isGuest,
             'userLoyaltyPoints' => (int)($_SESSION['user']['loyalty_points'] ?? 0)
@@ -337,7 +362,8 @@ class PanierController extends Middleware {
         $addressLine = trim($_POST['address_line'] ?? '');
         $firstName = trim($_POST['first_name'] ?? '');
         $lastName = trim($_POST['last_name'] ?? '');
-        $phone = trim($_POST['phone'] ?? '');
+        $phoneSuffix = trim($_POST['phone_suffix'] ?? '');
+        $phone = '+221' . $phoneSuffix;
         $email = trim($_POST['email'] ?? '');
 
         // Validation
@@ -436,6 +462,11 @@ class PanierController extends Middleware {
             $this->json(['success' => false, 'error_code' => 'EMPTY_CART', 'message' => 'Votre panier est vide']);
         }
 
+        // Vérifier que l'invité a enregistré son adresse de livraison
+        if ($isGuest && !($_SESSION['guest_delivery_confirmed'] ?? false)) {
+            $this->json(['success' => false, 'error_code' => 'INVALID_DATA', 'message' => 'Veuillez enregistrer votre adresse de livraison']);
+        }
+
         // Validation des données de livraison
         $deliveryInfo = $this->validateDeliveryInfo($_POST);
         if (!$deliveryInfo['valid']) {
@@ -447,6 +478,15 @@ class PanierController extends Middleware {
             return $acc + ($item['subtotal'] ?? 0);
         }, 0);
 
+        // Gestion points fidélité (utilisateurs uniquement)
+        $loyaltyUsed = 0;
+        $userId = (int)($_SESSION['user']['id'] ?? 0);
+        if (!$isGuest) {
+            $requested = (int)($_POST['loyalty_points_used'] ?? 0);
+            $userPoints = (int)($_SESSION['user']['loyalty_points'] ?? 0);
+            $loyaltyUsed = max(0, min($requested, (int)round($total), $userPoints));
+        }
+
         // Préparer les données de la commande
         if ($isGuest) {
             $firstName = trim($_POST['first_name'] ?? ($_SESSION['guest_delivery']['first_name'] ?? ''));
@@ -456,18 +496,12 @@ class PanierController extends Middleware {
             $addressLinePost = trim($_POST['address_line'] ?? '');
             $addressLineSess = trim($_SESSION['guest_delivery']['address_line'] ?? '');
             $addressLine = $addressLinePost !== '' ? $addressLinePost : $addressLineSess;
-            // Exiger que l'adresse ait été enregistrée côté invité
-            if (!($_SESSION['guest_delivery_confirmed'] ?? false)) {
-                $this->json(['success' => false, 'error_code' => 'INVALID_DATA', 'message' => 'Veuillez enregistrer votre adresse de livraison']);
-            }
 
             // Validation minimale serveur pour données invitées
             $nameRegex = "/^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,50}$/u";
-            $phoneRegex = "/^[0-9 +().-]{7,20}$/";
+            $phoneRegex = "/^\+221[0-9]{9}$/";
             $emailRegex = "/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/";
-            if ($email === '') {
-                $this->json(['success' => false, 'error_code' => 'INVALID_DATA', 'message' => 'Email requis']);
-            }
+            // Email optionnel pour les invités - pas de validation si vide
             if ($firstName && !preg_match($nameRegex, $firstName)) {
                 $this->json(['success' => false, 'error_code' => 'INVALID_DATA', 'message' => 'Prénom invalide']);
             }
@@ -475,7 +509,7 @@ class PanierController extends Middleware {
                 $this->json(['success' => false, 'error_code' => 'INVALID_DATA', 'message' => 'Nom invalide']);
             }
             if ($phone && !preg_match($phoneRegex, $phone)) {
-                $this->json(['success' => false, 'error_code' => 'INVALID_DATA', 'message' => 'Téléphone invalide']);
+                $this->json(['success' => false, 'error_code' => 'INVALID_DATA', 'message' => 'Le numéro doit commencer par +221 suivi de 9 chiffres (ex: +221771234567)']);
             }
             if ($email && !preg_match($emailRegex, $email)) {
                 $this->json(['success' => false, 'error_code' => 'INVALID_DATA', 'message' => 'Email invalide']);
@@ -534,15 +568,6 @@ class PanierController extends Middleware {
             }
         }
 
-        // Gestion points fidélité (utilisateurs uniquement)
-        $loyaltyUsed = 0;
-        $userId = (int)($_SESSION['user']['id'] ?? 0);
-        if (!$isGuest) {
-            $requested = (int)($_POST['loyalty_points_used'] ?? 0);
-            $userPoints = (int)($_SESSION['user']['loyalty_points'] ?? 0);
-            $loyaltyUsed = max(0, min($requested, (int)round($total), $userPoints));
-        }
-
         // Créer la commande et déduire les points dans LA MÊME transaction
         $pdo = $this->ordersService->getOrdersModel()->getConnection();
         try {
@@ -580,7 +605,10 @@ class PanierController extends Middleware {
             $this->json(['success' => false, 'error_code' => 'ORDER_CREATION_FAILED', 'message' => 'Erreur lors de la création de la commande']);
         }
 
-        $this->json(['success' => true, 'order_id' => $orderId, 'message' => 'Commande validée avec succès', 'loyalty_used' => (int)$loyaltyUsed]);
+        // Générer le numéro de commande formaté
+        $orderNumber = $isGuest ? "AFI-" . $orderId : "AFC-" . $orderId;
+        
+        $this->json(['success' => true, 'order_id' => $orderId, 'order_number' => $orderNumber, 'message' => 'Commande validée avec succès', 'loyalty_used' => (int)$loyaltyUsed]);
     }
 
     /**
@@ -595,6 +623,15 @@ class PanierController extends Middleware {
         $deliveryComment = trim($postData['delivery_comment'] ?? '');
         $citiesId = (int)($postData['cities_id'] ?? ($isGuest ? 0 : (int)($sessionUser['cities_id'] ?? 0)));
         $neighborhoodsId = (int)($postData['neighborhoods_id'] ?? ($isGuest ? 0 : (int)($sessionUser['neighborhoods_id'] ?? 0)));
+
+        // Pour les invités, si les données de livraison ne sont pas dans POST, 
+        // essayer de les récupérer depuis la session invité
+        if ($isGuest && $citiesId <= 0) {
+            $guestDelivery = $_SESSION['guest_delivery'] ?? [];
+            $citiesId = (int)($guestDelivery['cities_id'] ?? 0);
+            $neighborhoodsId = (int)($guestDelivery['neighborhoods_id'] ?? 0);
+            $addressLine = trim($guestDelivery['address_line'] ?? '');
+        }
 
         // Validation des champs obligatoires
         if ($citiesId <= 0) {

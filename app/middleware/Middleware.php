@@ -99,6 +99,16 @@ public function createdSession($data) {
             return false;
         }
         
+        // Vérifier que la session existe physiquement sur le serveur
+        if (session_status() === PHP_SESSION_ACTIVE && session_id()) {
+            $sessionFile = session_save_path() . '/sess_' . session_id();
+            if (!file_exists($sessionFile)) {
+                // Fichier de session supprimé - nettoyer et rediriger
+                $this->destroySession();
+                return false;
+            }
+        }
+        
         // Vérifier l'expiration de session (basé sur config SESSION_LIFETIME)
         $sessionLifetime = defined('SESSION_LIFETIME') ? (int)SESSION_LIFETIME : (8 * 3600);
         if (isset($_SESSION['session_created']) && 
@@ -119,6 +129,18 @@ public function createdSession($data) {
         if (!isset($_SESSION['connected']) || $_SESSION['connected'] !== true) {
             return;
         }
+        
+        // Vérifier que la session existe physiquement sur le serveur
+        if (session_status() === PHP_SESSION_ACTIVE && session_id()) {
+            $sessionFile = session_save_path() . '/sess_' . session_id();
+            if (!file_exists($sessionFile)) {
+                // Fichier de session supprimé - nettoyer et rediriger
+                $this->destroySession();
+                header('Location: index.php?action=login');
+                exit;
+            }
+        }
+        
         $now = time();
         $lifetime = defined('SESSION_LIFETIME') ? (int)SESSION_LIFETIME : (8 * 3600);
         $lastActivity = (int)($_SESSION['last_activity'] ?? $_SESSION['session_created'] ?? $now);

@@ -72,6 +72,24 @@ if(array_key_exists('action', $_GET)):
     $controller->referral();
     break;
 
+    // profil utilisateur
+    case 'users-profile':
+    $controller = new \app\controllers\UsersController();
+    $controller->showProfile();
+    break;
+
+    // mise à jour profil utilisateur
+    case 'users-profile-update':
+    $controller = new \app\controllers\UsersController();
+    $controller->updateProfile();
+    break;
+
+    // suppression compte utilisateur
+    case 'users-profile-delete':
+    $controller = new \app\controllers\UsersController();
+    $controller->deleteAccount();
+    break;
+
     //déconnexion
     case 'logout':
     $controller = new \app\controllers\UsersController();

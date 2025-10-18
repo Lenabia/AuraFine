@@ -1,0 +1,312 @@
+<!-- Hero Section Profil -->
+<section id="profile-hero" class="profile-hero">
+  <div class="profile-hero-content">
+    <header>
+      <h1><i class="fas fa-user-circle"></i> Mon Profil</h1>
+      <p>Gérez vos informations personnelles</p>
+    </header>
+  </div>
+</section>
+
+<!-- Token CSRF pour les requêtes -->
+<meta name="csrf-token" content="<?= htmlspecialchars($csrfToken ?? '') ?>">
+
+<!-- Section Profil Principal -->
+<section id="profile-main" class="profile-main">
+  <div class="profile-container">
+    
+    <!-- Messages de succès/erreur -->
+    <?php if (isset($_SESSION['success_message'])): ?>
+    <div class="alert alert-success" role="alert" style="margin-bottom:1rem;">
+      <i class="fas fa-check-circle"></i>
+      <?= htmlspecialchars($_SESSION['success_message']) ?>
+    </div>
+    <?php unset($_SESSION['success_message']); endif; ?>
+
+    <?php if (isset($_SESSION['error_message'])): ?>
+    <div class="alert alert-error" role="alert" style="margin-bottom:1rem;">
+      <i class="fas fa-exclamation-triangle"></i>
+      <?= htmlspecialchars($_SESSION['error_message']) ?>
+    </div>
+    <?php unset($_SESSION['error_message']); endif; ?>
+
+    <!-- Informations personnelles -->
+    <div class="profile-info-section">
+      <h2><i class="fas fa-user"></i> Informations personnelles</h2>
+      
+      <div class="profile-info-grid">
+        <div class="info-item">
+          <label>Prénom</label>
+          <span><?= htmlspecialchars($userProfile['first_name'] ?? '') ?></span>
+        </div>
+        
+        <div class="info-item">
+          <label>Nom</label>
+          <span><?= htmlspecialchars($userProfile['last_name'] ?? '') ?></span>
+        </div>
+        
+        <div class="info-item">
+          <label>Email</label>
+          <span><?= htmlspecialchars($userProfile['email'] ?? '') ?></span>
+        </div>
+        
+        <div class="info-item">
+          <label>Téléphone</label>
+          <span><?= htmlspecialchars($userProfile['phone'] ?? '') ?></span>
+        </div>
+        
+        <div class="info-item">
+          <label>Adresse</label>
+          <span><?= htmlspecialchars($userProfile['address_line'] ?? 'Non renseignée') ?></span>
+        </div>
+        
+        <div class="info-item">
+          <label>Ville</label>
+          <span><?= htmlspecialchars($userProfile['city_name'] ?? 'Non renseignée') ?></span>
+        </div>
+        
+        <div class="info-item">
+          <label>Quartier</label>
+          <span><?= htmlspecialchars($userProfile['neighborhood_name'] ?? 'Non renseigné') ?></span>
+        </div>
+        
+        <div class="info-item">
+          <label>Zone de livraison</label>
+          <span><?= htmlspecialchars($userProfile['zone_code'] ?? 'Non renseignée') ?></span>
+        </div>
+        
+        <div class="info-item">
+          <label>Points de fidélité</label>
+          <span class="loyalty-points"><?= number_format((int)($userProfile['loyalty_points'] ?? 0), 0, ',', ' ') ?> FCFA</span>
+        </div>
+        
+        <div class="info-item">
+          <label>Code de parrainage</label>
+          <span class="referral-code"><?= htmlspecialchars($userProfile['referral_code'] ?? '') ?></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulaire de modification -->
+    <div class="profile-edit-section">
+      <h2><i class="fas fa-edit"></i> Modifier mes informations</h2>
+      
+      <form id="profile-edit-form" method="POST" action="index.php?action=users-profile-update" class="profile-form">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken ?? '') ?>">
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first_name">Prénom *</label>
+            <input type="text" name="first_name" id="first_name" 
+                   value="<?= htmlspecialchars($_SESSION['old_input']['first_name'] ?? $userProfile['first_name'] ?? '') ?>" 
+                   required maxlength="50">
+            <?php if (isset($_SESSION['validation_errors']['first_name'])): ?>
+            <div class="error-message"><?= htmlspecialchars($_SESSION['validation_errors']['first_name']) ?></div>
+            <?php endif; ?>
+          </div>
+          
+          <div class="form-group">
+            <label for="last_name">Nom *</label>
+            <input type="text" name="last_name" id="last_name" 
+                   value="<?= htmlspecialchars($_SESSION['old_input']['last_name'] ?? $userProfile['last_name'] ?? '') ?>" 
+                   required maxlength="50">
+            <?php if (isset($_SESSION['validation_errors']['last_name'])): ?>
+            <div class="error-message"><?= htmlspecialchars($_SESSION['validation_errors']['last_name']) ?></div>
+            <?php endif; ?>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" name="email" id="email" 
+                   value="<?= htmlspecialchars($_SESSION['old_input']['email'] ?? $userProfile['email'] ?? '') ?>" 
+                   required>
+            <?php if (isset($_SESSION['validation_errors']['email'])): ?>
+            <div class="error-message"><?= htmlspecialchars($_SESSION['validation_errors']['email']) ?></div>
+            <?php endif; ?>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Téléphone *</label>
+        <div style="display: flex; align-items: center; width: 100%;">
+          <span style="background: #f0f0f0; padding: 8px 12px; border: 1px solid #ddd; border-right: none; border-radius: 4px 0 0 4px; font-size: 14px; color: #666; user-select: none;">+221</span>
+          <input type="text" name="phone_suffix" id="phone" 
+                 placeholder="771234567"
+                 value="<?= htmlspecialchars(preg_replace('/^\+221/', '', $_SESSION['old_input']['phone'] ?? $userProfile['phone'] ?? '')) ?>" 
+                 maxlength="9"
+                 style="border-radius: 0 4px 4px 0; border-left: none;"
+                 required>
+          <input type="hidden" name="phone" id="phone-full">
+        </div>
+            <?php if (isset($_SESSION['validation_errors']['phone'])): ?>
+            <div class="error-message"><?= htmlspecialchars($_SESSION['validation_errors']['phone']) ?></div>
+            <?php endif; ?>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="address_line">Adresse complète</label>
+          <textarea name="address_line" id="address_line" rows="3" 
+                    placeholder="Renseignez votre adresse exacte pour le livreur"><?= htmlspecialchars($_SESSION['old_input']['address_line'] ?? $userProfile['address_line'] ?? '') ?></textarea>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cities_id">Ville *</label>
+            <select name="cities_id" id="cities_id" required>
+              <option value="">Sélectionnez une ville</option>
+              <?php foreach ($cities as $city): ?>
+                <option value="<?= $city['id'] ?>" 
+                        <?= ((int)($city['id']) === (int)($_SESSION['old_input']['cities_id'] ?? $userProfile['cities_id'] ?? 0)) ? 'selected' : '' ?>>
+                  <?= htmlspecialchars($city['name']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+            <?php if (isset($_SESSION['validation_errors']['cities_id'])): ?>
+            <div class="error-message"><?= htmlspecialchars($_SESSION['validation_errors']['cities_id']) ?></div>
+            <?php endif; ?>
+          </div>
+          
+          <div class="form-group">
+            <label for="neighborhoods_id">Quartier *</label>
+            <select name="neighborhoods_id" id="neighborhoods_id" required>
+              <option value="">Sélectionnez un quartier</option>
+              <?php foreach ($neighborhoods as $neighborhood): ?>
+                <option value="<?= $neighborhood['id'] ?>" 
+                        <?= ((int)($neighborhood['id']) === (int)($_SESSION['old_input']['neighborhoods_id'] ?? $userProfile['neighborhoods_id'] ?? 0)) ? 'selected' : '' ?>>
+                  <?= htmlspecialchars($neighborhood['name']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+            <?php if (isset($_SESSION['validation_errors']['neighborhoods_id'])): ?>
+            <div class="error-message"><?= htmlspecialchars($_SESSION['validation_errors']['neighborhoods_id']) ?></div>
+            <?php endif; ?>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn-save">
+            <i class="fas fa-save"></i> Mettre à jour
+          </button>
+          <button type="button" class="btn-cancel" onclick="resetForm()">
+            <i class="fas fa-undo"></i> Annuler
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Actions du compte -->
+    <div class="profile-actions-section">
+      <h2><i class="fas fa-cog"></i> Actions du compte</h2>
+      
+      <div class="profile-actions-grid">
+        <div class="action-item">
+          <h3>Supprimer mon compte</h3>
+          <p>Cette action supprimera définitivement votre compte et toutes vos données.</p>
+          <button type="button" class="btn-delete" onclick="showDeleteAccountModal()">
+            <i class="fas fa-trash"></i> Supprimer mon compte
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Modale de suppression de compte -->
+<div id="deleteAccountModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="modal-icon">⚠️</div>
+      <h3 class="modal-title">Supprimer mon compte</h3>
+    </div>
+    <div class="modal-body">
+      <p class="modal-message">Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible et supprimera toutes vos données.</p>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="modal-btn modal-btn-cancel" onclick="closeModal()">Annuler</button>
+      <form method="POST" action="index.php?action=users-profile-delete" style="display: inline;">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken ?? '') ?>">
+        <button type="submit" class="modal-btn modal-btn-confirm">Confirmer la suppression</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+// Fonction pour réinitialiser le formulaire
+function resetForm() {
+  document.getElementById('profile-edit-form').reset();
+}
+
+// Fonction pour afficher la modale de suppression
+function showDeleteAccountModal() {
+  const modal = document.getElementById('deleteAccountModal');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+// Fonction pour fermer la modale
+function closeModal() {
+  const modal = document.getElementById('deleteAccountModal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+// Chargement des quartiers selon la ville sélectionnée
+document.getElementById('cities_id').addEventListener('change', function() {
+  const cityId = this.value;
+  const neighborhoodSelect = document.getElementById('neighborhoods_id');
+  
+  if (cityId) {
+    // Afficher un indicateur de chargement
+    neighborhoodSelect.innerHTML = '<option value="">Chargement...</option>';
+    
+    fetch(`index.php?action=neighborhoods&city_id=${cityId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.success && data.neighborhoods) {
+        neighborhoodSelect.innerHTML = '<option value="">Sélectionnez un quartier</option>';
+        data.neighborhoods.forEach(neighborhood => {
+          const option = document.createElement('option');
+          option.value = neighborhood.id;
+          option.textContent = neighborhood.name;
+          neighborhoodSelect.appendChild(option);
+        });
+      } else {
+        neighborhoodSelect.innerHTML = '<option value="">Aucun quartier disponible</option>';
+      }
+    })
+    .catch(error => {
+      console.error('Erreur lors du chargement des quartiers:', error);
+      neighborhoodSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+    });
+  } else {
+    neighborhoodSelect.innerHTML = '<option value="">Sélectionnez un quartier</option>';
+  }
+});
+
+// Fermer la modale en cliquant sur l'overlay
+document.getElementById('deleteAccountModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeModal();
+  }
+});
+</script>
+
+<?php
+// Nettoyer les données de session après affichage
+unset($_SESSION['old_input']);
+unset($_SESSION['validation_errors']);
+?>
+

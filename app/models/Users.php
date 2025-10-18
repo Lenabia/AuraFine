@@ -388,4 +388,59 @@ class Users extends Database {
             return false;
         }
     }
+
+    /**
+     * Trouver un utilisateur par ID
+     */
+    public function findById($id) {
+        try {
+            $sql = "SELECT * FROM users WHERE id = :id AND is_active = 1";
+            $stmt = $this->getConnection()->prepare($sql);
+            $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+            $stmt->execute();
+            
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            error_log("Erreur recherche utilisateur par ID: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Supprimer un utilisateur (soft delete)
+     */
+    public function delete($id) {
+        try {
+            $sql = "UPDATE users SET is_active = 0, updated_at = NOW() WHERE id = :id";
+            $stmt = $this->getConnection()->prepare($sql);
+            $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+            
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            error_log("Erreur suppression utilisateur: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Récupérer les données complètes du profil utilisateur
+     */
+    public function getUserProfileData($id) {
+        try {
+            $sql = "SELECT u.*, c.name as city_name, n.name as neighborhood_name, dz.code as zone_code
+                    FROM users u
+                    LEFT JOIN cities c ON c.id = u.cities_id
+                    LEFT JOIN neighborhoods n ON n.id = u.neighborhoods_id
+                    LEFT JOIN delivery_zones dz ON dz.id = u.delivery_zones_id
+                    WHERE u.id = :id AND u.is_active = 1";
+            $stmt = $this->getConnection()->prepare($sql);
+            $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+            $stmt->execute();
+            
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            error_log("Erreur récupération profil utilisateur: " . $e->getMessage());
+            return false;
+        }
+    }
 }
