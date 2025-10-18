@@ -7,7 +7,7 @@ DÉTAIL COMMANDE - ADMIN
     <div class="order-info">
         <h2>
             <i class="fas fa-shopping-bag"></i>
-            Commande #<?= (int)$order['id'] ?>
+            Commande #<?= $ordersService->formatOrderNumber($order['id'], $order['users_id']) ?>
         </h2>
         <div class="order-meta">
             <span class="order-date">
@@ -164,7 +164,7 @@ DÉTAIL COMMANDE - ADMIN
             Détails de la commande
         </h3>
         <div class="order-meta-info">
-            <span class="order-id">Commande #<?= (int)$order['id'] ?></span>
+            <span class="order-id">Commande #<?= $ordersService->formatOrderNumber($order['id'], $order['users_id']) ?></span>
             <span class="order-date"><?= date('d/m/Y à H:i', strtotime($order['order_date'])) ?></span>
             <span class="status-badge status-<?= strtolower(str_replace(' ', '-', $order['status'])) ?>">
                 <?= htmlspecialchars($order['status']) ?>

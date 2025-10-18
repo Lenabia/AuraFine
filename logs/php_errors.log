@@ -194,3 +194,45 @@
 [18-Oct-2025 04:22:00 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
 [18-Oct-2025 04:22:00 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
 [18-Oct-2025 04:22:00 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:28:06 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:28:06 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:28:06 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:28:06 Africa/Dakar] PHP Warning:  Undefined variable $ordersService in /Applications/MAMP/htdocs/AuraFine/app/views/orders-detail.phtml on line 10
+[18-Oct-2025 04:28:06 Africa/Dakar] PHP Fatal error:  Uncaught Error: Call to a member function formatOrderNumber() on null in /Applications/MAMP/htdocs/AuraFine/app/views/orders-detail.phtml:10
+Stack trace:
+#0 /Applications/MAMP/htdocs/AuraFine/app/views/admin-layout.phtml(123): include()
+#1 /Applications/MAMP/htdocs/AuraFine/app/middleware/Middleware.php(46): include('/Applications/M...')
+#2 /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php(134): app\middleware\Middleware->render('app/views/order...', 'admin-layout.ph...', Array)
+#3 /Applications/MAMP/htdocs/auraFine/index.php(299): app\controllers\OrdersController->viewOrdersDetail(33)
+#4 {main}
+  thrown in /Applications/MAMP/htdocs/AuraFine/app/views/orders-detail.phtml on line 10
+[18-Oct-2025 04:29:37 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:29:37 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:29:37 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:29:54 Africa/Dakar] DEBUG: Route admin-orders détectée
+[18-Oct-2025 04:29:54 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[18-Oct-2025 04:29:54 Africa/Dakar] DEBUG: Role utilisateur: admin
+[18-Oct-2025 04:29:54 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:29:54 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:29:54 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:29:54 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[18-Oct-2025 04:29:57 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:29:57 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:29:57 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:30:02 Africa/Dakar] DEBUG: Route admin-orders détectée
+[18-Oct-2025 04:30:02 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[18-Oct-2025 04:30:02 Africa/Dakar] DEBUG: Role utilisateur: admin
+[18-Oct-2025 04:30:02 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:30:02 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:30:02 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:30:02 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[18-Oct-2025 04:30:05 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:30:05 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:30:05 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:30:09 Africa/Dakar] DEBUG: Route admin-orders détectée
+[18-Oct-2025 04:30:09 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[18-Oct-2025 04:30:09 Africa/Dakar] DEBUG: Role utilisateur: admin
+[18-Oct-2025 04:30:09 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[18-Oct-2025 04:30:09 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[18-Oct-2025 04:30:09 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[18-Oct-2025 04:30:09 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}

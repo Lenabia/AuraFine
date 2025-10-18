@@ -8,7 +8,7 @@
 <!-- Numéro de commande -->
 <div class="ticket-order-info">
     <div class="ticket-order-number">
-        COMMANDE N° <?= (int)$order['id'] ?>
+        COMMANDE N° <?= $ordersService->formatOrderNumber($order['id'], $order['users_id']) ?>
     </div>
     <div style="text-align: center; font-size: 10px;">
         <?= date('d/m/Y à H:i', strtotime($order['order_date'])) ?>

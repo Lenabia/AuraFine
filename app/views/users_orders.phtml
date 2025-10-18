@@ -22,7 +22,7 @@
                     <!-- Informations de la commande -->
                     <div class="order-info">
                         <div class="order-header">
-                            <h3 class="order-number">Commande #<?= (int)$activeOrder['id'] ?></h3>
+                            <h3 class="order-number">Commande #<?= $ordersService->formatOrderNumber($activeOrder['id'], $activeOrder['users_id']) ?></h3>
                             <span class="order-date"><?= date('d/m/Y à H:i', strtotime($activeOrder['order_date'])) ?></span>
                         </div>
                         

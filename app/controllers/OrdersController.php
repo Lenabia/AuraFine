@@ -71,7 +71,8 @@ class OrdersController extends Middleware {
             // Extraire les données pour les rendre disponibles dans la vue
             extract([
                 'orders' => $orders,
-                'filters' => $filters
+                'filters' => $filters,
+                'ordersService' => $this->ordersService
             ]);
             // Inclure seulement le fichier partiel
             include "app/views/orders-table.phtml";
@@ -97,7 +98,8 @@ class OrdersController extends Middleware {
             'orders' => $orders,
             'statusStats' => $statusStats,
             'filters' => $filters,
-            'csrfToken' => $csrfToken
+            'csrfToken' => $csrfToken,
+            'ordersService' => $this->ordersService
         ]);
     }
 
@@ -154,7 +156,8 @@ class OrdersController extends Middleware {
             'order' => $order,
             'orderDetails' => $orderDetails,
             'customSalads' => $customSalads,
-            'csrfToken' => $csrfToken
+            'csrfToken' => $csrfToken,
+            'ordersService' => $this->ordersService
         ]);
     }
 
@@ -315,7 +318,8 @@ class OrdersController extends Middleware {
             'pageTitle' => 'Mes commandes',
             'activeOrder' => $activeOrder,
             'pastOrders' => $pastOrders,
-            'csrfToken' => $csrfToken
+            'csrfToken' => $csrfToken,
+            'ordersService' => $this->ordersService
         ]);
     }
 
@@ -426,7 +430,7 @@ class OrdersController extends Middleware {
         
         // Informations générales
         $html .= '<div class="order-info">';
-        $html .= '<h4>Commande #' . (int)$order['id'] . '</h4>';
+        $html .= '<h4>Commande #' . $this->ordersService->formatOrderNumber($order['id'], $order['users_id']) . '</h4>';
         $html .= '<p><strong>Date :</strong> ' . date('d/m/Y à H:i', strtotime($order['order_date'])) . '</p>';
         $html .= '<p><strong>Statut :</strong> ' . htmlspecialchars($order['status']) . '</p>';
         $html .= '<p><strong>Montant total :</strong> ' . number_format($order['total_amount'], 0, ',', ' ') . ' FCFA</p>';
@@ -493,7 +497,8 @@ class OrdersController extends Middleware {
             'finalTotal' => $finalTotal,
             'companyName' => 'AuraFine',
             'companyAddress' => '123 Rue de l\'Exemple, Dakar',
-            'companyPhone' => '+221 77 123 45 67'
+            'companyPhone' => '+221 77 123 45 67',
+            'ordersService' => $this->ordersService
         ]);
     }
 

@@ -481,4 +481,15 @@ class OrdersService {
     private function roundToNearest5(float $amount): int {
         return (int)(round($amount / 5) * 5);
     }
+
+    /**
+     * Formate le numéro de commande selon le type d'utilisateur
+     * 
+     * @param int $orderId ID de la commande
+     * @param int|null $userId ID de l'utilisateur (null = invité)
+     * @return string Numéro formaté (AFI-XXX ou AFC-XXX)
+     */
+    public function formatOrderNumber(int $orderId, ?int $userId = null): string {
+        return $userId === null ? "AFI-" . $orderId : "AFC-" . $orderId;
+    }
 }
