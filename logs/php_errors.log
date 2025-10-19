@@ -299,3 +299,29 @@ Stack trace:
 [18-Oct-2025 05:11:24 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
 [18-Oct-2025 05:11:54 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
 [18-Oct-2025 05:12:05 Africa/Dakar] PHP Warning:  Undefined array key "updated_at" in /Applications/MAMP/htdocs/AuraFine/app/controllers/OrdersController.php on line 360
+[18-Oct-2025 05:18:29 Africa/Dakar] Security Event: {"timestamp":"2025-10-18 05:18:29","event":"user_logout","ip":"::1","user_agent":"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/141.0.0.0 Safari\/537.36","data":{"user_id":2,"email":"user@gmail.com","role":"user"}}
+[19-Oct-2025 08:06:54 Africa/Dakar] DEBUG: Aucune action fournie - IP: ::1
+[19-Oct-2025 16:27:42 Africa/Dakar] DEBUG: Action non reconnue: NULL - IP: ::1
+[19-Oct-2025 16:27:42 Africa/Dakar] DEBUG: Action non reconnue: NULL - IP: ::1
+[19-Oct-2025 16:27:43 Africa/Dakar] DEBUG: Action non reconnue: NULL - IP: ::1
+[19-Oct-2025 16:27:43 Africa/Dakar] DEBUG: Action non reconnue: NULL - IP: ::1
+[19-Oct-2025 16:27:43 Africa/Dakar] DEBUG: Action non reconnue: NULL - IP: ::1
+[19-Oct-2025 16:27:43 Africa/Dakar] DEBUG: Action non reconnue: NULL - IP: ::1
+[19-Oct-2025 16:27:43 Africa/Dakar] DEBUG: Action non reconnue: NULL - IP: ::1
+[19-Oct-2025 16:27:43 Africa/Dakar] DEBUG: Action non reconnue: NULL - IP: ::1
+[19-Oct-2025 16:27:43 Africa/Dakar] DEBUG: Action non reconnue: NULL - IP: ::1
+[19-Oct-2025 17:26:42 Africa/Dakar] Security Event: {"timestamp":"2025-10-19 17:26:42","event":"user_login","ip":"::1","user_agent":"Mozilla\/5.0 (Linux; Android 6.0; Nexus 5 Build\/MRA58N) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/141.0.0.0 Mobile Safari\/537.36","data":{"user_id":1,"email":"lena@test.com","role":"admin"}}
+[19-Oct-2025 17:26:58 Africa/Dakar] DEBUG: Route admin-orders détectée
+[19-Oct-2025 17:26:58 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[19-Oct-2025 17:26:58 Africa/Dakar] DEBUG: Role utilisateur: admin
+[19-Oct-2025 17:26:58 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[19-Oct-2025 17:26:58 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[19-Oct-2025 17:26:58 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[19-Oct-2025 17:26:58 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[19-Oct-2025 17:36:53 Africa/Dakar] DEBUG: Route admin-orders détectée
+[19-Oct-2025 17:36:53 Africa/Dakar] DEBUG: listOrders() appelé - Session user: OUI
+[19-Oct-2025 17:36:53 Africa/Dakar] DEBUG: Role utilisateur: admin
+[19-Oct-2025 17:36:53 Africa/Dakar] DEBUG: checkAdmin() - Session user: OUI
+[19-Oct-2025 17:36:53 Africa/Dakar] DEBUG: checkAdmin() - Role: admin
+[19-Oct-2025 17:36:53 Africa/Dakar] DEBUG: checkAdmin() - Admin vérifié avec succès
+[19-Oct-2025 17:36:53 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
