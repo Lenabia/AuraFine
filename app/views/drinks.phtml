@@ -24,7 +24,7 @@
 
             <div class="drink-grid">
                 <?php foreach ($drinks as $drink): ?>
-                    <article class="drink-card">
+                    <article class="drink-card <?= $drink['is_available'] == 2 ? 'victim-of-success' : '' ?>">
                         <figure class="drink-image">
                             <?php if (!empty($drink['image'])): ?>
                                 <img src="<?= htmlspecialchars($drink['image']) ?>" 
@@ -33,6 +33,15 @@
                             <?php else: ?>
                                 <div class="drink-placeholder">
                                     <i class="fas fa-glass-whiskey"></i>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <?php if ($drink['is_available'] == 2): ?>
+                                <div class="victim-overlay">
+                                    <div class="victim-message">
+                                        <i class="fas fa-star"></i>
+                                        <span>Victime de son succès</span>
+                                    </div>
                                 </div>
                             <?php endif; ?>
                         </figure>
@@ -50,7 +59,12 @@
                                 </div>
                                 
                                 <div class="drink-stock">
-                                    <?php if ($drink['stock_quantity'] > 0): ?>
+                                    <?php if ($drink['is_available'] == 2): ?>
+                                        <span class="stock-victim">
+                                            <i class="fas fa-star"></i>
+                                            Victime de son succès
+                                        </span>
+                                    <?php elseif ($drink['stock_quantity'] > 0): ?>
                                         <span class="stock-available">
                                             <i class="fas fa-check-circle"></i>
                                             En stock
@@ -64,10 +78,17 @@
                                 </div>
                             </div>
                             <div class="menu-actions">
-                                <button class="btn-add-to-cart" data-drink-id="<?= $drink['id'] ?>">
-                                    <i class="fas fa-plus"></i>
-                                    Ajouter au panier
-                                </button>
+                                <?php if ($drink['is_available'] == 2): ?>
+                                    <button class="btn-add-to-cart disabled" disabled>
+                                        <i class="fas fa-star"></i>
+                                        Victime de son succès
+                                    </button>
+                                <?php else: ?>
+                                    <button class="btn-add-to-cart" data-drink-id="<?= $drink['id'] ?>">
+                                        <i class="fas fa-plus"></i>
+                                        Ajouter au panier
+                                    </button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </article>

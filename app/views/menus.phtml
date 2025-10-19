@@ -51,7 +51,7 @@
             <div class="item-grid" id="menus-grid">
                 <?php foreach ($menus as $menu): ?>
                     <!-- refactor: utilisation de la classe générique .item-card -->
-                    <article class="item-card" data-category="<?= $menu['category_id'] ?>">
+                    <article class="item-card <?= $menu['is_available'] == 2 ? 'victim-of-success' : '' ?>" data-category="<?= $menu['category_id'] ?>">
                         <header class="item-header">
                             <figure class="item-image">
                                 <?php if (!empty($menu['image'])): ?>
@@ -61,6 +61,15 @@
                                 <?php else: ?>
                                     <div class="placeholder">
                                         <i class="fas fa-utensils"></i>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if ($menu['is_available'] == 2): ?>
+                                    <div class="victim-overlay">
+                                        <div class="victim-message">
+                                            <i class="fas fa-star"></i>
+                                            <span>Victime de son succès</span>
+                                        </div>
                                     </div>
                                 <?php endif; ?>
                             </figure>
@@ -93,16 +102,28 @@
                                 </div>
                                 
                                 <div class="detail-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Disponible</span>
+                                    <?php if ($menu['is_available'] == 2): ?>
+                                        <i class="fas fa-star"></i>
+                                        <span>Victime de son succès</span>
+                                    <?php else: ?>
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Disponible</span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             
                             <div class="menu-actions">
-                                <button class="btn-add-to-cart" data-menu-id="<?= $menu['id'] ?>">
-                                    <i class="fas fa-plus"></i>
-                                    Ajouter au panier
-                                </button>
+                                <?php if ($menu['is_available'] == 2): ?>
+                                    <button class="btn-add-to-cart disabled" disabled>
+                                        <i class="fas fa-star"></i>
+                                        Victime de son succès
+                                    </button>
+                                <?php else: ?>
+                                    <button class="btn-add-to-cart" data-menu-id="<?= $menu['id'] ?>">
+                                        <i class="fas fa-plus"></i>
+                                        Ajouter au panier
+                                    </button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </article>

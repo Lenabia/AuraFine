@@ -797,6 +797,11 @@
           // Mettre à jour le badge du panier
           updateBadge(0);
 
+          // Mettre à jour l'affichage du solde de fidélité
+          if (data.new_loyalty_balance !== undefined) {
+            updateLoyaltyDisplay(data.new_loyalty_balance);
+          }
+
           // Masquer le bouton commander
           if (orderButton) {
             orderButton.style.display = "none";
@@ -853,6 +858,18 @@
       neighborhoodSelect.addEventListener("change", function () {
         clearErrorMessages();
       });
+    }
+  }
+
+  // Fonction pour mettre à jour l'affichage du solde de fidélité
+  function updateLoyaltyDisplay(newAmount) {
+    var loyaltyElement = document.getElementById("loyalty-points");
+    if (loyaltyElement) {
+      var numberElement = loyaltyElement.querySelector(".loyalty-number");
+      if (numberElement) {
+        numberElement.textContent = newAmount.toLocaleString() + " FCFA";
+      }
+      loyaltyElement.setAttribute("data-amount", newAmount);
     }
   }
 

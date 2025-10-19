@@ -608,7 +608,7 @@ class PanierController extends Middleware {
         // Générer le numéro de commande formaté
         $orderNumber = $this->ordersService->formatOrderNumber($orderId, $isGuest ? null : $userId);
         
-        $this->json(['success' => true, 'order_id' => $orderId, 'order_number' => $orderNumber, 'message' => 'Commande validée avec succès', 'loyalty_used' => (int)$loyaltyUsed]);
+        $this->json(['success' => true, 'order_id' => $orderId, 'order_number' => $orderNumber, 'message' => 'Commande validée avec succès', 'loyalty_used' => (int)$loyaltyUsed, 'new_loyalty_balance' => (int)($_SESSION['user']['loyalty_points'] ?? 0)]);
     }
 
     /**

@@ -35,7 +35,7 @@ class Drinks extends Database {
         $sql = "SELECT id, name, description, price, image, stock_quantity, is_available, 
                        created_at, updated_at 
                 FROM drinks 
-                WHERE is_available = 1 
+                WHERE is_available IN (1, 2) 
                 ORDER BY created_at DESC";
         
         return $this->findAll($sql);
@@ -80,7 +80,7 @@ class Drinks extends Database {
      * @performance Requête optimisée avec COUNT()
      */
     public function countAvailable() {
-        $sql = "SELECT COUNT(*) as total FROM drinks WHERE is_available = 1";
+        $sql = "SELECT COUNT(*) as total FROM drinks WHERE is_available IN (1, 2)";
         $result = $this->findOne($sql);
         return (int)($result['total'] ?? 0);
     }
@@ -100,7 +100,7 @@ class Drinks extends Database {
             'price' => (float)$data['price'],
             'image' => trim($data['image'] ?? ''),
             'stock_quantity' => (int)($data['stock_quantity'] ?? 0),
-            'is_available' => isset($data['is_available']) && $data['is_available'] == '1' ? 1 : 0,
+            'is_available' => isset($data['is_available']) ? (int)$data['is_available'] : 0,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ];
@@ -132,7 +132,7 @@ class Drinks extends Database {
             'price' => (float)$data['price'],
             'image' => trim($data['image'] ?? ''),
             'stock_quantity' => (int)($data['stock_quantity'] ?? 0),
-            'is_available' => isset($data['is_available']) && $data['is_available'] == '1' ? 1 : 0,
+            'is_available' => isset($data['is_available']) ? (int)$data['is_available'] : 0,
             'updated_at' => date('Y-m-d H:i:s'),
             'id' => (int)$id
         ];

@@ -110,6 +110,7 @@ class Orders extends Database {
     public function getOrderById(int $id): ?array {
         $sql = "SELECT o.id, o.users_id, o.status, o.previous_status, o.order_date, o.total_amount, o.delivery_address, o.delivery_comment, o.delivery_fee,
                        o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
+                       o.customer_confirmed, o.customer_comment, o.customer_confirmed_at,
                        COALESCE(u.first_name, o.customer_first_name) AS first_name,
                        COALESCE(u.last_name, o.customer_last_name) AS last_name,
                        COALESCE(u.phone, o.customer_phone) AS phone,
@@ -168,26 +169,25 @@ class Orders extends Database {
     }
 
     /**
-     * Récupère une commande active par utilisateur
+     * Récupère toutes les commandes actives par utilisateur
      * 
      * @param int $userId ID de l'utilisateur
-     * @return array|null Commande active ou null
+     * @return array Commandes actives
      */
-    public function getActiveOrderByUserId(int $userId): ?array {
+    public function getActiveOrdersByUserId(int $userId): array {
         $sql = "SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_fee,
                        o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
                        o.delivery_address, o.delivery_comment,
+                       o.customer_confirmed, o.customer_comment, o.customer_confirmed_at,
                        c.name AS city_name, n.name AS neighborhood_name
                 FROM orders o
                 LEFT JOIN cities c ON c.id = o.cities_id
                 LEFT JOIN neighborhoods n ON n.id = o.neighborhoods_id
                 WHERE o.users_id = :user_id 
                 AND o.status NOT IN ('Livrée', 'annulée')
-                ORDER BY o.order_date DESC
-                LIMIT 1";
+                ORDER BY o.order_date DESC";
 
-        $result = $this->findOne($sql, ['user_id' => $userId]);
-        return $result === false ? null : $result;
+        return $this->findAll($sql, ['user_id' => $userId]);
     }
 
     /**
@@ -200,6 +200,7 @@ class Orders extends Database {
         $sql = "SELECT o.id, o.status, o.order_date, o.total_amount, o.delivery_fee,
                        o.customer_first_name, o.customer_last_name, o.customer_phone, o.customer_email,
                        o.delivery_address, o.delivery_comment,
+                       o.customer_confirmed, o.customer_comment, o.customer_confirmed_at,
                        c.name AS city_name, n.name AS neighborhood_name
                 FROM orders o
                 LEFT JOIN cities c ON c.id = o.cities_id
@@ -209,6 +210,32 @@ class Orders extends Database {
                 ORDER BY o.order_date DESC";
 
         return $this->findAll($sql, ['user_id' => $userId]);
+    }
+
+    /**
+     * Confirme une commande par le client
+     * 
+     * @param int $orderId ID de la commande
+     * @param int $userId ID de l'utilisateur
+     * @param string $comment Commentaire optionnel du client
+     * @return bool Succès de la confirmation
+     */
+    public function confirmOrderByCustomer(int $orderId, int $userId, string $comment = ''): bool {
+        $sql = "UPDATE orders 
+                SET customer_confirmed = TRUE, 
+                    customer_comment = :comment, 
+                    customer_confirmed_at = NOW(),
+                    status = 'Livrée'
+                WHERE id = :order_id 
+                AND users_id = :user_id 
+                AND status = 'Livraison en cours' 
+                AND customer_confirmed = FALSE";
+        
+        return $this->execute($sql, [
+            'order_id' => $orderId,
+            'user_id' => $userId,
+            'comment' => $comment
+        ]) !== false;
     }
 
 }

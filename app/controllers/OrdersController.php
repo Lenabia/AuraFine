@@ -305,8 +305,8 @@ class OrdersController extends Middleware {
             $this->redirectTo('login');
         }
 
-        // Récupérer la commande active (en cours)
-        $activeOrder = $this->ordersService->getActiveOrderByUserId($userId);
+        // Récupérer les commandes actives (en cours)
+        $activeOrders = $this->ordersService->getActiveOrdersByUserId($userId);
         
         // Récupérer l'historique des commandes passées
         $pastOrders = $this->ordersService->getPastOrdersByUserId($userId);
@@ -316,7 +316,7 @@ class OrdersController extends Middleware {
 
         $this->render('users_orders.phtml', 'layout.phtml', [
             'pageTitle' => 'Mes commandes',
-            'activeOrder' => $activeOrder,
+            'activeOrders' => $activeOrders,
             'pastOrders' => $pastOrders,
             'csrfToken' => $csrfToken,
             'ordersService' => $this->ordersService
@@ -348,8 +348,9 @@ class OrdersController extends Middleware {
         }
 
         try {
-            // Récupérer la commande active
-            $activeOrder = $this->ordersService->getActiveOrderByUserId($userId);
+            // Récupérer les commandes actives
+            $activeOrders = $this->ordersService->getActiveOrdersByUserId($userId);
+            $activeOrder = !empty($activeOrders) ? $activeOrders[0] : null;
             
             if ($activeOrder) {
                 $this->json([
@@ -357,7 +358,7 @@ class OrdersController extends Middleware {
                     'order' => [
                         'id' => $activeOrder['id'],
                         'status' => $activeOrder['status'],
-                        'updated_at' => $activeOrder['updated_at']
+                        'updated_at' => $activeOrder['order_date']
                     ]
                 ]);
             } else {
@@ -407,6 +408,9 @@ class OrdersController extends Middleware {
                 http_response_code(404);
                 $this->json(['success' => false, 'message' => 'Commande non trouvée']);
             }
+
+            // Charger les détails de la commande
+            $order['details'] = $this->ordersService->getOrderDetails($orderId);
 
             // Générer le HTML des détails
             $html = $this->generateOrderDetailsHtml($order);
@@ -502,5 +506,45 @@ class OrdersController extends Middleware {
         ]);
     }
 
+    /**
+     * Confirme une commande par le client (AJAX)
+     * 
+     * @route POST /confirm-order
+     */
+    public function confirmOrder(): void {
+        // Vérifier que c'est une requête AJAX
+        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') {
+            http_response_code(400);
+            $this->json(['success' => false, 'message' => 'Requête invalide']);
+        }
+
+        // Vérifier que l'utilisateur est connecté
+        if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'user') {
+            http_response_code(401);
+            $this->json(['success' => false, 'message' => 'Non autorisé']);
+        }
+
+        // Vérifier le token CSRF
+        if (!$this->checkCSRFToken()) {
+            http_response_code(403);
+            $this->json(['success' => false, 'message' => 'Erreur de sécurité']);
+        }
+
+        $userId = (int)($_SESSION['user']['id'] ?? 0);
+        $orderId = (int)($_POST['order_id'] ?? 0);
+        $comment = trim($_POST['customer_comment'] ?? '');
+
+        if ($userId <= 0 || $orderId <= 0) {
+            $this->json(['success' => false, 'message' => 'Paramètres invalides']);
+        }
+
+        $success = $this->ordersService->confirmOrderByCustomer($orderId, $userId, $comment);
+        
+        if ($success) {
+            $this->json(['success' => true, 'message' => 'Commande confirmée avec succès']);
+        } else {
+            $this->json(['success' => false, 'message' => 'Erreur lors de la confirmation']);
+        }
+    }
 
 }

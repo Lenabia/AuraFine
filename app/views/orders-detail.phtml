@@ -152,6 +152,31 @@ DÉTAIL COMMANDE - ADMIN
                 <span class="detail-value"><?= htmlspecialchars($order['zone_code']) ?></span>
             </div>
             <?php endif; ?>
+            
+            <?php if ($order['status'] === 'Livraison en cours' || $order['status'] === 'Livrée'): ?>
+            <div class="detail-row">
+                <span class="detail-label">Confirmation client:</span>
+                <span class="detail-value">
+                    <?php if ($order['customer_confirmed']): ?>
+                        <span class="status-badge confirmed">
+                            <i class="fas fa-check-circle"></i>
+                            Confirmée le <?= date('d/m/Y à H:i', strtotime($order['customer_confirmed_at'])) ?>
+                        </span>
+                    <?php else: ?>
+                        <span class="status-badge pending">
+                            <i class="fas fa-clock"></i>
+                            En attente de confirmation
+                        </span>
+                    <?php endif; ?>
+                </span>
+            </div>
+            <?php if ($order['customer_confirmed'] && !empty($order['customer_comment'])): ?>
+            <div class="detail-row">
+                <span class="detail-label">Commentaire client:</span>
+                <span class="detail-value"><?= htmlspecialchars($order['customer_comment']) ?></span>
+            </div>
+            <?php endif; ?>
+            <?php endif; ?>
         </div>
     </article>
 </section>

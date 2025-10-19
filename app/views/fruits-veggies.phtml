@@ -24,7 +24,7 @@
 
             <div class="fruit-veggie-grid">
                 <?php foreach ($fruitsVeggies as $fruitVeggie): ?>
-                    <article class="fruit-veggie-card">
+                    <article class="fruit-veggie-card <?= $fruitVeggie['is_available'] == 2 ? 'victim-of-success' : '' ?>">
                         <figure class="fruit-veggie-image">
                             <?php if (!empty($fruitVeggie['image'])): ?>
                                 <img src="<?= htmlspecialchars($fruitVeggie['image']) ?>" 
@@ -33,6 +33,15 @@
                             <?php else: ?>
                                 <div class="fruit-veggie-placeholder">
                                     <i class="fas fa-seedling"></i>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <?php if ($fruitVeggie['is_available'] == 2): ?>
+                                <div class="victim-overlay">
+                                    <div class="victim-message">
+                                        <i class="fas fa-star"></i>
+                                        <span>Victime de son succès</span>
+                                    </div>
                                 </div>
                             <?php endif; ?>
                         </figure>
@@ -50,7 +59,12 @@
                                 </div>
                                 
                                 <div class="fruit-veggie-stock">
-                                    <?php if ($fruitVeggie['stock_quantity'] > 0): ?>
+                                    <?php if ($fruitVeggie['is_available'] == 2): ?>
+                                        <span class="stock-victim">
+                                            <i class="fas fa-star"></i>
+                                            Victime de son succès
+                                        </span>
+                                    <?php elseif ($fruitVeggie['stock_quantity'] > 0): ?>
                                         <span class="stock-available">
                                             <i class="fas fa-check-circle"></i>
                                             En stock
@@ -64,10 +78,17 @@
                                 </div>
                             </div>
                             <div class="menu-actions">
-                                <button class="add-to-cart-btn" data-item-id="<?= $fruitVeggie['id'] ?>">
-                                    <i class="fas fa-shopping-cart"></i>
-                                    Ajouter
-                                </button>
+                                <?php if ($fruitVeggie['is_available'] == 2): ?>
+                                    <button class="add-to-cart-btn disabled" disabled>
+                                        <i class="fas fa-star"></i>
+                                        Victime de son succès
+                                    </button>
+                                <?php else: ?>
+                                    <button class="add-to-cart-btn" data-item-id="<?= $fruitVeggie['id'] ?>">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        Ajouter
+                                    </button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </article>

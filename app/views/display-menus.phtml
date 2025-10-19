@@ -43,6 +43,7 @@ PAGE GESTION DES MENUS - LISTE ET ACTIONS
 <section class="item-stats">
     <div class="stat-card">
         <div class="stat-icon">
+            <i class="fas fa-utensils"></i>
         </div>
         <div class="stat-content">
             <h3><?= $totalMenus ?? 0 ?></h3>
@@ -56,6 +57,15 @@ PAGE GESTION DES MENUS - LISTE ET ACTIONS
         <div class="stat-content">
             <h3><?= count(array_filter($menus, function($menu) { return $menu['is_available'] == 1; })) ?></h3>
             <p>Disponibles</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-star"></i>
+        </div>
+        <div class="stat-content">
+            <h3><?= count(array_filter($menus, function($menu) { return $menu['is_available'] == 2; })) ?></h3>
+            <p>Victimes de succès</p>
         </div>
     </div>
     <div class="stat-card">
@@ -90,10 +100,15 @@ PAGE GESTION DES MENUS - LISTE ET ACTIONS
                         </div>
                         
                         <div class="item-status">
-                            <?php if ($menu['is_available']): ?>
+                            <?php if ($menu['is_available'] == 1): ?>
                                 <span class="status-badge available">
                                     <i class="fas fa-check"></i>
                                     Disponible
+                                </span>
+                            <?php elseif ($menu['is_available'] == 2): ?>
+                                <span class="status-badge victim">
+                                    <i class="fas fa-star"></i>
+                                    Victime de son succès
                                 </span>
                             <?php else: ?>
                                 <span class="status-badge unavailable">

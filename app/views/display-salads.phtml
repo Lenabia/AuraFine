@@ -61,6 +61,15 @@ PAGE GESTION DES SALADES - LISTE ET ACTIONS
     </div>
     <div class="stat-card">
         <div class="stat-icon">
+            <i class="fas fa-star"></i>
+        </div>
+        <div class="stat-content">
+            <h3><?= count(array_filter($salads, function($salad) { return $salad['is_available'] == 2; })) ?></h3>
+            <p>Victimes de succès</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
             <i class="fas fa-times-circle"></i>
         </div>
         <div class="stat-content">
@@ -92,10 +101,15 @@ PAGE GESTION DES SALADES - LISTE ET ACTIONS
                         <?php endif; ?>
                         
                         <div class="item-status">
-                            <?php if ($salad['is_available']): ?>
+                            <?php if ($salad['is_available'] == 1): ?>
                                 <span class="status-badge available">
                                     <i class="fas fa-check"></i>
                                     Disponible
+                                </span>
+                            <?php elseif ($salad['is_available'] == 2): ?>
+                                <span class="status-badge victim">
+                                    <i class="fas fa-star"></i>
+                                    Victime de son succès
                                 </span>
                             <?php else: ?>
                                 <span class="status-badge unavailable">

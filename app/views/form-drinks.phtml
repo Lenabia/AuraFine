@@ -140,18 +140,39 @@ FORMULAIRE CRÉATION/MODIFICATION BOISSON
             </div>
             
             <div class="form-group">
-                <div class="checkbox-group">
-                    <input type="checkbox" 
-                           id="is_available" 
-                           name="is_available" 
-                           value="1"
-                           <?= ($drink['is_available'] ?? $_SESSION['old_input']['is_available'] ?? '1') == '1' ? 'checked' : '' ?>>
-                    <label for="is_available" class="checkbox-label">
-                        <span class="checkbox-custom"></span>
-                        Boisson disponible à la vente
+                <label class="form-label">
+                    <i class="fas fa-toggle-on"></i>
+                    Statut de disponibilité
+                </label>
+                <div class="form-radio-group">
+                    <label class="radio-label">
+                        <input type="radio" 
+                               name="is_available" 
+                               value="1"
+                               <?= (($drink['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) == '1' || (($drink['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) === 1)) ? 'checked' : '' ?>>
+                        <span class="radio-custom"></span>
+                        <span class="radio-text">Disponible à la vente</span>
+                    </label>
+                    
+                    <label class="radio-label">
+                        <input type="radio" 
+                               name="is_available" 
+                               value="2"
+                               <?= (($drink['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) == '2' || (($drink['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) === 2)) ? 'checked' : '' ?>>
+                        <span class="radio-custom"></span>
+                        <span class="radio-text">Victime de son succès</span>
+                    </label>
+                    
+                    <label class="radio-label">
+                        <input type="radio" 
+                               name="is_available" 
+                               value="0"
+                               <?= (($drink['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) == '0' || (($drink['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) === 0)) ? 'checked' : '' ?>>
+                        <span class="radio-custom"></span>
+                        <span class="radio-text">Indisponible (caché)</span>
                     </label>
                 </div>
-                <small class="form-help">Décochez pour désactiver temporairement cette boisson</small>
+                <small class="form-help">Choisissez le statut d'affichage de la boisson</small>
             </div>
         </section>
     </div>

@@ -37,7 +37,7 @@ class Menus extends Database {
                        m.categories_id, m.created_at, m.updated_at, c.name as category_name, c.id as category_id
                 FROM menus m
                 LEFT JOIN categories c ON m.categories_id = c.id
-                WHERE m.is_available = 1 
+                WHERE m.is_available IN (1, 2) 
                 ORDER BY m.created_at DESC";
         
         return $this->findAll($sql);
@@ -60,7 +60,7 @@ class Menus extends Database {
                        m.created_at, m.updated_at, c.name as category_name, c.id as category_id
                 FROM menus m
                 LEFT JOIN categories c ON m.categories_id = c.id
-                WHERE m.categories_id = :category_id AND m.is_available = 1 
+                WHERE m.categories_id = :category_id AND m.is_available IN (1, 2) 
                 ORDER BY m.created_at DESC";
         
         return $this->findAll($sql, ['category_id' => (int)$categoryId]);
@@ -114,7 +114,7 @@ class Menus extends Database {
             'price' => (float)$data['price'],
             'image' => trim($data['image'] ?? ''),
             'categories_id' => (int)($data['categories_id'] ?? 1),
-            'is_available' => isset($data['is_available']) && $data['is_available'] == '1' ? 1 : 0,
+            'is_available' => isset($data['is_available']) ? (int)$data['is_available'] : 0,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ];
@@ -146,7 +146,7 @@ class Menus extends Database {
             'price' => (float)$data['price'],
             'image' => trim($data['image'] ?? ''),
             'categories_id' => (int)($data['categories_id'] ?? 1),
-            'is_available' => isset($data['is_available']) && $data['is_available'] == '1' ? 1 : 0,
+            'is_available' => isset($data['is_available']) ? (int)$data['is_available'] : 0,
             'updated_at' => date('Y-m-d H:i:s'),
             'id' => (int)$id
         ];
@@ -225,7 +225,7 @@ class Menus extends Database {
      * @performance Requête optimisée avec COUNT()
      */
     public function countAvailable() {
-        $sql = "SELECT COUNT(*) as total FROM menus WHERE is_available = 1";
+        $sql = "SELECT COUNT(*) as total FROM menus WHERE is_available IN (1, 2)";
         $result = $this->findOne($sql);
         return (int)($result['total'] ?? 0);
     }
@@ -242,7 +242,7 @@ class Menus extends Database {
             return 0;
         }
         
-        $sql = "SELECT COUNT(*) as total FROM menus WHERE categories_id = :category_id AND is_available = 1";
+        $sql = "SELECT COUNT(*) as total FROM menus WHERE categories_id = :category_id AND is_available IN (1, 2)";
         $result = $this->findOne($sql, ['category_id' => (int)$categoryId]);
         return (int)($result['total'] ?? 0);
     }

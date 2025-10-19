@@ -408,6 +408,12 @@ if(array_key_exists('action', $_GET)):
     $controller->getOrderDetails($id);
     break;
 
+    //confirmation commande par client (AJAX)
+    case 'confirm-order':
+    $controller = new \app\controllers\OrdersController();
+    $controller->confirmOrder();
+    break;
+
     //pages publiques des produits
     case 'salads':
     $controller = new \app\controllers\SaladsController();

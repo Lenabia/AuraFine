@@ -147,19 +147,37 @@ FORMULAIRE CRÉATION/MODIFICATION SALADE
         <div class="form-group">
             <label class="form-label">
                 <i class="fas fa-toggle-on"></i>
-                Disponibilité
+                Statut de disponibilité
             </label>
-            <div class="form-checkbox-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" 
+            <div class="form-radio-group">
+                <label class="radio-label">
+                    <input type="radio" 
                            name="is_available" 
                            value="1" 
                            <?= (($salad['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) == '1' || (($salad['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) === 1)) ? 'checked' : '' ?>>
-                    <span class="checkbox-custom"></span>
-                    <span class="checkbox-text">Salade disponible à la vente</span>
+                    <span class="radio-custom"></span>
+                    <span class="radio-text">Disponible à la vente</span>
+                </label>
+                
+                <label class="radio-label">
+                    <input type="radio" 
+                           name="is_available" 
+                           value="2" 
+                           <?= (($salad['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) == '2' || (($salad['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) === 2)) ? 'checked' : '' ?>>
+                    <span class="radio-custom"></span>
+                    <span class="radio-text">Victime de son succès</span>
+                </label>
+                
+                <label class="radio-label">
+                    <input type="radio" 
+                           name="is_available" 
+                           value="0" 
+                           <?= (($salad['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) == '0' || (($salad['is_available'] ?? ($_SESSION['old_input']['is_available'] ?? '1')) === 0)) ? 'checked' : '' ?>>
+                    <span class="radio-custom"></span>
+                    <span class="radio-text">Indisponible (caché)</span>
                 </label>
             </div>
-            <small class="form-help">Décochez pour désactiver temporairement la salade</small>
+            <small class="form-help">Choisissez le statut d'affichage de la salade</small>
         </div>
         
         <!-- Boutons d'action -->

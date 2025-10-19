@@ -10,15 +10,16 @@
             <p class="page-subtitle">Suivez vos commandes et consultez votre historique</p>
         </header>
 
-        <!-- Bloc commande en cours -->
-        <section class="active-order-section">
+        <!-- Bloc commandes en cours -->
+        <section class="active-orders-section">
             <h2 class="section-title">
                 <i class="fas fa-clock"></i>
-                Commande en cours
+                Commandes en cours
             </h2>
             
-            <?php if ($activeOrder): ?>
-                <div class="active-order-card" id="active-order-card">
+            <?php if (!empty($activeOrders)): ?>
+                <?php foreach ($activeOrders as $activeOrder): ?>
+                <div class="active-order-card" id="active-order-card-<?= $activeOrder['id'] ?>">
                     <!-- Informations de la commande -->
                     <div class="order-info">
                         <div class="order-header">
@@ -71,6 +72,27 @@
                                 </div>
                             </div>
                             
+                            <?php if ($activeOrder['status'] === 'Livraison en cours'): ?>
+                            <div class="confirmation-section">
+                                <div class="confirmation-card">
+                                    <h4><i class="fas fa-check-circle"></i> Confirmer la réception</h4>
+                                    <p>Votre commande est en cours de livraison. Cliquez sur le bouton ci-dessous une fois que vous l'avez reçue.</p>
+                                    <form id="confirm-order-form-<?= $activeOrder['id'] ?>">
+                                        <input type="hidden" name="order_id" value="<?= $activeOrder['id'] ?>">
+                                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
+                                        <div class="form-group">
+                                            <label for="customer_comment">Commentaire (optionnel)</label>
+                                            <textarea name="customer_comment" id="customer_comment" rows="3" placeholder="Laissez un commentaire sur votre commande..."></textarea>
+                                        </div>
+                                        <button type="submit" class="btn-confirm-order">
+                                            <i class="fas fa-check"></i>
+                                            J'ai reçu ma commande
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                            
                             <div class="workflow-step <?= $activeOrder['status'] === 'Livrée' ? 'active completed' : '' ?>">
                                 <div class="step-icon">
                                     <i class="fas fa-check-circle"></i>
@@ -102,6 +124,7 @@
                         </div>
                     </div>
                 </div>
+                <?php endforeach; ?>
             <?php else: ?>
                 <div class="no-active-order">
                     <div class="no-order-icon">
@@ -184,6 +207,72 @@
         </section>
     </div>
 </section>
+
+<script>
+// Gestion de la confirmation de commande
+document.addEventListener('DOMContentLoaded', function() {
+    const confirmForms = document.querySelectorAll('form[id^="confirm-order-form"]');
+    
+    confirmForms.forEach(function(confirmForm) {
+        confirmForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const orderId = formData.get('order_id');
+            const comment = formData.get('customer_comment');
+            
+            // Désactiver le bouton
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Confirmation...';
+            
+            // Envoyer la requête AJAX
+            fetch('index.php?action=confirm-order', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'order_id=' + encodeURIComponent(orderId) + '&customer_comment=' + encodeURIComponent(comment) + '&csrf_token=' + encodeURIComponent(document.getElementById('csrf-token').value)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Afficher un message de succès
+                    if (window.AuraFineUtils && window.AuraFineUtils.showNotification) {
+                        window.AuraFineUtils.showNotification('Commande confirmée avec succès !', 'success');
+                    }
+                    
+                    // Recharger la page pour mettre à jour l'affichage
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    // Afficher un message d'erreur
+                    if (window.AuraFineUtils && window.AuraFineUtils.showNotification) {
+                        window.AuraFineUtils.showNotification(data.message || 'Erreur lors de la confirmation', 'error');
+                    }
+                    
+                    // Réactiver le bouton
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                if (window.AuraFineUtils && window.AuraFineUtils.showNotification) {
+                    window.AuraFineUtils.showNotification('Erreur de connexion', 'error');
+                }
+                
+                // Réactiver le bouton
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            });
+        });
+    });
+});
+</script>
 
 <!-- Modal pour les détails de commande -->
 <div id="orderDetailsModal" class="modal-overlay">

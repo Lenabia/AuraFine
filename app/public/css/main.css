@@ -8158,4 +8158,171 @@ body {
   color: #e91e63;
 }
 
+/* ========================================
+   VICTIM OF SUCCESS STYLES
+   ======================================== */
+/* Styles pour les produits "victime de son succès" */
+.victim-of-success {
+  position: relative;
+}
+.victim-of-success .victim-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  z-index: 2;
+}
+.victim-of-success .victim-overlay .victim-message {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #333;
+  padding: 0.75rem 1.5rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+  animation: pulse-gold 2s infinite;
+}
+.victim-of-success .victim-overlay .victim-message i {
+  margin-right: 0.5rem;
+  color: #ff6b35;
+}
+.victim-of-success {
+  /* Styles pour les boutons désactivés */
+}
+.victim-of-success .btn-add-to-cart.disabled,
+.victim-of-success .add-to-cart-btn.disabled {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #333;
+  cursor: not-allowed;
+  opacity: 0.8;
+  border: 2px solid #ffd700;
+}
+.victim-of-success .btn-add-to-cart.disabled:hover,
+.victim-of-success .add-to-cart-btn.disabled:hover {
+  transform: none;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+.victim-of-success .btn-add-to-cart.disabled i,
+.victim-of-success .add-to-cart-btn.disabled i {
+  color: #ff6b35;
+}
+.victim-of-success {
+  /* Styles pour le statut stock */
+}
+.victim-of-success .stock-victim {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #333;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+.victim-of-success .stock-victim i {
+  color: #ff6b35;
+}
+
+/* Animation pour le message victime */
+@keyframes pulse-gold {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+  }
+}
+/* Styles pour les radio buttons dans les formulaires admin */
+.form-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.form-radio-group .radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.form-radio-group .radio-label:hover {
+  border-color: #cbd5e0;
+  background: #f7fafc;
+}
+.form-radio-group .radio-label input[type=radio] {
+  display: none;
+}
+.form-radio-group .radio-label .radio-custom {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #cbd5e0;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.2s ease;
+}
+.form-radio-group .radio-label .radio-custom::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+.form-radio-group .radio-label input[type=radio]:checked + .radio-custom {
+  border-color: #4299e1;
+  background: #4299e1;
+}
+.form-radio-group .radio-label input[type=radio]:checked + .radio-custom::after {
+  background: white;
+}
+.form-radio-group .radio-label .radio-text {
+  font-weight: 500;
+  color: #2d3748;
+}
+
+/* ========================================
+   ADMIN STATUS BADGES
+   ======================================== */
+/* Badge pour le statut "victime de son succès" dans l'admin */
+.status-badge.victim {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #333;
+  border: 2px solid #ffd700;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+.status-badge.victim i {
+  color: #ff6b35;
+}
+
+/* Styles pour les icônes des statistiques admin */
+.stat-icon i.fa-star {
+  color: #ffd700;
+}
+
+.stat-icon i.fa-check-circle {
+  color: #10b981;
+}
+
+.stat-icon i.fa-times-circle {
+  color: #ef4444;
+}
+
 /*# sourceMappingURL=main.css.map */

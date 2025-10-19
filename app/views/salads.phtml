@@ -24,7 +24,7 @@
 
             <div class="salad-grid">
                 <?php foreach ($salads as $salad): ?>
-                    <article class="salad-card">
+                    <article class="salad-card <?= $salad['is_available'] == 2 ? 'victim-of-success' : '' ?>">
                         <figure class="salad-image">
                             <?php if (!empty($salad['image'])): ?>
                                 <img src="<?= htmlspecialchars($salad['image']) ?>" 
@@ -33,6 +33,15 @@
                             <?php else: ?>
                                 <div class="salad-placeholder">
                                     <i class="fas fa-leaf"></i>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <?php if ($salad['is_available'] == 2): ?>
+                                <div class="victim-overlay">
+                                    <div class="victim-message">
+                                        <i class="fas fa-star"></i>
+                                        <span>Victime de son succès</span>
+                                    </div>
                                 </div>
                             <?php endif; ?>
                         </figure>
@@ -50,7 +59,12 @@
                                 </div>
                                 
                                 <div class="salad-stock">
-                                    <?php if ($salad['stock_quantity'] > 0): ?>
+                                    <?php if ($salad['is_available'] == 2): ?>
+                                        <span class="stock-victim">
+                                            <i class="fas fa-star"></i>
+                                            Victime de son succès
+                                        </span>
+                                    <?php elseif ($salad['stock_quantity'] > 0): ?>
                                         <span class="stock-available">
                                             <i class="fas fa-check-circle"></i>
                                             En stock
@@ -64,10 +78,17 @@
                                 </div>
                             </div>
                             <div class="menu-actions">
-                                <button class="btn-add-to-cart" data-salad-id="<?= $salad['id'] ?>">
-                                    <i class="fas fa-plus"></i>
-                                    Ajouter au panier
-                                </button>
+                                <?php if ($salad['is_available'] == 2): ?>
+                                    <button class="btn-add-to-cart disabled" disabled>
+                                        <i class="fas fa-star"></i>
+                                        Victime de son succès
+                                    </button>
+                                <?php else: ?>
+                                    <button class="btn-add-to-cart" data-salad-id="<?= $salad['id'] ?>">
+                                        <i class="fas fa-plus"></i>
+                                        Ajouter au panier
+                                    </button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </article>

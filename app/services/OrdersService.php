@@ -172,6 +172,31 @@ class OrdersService {
         return $ok;
     }
 
+    /**
+     * Confirme une commande par le client
+     * 
+     * @param int $orderId ID de la commande
+     * @param int $userId ID de l'utilisateur
+     * @param string $comment Commentaire optionnel du client
+     * @return bool Succès de la confirmation
+     */
+    public function confirmOrderByCustomer(int $orderId, int $userId, string $comment = ''): bool {
+        $success = $this->ordersModel->confirmOrderByCustomer($orderId, $userId, $comment);
+        
+        if ($success) {
+            // Appliquer les points de fidélité après confirmation client
+            try {
+                $order = $this->getOrderById($orderId);
+                if ($order) {
+                    $this->applyLoyaltyPoints($order);
+                }
+            } catch (\Throwable $e) {
+                error_log('confirmOrderByCustomer/applyLoyaltyPoints error: ' . $e->getMessage());
+            }
+        }
+        
+        return $success;
+    }
 
     /**
      * Récupère les commandes avec filtres
@@ -439,20 +464,20 @@ class OrdersService {
     }
 
     /**
-     * Récupère la commande active d'un utilisateur (en cours)
+     * Récupère toutes les commandes actives d'un utilisateur (en cours)
      * 
      * @param int $userId ID de l'utilisateur
-     * @return array|null Commande active avec détails
+     * @return array Commandes actives avec détails
      */
-    public function getActiveOrderByUserId(int $userId): ?array {
-        $order = $this->ordersModel->getActiveOrderByUserId($userId);
+    public function getActiveOrdersByUserId(int $userId): array {
+        $orders = $this->ordersModel->getActiveOrdersByUserId($userId);
         
-        if ($order) {
-            // Récupérer les détails de la commande
+        // Enrichir chaque commande avec ses détails
+        foreach ($orders as &$order) {
             $order['details'] = $this->getOrderDetails($order['id']);
         }
         
-        return $order;
+        return $orders;
     }
 
     /**
