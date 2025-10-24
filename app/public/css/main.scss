@@ -67,7 +67,7 @@ $bp: (
   xxxl: 1440px,
   // desktop XL
   uhd: 1600px
-    // très grands écrans,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+    // très grands écrans,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 );
 @mixin up($key) {
   @media (min-width: map.get($bp, $key)) {
@@ -3647,19 +3647,19 @@ body {
     z-index: 2;
 
     .victim-message {
-      background: linear-gradient(135deg, #ffd700, #ffed4e);
-      color: #333;
+      background: linear-gradient(135deg, $color-rose, $color-rose-light);
+      color: #ffffff;
       padding: 0.75rem 1.5rem;
       border-radius: 2rem;
       font-weight: 600;
       font-size: 0.9rem;
       text-align: center;
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-      animation: pulse-gold 2s infinite;
+      box-shadow: 0 4px 15px rgba($color-rose, 0.4);
+      animation: pulse-rose 2s infinite;
 
       i {
         margin-right: 0.5rem;
-        color: #ff6b35;
+        color: #ffffff;
       }
     }
   }
@@ -3667,26 +3667,26 @@ body {
   /* Styles pour les boutons désactivés */
   .btn-add-to-cart.disabled,
   .add-to-cart-btn.disabled {
-    background: linear-gradient(135deg, #ffd700, #ffed4e);
-    color: #333;
+    background: linear-gradient(135deg, $color-rose, $color-rose-light);
+    color: #ffffff;
     cursor: not-allowed;
     opacity: 0.8;
-    border: 2px solid #ffd700;
+    border: 2px solid $color-rose;
 
     &:hover {
       transform: none;
-      box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+      box-shadow: 0 2px 8px rgba($color-rose, 0.3);
     }
 
     i {
-      color: #ff6b35;
+      color: #ffffff;
     }
   }
 
   /* Styles pour le statut stock */
   .stock-victim {
-    background: linear-gradient(135deg, #ffd700, #ffed4e);
-    color: #333;
+    background: linear-gradient(135deg, $color-rose, $color-rose-light);
+    color: #ffffff;
     padding: 0.25rem 0.75rem;
     border-radius: 1rem;
     font-size: 0.8rem;
@@ -3694,24 +3694,24 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 2px 8px rgba($color-rose, 0.3);
 
     i {
-      color: #ff6b35;
+      color: #ffffff;
     }
   }
 }
 
 /* Animation pour le message victime */
-@keyframes pulse-gold {
+@keyframes pulse-rose {
   0%,
   100% {
     transform: scale(1);
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 4px 15px rgba($color-rose, 0.4);
   }
   50% {
     transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+    box-shadow: 0 6px 20px rgba($color-rose, 0.6);
   }
 }
 
@@ -3784,13 +3784,13 @@ body {
 
 /* Badge pour le statut "victime de son succès" dans l'admin */
 .status-badge.victim {
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
-  color: #333;
-  border: 2px solid #ffd700;
-  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+  background: linear-gradient(135deg, $color-rose, $color-rose-light);
+  color: #ffffff;
+  border: 2px solid $color-rose;
+  box-shadow: 0 2px 8px rgba($color-rose, 0.3);
 
   i {
-    color: #ff6b35;
+    color: #ffffff;
   }
 }
 

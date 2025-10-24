@@ -8179,46 +8179,46 @@ body {
   z-index: 2;
 }
 .victim-of-success .victim-overlay .victim-message {
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
-  color: #333;
+  background: linear-gradient(135deg, #e91e63, #f8bbd9);
+  color: #ffffff;
   padding: 0.75rem 1.5rem;
   border-radius: 2rem;
   font-weight: 600;
   font-size: 0.9rem;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-  animation: pulse-gold 2s infinite;
+  box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+  animation: pulse-rose 2s infinite;
 }
 .victim-of-success .victim-overlay .victim-message i {
   margin-right: 0.5rem;
-  color: #ff6b35;
+  color: #ffffff;
 }
 .victim-of-success {
   /* Styles pour les boutons désactivés */
 }
 .victim-of-success .btn-add-to-cart.disabled,
 .victim-of-success .add-to-cart-btn.disabled {
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
-  color: #333;
+  background: linear-gradient(135deg, #e91e63, #f8bbd9);
+  color: #ffffff;
   cursor: not-allowed;
   opacity: 0.8;
-  border: 2px solid #ffd700;
+  border: 2px solid #e91e63;
 }
 .victim-of-success .btn-add-to-cart.disabled:hover,
 .victim-of-success .add-to-cart-btn.disabled:hover {
   transform: none;
-  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(233, 30, 99, 0.3);
 }
 .victim-of-success .btn-add-to-cart.disabled i,
 .victim-of-success .add-to-cart-btn.disabled i {
-  color: #ff6b35;
+  color: #ffffff;
 }
 .victim-of-success {
   /* Styles pour le statut stock */
 }
 .victim-of-success .stock-victim {
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
-  color: #333;
+  background: linear-gradient(135deg, #e91e63, #f8bbd9);
+  color: #ffffff;
   padding: 0.25rem 0.75rem;
   border-radius: 1rem;
   font-size: 0.8rem;
@@ -8226,21 +8226,21 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(233, 30, 99, 0.3);
 }
 .victim-of-success .stock-victim i {
-  color: #ff6b35;
+  color: #ffffff;
 }
 
 /* Animation pour le message victime */
-@keyframes pulse-gold {
+@keyframes pulse-rose {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
   }
   50% {
     transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.6);
   }
 }
 /* Styles pour les radio buttons dans les formulaires admin */
@@ -8303,13 +8303,13 @@ body {
    ======================================== */
 /* Badge pour le statut "victime de son succès" dans l'admin */
 .status-badge.victim {
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
-  color: #333;
-  border: 2px solid #ffd700;
-  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+  background: linear-gradient(135deg, #e91e63, #f8bbd9);
+  color: #ffffff;
+  border: 2px solid #e91e63;
+  box-shadow: 0 2px 8px rgba(233, 30, 99, 0.3);
 }
 .status-badge.victim i {
-  color: #ff6b35;
+  color: #ffffff;
 }
 
 /* Styles pour les icônes des statistiques admin */

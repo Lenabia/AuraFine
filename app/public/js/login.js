@@ -92,35 +92,40 @@ const LoginManager = {
    * Configure l'affichage/masquage du mot de passe
    */
   setupPasswordToggle: () => {
-    const togglePasswordBtn = document.querySelector(".auth-toggle-pass");
-    const passwordInput = document.querySelector("#auth-password");
+    const togglePasswordBtns = document.querySelectorAll(".auth-toggle-pass");
 
-    if (togglePasswordBtn && passwordInput) {
-      togglePasswordBtn.addEventListener("click", function (e) {
-        e.preventDefault();
+    togglePasswordBtns.forEach((btn) => {
+      const passwordInput = btn.parentElement.querySelector(
+        'input[type="password"], input[type="text"]'
+      );
 
-        const type =
-          passwordInput.getAttribute("type") === "password"
-            ? "text"
-            : "password";
-        passwordInput.setAttribute("type", type);
+      if (passwordInput) {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
 
-        // Mise à jour de l'icône et de l'état
-        const icon = this.querySelector("i");
-        const isVisible = type === "text";
+          const type =
+            passwordInput.getAttribute("type") === "password"
+              ? "text"
+              : "password";
+          passwordInput.setAttribute("type", type);
 
-        if (icon) {
-          icon.className = isVisible ? "fas fa-eye-slash" : "fas fa-eye";
-        }
+          // Mise à jour de l'icône et de l'état
+          const icon = this.querySelector("i");
+          const isVisible = type === "text";
 
-        // Mise à jour des attributs d'accessibilité
-        this.setAttribute("aria-pressed", isVisible.toString());
-        this.setAttribute(
-          "aria-label",
-          isVisible ? "Masquer le mot de passe" : "Afficher le mot de passe"
-        );
-      });
-    }
+          if (icon) {
+            icon.className = isVisible ? "fas fa-eye-slash" : "fas fa-eye";
+          }
+
+          // Mise à jour des attributs d'accessibilité
+          this.setAttribute("aria-pressed", isVisible.toString());
+          this.setAttribute(
+            "aria-label",
+            isVisible ? "Masquer le mot de passe" : "Afficher le mot de passe"
+          );
+        });
+      }
+    });
   },
 
   /**

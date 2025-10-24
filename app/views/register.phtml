@@ -106,6 +106,7 @@
             <div class="auth-error" aria-live="polite"><?= $errors['neighborhoods_id'] ?? '' ?></div>
           </div>
 
+
           <!-- Adresse -->
           <div class="auth-field">
             <label for="auth-address" class="auth-label">Adresse</label>
@@ -147,7 +148,7 @@
             class="auth-input" 
             autocomplete="tel" 
             placeholder="771234567" 
-            value="<?= htmlspecialchars(preg_replace('/^\+221/', '', $old['phone'] ?? '')) ?>"
+            value="<?= htmlspecialchars($old['phone_suffix'] ?? '') ?>"
             maxlength="9"
             style="border-radius: 0 8px 8px 0; border-left: none;"
             required
@@ -246,6 +247,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedCityId = citySelect.value;
         if (selectedCityId) {
             loadNeighborhoods(selectedCityId);
+            
+            // Si un quartier était sélectionné avant l'erreur, le restaurer
+            <?php if (!empty($old['neighborhoods_id'])): ?>
+            setTimeout(() => {
+                const neighborhoodSelect = document.getElementById('auth-neighborhood');
+                if (neighborhoodSelect) {
+                    neighborhoodSelect.value = '<?= $old['neighborhoods_id'] ?? '' ?>';
+                }
+            }, 800); // Délai plus long pour s'assurer que les quartiers sont chargés
+            <?php endif; ?>
         }
     }
 });
