@@ -139,6 +139,32 @@
     });
   }
 
+  // Vider tous les champs du formulaire de livraison
+  function clearDeliveryForm() {
+    // Utiliser les fonctions existantes
+    clearErrorMessages();
+    clearNeighborhoods();
+
+    // Vider les autres champs
+    var fieldsToClear = [
+      "first_name",
+      "last_name",
+      "phone",
+      "phone_suffix",
+      "email",
+      "address_line",
+      "delivery_comment",
+    ];
+    fieldsToClear.forEach(function (fieldName) {
+      var field = document.querySelector('[name="' + fieldName + '"]');
+      if (field) field.value = "";
+    });
+
+    // Réinitialiser la ville
+    var citySelect = document.getElementById("cities_id");
+    if (citySelect) citySelect.selectedIndex = 0;
+  }
+
   function post(url, data) {
     var form = new URLSearchParams();
     Object.keys(data).forEach(function (k) {
@@ -796,6 +822,9 @@
 
           // Mettre à jour le badge du panier
           updateBadge(0);
+
+          // Nettoyer les champs du formulaire de livraison
+          clearDeliveryForm();
 
           // Mettre à jour l'affichage du solde de fidélité
           if (data.new_loyalty_balance !== undefined) {

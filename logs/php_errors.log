@@ -1229,3 +1229,228 @@ Stack trace:
 [25-Oct-2025 05:43:02 Africa/Dakar] displayHome - Session user: NOT SET
 [25-Oct-2025 05:43:02 Africa/Dakar] Aucune action fournie
 [25-Oct-2025 05:43:14 Africa/Dakar] Aucune action fournie
+[25-Oct-2025 15:28:24 Africa/Dakar] Aucune action fournie
+[25-Oct-2025 15:28:37 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:28:37 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:51:39 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:51:39 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:51:40 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:51:40 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:51:40 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:51:40 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:51:40 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:51:40 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:51:43 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:51:43 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:51:43 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:51:43 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:51:54 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:51:54 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:00 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:00 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:00 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:00 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:06 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:06 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:08 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:08 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:13 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:13 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:14 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:14 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:17 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:17 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:26 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:26 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:27 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:27 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:41 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:41 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:41 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:41 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:47 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:47 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 15:52:47 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 15:52:47 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 16:58:22 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 16:58:22 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 16:58:22 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 16:58:22 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 16:58:27 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 16:58:27 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 16:58:27 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 16:58:27 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:02:26 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:02:26 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:02:47 Africa/Dakar] DEBUG: Route admin-orders détectée
+[25-Oct-2025 17:02:47 Africa/Dakar] DEBUG: listOrders() appelé - Session user: NON
+[25-Oct-2025 17:02:47 Africa/Dakar] DEBUG: checkAdmin() - Session user: NON
+[25-Oct-2025 17:02:47 Africa/Dakar] DEBUG: checkAdmin() - Redirection vers accesDenied
+[25-Oct-2025 17:02:47 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:02:47 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:02:55 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:02:55 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:02:55 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:02:55 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:02:58 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:02:58 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:06:11 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:06:11 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:07:25 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:07:25 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:08:06 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:08:06 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:08:09 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:08:09 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:08:15 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:08:15 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:08:22 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:08:22 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:08:26 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:08:26 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:08:42 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:08:42 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:08:45 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:08:45 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:09:24 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:09:24 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:09:25 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:09:25 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:09:25 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:09:25 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:11:44 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:11:44 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:13:50 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:13:50 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:13:50 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:13:50 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:14:35 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:14:35 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:14:35 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:14:35 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:14:39 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:14:39 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:14:48 Africa/Dakar] DEBUG: Route admin-orders détectée
+[25-Oct-2025 17:14:48 Africa/Dakar] DEBUG: listOrders() appelé - Session user: NON
+[25-Oct-2025 17:14:48 Africa/Dakar] DEBUG: checkAdmin() - Session user: NON
+[25-Oct-2025 17:14:48 Africa/Dakar] DEBUG: checkAdmin() - Redirection vers accesDenied
+[25-Oct-2025 17:14:49 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:14:49 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:14:54 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:14:54 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:14:54 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:14:54 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:14:56 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[25-Oct-2025 17:14:56 Africa/Dakar] DEBUG: checkAdmin() - Session user: NO_SESSION
+[25-Oct-2025 17:14:56 Africa/Dakar] DEBUG: checkAdmin() - Redirection vers accesDenied
+[25-Oct-2025 17:14:56 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:14:56 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:17:19 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[25-Oct-2025 17:17:19 Africa/Dakar] DEBUG: checkAdmin() - Session user: NO_SESSION
+[25-Oct-2025 17:17:19 Africa/Dakar] DEBUG: checkAdmin() - Redirection vers accesDenied
+[25-Oct-2025 17:17:22 Africa/Dakar] DEBUG: Route admin-orders détectée
+[25-Oct-2025 17:17:22 Africa/Dakar] DEBUG: listOrders() appelé - Session user: NON
+[25-Oct-2025 17:17:22 Africa/Dakar] DEBUG: checkAdmin() - Session user: NON
+[25-Oct-2025 17:17:22 Africa/Dakar] DEBUG: checkAdmin() - Redirection vers accesDenied
+[25-Oct-2025 17:23:37 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[25-Oct-2025 17:23:37 Africa/Dakar] DEBUG: checkAdmin() - Session user: NO_SESSION
+[25-Oct-2025 17:23:37 Africa/Dakar] DEBUG: checkAdmin() - Redirection vers accesDenied
+[25-Oct-2025 17:23:45 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[25-Oct-2025 17:23:48 Africa/Dakar] DEBUG: Route admin-orders détectée
+[25-Oct-2025 17:23:48 Africa/Dakar] DEBUG: listOrders() appelé - Session user: NON
+[25-Oct-2025 17:23:48 Africa/Dakar] DEBUG: checkAdmin() - Session user: NON
+[25-Oct-2025 17:23:48 Africa/Dakar] DEBUG: checkAdmin() - Redirection vers accesDenied
+[25-Oct-2025 17:24:03 Africa/Dakar] DEBUG: Route admin-orders détectée
+[25-Oct-2025 17:24:04 Africa/Dakar] DEBUG: listOrders() appelé - Session user: NON
+[25-Oct-2025 17:24:04 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[25-Oct-2025 17:24:04 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:24:04 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:24:08 Africa/Dakar] PHP Fatal error:  Access level to app\controllers\SaladsController::checkAdminAccess() must be protected (as in class app\middleware\Middleware) or weaker in /Applications/MAMP/htdocs/AuraFine/app/controllers/SaladsController.php on line 27
+[25-Oct-2025 17:24:18 Africa/Dakar] PHP Fatal error:  Access level to app\controllers\SaladsController::checkAdminAccess() must be protected (as in class app\middleware\Middleware) or weaker in /Applications/MAMP/htdocs/AuraFine/app/controllers/SaladsController.php on line 27
+[25-Oct-2025 17:24:26 Africa/Dakar] PHP Fatal error:  Declaration of app\controllers\SaladsController::checkAdminAccess() must be compatible with app\middleware\Middleware::checkAdminAccess(): void in /Applications/MAMP/htdocs/AuraFine/app/controllers/SaladsController.php on line 27
+[25-Oct-2025 17:24:36 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:24:36 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:24:39 Africa/Dakar] DEBUG: Route admin-orders détectée
+[25-Oct-2025 17:24:39 Africa/Dakar] DEBUG: listOrders() appelé - Session user: NON
+[25-Oct-2025 17:24:39 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:24:39 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:24:43 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:24:43 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:24:43 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:24:43 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:24:44 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[25-Oct-2025 17:24:44 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:24:44 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:24:47 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:24:47 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:24:48 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:24:48 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:25:00 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[25-Oct-2025 17:25:04 Africa/Dakar] DEBUG: Route admin-orders détectée
+[25-Oct-2025 17:25:04 Africa/Dakar] DEBUG: listOrders() appelé - Session user: NON
+[25-Oct-2025 17:25:04 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[25-Oct-2025 17:25:41 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:25:41 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:25:43 Africa/Dakar] DEBUG: Route admin-orders détectée
+[25-Oct-2025 17:25:43 Africa/Dakar] DEBUG: listOrders() appelé - Session user: NON
+[25-Oct-2025 17:25:44 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:25:44 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:25:48 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:25:48 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:25:48 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:25:48 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:25:50 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:25:50 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:25:52 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:25:52 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:25:52 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:25:52 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:25:53 Africa/Dakar] DEBUG: AdminUsersController::listUsers() appelé
+[25-Oct-2025 17:25:54 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:25:54 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:25:55 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:25:55 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:25:55 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:25:55 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:26:11 Africa/Dakar] Action non reconnue: NULL
+[25-Oct-2025 17:26:11 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:26:11 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:26:11 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:26:11 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:26:22 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:26:22 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:26:30 Africa/Dakar] DEBUG: Route admin-orders détectée
+[25-Oct-2025 17:26:30 Africa/Dakar] DEBUG: listOrders() appelé - Session user: NON
+[25-Oct-2025 17:26:30 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[25-Oct-2025 17:26:30 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:26:30 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:27:21 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:27:21 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:27:22 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:27:22 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:27:27 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:27:27 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:30:13 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:30:13 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:30:20 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:30:20 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:30:23 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:30:23 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:30:29 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:30:29 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:31:03 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:31:03 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:35:13 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:35:13 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:35:52 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:35:52 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:35:59 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:35:59 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:40:14 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:40:14 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:40:15 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:40:15 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:40:50 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:40:50 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:40:56 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:40:56 Africa/Dakar] displayHome - Session user: NOT SET

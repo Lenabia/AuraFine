@@ -37,7 +37,7 @@
           <span class="cart-count">0</span>
         </a>
         
-        <?php if (isset($_SESSION['user']) && (strtolower($_SESSION['user']['role']) === 'user' || $_SESSION['user']['role'] == 'user')): ?>
+        <?php if (!PUBLIC_MODE && isset($_SESSION['user']) && (strtolower($_SESSION['user']['role']) === 'user' || $_SESSION['user']['role'] == 'user')): ?>
           <!-- Utilisateur connecté avec rôle user -->
           <button type="button" class="btn-login" aria-label="Se déconnecter" onclick="showLogoutModal()">
             <i class="fas fa-sign-out-alt"></i>
@@ -76,12 +76,18 @@
             <span class="loyalty-number"><?= number_format($lpAmount, 0, ',', ' ') ?> FCFA</span>
           </span>
           
-        <?php else: ?>
+        <?php elseif (!PUBLIC_MODE): ?>
           <!-- Utilisateur non connecté - Structure inchangée -->
           <a href="index.php?action=login" class="btn-login" aria-label="Se connecter">
             <i class="fas fa-user"></i>
             <span>Connexion</span>
           </a>
+          <button class="phone-btn">
+            <i class="fas fa-phone"></i>
+            +221-77-473-13-87
+          </button>
+        <?php else: ?>
+          <!-- Mode public - Afficher seulement le bouton téléphone -->
           <button class="phone-btn">
             <i class="fas fa-phone"></i>
             +221-77-473-13-87
@@ -226,6 +232,7 @@
   </div>
 </div>
 
+<?php if (!PUBLIC_MODE): ?>
 <div id="loginPromptModal" class="modal-overlay">
   <div class="modal-container">
     <div class="modal-header">
@@ -241,6 +248,7 @@
     </div>
   </div>
 </div>
+<?php endif; ?>
 
 <div id="logoutModal" class="modal-overlay">
   <div class="modal-container">
@@ -259,6 +267,10 @@
 </div>
 
 <!-- Scripts -->
+<script>
+// Variables globales pour le mode public
+var PUBLIC_MODE = <?= PUBLIC_MODE ? 'true' : 'false' ?>;
+</script>
 <script src="<?= BASE_URL ?>/app/public/js/card.js" defer></script>
 <script src="<?= BASE_URL ?>/app/public/js/script.js" defer></script>
 <script src="<?= BASE_URL ?>/app/public/js/salad.js" defer></script>

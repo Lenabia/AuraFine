@@ -239,4 +239,25 @@ protected function generateCSRFToken() {
 protected function verifyCSRFToken($token) {
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
+
+/**
+ * Vérifie l'accès administrateur (mode normal ou mode public avec clé)
+ * 
+ * @return void Redirige vers accesDenied si l'accès est refusé
+ * 
+ * @security Gère l'accès admin en mode public et mode normal
+ */
+protected function checkAdminAccess(): void {
+    // En mode public, vérifier la clé d'accès admin
+    if (PUBLIC_MODE && !ADMIN_MODE) {
+        $this->redirectTo('accesDenied');
+        return;
+    }
+    
+    // En mode normal, vérifier la session utilisateur admin
+    if (!PUBLIC_MODE && (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin')) {
+        $this->redirectTo('accesDenied');
+        return;
+    }
+}
 }

@@ -27,7 +27,11 @@ class PanierController extends Middleware {
     }
 
     private function isGuest(): bool {
-        return !$this->requireUserRole();
+        return PUBLIC_MODE || !$this->requireUserRole();
+    }
+
+    private function canUseLoyaltyPoints(): bool {
+        return !PUBLIC_MODE && $this->requireUserRole();
     }
 
     private function getGuestCart(): array {
@@ -594,6 +598,9 @@ class PanierController extends Middleware {
             // Vider le panier
             if ($isGuest) {
                 $this->setGuestCart([]);
+                // Nettoyer les données de livraison invitées
+                unset($_SESSION['guest_delivery']);
+                unset($_SESSION['guest_delivery_confirmed']);
             } else {
                 $this->cartModel->clearCart($userId);
             }

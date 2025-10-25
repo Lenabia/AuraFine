@@ -15,6 +15,22 @@ require('app/config/config.php');
 // Démarrer la session APRÈS la configuration
 session_start();
 
+// Gestion du mode public
+if (PUBLIC_MODE) {
+    $blockedRoutes = [
+        'login', 'register', 'forgot-password', 'reset-password',
+        'users-profile', 'users-profile-update', 'users-profile-delete',
+        'referral', 'my-orders', 'loginWithGoogle', 'google-callback'
+    ];
+    
+    if (isset($_GET['action']) && in_array($_GET['action'], $blockedRoutes)) {
+        http_response_code(404);
+        include 'app/views/error404.phtml';
+        exit;
+    }
+}
+
+
 //gérer les erreurs
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -559,11 +575,8 @@ if(array_key_exists('action', $_GET)):
 
 //si absence de clé action par défaut 
 else:
-  // Log seulement en développement
-  if (($_ENV['APP_ENV'] ?? 'development') === 'development') {
-      error_log('Aucune action fournie');
-  }
-  http_response_code(404);
-  include 'app/views/error404.phtml';
+  // Rediriger vers la page d'accueil par défaut
+  $controller = new \app\controllers\UsersController();
+  $controller->displayHome();
   exit;
 endif;

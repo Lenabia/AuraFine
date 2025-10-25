@@ -24,10 +24,9 @@ class DrinksController extends Middleware {
      * 
      * @security Protection contre l'accès non autorisé
      */
-    private function checkAdminAccess() {
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            $this->redirectTo('accesDenied');
-        }
+    protected function checkAdminAccess(): void {
+        // Utiliser la méthode centralisée du Middleware
+        parent::checkAdminAccess();
     }
     
     /**

@@ -15,12 +15,8 @@ class AdminUsersController extends Middleware {
     }
 
     private function checkAdmin(): void {
-        error_log("DEBUG: checkAdmin() - Session user: " . print_r($_SESSION['user'] ?? 'NO_SESSION', true));
-        if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'admin') {
-            error_log("DEBUG: checkAdmin() - Redirection vers accesDenied");
-            $this->redirectTo('accesDenied');
-        }
-        error_log("DEBUG: checkAdmin() - OK, utilisateur admin");
+        // Utiliser la méthode centralisée du Middleware
+        $this->checkAdminAccess();
     }
 
     public function listUsers(): void {

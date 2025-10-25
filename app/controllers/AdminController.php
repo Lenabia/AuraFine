@@ -8,11 +8,8 @@ use app\middleware\Middleware;
 class AdminController extends Middleware {
 
     public function displayAdminHome() {
-        // Vérifier que l'utilisateur est admin
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: index.php?action=login');
-            exit;
-        }
+        // Vérifier l'accès admin (mode normal ou mode public avec clé)
+        $this->checkAdminAccess();
         
         // Variables pour la page (à remplacer par des données BDD)
         $pageTitle = 'Dashboard';
@@ -108,10 +105,8 @@ class AdminController extends Middleware {
      * @security Vérification du rôle admin
      */
     public function displayCatalogue() {
-        // Vérifier que l'utilisateur est admin
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            $this->redirectTo('accesDenied');
-        }
+        // Vérifier l'accès admin (mode normal ou mode public avec clé)
+        $this->checkAdminAccess();
         
         $this->render("catalogue.phtml", "admin-layout.phtml", [
             'pageTitle' => 'Catalogue',

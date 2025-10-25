@@ -12,9 +12,8 @@ class DeliveryController extends Middleware {
     }
 
     private function checkAdmin() {
-        if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'admin') {
-            $this->redirectTo('accesDenied');
-        }
+        // Utiliser la méthode centralisée du Middleware
+        $this->checkAdminAccess();
     }
 
     /* =========================

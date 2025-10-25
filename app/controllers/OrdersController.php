@@ -21,17 +21,8 @@ class OrdersController extends Middleware {
      * Vérifie que l'utilisateur est admin
      */
     private function checkAdmin(): void {
-        error_log('DEBUG: checkAdmin() - Session user: ' . (isset($_SESSION['user']) ? 'OUI' : 'NON'));
-        if (isset($_SESSION['user'])) {
-            error_log('DEBUG: checkAdmin() - Role: ' . ($_SESSION['user']['role'] ?? 'NULL'));
-        }
-        
-        if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? '') !== 'admin') {
-            error_log('DEBUG: checkAdmin() - Redirection vers accesDenied');
-            $this->redirectTo('accesDenied');
-        }
-        
-        error_log('DEBUG: checkAdmin() - Admin vérifié avec succès');
+        // Utiliser la méthode centralisée du Middleware
+        $this->checkAdminAccess();
     }
 
     /**
