@@ -18,3 +18,57 @@ node_modules
 node_modules
 .env
 .env*
+
+# ============================================
+# 🛡️ Sécurité - fichiers sensibles
+# ============================================
+.env
+.env.*
+*.env
+.htaccess
+google.php
+config.php
+phpmailer.php
+EmailService.php
+UsersController.php
+# Sauvegardes et fichiers temporaires
+*.bak
+*.backup
+*.tmp
+*.old
+*~ 
+
+# ============================================
+# 🔒 Fichiers système / IDE
+# ============================================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ============================================
+# 🧩 Dépendances & Build
+# ============================================
+vendor/
+node_modules/
+composer.lock
+package-lock.json
+
+# ============================================
+# 🗂️ Logs & caches
+# ============================================
+*.log
+logs/
+storage/
+cache/
+tmp/
+sessions/
+
+# ============================================
+# 🧰 Autres protections web
+# ============================================
+/app/config/
+app/config/*.php
+public/uploads/
