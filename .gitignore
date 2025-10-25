@@ -16,3 +16,11 @@ tmp/
 Thumbs.db
 node_modules
 node_modules
+.env
+.env.*
+config.php
+google.php
+phpmailer.php
+EmailService.php
+UsersController.php
+.htaccess
