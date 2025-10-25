@@ -443,6 +443,12 @@
     var form = document.getElementById("delivery-choice-form");
     if (!form) return;
 
+    // Empêcher la soumission native du formulaire et utiliser JavaScript
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      saveDeliveryChoice();
+    });
+
     // Gestion du changement de ville
     var citySelect = document.getElementById("cities_id");
     if (citySelect && citySelect.tagName === "SELECT") {

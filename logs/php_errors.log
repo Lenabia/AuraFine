@@ -1454,3 +1454,25 @@ Stack trace:
 [25-Oct-2025 17:40:50 Africa/Dakar] displayHome - Session user: NOT SET
 [25-Oct-2025 17:40:56 Africa/Dakar] displayHome - Session status: 2
 [25-Oct-2025 17:40:56 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:55:37 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:55:37 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:56:42 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:56:42 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:56:43 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:56:43 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:57:09 Africa/Dakar] Action non reconnue: NULL
+[25-Oct-2025 17:57:09 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:57:09 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:57:09 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:57:09 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:57:18 Africa/Dakar] DEBUG: Route admin-orders détectée
+[25-Oct-2025 17:57:18 Africa/Dakar] DEBUG: listOrders() appelé - Session user: NON
+[25-Oct-2025 17:57:18 Africa/Dakar] DEBUG: Filtres reçus: {"status":"","date_from":"","date_to":"","sort":"order_date","direction":"DESC"}
+[25-Oct-2025 17:57:18 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:57:18 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:57:31 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:57:31 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:57:34 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:57:34 Africa/Dakar] displayHome - Session user: NOT SET
+[25-Oct-2025 17:57:34 Africa/Dakar] displayHome - Session status: 2
+[25-Oct-2025 17:57:34 Africa/Dakar] displayHome - Session user: NOT SET
