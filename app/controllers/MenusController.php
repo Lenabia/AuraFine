@@ -1,7 +1,7 @@
 <?php
 namespace app\controllers;
 
-use app\Models\Menus;
+use app\models\Menus;
 use app\middleware\Middleware;
 
 /**

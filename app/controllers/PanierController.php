@@ -1,11 +1,11 @@
 <?php
 namespace app\controllers;
 
-use app\Models\Panier;
-use app\Models\Delivery;
-use app\Models\Users;
-use app\Models\Orders;
-use app\Models\OrdersDetail;
+use app\models\Panier;
+use app\models\Delivery;
+use app\models\Users;
+use app\models\Orders;
+use app\models\OrdersDetail;
 use app\services\OrdersService;
 use app\middleware\Middleware;
 

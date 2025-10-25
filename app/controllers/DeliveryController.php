@@ -1,7 +1,7 @@
 <?php
 namespace app\controllers;
 
-use app\Models\Delivery;
+use app\models\Delivery;
 use app\middleware\Middleware;
 
 class DeliveryController extends Middleware {

@@ -15,8 +15,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="app/public/css/main.css" rel="stylesheet" />
-    <link href="app/public/css/panier.css" rel="stylesheet" />
+    <link href="<?= BASE_URL ?>/app/public/css/main.css" rel="stylesheet" />
+    <link href="<?= BASE_URL ?>/app/public/css/panier.css" rel="stylesheet" />
     <?php if (!isset($_SESSION['csrf_token'])) { $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); } ?>
     <meta name="csrf-token" content="<?= htmlspecialchars($_SESSION['csrf_token']) ?>" />
 
@@ -259,13 +259,13 @@
 </div>
 
 <!-- Scripts -->
-<script src="/app/public/js/card.js" defer></script>
-<script src="/app/public/js/script.js" defer></script>
-<script src="/app/public/js/salad.js" defer></script>
-<script src="/app/public/js/login.js" defer></script>
-<script src="/app/public/js/menus.js" defer></script>
-<script src="/app/public/js/modal.js"></script>
-<script src="/app/public/js/panier.js" defer></script>
+<script src="<?= BASE_URL ?>/app/public/js/card.js" defer></script>
+<script src="<?= BASE_URL ?>/app/public/js/script.js" defer></script>
+<script src="<?= BASE_URL ?>/app/public/js/salad.js" defer></script>
+<script src="<?= BASE_URL ?>/app/public/js/login.js" defer></script>
+<script src="<?= BASE_URL ?>/app/public/js/menus.js" defer></script>
+<script src="<?= BASE_URL ?>/app/public/js/modal.js"></script>
+<script src="<?= BASE_URL ?>/app/public/js/panier.js" defer></script>
 
 </body>
 </html>

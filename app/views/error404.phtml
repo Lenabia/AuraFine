@@ -1,0 +1,112 @@
+<!-- Page d'erreur 404 -->
+<section class="error-section">
+  <div class="error-container">
+    <div class="error-content">
+      <h1>404</h1>
+      <h2>Page non trouvée</h2>
+      <p>Désolé, la page que vous recherchez n'existe pas ou a été déplacée.</p>
+      <div class="error-actions">
+        <a href="index.php?action=home" class="btn-primary">Retour à l'accueil</a>
+        <a href="javascript:history.back()" class="btn-secondary">Page précédente</a>
+      </div>
+    </div>
+    <div class="error-illustration">
+      <img src="<?= BASE_URL ?>/app/public/images/wireframes/404.webp" alt="Erreur 404" />
+    </div>
+  </div>
+</section>
+
+<style>
+.error-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 2rem;
+}
+
+.error-container {
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  background: white;
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.error-content h1 {
+  font-size: 6rem;
+  color: #e74c3c;
+  margin: 0;
+  font-weight: 900;
+}
+
+.error-content h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin: 1rem 0;
+}
+
+.error-content p {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: #3498db;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #3498db;
+  border: 2px solid #3498db;
+}
+
+.btn-secondary:hover {
+  background: #3498db;
+  color: white;
+}
+
+.error-illustration img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .error-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .error-content h1 {
+    font-size: 4rem;
+  }
+}
+</style>

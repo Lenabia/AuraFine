@@ -1,5 +1,14 @@
 <?php
 
+// Charger l'autoloader Composer AVANT tout
+require_once 'vendor/autoload.php';
+
+// Charger le fichier .env si il existe
+if (file_exists(__DIR__ . '/.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+}
+
 // Charger la configuration AVANT de démarrer la session
 require('app/config/config.php');
 
@@ -20,6 +29,22 @@ spl_autoload_register(function($class) {
         require_once $file;
     }
 });
+
+
+$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+if ($requestUri === '/google-callback') {
+    $controller = new \app\controllers\UsersController();
+    $controller->googleCallback();
+    exit;
+}
+
+// Route de nettoyage des tokens expirés
+if (isset($_GET['cleanup']) && $_GET['cleanup'] === 'tokens') {
+    $cleaned = \app\models\PasswordReset::cleanupExpiredTokens();
+    echo "Tokens nettoyés: " . ($cleaned ? "SUCCESS" : "FAILED");
+    exit;
+}
 
 if(array_key_exists('action', $_GET)):
   switch($_GET['action']) {
@@ -64,6 +89,18 @@ if(array_key_exists('action', $_GET)):
     case 'register':
     $controller = new \app\controllers\UsersController();
     $controller->showRegister();
+    break;
+
+    //page de mot de passe oublié
+    case 'forgot-password':
+    $controller = new \app\controllers\UsersController();
+    $controller->showForgotPassword();
+    break;
+
+    //page de réinitialisation de mot de passe
+    case 'reset-password':
+    $controller = new \app\controllers\UsersController();
+    $controller->showResetPassword();
     break;
 
     // parrainage (profil)
@@ -476,6 +513,16 @@ if(array_key_exists('action', $_GET)):
     $controller->getNeighborhoodsByCity();
     break;
 
+    case 'loginWithGoogle':
+    $controller = new \app\controllers\UsersController();
+    $controller->loginWithGoogle();
+    break;
+
+    case 'google-callback':
+    $controller = new \app\controllers\UsersController();
+    $controller->googleCallback();
+    break;
+
     case 'neighborhoods':
     $controller = new \app\controllers\PanierController();
     $controller->getNeighborhoods();
@@ -491,10 +538,20 @@ if(array_key_exists('action', $_GET)):
     include 'app/views/accesDenied.php';
     break;
 
-    //si pas de route on redirige vers l'accueil
+    //page d'erreur 404
+    case '404':
+    http_response_code(404);
+    include 'app/views/error404.phtml';
+    break;
+
+    //si pas de route on affiche la page 404
     default:
-    error_log('DEBUG: Action non reconnue: ' . ($action ?? 'NULL') . ' - IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
-    header('Location: index.php?action=home');
+    // Log seulement en développement
+    if (($_ENV['APP_ENV'] ?? 'development') === 'development') {
+        error_log('Action non reconnue: ' . ($action ?? 'NULL'));
+    }
+    http_response_code(404);
+    include 'app/views/error404.phtml';
     exit;
     break;
 
@@ -502,7 +559,11 @@ if(array_key_exists('action', $_GET)):
 
 //si absence de clé action par défaut 
 else:
-  error_log('DEBUG: Aucune action fournie - IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
-  header('Location: index.php?action=home');
+  // Log seulement en développement
+  if (($_ENV['APP_ENV'] ?? 'development') === 'development') {
+      error_log('Aucune action fournie');
+  }
+  http_response_code(404);
+  include 'app/views/error404.phtml';
   exit;
 endif;

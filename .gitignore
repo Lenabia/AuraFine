@@ -1,0 +1,18 @@
+# Fichiers sensibles
+.env
+.env.local
+.env.production
+
+# Logs
+logs/
+*.log
+
+# Cache
+cache/
+tmp/
+
+# OS
+.DS_Store
+Thumbs.db
+node_modules
+node_modules

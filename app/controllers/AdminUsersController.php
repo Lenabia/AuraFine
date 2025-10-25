@@ -1,7 +1,7 @@
 <?php
 namespace app\controllers;
 
-use app\Models\AdminUsers;
+use app\models\AdminUsers;
 use app\middleware\Middleware;
 
 /**

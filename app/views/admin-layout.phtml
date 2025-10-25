@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="app/public/css/main.css" rel="stylesheet" />
+    <link href="app//app/public/css/main.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -208,16 +208,16 @@
 </div>
 
 <!-- Scripts -->
-<script src="/app/public/js/modal.js" defer></script>
-<script src="/app/public/js/admin.js" defer></script>
+<script src="<?= BASE_URL ?>/app/public/js/modal.js" defer></script>
+<script src="<?= BASE_URL ?>/app/public/js/admin.js" defer></script>
 
 <!-- Scripts spécifiques aux pages -->
 <?php if (isset($currentPage) && $currentPage === 'admin-delivery'): ?>
-<script src="/app/public/js/admin-delivery.js" defer></script>
+<script src="<?= BASE_URL ?>/app/public/js/admin-delivery.js" defer></script>
 <?php endif; ?>
 
 <?php if (isset($currentPage) && $currentPage === 'admin-orders'): ?>
-<script src="/app/public/js/orders.js" defer></script>
+<script src="<?= BASE_URL ?>/app/public/js/orders.js" defer></script>
 <?php endif; ?>
 
 </body>

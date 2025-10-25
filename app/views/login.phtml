@@ -3,7 +3,7 @@
   <div class="auth-wrapper">
     <!-- Image décorative -->
     <div class="auth-image">
-      <img src="/app/public/images/login-illustration.svg" alt="Connexion AuraFine" class="auth-illustration">
+      <img src="<?= BASE_URL ?>/app/public/images/login-illustration.svg" alt="Connexion AuraFine" class="auth-illustration">
     </div>
     
     <!-- Formulaire de connexion -->
@@ -64,7 +64,7 @@
               <input type="checkbox" name="remember" <?= !empty($old['remember']) ? 'checked' : '' ?>>
               <span>Se souvenir de moi</span>
             </label>
-            <a class="auth-forgot" href="/mot-de-passe-oublie">Mot de passe oublié ?</a>
+            <a class="auth-forgot" href="index.php?action=forgot-password">Mot de passe oublié ?</a>
           </div>
 
           <button class="auth-submit" type="submit">
@@ -74,7 +74,7 @@
 
           <div class="auth-separator"><span>ou</span></div>
 
-          <a class="auth-google-btn" href="/auth/google">
+          <a class="auth-google-btn" href="index.php?action=loginWithGoogle">
             <i class="fab fa-google" aria-hidden="true"></i> Continuer avec Google
           </a>
 

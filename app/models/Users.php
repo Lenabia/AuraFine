@@ -443,4 +443,79 @@ class Users extends Database {
             return false;
         }
     }
+
+    /**
+     * Créer un utilisateur depuis Google OAuth
+     */
+    public function createFromGoogle($firstName, $lastName, $email) {
+        try {
+            // Générer un code de parrainage unique
+            $referralCode = $this->generateReferralCode();
+            
+            // Valeurs par défaut pour un utilisateur Google
+            $data = [
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => strtolower($email),
+                'phone' => null, // Pas de téléphone depuis Google
+                'password_hash' => null, // Pas de mot de passe pour OAuth
+                'address_line' => null,
+                'cities_id' => null,
+                'delivery_zones_id' => null,
+                'neighborhoods_id' => null,
+                'loyalty_points' => 0,
+                'referral_code' => $referralCode,
+                'referred_by_users_id' => null,
+                'is_active' => 1,
+                'role' => 'user',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
+            
+            // Construction de la requête SQL
+            $fields = array_keys($data);
+            $placeholders = ':' . implode(', :', $fields);
+            $fieldList = '`' . implode('`, `', $fields) . '`';
+            
+            $sql = "INSERT INTO users ($fieldList) VALUES ($placeholders)";
+            
+            $stmt = $this->getConnection()->prepare($sql);
+            
+            // Exécution avec les données
+            foreach ($data as $key => $value) {
+                $stmt->bindValue(":$key", $value);
+            }
+            
+            $result = $stmt->execute();
+            
+            if ($result) {
+                return $this->getConnection()->lastInsertId();
+            }
+            
+            return false;
+        } catch (\PDOException $e) {
+            error_log("Erreur création utilisateur Google: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Met à jour le mot de passe d'un utilisateur
+     */
+    public function updatePassword($userId, $newPassword) {
+        try {
+            // Hashage sécurisé du nouveau mot de passe
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            
+            $sql = "UPDATE users SET password_hash = :password_hash, updated_at = NOW() WHERE id = :id";
+            $stmt = $this->getConnection()->prepare($sql);
+            $stmt->bindValue(':password_hash', $hashedPassword);
+            $stmt->bindValue(':id', $userId, \PDO::PARAM_INT);
+            
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            error_log("Erreur mise à jour mot de passe: " . $e->getMessage());
+            return false;
+        }
+    }
 }

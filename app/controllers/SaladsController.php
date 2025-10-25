@@ -1,7 +1,7 @@
 <?php
 namespace app\controllers;
 
-use app\Models\Salads;
+use app\models\Salads;
 use app\middleware\Middleware;
 
 /**

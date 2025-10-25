@@ -25,9 +25,13 @@ class Database {
 
             $this->bdd = self::$sharedBdd;
         } catch(\PDOException $e) {
-            header( 'Location: index.php?action=error');              // mettre la page d'erreur 404
+            // Log l'erreur de base de données
+            error_log("Erreur de connexion à la base de données: " . $e->getMessage());
+            
+            // Rediriger vers la page d'erreur 404
+            http_response_code(500);
+            header('Location: index.php?action=404');
             exit;
-           //die("Erreur de connexion : " . $e->getMessage());
         }
   }
 
